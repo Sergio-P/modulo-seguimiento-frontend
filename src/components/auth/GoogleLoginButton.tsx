@@ -14,7 +14,7 @@ export default function GoogleLoginButton(props: GoogleLoginButtonProps) {
         dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-500"
       )}
     >
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-4">
         <div className="translate-y-[1px]">
           <FaGoogle className="text-red-500" />
         </div>
