@@ -10,7 +10,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1 className="flex flex-wrap text-2xl font-bold underline justify-center">Hello world!</h1>
+        <h1 className="flex flex-wrap justify-center text-2xl font-bold underline">
+          Hello world!
+        </h1>
       </main>
     </>
   );

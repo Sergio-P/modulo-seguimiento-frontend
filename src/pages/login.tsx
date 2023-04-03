@@ -30,7 +30,7 @@ export default function Home() {
         className="rounded-lg bg-white p-10 shadow-md"
         onSubmit={handleSubmit}
       >
-        <h2 className="mb-8 text-2xl font-bold text-center text-gray-800">
+        <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
           Log In
         </h2>
         <div className="mb-4">
