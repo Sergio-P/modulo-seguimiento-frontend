@@ -20,6 +20,7 @@ module.exports = {
           DEFAULT: "#111111",
           title: "#2C2948",
           subtitle: "#6E7191",
+          input: "#14142B",
         },
         error: "#EB5757",
         accent: "#FB7A08",

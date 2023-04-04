@@ -17,46 +17,67 @@ export default function CaseForm(props: CaseFormProps) {
     },
   };
   return (
-    <div>
-      <div className="sticky">
-        <div className="flex gap-7 border-b py-6 px-5 pb-3">
+    <div className="container mx-auto">
+      <div className="sticky top-0 bg-white">
+        <div className="flex gap-7 border-b pt-6 px-5 pb-5">
           <h1 className="text-4xl font-bold text-font-title">
             Seguimiento de Casos
           </h1>
+          <select name="" placeholder="Diagnóstico" className="bg-background p-2 text-font-input rounded-lg">
+            <option value="">ola1</option>
+            <option value="">ola2</option>
+          </select>
           <Button icon="GeoLocate" filled className="flex items-center gap-2">
             Seguimientos
           </Button>
-          <Button className="flex items-center gap-3">
-            <div className="translate-y-[1px]">
-              <Image src="/icons/FileIcon.svg" width={16} height={16} alt="" />
-            </div>
-            <div className="text-sm font-semibold tracking-wide">
-              Historial
-            </div>
+          <Button icon="FileIcon" className="flex items-center gap-2">
+            Historial
           </Button>
+        </div>
+        <div className="mt-8 mb-7">
+          <BoundingBox>
+            <div className="flex justify-between items-center">
+              <h2 className="font-bold flex-none text-2xl">{data.patient.name}</h2>
+              <Foo label={"RUT"} value={data.patient.rut} />
+              <Foo label={"Registro"} value={data.patient.registro} />
+              <Foo label={"Ficha"} value={data.patient.ficha} />
+              <div className="flex justify-between gap-4">
+                <Button icon="2cuadrados" filled/>
+                <Button icon="chatbubble" filled/>
+              </div>
+            </div>
+          </BoundingBox>
         </div>
       </div>
 
-      <div className="px-5 pt-8">
-        <div className="w-600 flex justify-between rounded-xl border-2 border-primary p-4">
-          <h1 className="font-bold flex-none">{data.patient.name}</h1>
-          <Foo label={"Rut"} value={data.patient.rut} />
-          <Foo label={"Registro"} value={data.patient.registro} />
-          <Foo label={"Ficha"} value={data.patient.ficha} />
-          <div className="flex justify-between">
-            <Button type="filled" className="flex items-center gap-3">
-              <div className="translate-y-[1px]">
-                <Image src="/icons/2cuadrados.svg" width={16} height={16} alt="" />
-              </div>
-            </Button>
-            <Button type="filled" className="flex items-center gap-3">
-              <div className="translate-y-[1px]">
-                <Image src="/icons/2cuadrados.svg" width={16} height={16} alt="" />
-              </div>
-            </Button>
-          </div>
-        </div>
+      <div className="flex flex-col gap-7 mb-7">
+        <Section title="Diagnóstico">
+          <SubSection title="Antecedentes">
+            ola
+          </SubSection>
+          <Separator/>
+          <SubSection title="Validación">
+            ola
+          </SubSection>
+        </Section>
+        <Section title="Morfología y Topografía">
+          <SubSection title="Datos Morfología">
+            ola
+          </SubSection>
+          <Separator/>
+          <SubSection title="Datos Topografía">
+            ola
+          </SubSection>
+        </Section>
+        <Section title="Lateralidad y Estadío">
+          <SubSection title="Datos Complementarios">
+            ola
+          </SubSection>
+        </Section>
       </div>
+
+
+      
     </div>
   );
 }
@@ -65,7 +86,39 @@ function Foo(props: { label: string; value: string }) {
   const { label, value } = props;
   return (
     <div className="flex gap-1">
-      <div className="font-bold">{label}: </div> <div>{value}</div>
+      <div className="font-bold">{label}: </div> <div className="font-bold">{value}</div>
     </div>
   );
+}
+
+function BoundingBox(props: React.PropsWithChildren) {
+  return (
+    <div className="mx-5 p-6 rounded-xl border border-zinc-400">
+      {props.children}
+    </div>
+  )
+}
+
+function Section(props: {title?: string} & React.PropsWithChildren) {
+  return (
+    <BoundingBox>
+      <h2 className="text-3xl font-bold text-font-title mb-6">{props.title}</h2>
+      {props.children}
+    </BoundingBox>
+  )
+}
+
+function SubSection(props: {title?: string} & React.PropsWithChildren) {
+  return (
+    <>
+      <h3 className="text-xl font-bold text-font-title mt-5 mb-3">{props.title}</h3>
+      {props.children}
+    </>
+  )
+}
+
+function Separator() {
+  return (
+    <div className="w-full h-[1px] bg-zinc-400 mt-6"></div>
+  )
 }
