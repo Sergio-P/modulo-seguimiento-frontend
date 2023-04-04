@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
+import Button from "../ui/Button";
 
 interface CaseFormProps {
   caseId: string;
@@ -22,13 +23,8 @@ export default function CaseForm(props: CaseFormProps) {
           <h1 className="text-4xl font-bold text-font-title">
             Seguimiento de Casos
           </h1>
-          <Button type="filled" className="flex items-center gap-3">
-            <div className="translate-y-[1px]">
-              <Image src="/icons/GeoLocate.svg" width={16} height={16} alt="" />
-            </div>
-            <div className="text-sm font-semibold tracking-wide">
-              Seguimientos
-            </div>
+          <Button icon="GeoLocate" filled className="flex items-center gap-2">
+            Seguimientos
           </Button>
           <Button className="flex items-center gap-3">
             <div className="translate-y-[1px]">
@@ -71,22 +67,5 @@ function Foo(props: { label: string; value: string }) {
     <div className="flex gap-1">
       <div className="font-bold">{label}: </div> <div>{value}</div>
     </div>
-  );
-}
-
-function Button(props: { type?: string } & any) {
-  const { type } = props;
-  return (
-    <button
-      {...props}
-      className={clsx(
-        "rounded-lg border-2 border-primary px-3 py-1",
-        type === "filled" && "bg-primary text-white",
-        type === undefined && "text-primary",
-        props.className
-      )}
-    >
-      {props.children}
-    </button>
   );
 }
