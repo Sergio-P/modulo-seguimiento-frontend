@@ -109,15 +109,18 @@ export default function CaseForm(props: CaseFormProps) {
         >
           <Section id="ejemplos" title="Ejemplos">
             <Controller
-              name="select-example"
+              name="example-select"
               control={control}
               defaultValue={"ola"}
               render={({ field }) => (
                 <SelectInput options={["ola", "wi"]} {...field} />
               )}
             />
-            <Checkbox {...register("checkbox1")} />
-            <Checkbox {...register("checkbox2")} label="Checkbox con label" />
+            <Checkbox {...register("example-checkbox1")} />
+            <Checkbox
+              {...register("example-checkbox2")}
+              label="Checkbox con label"
+            />
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes">ola</SubSection>
