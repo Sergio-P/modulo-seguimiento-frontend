@@ -124,22 +124,20 @@ export default function CaseForm(props: CaseFormProps) {
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
-            <div className="flex">
+            <div className="grid grid-cols-3 gap-8 max-w-5xl">
               <Controller
                 name="Diagnostico-Categoria"
                 control={control}
                 defaultValue={"Tiroides"}
                 render={({ field }) => (
-                  <div className="mr-14 w-72">
-                    <SelectInput
-                      label={"Categoría"}
-                      options={[
-                        { id: 1, name: "Tiroides" },
-                        { id: 2, name: "Hola" },
-                      ]}
-                      {...field}
-                    />
-                  </div>
+                  <SelectInput
+                    label={"Categoría"}
+                    options={[
+                      { id: 1, name: "Tiroides" },
+                      { id: 2, name: "Hola" },
+                    ]}
+                    {...field}
+                  />
                 )}
               />
               <Controller
@@ -147,23 +145,21 @@ export default function CaseForm(props: CaseFormProps) {
                 control={control}
                 defaultValue={"Glandula Tiroides"}
                 render={({ field }) => (
-                  <div className="mr-14 w-72">
-                    <SelectInput
-                      label={"Subcategoría"}
-                      options={[
-                        { id: 1, name: "Glandula Tiroides" },
-                        { id: 2, name: "Chao" },
-                      ]}
-                      {...field}
-                    />
-                  </div>
+                  <SelectInput
+                    label={"Subcategoría"}
+                    options={[
+                      { id: 1, name: "Glandula Tiroides" },
+                      { id: 2, name: "Chao" },
+                    ]}
+                    {...field}
+                  />
                 )}
               />
             </div>
             <Separator />
             <SubSection title="Validación">
               <div>fechas y despues un checkbox</div>
-              <div>
+              <div className="grid grid-cols-3 max-w-5xl">
                 <Controller
                   name="Diagnostico-LugarObtencionDiagnostico"
                   control={control}
@@ -209,54 +205,48 @@ export default function CaseForm(props: CaseFormProps) {
                 control={control}
                 defaultValue={"Desconocido"}
                 render={({ field }) => (
-                  <div className="">
-                    <SelectInput
-                      label={"Grado Diferenciación"}
-                      options={[
-                        { id: 1, name: "Desconocido" },
-                        { id: 2, name: "Conocido" },
-                      ]}
-                      {...field}
-                    />
-                  </div>
+                  <SelectInput
+                    label={"Grado Diferenciación"}
+                    options={[
+                      { id: 1, name: "Desconocido" },
+                      { id: 2, name: "Conocido" },
+                    ]}
+                    {...field}
+                  />
                 )}
               />
 
               <Controller
-                name="lugarobtenciondiagnostico"
+                name="lugarobtenciondiagnosticomorf"
                 control={control}
                 defaultValue={"Informe Anatomía Patológica"}
                 render={({ field }) => (
-                  <div className="">
-                    <SelectInput
-                      label={"Lugar Obtención Diagnóstico"}
-                      options={[
-                        { id: 1, name: "Informe Anatomía Patológica" },
-                        { id: 2, name: "No c" },
-                      ]}
-                      {...field}
-                    />
-                  </div>
+                  <SelectInput
+                    label={"Lugar Obtención Diagnóstico"}
+                    options={[
+                      { id: 1, name: "Informe Anatomía Patológica" },
+                      { id: 2, name: "No c" },
+                    ]}
+                    {...field}
+                  />
                 )}
               />
               <Controller
-                name="fechalugarobtenciondiag"
+                name="fechalugarobtenciondiagmorf"
                 control={control}
                 defaultValue={"10-01-2022"}
                 render={({ field }) => (
-                  <div className="">
-                    <SelectInput
-                      label={"Fecha Lugar Obtención Diagnóstico"}
-                      options={[
-                        { id: 1, name: "10-01-2022" },
-                        {
-                          id: 2,
-                          name: "Esto no es un select hay que cambiarlo jeje",
-                        },
-                      ]}
-                      {...field}
-                    />
-                  </div>
+                  <SelectInput
+                    label={"Fecha Lugar Obtención Diagnóstico"}
+                    options={[
+                      { id: 1, name: "10-01-2022" },
+                      {
+                        id: 2,
+                        name: "Esto no es un select hay que cambiarlo jeje",
+                      },
+                    ]}
+                    {...field}
+                  />
                 )}
               />
             </div>
@@ -281,7 +271,7 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                name="lugarobtenciondiagnostico"
+                name="lugarobtenciondiagnosticotop"
                 control={control}
                 defaultValue={"Informe Anatomía Patológica"}
                 render={({ field }) => (
@@ -298,7 +288,7 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                name="fechalugarobtenciondiag"
+                name="fechalugarobtenciondiagtop"
                 control={control}
                 defaultValue={"10-01-2022"}
                 render={({ field }) => (
@@ -319,22 +309,20 @@ export default function CaseForm(props: CaseFormProps) {
           </Section>
           <Section id="lateralidad" title="Lateralidad y Estadío">
             <SubSection title="Datos Complementarios">
-              <div className="mt-4 flex">
+              <div className="grid max-w-5xl grid-cols-3 gap-8">
                 <Controller
                   name="Lateralidad-Lateralidad"
                   control={control}
                   defaultValue={"No aplica"}
                   render={({ field }) => (
-                    <div className="mr-14 w-72">
-                      <SelectInput
-                        label={"Lateralidad"}
-                        options={[
-                          { id: 1, name: "Tiroides" },
-                          { id: 2, name: "Hola" },
-                        ]}
-                        {...field}
-                      />
-                    </div>
+                    <SelectInput
+                      label={"Lateralidad"}
+                      options={[
+                        { id: 1, name: "Tiroides" },
+                        { id: 2, name: "Hola" },
+                      ]}
+                      {...field}
+                    />
                   )}
                 />
                 <Controller
@@ -342,26 +330,22 @@ export default function CaseForm(props: CaseFormProps) {
                   control={control}
                   defaultValue={"Neoplasias malignas de locali"}
                   render={({ field }) => (
-                    <div className="mr-14 w-72">
-                      <SelectInput
-                        label={"Comportamiento"}
-                        options={[
-                          { id: 1, name: "Neoplasias malignas de locali" },
-                          { id: 2, name: "Chao" },
-                        ]}
-                        {...field}
-                      />
-                    </div>
+                    <SelectInput
+                      label={"Comportamiento"}
+                      options={[
+                        { id: 1, name: "Neoplasias malignas de locali" },
+                        { id: 2, name: "Chao" },
+                      ]}
+                      {...field}
+                    />
                   )}
                 />
-              </div>
-              <div className="mt-8 flex">
                 <Controller
                   name="Lateralidad-Extension"
                   control={control}
                   defaultValue={"Regional"}
                   render={({ field }) => (
-                    <div className="mr-14 w-72">
+                    <div className="col-start-1">
                       <SelectInput
                         label={"Extension Diagnostico"}
                         options={[
@@ -378,7 +362,6 @@ export default function CaseForm(props: CaseFormProps) {
                   control={control}
                   defaultValue={"Desconocido"}
                   render={({ field }) => (
-                    <div className="mr-14 w-72">
                       <SelectInput
                         label={"Estadio Diagnostico"}
                         options={[
@@ -387,7 +370,6 @@ export default function CaseForm(props: CaseFormProps) {
                         ]}
                         {...field}
                       />
-                    </div>
                   )}
                 />
               </div>
@@ -402,18 +384,15 @@ export default function CaseForm(props: CaseFormProps) {
           <Section id="progresion" title="Progresión">
             <SubSection title="Lista Progresión">ola</SubSection>
           </Section>
-          <Section
-            id="tratamiento"
-            title="Antecedentes Tratamiento (Estado XXX)"
-          >
+          <Section id="tratamiento" title="Antecedentes Tratamiento (Estado XXX)">
             <SubSection title="Configuración"></SubSection>
-            <div className="flex">
+            <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
               <Controller
                 name="clasecaso"
                 control={control}
                 defaultValue={"Diagnóstico y tratamiento en FALP"}
                 render={({ field }) => (
-                  <div className="w-168 mr-14">
+                  <div className="col-span-2">
                     <SelectInput
                       label={"Clase Caso"}
                       options={[
@@ -430,7 +409,6 @@ export default function CaseForm(props: CaseFormProps) {
                 control={control}
                 defaultValue={"Informe Anatomía Patológica"}
                 render={({ field }) => (
-                  <div className="mr-14 w-72">
                     <SelectInput
                       label={"Clasificación DG/TTOS."}
                       options={[
@@ -439,15 +417,79 @@ export default function CaseForm(props: CaseFormProps) {
                       ]}
                       {...field}
                     />
-                  </div>
                 )}
               />
             </div>
             <SubSection title="Lista de Tratamientos">ola</SubSection>
           </Section>
           <Section id="estadovital" title="Antecedentes Estado Vital">
-            <SubSection title="Último Contacto">ola</SubSection>
-            <SubSection title="Estado Vital">ola</SubSection>
+            <SubSection title="Último Contacto"></SubSection>
+              <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
+                <Controller
+                  name="ultimocontacto"
+                  control={control}
+                  defaultValue={"10-01-2022"}
+                  render={({ field }) => (
+                    <SelectInput
+                      label={"Último contacto"}
+                      options={[
+                        { id: 1, name: "10-01-2022" },
+                        { id: 2, name: "Opción 2" },
+                      ]}
+                      {...field}
+                    />
+                  )}
+                />
+              </div>
+            <Separator/>
+            <SubSection title="Estado Vital"></SubSection>
+              <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
+                  <Controller
+                    name="estadovitalselect"
+                    control={control}
+                    defaultValue={"Fallecido"}
+                    render={({ field }) => (
+                      <SelectInput
+                        options={[
+                          { id: 1, name: "Fallecido" },
+                          { id: 2, name: "Vivito y coleando" },
+                        ]}
+                        {...field}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="fechadefuncion"
+                    control={control}
+                    defaultValue={"10-01-2022"}
+                    render={({ field }) => (
+                      <SelectInput
+                        label={"Fecha Defunción"}
+                        options={[
+                          { id: 1, name: "10-01-2022" },
+                          { id: 2, name: "Otro día" },
+                        ]}
+                        {...field}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="causadefuncion"
+                    control={control}
+                    defaultValue={"Causa Defunción"}
+                    render={({ field }) => (
+                      <div className="col-start-1">
+                        <SelectInput
+                          options={[
+                            { id: 1, name: "Causa Defunción" },
+                            { id: 2, name: "Si" },
+                          ]}
+                          {...field}
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
           </Section>
           <input type="submit" />
         </form>
