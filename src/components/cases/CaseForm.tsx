@@ -106,16 +106,20 @@ export default function CaseForm(props: CaseFormProps) {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Section id="diagnostico" title="Diagnóstico">
-            <SubSection title="Antecedentes">ola</SubSection>
-            <input placeholder="olaaa" {...register("ola")} />
-            <input placeholder="foo" {...register("foo")} />
-            <SelectInput
-              options={[
-                { id: 1, name: "ola" },
-                { id: 2, name: "wi" },
-              ]}
-              {...register("aaa")}
-            />
+            <SubSection title="Antecedentes"></SubSection>
+              <div className="flex"><div className="mr-14 w-72">
+                <SelectInput
+                  options={[{ id: 1, name: "Tiroides"}, { id: 2, name: "Hola"}]}
+                  label={"Categoría"}
+                />
+              </div>
+              <div className="mr-14 w-72">
+                <SelectInput
+                  options={[{ id: 1, name: "otro"}, { id: 2, name: "chao"}]}
+                  label={"Categoría"}
+                />
+              </div></div>
+              <SubSection title="Antecedentes">ola</SubSection>
             <Separator />
             <SubSection title="Validación">ola</SubSection>
           </Section>
