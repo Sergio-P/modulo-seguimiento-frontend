@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 interface CaseFormProps {
   caseId: string;
@@ -43,7 +43,7 @@ export default function CaseForm(props: CaseFormProps) {
     },
   };
   const [selectedSection, setSelectedSection] = useState(sections[0]);
-  const { register, watch, handleSubmit, formState } = useForm();
+  const { register, watch, handleSubmit, formState, control } = useForm();
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
@@ -58,6 +58,7 @@ export default function CaseForm(props: CaseFormProps) {
     // subimos a la api,,,
     console.log(data);
   };
+  console.log(watch());
   return (
     <div className="min-h-screen bg-zinc-300">
       <div className="container mx-auto min-h-screen bg-white">
@@ -107,29 +108,274 @@ export default function CaseForm(props: CaseFormProps) {
         >
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
-              <div className="flex"><div className="mr-14 w-72">
-                <SelectInput
-                  options={[{ id: 1, name: "Tiroides"}, { id: 2, name: "Hola"}]}
-                  label={"Categoría"}
+            <div className="flex">
+              <Controller
+                name="Diagnostico-Categoria"
+                control={control}
+                defaultValue={"Tiroides"}
+                render={({ field }) => (
+                  <div className="mr-14 w-72">
+                    <SelectInput
+                      label={"Categoría"}
+                      options={[
+                        { id: 1, name: "Tiroides" },
+                        { id: 2, name: "Hola" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <Controller
+                name="Diagnostico-subategoria"
+                control={control}
+                defaultValue={"Glandula Tiroides"}
+                render={({ field }) => (
+                  <div className="mr-14 w-72">
+                    <SelectInput
+                      label={"Subcategoría"}
+                      options={[
+                        { id: 1, name: "Glandula Tiroides" },
+                        { id: 2, name: "Chao" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+            </div>
+            <Separator />
+            <SubSection title="Validación">
+              <div>fechas y despues un checkbox</div>
+              <div>
+                <Controller
+                  name="Diagnostico-LugarObtencionDiagnostico"
+                  control={control}
+                  defaultValue={"Informe Anatomía Patológica"}
+                  render={({ field }) => (
+                    <div className="mr-14 w-72">
+                      <SelectInput
+                        label={"Lugar Obtención Diagnóstico"}
+                        options={[
+                          { id: 1, name: "Informe Anatomía Patológica" },
+                          { id: 2, name: "Otro" },
+                        ]}
+                        {...field}
+                      />
+                    </div>
+                  )}
                 />
               </div>
-              <div className="mr-14 w-72">
-                <SelectInput
-                  options={[{ id: 1, name: "otro"}, { id: 2, name: "chao"}]}
-                  label={"Categoría"}
-                />
-              </div></div>
-              <SubSection title="Antecedentes">ola</SubSection>
-            <Separator />
-            <SubSection title="Validación">ola</SubSection>
+            </SubSection>
           </Section>
           <Section id="morfologia" title="Morfología y Topografía">
-            <SubSection title="Datos Morfología">ola</SubSection>
+            <SubSection title="Datos Morfología"></SubSection>
+            <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
+              <Controller
+                name="morfologiabusquedaESTOESUNALUPANOESUNSELECTHAYQUECAMBIARLO"
+                control={control}
+                defaultValue={"(8260/3) Adenocarcinoma Papilar, Sai"}
+                render={({ field }) => (
+                  <div className="col-span-1 lg:col-span-2">
+                    <SelectInput
+                      label={"Morfología"}
+                      options={[
+                        { id: 1, name: "(8260/3) Adenocarcinoma Papilar, Sai" },
+                        { id: 2, name: "Opción 2" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <Controller
+                name="gradodiferenciacion"
+                control={control}
+                defaultValue={"Desconocido"}
+                render={({ field }) => (
+                  <div className="">
+                    <SelectInput
+                      label={"Grado Diferenciación"}
+                      options={[
+                        { id: 1, name: "Desconocido" },
+                        { id: 2, name: "Conocido" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+
+              <Controller
+                name="lugarobtenciondiagnostico"
+                control={control}
+                defaultValue={"Informe Anatomía Patológica"}
+                render={({ field }) => (
+                  <div className="">
+                    <SelectInput
+                      label={"Lugar Obtención Diagnóstico"}
+                      options={[
+                        { id: 1, name: "Informe Anatomía Patológica" },
+                        { id: 2, name: "No c" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <Controller
+                name="fechalugarobtenciondiag"
+                control={control}
+                defaultValue={"10-01-2022"}
+                render={({ field }) => (
+                  <div className="">
+                    <SelectInput
+                      label={"Fecha Lugar Obtención Diagnóstico"}
+                      options={[
+                        { id: 1, name: "10-01-2022" },
+                        {
+                          id: 2,
+                          name: "Esto no es un select hay que cambiarlo jeje",
+                        },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+            </div>
             <Separator />
-            <SubSection title="Datos Topografía">ola</SubSection>
+            <SubSection title="Datos Topografía"></SubSection>
+            <div className="grid max-w-5xl grid-cols-3 gap-8">
+              <Controller
+                name="topografiabusquedaESTOESUNALUPANOESUNSELECTHAYQUECAMBIARLO"
+                control={control}
+                defaultValue={"(8260/3) Adenocarcinoma Papilar, Sai"}
+                render={({ field }) => (
+                  <div className="col-span-2">
+                    <SelectInput
+                      label={"Topografía"}
+                      options={[
+                        { id: 1, name: "(8260/3) Adenocarcinoma Papilar, Sai" },
+                        { id: 2, name: "Opción 2" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <Controller
+                name="lugarobtenciondiagnostico"
+                control={control}
+                defaultValue={"Informe Anatomía Patológica"}
+                render={({ field }) => (
+                  <div className="col-start-1">
+                    <SelectInput
+                      label={"Lugar Obtención Diagnóstico"}
+                      options={[
+                        { id: 1, name: "Informe Anatomía Patológica" },
+                        { id: 2, name: "No c" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <Controller
+                name="fechalugarobtenciondiag"
+                control={control}
+                defaultValue={"10-01-2022"}
+                render={({ field }) => (
+                  <SelectInput
+                    label={"Fecha Lugar Obtención Diagnóstico"}
+                    options={[
+                      { id: 1, name: "10-01-2022" },
+                      {
+                        id: 2,
+                        name: "Esto no es un select hay que cambiarlo jeje",
+                      },
+                    ]}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
           </Section>
           <Section id="lateralidad" title="Lateralidad y Estadío">
-            <SubSection title="Datos Complementarios">ola</SubSection>
+            <SubSection title="Datos Complementarios">
+              <div className="mt-4 flex">
+                <Controller
+                  name="Lateralidad-Lateralidad"
+                  control={control}
+                  defaultValue={"No aplica"}
+                  render={({ field }) => (
+                    <div className="mr-14 w-72">
+                      <SelectInput
+                        label={"Lateralidad"}
+                        options={[
+                          { id: 1, name: "Tiroides" },
+                          { id: 2, name: "Hola" },
+                        ]}
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+                <Controller
+                  name="Lateralidad-Comportamiento"
+                  control={control}
+                  defaultValue={"Neoplasias malignas de locali"}
+                  render={({ field }) => (
+                    <div className="mr-14 w-72">
+                      <SelectInput
+                        label={"Comportamiento"}
+                        options={[
+                          { id: 1, name: "Neoplasias malignas de locali" },
+                          { id: 2, name: "Chao" },
+                        ]}
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+              <div className="mt-8 flex">
+                <Controller
+                  name="Lateralidad-Extension"
+                  control={control}
+                  defaultValue={"Regional"}
+                  render={({ field }) => (
+                    <div className="mr-14 w-72">
+                      <SelectInput
+                        label={"Extension Diagnostico"}
+                        options={[
+                          { id: 1, name: "Regional" },
+                          { id: 2, name: "Hola" },
+                        ]}
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+                <Controller
+                  name="Lateralidad-Datos"
+                  control={control}
+                  defaultValue={"Desconocido"}
+                  render={({ field }) => (
+                    <div className="mr-14 w-72">
+                      <SelectInput
+                        label={"Estadio Diagnostico"}
+                        options={[
+                          { id: 1, name: "Desconocido" },
+                          { id: 2, name: "Chao" },
+                        ]}
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+            </SubSection>
           </Section>
           <Section id="metastasis" title="Metástasis">
             <SubSection title="Lista Metástasis">ola</SubSection>
@@ -144,7 +390,43 @@ export default function CaseForm(props: CaseFormProps) {
             id="tratamiento"
             title="Antecedentes Tratamiento (Estado XXX)"
           >
-            <SubSection title="Configuración">ola</SubSection>
+            <SubSection title="Configuración"></SubSection>
+            <div className="flex">
+              <Controller
+                name="clasecaso"
+                control={control}
+                defaultValue={"Diagnóstico y tratamiento en FALP"}
+                render={({ field }) => (
+                  <div className="w-168 mr-14">
+                    <SelectInput
+                      label={"Clase Caso"}
+                      options={[
+                        { id: 1, name: "Diagnóstico y tratamiento en FALP" },
+                        { id: 2, name: "M O N G A S" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <Controller
+                name="clasificaciondg"
+                control={control}
+                defaultValue={"Informe Anatomía Patológica"}
+                render={({ field }) => (
+                  <div className="mr-14 w-72">
+                    <SelectInput
+                      label={"Clasificación DG/TTOS."}
+                      options={[
+                        { id: 1, name: "Informe Anatomía Patológica" },
+                        { id: 2, name: "No c" },
+                      ]}
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+            </div>
             <SubSection title="Lista de Tratamientos">ola</SubSection>
           </Section>
           <Section id="estadovital" title="Antecedentes Estado Vital">
@@ -184,7 +466,7 @@ function Section(
   return (
     <div id={props.id || props.title}>
       <BoundingBox>
-        <h2 className="mb-6 text-3xl font-bold text-font-title">
+        <h2 className="mb-9 text-3xl font-bold text-font-title">
           {props.title}
         </h2>
         {props.children}
@@ -196,7 +478,7 @@ function Section(
 function SubSection(props: { title?: string } & React.PropsWithChildren) {
   return (
     <>
-      <h3 className="mt-5 mb-3 text-xl font-bold text-font-title">
+      <h3 className="mt-5 mb-8 text-xl font-bold text-font-title">
         {props.title}
       </h3>
       {props.children}
