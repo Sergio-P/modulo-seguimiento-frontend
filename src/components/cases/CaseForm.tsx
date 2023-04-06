@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 interface CaseFormProps {
   caseId: string;
@@ -43,7 +43,7 @@ export default function CaseForm(props: CaseFormProps) {
     },
   };
   const [selectedSection, setSelectedSection] = useState(sections[0]);
-  const { register, watch, handleSubmit, formState } = useForm();
+  const { register, watch, handleSubmit, formState, control } = useForm();
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
@@ -58,6 +58,7 @@ export default function CaseForm(props: CaseFormProps) {
     // subimos a la api,,,
     console.log(data);
   };
+  console.log(watch());
   return (
     <div className="min-h-screen bg-zinc-300">
       <div className="container mx-auto min-h-screen bg-white">
@@ -109,12 +110,13 @@ export default function CaseForm(props: CaseFormProps) {
             <SubSection title="Antecedentes">ola</SubSection>
             <input placeholder="olaaa" {...register("ola")} />
             <input placeholder="foo" {...register("foo")} />
-            <SelectInput
-              options={[
-                { id: 1, name: "ola" },
-                { id: 2, name: "wi" },
-              ]}
-              {...register("aaa")}
+            <Controller
+              name="aaa"
+              control={control}
+              defaultValue={"ola"}
+              render={({ field }) => (
+                <SelectInput options={["ola", "wi"]} {...field} />
+              )}
             />
             <Separator />
             <SubSection title="Validación">ola</SubSection>

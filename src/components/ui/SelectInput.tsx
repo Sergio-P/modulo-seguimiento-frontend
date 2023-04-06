@@ -3,21 +3,24 @@ import clsx from "clsx";
 import { HiChevronDown } from "react-icons/hi2";
 
 interface SelectInputProps {
-  options: { id: string | number; name: string }[];
-  name?: string;
+  options: { id: string | number; name: string }[] | string[] | number[];
   label?: string;
   value?: any;
-  defaultValue?: any;
   onChange?: any;
 }
 export default function SelectInput(props: SelectInputProps) {
+  const displayValue = (
+    value: { id: string | number; name: string } | string | number | undefined
+  ) => {
+    if (value === undefined) {
+      return "";
+    } else if (typeof value === "string" || typeof value === "number") {
+      return value;
+    }
+    return value.name;
+  };
   return (
-    <Listbox
-      name={props.name}
-      value={props.value}
-      defaultValue={props.value}
-      onChange={props.onChange}
-    >
+    <Listbox value={props.value} onChange={props.onChange}>
       <div className="relative">
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
           {({ value }) => (
@@ -29,7 +32,7 @@ export default function SelectInput(props: SelectInputProps) {
                   </span>
                 )}
                 <span className="block h-5 truncate text-sm tracking-wide text-font-title">
-                  {value?.name || ""}
+                  {displayValue(value)}
                 </span>
               </div>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-5">
@@ -63,7 +66,7 @@ export default function SelectInput(props: SelectInputProps) {
                       : "px-5 font-normal"
                   }`}
                 >
-                  {option.name}
+                  {displayValue(option)}
                 </span>
               )}
             </Listbox.Option>
