@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
+import { useForm } from "react-hook-form";
 
 interface CaseFormProps {
   caseId: string;
@@ -42,6 +43,8 @@ export default function CaseForm(props: CaseFormProps) {
     },
   };
   const [selectedSection, setSelectedSection] = useState(sections[0]);
+  const { register, watch, handleSubmit, formState } = useForm();
+
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
     const element = document.getElementById(value.id);
@@ -51,11 +54,14 @@ export default function CaseForm(props: CaseFormProps) {
     window.scroll(0, window.scrollY - headerHeight);
     setSelectedSection(value);
   };
-  const [ola, setOla] = useState("olaaaa");
+  const onSubmit = (data: any) => {
+    // subimos a la api,,,
+    console.log(data);
+  };
   return (
     <div className="min-h-screen bg-zinc-300">
       <div className="container mx-auto min-h-screen bg-white">
-        <div className="sticky top-0 bg-white">
+        <div className="sticky top-0 z-10 bg-white">
           <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
             <h1 className="text-4xl font-bold text-font-title">
               Seguimiento de Casos
@@ -95,17 +101,20 @@ export default function CaseForm(props: CaseFormProps) {
           </div>
         </div>
 
-        <div className="mb-7 flex flex-col gap-7">
+        <form
+          className="mb-7 flex flex-col gap-7"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes">ola</SubSection>
-            <input
-              name="ola"
-              placeholder="olaaa"
-              value={ola}
-              onChange={(event) => {
-                const value = event.target.value;
-                setOla(value);
-              }}
+            <input placeholder="olaaa" {...register("ola")} />
+            <input placeholder="foo" {...register("foo")} />
+            <SelectInput
+              options={[
+                { id: 1, name: "ola" },
+                { id: 2, name: "wi" },
+              ]}
+              {...register("aaa")}
             />
             <Separator />
             <SubSection title="Validación">ola</SubSection>
@@ -138,7 +147,8 @@ export default function CaseForm(props: CaseFormProps) {
             <SubSection title="Último Contacto">ola</SubSection>
             <SubSection title="Estado Vital">ola</SubSection>
           </Section>
-        </div>
+          <input type="submit" />
+        </form>
 
         <div className="h-screen" />
       </div>
