@@ -376,13 +376,28 @@ export default function CaseForm(props: CaseFormProps) {
             </SubSection>
           </Section>
           <Section id="metastasis" title="Metástasis">
-            <SubSection title="Lista Metástasis">ola</SubSection>
+            <SubSection title="Lista Metástasis">
+              <Checkbox
+              {...register("example-checkbox2")}
+              label="Presenta Metástasis"
+              />
+            </SubSection>
           </Section>
           <Section id="recurrencia" title="Recurrencia">
-            <SubSection title="Lista Recurrencia">ola</SubSection>
+            <SubSection title="Lista Recurrencia">
+              <Checkbox
+                {...register("example-checkbox2")}
+                label="Presenta recurrencia"
+              />
+            </SubSection>
           </Section>
           <Section id="progresion" title="Progresión">
-            <SubSection title="Lista Progresión">ola</SubSection>
+            <SubSection title="Lista Progresión">
+              <Checkbox
+                {...register("example-checkbox2")}
+                label="Presenta progresion"
+              />
+            </SubSection>
           </Section>
           <Section id="tratamiento" title="Antecedentes Tratamiento (Estado XXX)">
             <SubSection title="Configuración"></SubSection>
