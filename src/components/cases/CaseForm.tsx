@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Button from "../ui/Button";
-import SelectInput from "../ui/SelectInput";
 import { Controller, useForm } from "react-hook-form";
+import Button from "../ui/Button";
+import Checkbox from "../ui/Checkbox";
+import SelectInput from "../ui/SelectInput";
 
 interface CaseFormProps {
   caseId: string;
@@ -62,7 +63,7 @@ export default function CaseForm(props: CaseFormProps) {
   return (
     <div className="min-h-screen bg-zinc-300">
       <div className="container mx-auto min-h-screen bg-white">
-        <div className="sticky top-0 z-10 bg-white">
+        <div className="sticky top-0 z-30 bg-white">
           <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
             <h1 className="text-4xl font-bold text-font-title">
               Seguimiento de Casos
@@ -106,6 +107,21 @@ export default function CaseForm(props: CaseFormProps) {
           className="mb-7 flex flex-col gap-7"
           onSubmit={handleSubmit(onSubmit)}
         >
+          <Section id="ejemplos" title="Ejemplos">
+            <Controller
+              name="example-select"
+              control={control}
+              defaultValue={"ola"}
+              render={({ field }) => (
+                <SelectInput options={["ola", "wi"]} {...field} />
+              )}
+            />
+            <Checkbox {...register("example-checkbox1")} />
+            <Checkbox
+              {...register("example-checkbox2")}
+              label="Checkbox con label"
+            />
+          </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
             <div className="flex">
