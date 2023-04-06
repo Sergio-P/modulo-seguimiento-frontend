@@ -63,7 +63,7 @@ export default function CaseForm(props: CaseFormProps) {
   return (
     <div className="min-h-screen bg-zinc-300">
       <div className="container mx-auto min-h-screen bg-white">
-        <div className="sticky top-0 z-10 bg-white">
+        <div className="sticky top-0 z-30 bg-white">
           <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
             <h1 className="text-4xl font-bold text-font-title">
               Seguimiento de Casos
