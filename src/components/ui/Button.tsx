@@ -8,7 +8,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function Button(props: ButtonProps) {
-  const { filled, icon } = props;
+  const { disabled, filled, icon } = props;
   return (
     <button
       {..._.omit(props, ['icon', 'filled'])}
@@ -16,6 +16,7 @@ export default function Button(props: ButtonProps) {
         "h-10 rounded-lg border-2 border-primary text-sm tracking-wide",
         props.children ? "px-4" : "w-10",
         filled ? "bg-primary text-white" : "text-primary",
+        disabled && "bg-font-subtitle border-font-subtitle",
         props.className
       )}
     >

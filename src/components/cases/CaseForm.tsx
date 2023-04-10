@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import SelectInput from "../ui/SelectInput";
@@ -46,6 +46,21 @@ export default function CaseForm(props: CaseFormProps) {
   };
   const [selectedSection, setSelectedSection] = useState(sections[0]);
   const { register, watch, handleSubmit, formState, control } = useForm();
+  const tieneMetastasis: boolean = useWatch({
+    control,
+    name: "tiene-metastasis",
+    defaultValue: false,
+  });
+  const tieneRecurrencia: boolean = useWatch({
+    control,
+    name: "tiene-recurrencia",
+    defaultValue: false,
+  });
+  const tieneProgresion: boolean = useWatch({
+    control,
+    name: "tiene-progresion",
+    defaultValue: false,
+  });
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
@@ -164,7 +179,15 @@ export default function CaseForm(props: CaseFormProps) {
             </div>
             <Separator />
             <SubSection title="Validación">
-              <div>fechas y despues un checkbox</div>
+              <div className="grid max-w-5xl grid-cols-3">
+                <div>fechas y despues un checkbox</div>
+
+                <Checkbox
+                  className="col-start-3 flex items-center"
+                  {...register("diagnostico-checkbox")}
+                  label="Fecha estimada"
+                />
+              </div>
               <div className="grid max-w-5xl grid-cols-3">
                 <Controller
                   name="Diagnostico-LugarObtencionDiagnostico"
@@ -187,6 +210,10 @@ export default function CaseForm(props: CaseFormProps) {
             </SubSection>
           </Section>
           <Section id="morfologia" title="Morfología y Topografía">
+            <Checkbox
+              {...register("morfologia-checkbox")}
+              label="Sin información"
+            />
             <SubSection title="Datos Morfología"></SubSection>
             <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
               <Controller
@@ -383,26 +410,41 @@ export default function CaseForm(props: CaseFormProps) {
           </Section>
           <Section id="metastasis" title="Metástasis">
             <SubSection title="Lista Metástasis">
-              <Checkbox
-                {...register("example-checkbox2")}
-                label="Presenta Metástasis"
-              />
+              <div className="flex justify-between">
+                <Checkbox
+                  {...register("tiene-metastasis")}
+                  label="Presenta Metástasis"
+                />
+                <Button disabled={!tieneMetastasis} icon="plus" filled>
+                  Agregar Metástasis
+                </Button>
+              </div>
             </SubSection>
           </Section>
           <Section id="recurrencia" title="Recurrencia">
             <SubSection title="Lista Recurrencia">
-              <Checkbox
-                {...register("example-checkbox2")}
-                label="Presenta recurrencia"
-              />
+              <div className="flex justify-between">
+                <Checkbox
+                  {...register("tiene-recurrencia")}
+                  label="Presenta recurrencia"
+                />
+                <Button disabled={!tieneRecurrencia} icon="plus" filled>
+                  Agregar Recurrencia
+                </Button>
+              </div>
             </SubSection>
           </Section>
           <Section id="progresion" title="Progresión">
             <SubSection title="Lista Progresión">
-              <Checkbox
-                {...register("example-checkbox2")}
-                label="Presenta progresion"
-              />
+              <div className="flex justify-between">
+                <Checkbox
+                  {...register("tiene-progresion")}
+                  label="Presenta progresión"
+                />
+                <Button disabled={!tieneProgresion} icon="plus" filled>
+                  Agregar Progresión
+                </Button>
+              </div>
             </SubSection>
           </Section>
           <Section
@@ -444,26 +486,57 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
             </div>
-            <SubSection title="Lista de Tratamientos">ola</SubSection>
+            <SubSection title="Lista de Tratamientos">
+              <div className="grid max-w-5xl grid-cols-1 items-center gap-8 lg:grid-cols-3">
+                <div>
+                  <Controller
+                    name="AgregarTratamiento"
+                    control={control}
+                    defaultValue={"Informe Anatomía Patológica"}
+                    render={({ field }) => (
+                      <SelectInput
+                        label={"Agregar Tratamiento"}
+                        options={[
+                          { id: 1, name: "Cosa" },
+                          { id: 2, name: "No c" },
+                        ]}
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+                <Button className="max-w-[115px]" icon="plus" filled>
+                  Agregar
+                </Button>
+              </div>
+            </SubSection>
           </Section>
           <Section id="estadovital" title="Antecedentes Estado Vital">
             <SubSection title="Último Contacto"></SubSection>
             <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-              <Controller
-                name="ultimocontacto"
-                control={control}
-                defaultValue={"10-01-2022"}
-                render={({ field }) => (
-                  <SelectInput
-                    label={"Último contacto"}
-                    options={[
-                      { id: 1, name: "10-01-2022" },
-                      { id: 2, name: "Opción 2" },
-                    ]}
-                    {...field}
-                  />
-                )}
-              />
+              <div>
+                <Controller
+                  name="ultimocontacto"
+                  control={control}
+                  defaultValue={"10-01-2022"}
+                  render={({ field }) => (
+                    <SelectInput
+                      label={"Último contacto"}
+                      options={[
+                        { id: 1, name: "10-01-2022" },
+                        { id: 2, name: "Opción 2" },
+                      ]}
+                      {...field}
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex items-center">
+                <Checkbox
+                  {...register("ultimoContacto-checkbox")}
+                  label="Seguimiento otro centro"
+                />
+              </div>
             </div>
             <Separator />
             <SubSection title="Estado Vital"></SubSection>
@@ -497,6 +570,12 @@ export default function CaseForm(props: CaseFormProps) {
                   />
                 )}
               />
+              <div className="flex items-center">
+                <Checkbox
+                  {...register("EstadoVital-checkbox")}
+                  label="Estimada"
+                />
+              </div>
               <Controller
                 name="causadefuncion"
                 control={control}
