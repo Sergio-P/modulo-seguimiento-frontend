@@ -15,7 +15,6 @@ const Checkbox = React.forwardRef(
           ref={ref}
           {...props}
           onChange={(event) => {
-            console.log(event.target.checked);
             setChecked(event.target.checked);
             props.onChange && props.onChange(event);
           }}

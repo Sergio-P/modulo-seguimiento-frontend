@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import SelectInput from "../ui/SelectInput";
+import DatePicker from "../ui/DatePicker";
 
 interface CaseFormProps {
   caseId: string;
@@ -121,10 +122,15 @@ export default function CaseForm(props: CaseFormProps) {
               {...register("example-checkbox2")}
               label="Checkbox con label"
             />
+            <Controller
+              name="example-date"
+              control={control}
+              render={({ field }) => <DatePicker {...field} />}
+            />
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
-            <div className="grid grid-cols-3 gap-8 max-w-5xl">
+            <div className="grid max-w-5xl grid-cols-3 gap-8">
               <Controller
                 name="Diagnostico-Categoria"
                 control={control}
@@ -159,7 +165,7 @@ export default function CaseForm(props: CaseFormProps) {
             <Separator />
             <SubSection title="Validación">
               <div>fechas y despues un checkbox</div>
-              <div className="grid grid-cols-3 max-w-5xl">
+              <div className="grid max-w-5xl grid-cols-3">
                 <Controller
                   name="Diagnostico-LugarObtencionDiagnostico"
                   control={control}
@@ -182,7 +188,7 @@ export default function CaseForm(props: CaseFormProps) {
           </Section>
           <Section id="morfologia" title="Morfología y Topografía">
             <SubSection title="Datos Morfología"></SubSection>
-            <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
               <Controller
                 name="morfologiabusquedaESTOESUNALUPANOESUNSELECTHAYQUECAMBIARLO"
                 control={control}
@@ -362,14 +368,14 @@ export default function CaseForm(props: CaseFormProps) {
                   control={control}
                   defaultValue={"Desconocido"}
                   render={({ field }) => (
-                      <SelectInput
-                        label={"Estadio Diagnostico"}
-                        options={[
-                          { id: 1, name: "Desconocido" },
-                          { id: 2, name: "Chao" },
-                        ]}
-                        {...field}
-                      />
+                    <SelectInput
+                      label={"Estadio Diagnostico"}
+                      options={[
+                        { id: 1, name: "Desconocido" },
+                        { id: 2, name: "Chao" },
+                      ]}
+                      {...field}
+                    />
                   )}
                 />
               </div>
@@ -378,8 +384,8 @@ export default function CaseForm(props: CaseFormProps) {
           <Section id="metastasis" title="Metástasis">
             <SubSection title="Lista Metástasis">
               <Checkbox
-              {...register("example-checkbox2")}
-              label="Presenta Metástasis"
+                {...register("example-checkbox2")}
+                label="Presenta Metástasis"
               />
             </SubSection>
           </Section>
@@ -399,9 +405,12 @@ export default function CaseForm(props: CaseFormProps) {
               />
             </SubSection>
           </Section>
-          <Section id="tratamiento" title="Antecedentes Tratamiento (Estado XXX)">
+          <Section
+            id="tratamiento"
+            title="Antecedentes Tratamiento (Estado XXX)"
+          >
             <SubSection title="Configuración"></SubSection>
-            <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
               <Controller
                 name="clasecaso"
                 control={control}
@@ -424,14 +433,14 @@ export default function CaseForm(props: CaseFormProps) {
                 control={control}
                 defaultValue={"Informe Anatomía Patológica"}
                 render={({ field }) => (
-                    <SelectInput
-                      label={"Clasificación DG/TTOS."}
-                      options={[
-                        { id: 1, name: "Informe Anatomía Patológica" },
-                        { id: 2, name: "No c" },
-                      ]}
-                      {...field}
-                    />
+                  <SelectInput
+                    label={"Clasificación DG/TTOS."}
+                    options={[
+                      { id: 1, name: "Informe Anatomía Patológica" },
+                      { id: 2, name: "No c" },
+                    ]}
+                    {...field}
+                  />
                 )}
               />
             </div>
@@ -439,72 +448,72 @@ export default function CaseForm(props: CaseFormProps) {
           </Section>
           <Section id="estadovital" title="Antecedentes Estado Vital">
             <SubSection title="Último Contacto"></SubSection>
-              <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
-                <Controller
-                  name="ultimocontacto"
-                  control={control}
-                  defaultValue={"10-01-2022"}
-                  render={({ field }) => (
+            <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
+              <Controller
+                name="ultimocontacto"
+                control={control}
+                defaultValue={"10-01-2022"}
+                render={({ field }) => (
+                  <SelectInput
+                    label={"Último contacto"}
+                    options={[
+                      { id: 1, name: "10-01-2022" },
+                      { id: 2, name: "Opción 2" },
+                    ]}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <Separator />
+            <SubSection title="Estado Vital"></SubSection>
+            <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
+              <Controller
+                name="estadovitalselect"
+                control={control}
+                defaultValue={"Fallecido"}
+                render={({ field }) => (
+                  <SelectInput
+                    options={[
+                      { id: 1, name: "Fallecido" },
+                      { id: 2, name: "Vivito y coleando" },
+                    ]}
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                name="fechadefuncion"
+                control={control}
+                defaultValue={"10-01-2022"}
+                render={({ field }) => (
+                  <SelectInput
+                    label={"Fecha Defunción"}
+                    options={[
+                      { id: 1, name: "10-01-2022" },
+                      { id: 2, name: "Otro día" },
+                    ]}
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                name="causadefuncion"
+                control={control}
+                defaultValue={"Causa Defunción"}
+                render={({ field }) => (
+                  <div className="col-start-1">
                     <SelectInput
-                      label={"Último contacto"}
                       options={[
-                        { id: 1, name: "10-01-2022" },
-                        { id: 2, name: "Opción 2" },
+                        { id: 1, name: "Causa Defunción" },
+                        { id: 2, name: "Si" },
                       ]}
                       {...field}
                     />
-                  )}
-                />
-              </div>
-            <Separator/>
-            <SubSection title="Estado Vital"></SubSection>
-              <div className="grid max-w-5xl grid-cols-1 lg:grid-cols-3 gap-8">
-                  <Controller
-                    name="estadovitalselect"
-                    control={control}
-                    defaultValue={"Fallecido"}
-                    render={({ field }) => (
-                      <SelectInput
-                        options={[
-                          { id: 1, name: "Fallecido" },
-                          { id: 2, name: "Vivito y coleando" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="fechadefuncion"
-                    control={control}
-                    defaultValue={"10-01-2022"}
-                    render={({ field }) => (
-                      <SelectInput
-                        label={"Fecha Defunción"}
-                        options={[
-                          { id: 1, name: "10-01-2022" },
-                          { id: 2, name: "Otro día" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="causadefuncion"
-                    control={control}
-                    defaultValue={"Causa Defunción"}
-                    render={({ field }) => (
-                      <div className="col-start-1">
-                        <SelectInput
-                          options={[
-                            { id: 1, name: "Causa Defunción" },
-                            { id: 2, name: "Si" },
-                          ]}
-                          {...field}
-                        />
-                      </div>
-                    )}
-                  />
-                </div>
+                  </div>
+                )}
+              />
+            </div>
           </Section>
           <input type="submit" />
         </form>

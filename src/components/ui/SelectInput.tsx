@@ -1,5 +1,6 @@
 import { Listbox } from "@headlessui/react";
 import clsx from "clsx";
+import React from "react";
 import { HiChevronDown } from "react-icons/hi2";
 
 interface SelectInputProps {
@@ -8,7 +9,7 @@ interface SelectInputProps {
   value?: any;
   onChange?: any;
 }
-export default function SelectInput(props: SelectInputProps) {
+const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
   const displayValue = (
     value: { id: string | number; name: string } | string | number | undefined
   ) => {
@@ -75,4 +76,7 @@ export default function SelectInput(props: SelectInputProps) {
       </div>
     </Listbox>
   );
-}
+});
+SelectInput.displayName = "SelectInput";
+
+export default SelectInput;
