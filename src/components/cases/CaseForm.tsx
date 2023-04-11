@@ -140,7 +140,7 @@ export default function CaseForm(props: CaseFormProps) {
             <Controller
               name="example-date"
               control={control}
-              render={({ field }) => <DatePicker {...field} />}
+              render={({ field }) => <DatePicker label="Fecha ejemplo :0" {...field} />}
             />
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
@@ -182,15 +182,15 @@ export default function CaseForm(props: CaseFormProps) {
               <div className="grid max-w-5xl grid-cols-3 gap-8">
 
                   <Controller 
-                    name="diagnostico-date"
+                    name="fecha-diagnostico"
                     control={control}
-                    render={({ field }) => <DatePicker {...field} />}
+                    render={({ field }) => <DatePicker label="Fecha Diagnóstico" {...field} />}
                   />
 
                 <Controller
-                  name="obtencion-date"
+                  name="fecha-obtencion-diagnostico"
                   control={control}
-                  render={({ field }) => <DatePicker {...field} />}
+                  render={({ field }) => <DatePicker label="Fecha Lugar Obtención Diagnóstico" {...field} />}
                 />
                 <div className="flex items-center">
                   <Checkbox
@@ -275,9 +275,9 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                name="obtencion-date"
+                name="fecha-obtencion-morf"
                 control={control}
-                render={({ field }) => <DatePicker {...field} />}
+                render={({ field }) => <DatePicker label="Fecha Lugar Obtención Diagnóstico" {...field} />}
               />
             </div>
             <Separator />
@@ -318,9 +318,9 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                  name="obtencion-date"
+                  name="fecha-obtencion-top"
                   control={control}
-                  render={({ field }) => <DatePicker {...field} />}
+                  render={({ field }) => <DatePicker label="Fecha Lugar Obtención Diagnóstico" {...field} />}
                 />
             </div>
           </Section>
@@ -500,9 +500,9 @@ export default function CaseForm(props: CaseFormProps) {
             <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
               <div>
                 <Controller
-                  name="obtencion-date"
+                  name="fecha-ultimocontacto"
                   control={control}
-                  render={({ field }) => <DatePicker {...field} />}
+                  render={({ field }) => <DatePicker label="Último Contacto" {...field} />}
                 />
               </div>
               <div className="flex items-center">
@@ -530,9 +530,9 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                  name="obtencion-date"
+                  name="fecha-defuncion"
                   control={control}
-                  render={({ field }) => <DatePicker {...field} />}
+                  render={({ field }) => <DatePicker label="Fecha Defunción" {...field} />}
                 />
               <div className="flex items-center">
                 <Checkbox

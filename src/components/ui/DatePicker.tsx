@@ -21,17 +21,24 @@ const DatePicker = React.forwardRef(
       <Popover>
         <Popover.Button>
           <div className="h-14 w-full cursor-pointer rounded-lg bg-background pl-5 pr-20 flex items-center"> 
-          <Image
-            src={`/icons/date.svg`}
-            width={20}
-            height={20}
-            alt=""
-            className="h-4 w-4"
-          />
-          <input
-            {...inputProps}
-            className="bg-background cursor-pointer pl-5 text-font-input"
-          />
+            <Image
+              src={`/icons/date.svg`}
+              width={20}
+              height={20}
+              alt=""
+              className="h-4 w-4"
+            />
+            <div className="text-left">
+              {props.label && (
+                <span className="block text-xs font-medium text-font-subtitle pl-6">
+                  {props.label}
+                </span>
+              )}
+            <input
+              {...inputProps}
+              className="bg-background cursor-pointer pl-6 text-font-input"
+            />
+            </div>
           </div>
         </Popover.Button>
         <Popover.Panel className="absolute z-10">
