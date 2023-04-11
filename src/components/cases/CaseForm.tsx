@@ -179,22 +179,32 @@ export default function CaseForm(props: CaseFormProps) {
             </div>
             <Separator />
             <SubSection title="Validación">
-              <div className="grid max-w-5xl grid-cols-3">
-                <div>fechas y despues un checkbox</div>
+              <div className="grid max-w-5xl grid-cols-3 gap-8">
 
-                <Checkbox
-                  className="col-start-3 flex items-center"
-                  {...register("diagnostico-checkbox")}
-                  label="Fecha estimada"
+                  <Controller 
+                    name="diagnostico-date"
+                    control={control}
+                    render={({ field }) => <DatePicker {...field} />}
+                  />
+
+                <Controller
+                  name="obtencion-date"
+                  control={control}
+                  render={({ field }) => <DatePicker {...field} />}
                 />
-              </div>
-              <div className="grid max-w-5xl grid-cols-3">
+                <div className="flex items-center">
+                  <Checkbox
+                    className="col-start-3"
+                    {...register("diagnostico-checkbox")}
+                    label="Fecha estimada"
+                  />
+                </div>
                 <Controller
                   name="Diagnostico-LugarObtencionDiagnostico"
                   control={control}
                   defaultValue={"Informe Anatomía Patológica"}
                   render={({ field }) => (
-                    <div className="mr-14 w-72">
+                    
                       <SelectInput
                         label={"Lugar Obtención Diagnóstico"}
                         options={[
@@ -203,7 +213,7 @@ export default function CaseForm(props: CaseFormProps) {
                         ]}
                         {...field}
                       />
-                    </div>
+                    
                   )}
                 />
               </div>
@@ -265,22 +275,9 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                name="fechalugarobtenciondiagmorf"
+                name="obtencion-date"
                 control={control}
-                defaultValue={"10-01-2022"}
-                render={({ field }) => (
-                  <SelectInput
-                    label={"Fecha Lugar Obtención Diagnóstico"}
-                    options={[
-                      { id: 1, name: "10-01-2022" },
-                      {
-                        id: 2,
-                        name: "Esto no es un select hay que cambiarlo jeje",
-                      },
-                    ]}
-                    {...field}
-                  />
-                )}
+                render={({ field }) => <DatePicker {...field} />}
               />
             </div>
             <Separator />
@@ -321,23 +318,10 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                name="fechalugarobtenciondiagtop"
-                control={control}
-                defaultValue={"10-01-2022"}
-                render={({ field }) => (
-                  <SelectInput
-                    label={"Fecha Lugar Obtención Diagnóstico"}
-                    options={[
-                      { id: 1, name: "10-01-2022" },
-                      {
-                        id: 2,
-                        name: "Esto no es un select hay que cambiarlo jeje",
-                      },
-                    ]}
-                    {...field}
-                  />
-                )}
-              />
+                  name="obtencion-date"
+                  control={control}
+                  render={({ field }) => <DatePicker {...field} />}
+                />
             </div>
           </Section>
           <Section id="lateralidad" title="Lateralidad y Estadío">
@@ -516,19 +500,9 @@ export default function CaseForm(props: CaseFormProps) {
             <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
               <div>
                 <Controller
-                  name="ultimocontacto"
+                  name="obtencion-date"
                   control={control}
-                  defaultValue={"10-01-2022"}
-                  render={({ field }) => (
-                    <SelectInput
-                      label={"Último contacto"}
-                      options={[
-                        { id: 1, name: "10-01-2022" },
-                        { id: 2, name: "Opción 2" },
-                      ]}
-                      {...field}
-                    />
-                  )}
+                  render={({ field }) => <DatePicker {...field} />}
                 />
               </div>
               <div className="flex items-center">
@@ -556,20 +530,10 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
               <Controller
-                name="fechadefuncion"
-                control={control}
-                defaultValue={"10-01-2022"}
-                render={({ field }) => (
-                  <SelectInput
-                    label={"Fecha Defunción"}
-                    options={[
-                      { id: 1, name: "10-01-2022" },
-                      { id: 2, name: "Otro día" },
-                    ]}
-                    {...field}
-                  />
-                )}
-              />
+                  name="obtencion-date"
+                  control={control}
+                  render={({ field }) => <DatePicker {...field} />}
+                />
               <div className="flex items-center">
                 <Checkbox
                   {...register("EstadoVital-checkbox")}
