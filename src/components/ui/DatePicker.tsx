@@ -30,7 +30,7 @@ const DatePicker = React.forwardRef(
             />
             <div className="text-left">
               {props.label && (
-                <span className="block text-xs font-medium text-font-subtitle pl-6">
+                <span className="block text-xs whitespace-nowrap font-medium text-font-subtitle pl-6">
                   {props.label}
                 </span>
               )}

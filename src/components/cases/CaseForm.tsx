@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { Dialog, Transition } from "@headlessui/react"
+import { Fragment, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import SelectInput from "../ui/SelectInput";
 import DatePicker from "../ui/DatePicker";
+import ModalMetastasis from "../ui/ModalMetastasis";
 
 interface CaseFormProps {
   caseId: string;
@@ -142,6 +144,12 @@ export default function CaseForm(props: CaseFormProps) {
               control={control}
               render={({ field }) => <DatePicker label="Fecha ejemplo :0" {...field} />}
             />
+            <Button icon="FileIcon" className="mr-6">
+                Ejemplo
+            </Button>
+            <ModalMetastasis disabled={!tieneMetastasis} icon="plus" filled>
+                  Agregar Metastasis
+            </ModalMetastasis>
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
@@ -399,9 +407,9 @@ export default function CaseForm(props: CaseFormProps) {
                   {...register("tiene-metastasis")}
                   label="Presenta Metástasis"
                 />
-                <Button disabled={!tieneMetastasis} icon="plus" filled>
+                <ModalMetastasis disabled={!tieneMetastasis} icon="plus" filled>
                   Agregar Metástasis
-                </Button>
+                </ModalMetastasis>
               </div>
             </SubSection>
           </Section>

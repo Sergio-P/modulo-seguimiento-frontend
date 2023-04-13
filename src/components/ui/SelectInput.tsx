@@ -28,7 +28,7 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
             <>
               <div>
                 {props.label && (
-                  <span className="block text-xs font-medium text-font-subtitle">
+                  <span className="block whitespace-nowrap text-xs font-medium text-font-subtitle">
                     {props.label}
                   </span>
                 )}
