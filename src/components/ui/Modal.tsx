@@ -6,6 +6,8 @@ import { Fragment, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import DatePicker from "./DatePicker";
 import Checkbox from "./Checkbox";
+import SelectInput from "./SelectInput";
+import Button from "./Button";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -104,7 +106,7 @@ export default function Modal(props: ButtonProps) {
       )}
     </button>
     <Transition appear show={isOpenMetastasis} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModalMetastasis}>
+        <Dialog as="div" className="relative z-30" onClose={closeModalMetastasis}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -128,30 +130,50 @@ export default function Modal(props: ButtonProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    MODAL DE METASTASIS
-                  </Dialog.Title>
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <div className="flex justify-between">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-3xl font-bold leading-6 text-font pb-6"
+                    >
+                      Metástasis
+                    </Dialog.Title>
+                    <Button icon="cross"/>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6 items-center">
                     <Controller
                       name="example-date"
                       control={control}
-                      render={({ field }) => <DatePicker label="Fecha ejemplo :0" {...field} />}
+                      render={({ field }) => <DatePicker label="Fecha Diagnóstico" {...field} />}
                     />
                     <Checkbox
                       label="Fecha Estimada"
                     />
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModalMetastasis}
-                    >
-                      Got it, thanks!
-                    </button>
+                    <Controller
+                      name="PlaceholderDeTEXTOAAAAA"
+                      control={control}
+                      defaultValue={"PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"TEXTO"}
+                            options={[
+                              { id: 1, name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Button onClick={closeModalMetastasis}>
+                      Cancelar
+                    </Button>
+                    <Button filled onClick={closeModalMetastasis}>
+                      Agregar Metástasis
+                    </Button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -161,7 +183,7 @@ export default function Modal(props: ButtonProps) {
       </Transition>
 
       <Transition appear show={isOpenRecurrencia} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModalRecurrencia}>
+        <Dialog as="div" className="relative z-30" onClose={closeModalRecurrencia}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -185,28 +207,67 @@ export default function Modal(props: ButtonProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    MODAL DE RECURRENCIA
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModalRecurrencia}
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <div className="flex justify-between">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-3xl font-bold leading-6 text-font pb-6"
                     >
-                      Got it, thanks!
-                    </button>
+                      Recurrencia
+                    </Dialog.Title>
+                    <Button icon="cross"/>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6 items-center">
+                    <Controller
+                      name="example-date"
+                      control={control}
+                      render={({ field }) => <DatePicker label="Fecha Diagnóstico" {...field} />}
+                    />
+                    <Checkbox
+                      label="Fecha Estimada"
+                    />
+                    <Controller
+                      name="ModalRecurrenciaTipo"
+                      control={control}
+                      defaultValue={"Blablablablablablablablablablablablablabalblanalnalanlanalna"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"Tipo"}
+                            options={[
+                              { id: 1, name: "Blablablablablablablablablablablablablabalblanalnalanlanalna" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                    <Controller
+                      name="PlaceholderDeTEXTOAAAAA"
+                      control={control}
+                      defaultValue={"PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"Detalle Topografía Recurrencia"}
+                            options={[
+                              { id: 1, name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Button onClick={closeModalRecurrencia}>
+                      Cancelar
+                    </Button>
+                    <Button filled onClick={closeModalRecurrencia}>
+                      Agregar Recurrencia
+                    </Button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -216,7 +277,7 @@ export default function Modal(props: ButtonProps) {
       </Transition>
 
       <Transition appear show={isOpenProgresion} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModalProgresion}>
+      <Dialog as="div" className="relative z-30" onClose={closeModalProgresion}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -240,28 +301,67 @@ export default function Modal(props: ButtonProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    MODAL DE PROGRESION
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModalProgresion}
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <div className="flex justify-between">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-3xl font-bold leading-6 text-font pb-6"
                     >
-                      Got it, thanks!
-                    </button>
+                      Progresión
+                    </Dialog.Title>
+                    <Button icon="cross"/>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6 items-center">
+                    <Controller
+                      name="example-date"
+                      control={control}
+                      render={({ field }) => <DatePicker label="Fecha Diagnóstico" {...field} />}
+                    />
+                    <Checkbox
+                      label="Fecha Estimada"
+                    />
+                    <Controller
+                      name="ModalProgresionTipo"
+                      control={control}
+                      defaultValue={"Blablablablablablablablablablablablablabalblanalnalanlanalna"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"Tipo"}
+                            options={[
+                              { id: 1, name: "Blablablablablablablablablablablablablabalblanalnalanlanalna" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                    <Controller
+                      name="PlaceholderDeTEXTOAAAAA"
+                      control={control}
+                      defaultValue={"PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"Detalle Topografía Progresión"}
+                            options={[
+                              { id: 1, name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Button onClick={closeModalProgresion}>
+                      Cancelar
+                    </Button>
+                    <Button filled onClick={closeModalProgresion}>
+                      Agregar Progresión
+                    </Button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -272,7 +372,7 @@ export default function Modal(props: ButtonProps) {
       
 
       <Transition appear show={isOpenTratamiento} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModalTratamiento}>
+      <Dialog as="div" className="relative z-30" onClose={closeModalRecurrencia}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -296,28 +396,67 @@ export default function Modal(props: ButtonProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    MODAL DE TRATAMIENTO
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModalTratamiento}
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <div className="flex justify-between">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-3xl font-bold leading-6 text-font pb-6"
                     >
-                      Got it, thanks!
-                    </button>
+                      Tratamientos
+                    </Dialog.Title>
+                    <Button icon="cross"/>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6 items-center">
+                    <Controller
+                      name="example-date"
+                      control={control}
+                      render={({ field }) => <DatePicker label="Fecha Diagnóstico" {...field} />}
+                    />
+                    <Checkbox
+                      label="Fecha Estimada"
+                    />
+                    <Controller
+                      name="ModalRecurrenciaTipo"
+                      control={control}
+                      defaultValue={"Blablablablablablablablablablablablablabalblanalnalanlanalna"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"Tipo"}
+                            options={[
+                              { id: 1, name: "Blablablablablablablablablablablablablabalblanalnalanlanalna" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                    <Controller
+                      name="PlaceholderDeTEXTOAAAAA"
+                      control={control}
+                      defaultValue={"PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"}
+                      render={({ field }) => (
+                        <div className="col-span-2">
+                          <SelectInput
+                            label={"Detalle Topografía Recurrencia"}
+                            options={[
+                              { id: 1, name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA" },
+                              { id: 2, name: "Otro" },
+                            ]}
+                            {...field}
+                          />
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Button onClick={closeModalRecurrencia}>
+                      Cancelar
+                    </Button>
+                    <Button filled onClick={closeModalRecurrencia}>
+                      Agregar Recurrencia
+                    </Button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
