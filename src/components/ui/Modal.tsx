@@ -3,6 +3,9 @@ import Image from "next/image";
 import _ from 'lodash';
 import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import DatePicker from "./DatePicker";
+import Checkbox from "./Checkbox";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -20,6 +23,7 @@ export default function Modal(props: ButtonProps) {
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false)
   let [isOpenProgresion, setIsOpenProgresion] = useState(false)
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false)
+  const { control } = useForm();
 
   function closeModalMetastasis() {
     setIsOpenMetastasis(false)
@@ -131,12 +135,14 @@ export default function Modal(props: ButtonProps) {
                   >
                     MODAL DE METASTASIS
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
+                    <Controller
+                      name="example-date"
+                      control={control}
+                      render={({ field }) => <DatePicker label="Fecha ejemplo :0" {...field} />}
+                    />
+                    <Checkbox
+                      label="Fecha Estimada"
+                    />
 
                   <div className="mt-4">
                     <button
