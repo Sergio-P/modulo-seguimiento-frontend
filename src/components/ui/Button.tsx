@@ -12,7 +12,7 @@ export default function Button(props: ButtonProps) {
   const { disabled, filled, icon } = props;
   return (
     <button
-      {..._.omit(props, ['icon', 'filled', 'disabled'])}
+      {..._.omit(props, ['icon', 'filled'])}
       className={clsx(
         "h-10 rounded-lg border-2 border-primary text-sm tracking-wide",
         props.children ? "px-4" : "w-10",
