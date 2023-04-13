@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import SelectInput from "../ui/SelectInput";
 import DatePicker from "../ui/DatePicker";
-import Modal from "../ui/ModalMetastasis";
+import Modal from "../ui/Modal";
 
 interface CaseFormProps {
   caseId: string;
@@ -497,9 +497,9 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                 </div>
-                <Button className="max-w-[115px]" icon="plus" filled>
+                <Modal className="max-w-[115px]" tratamiento={true} icon="plus" filled>
                   Agregar
-                </Button>
+                </Modal>
               </div>
             </SubSection>
           </Section>
