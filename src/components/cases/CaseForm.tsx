@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import SelectInput from "../ui/SelectInput";
 import DatePicker from "../ui/DatePicker";
-import ModalMetastasis from "../ui/ModalMetastasis";
+import Modal from "../ui/ModalMetastasis";
 
 interface CaseFormProps {
   caseId: string;
@@ -147,9 +147,9 @@ export default function CaseForm(props: CaseFormProps) {
             <Button icon="FileIcon" className="mr-6">
                 Ejemplo
             </Button>
-            <ModalMetastasis disabled={!tieneMetastasis} icon="plus" filled>
+            <Modal disabled={false} metastasis={true} icon="plus" filled>
                   Agregar Metastasis
-            </ModalMetastasis>
+            </Modal>
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
@@ -407,9 +407,9 @@ export default function CaseForm(props: CaseFormProps) {
                   {...register("tiene-metastasis")}
                   label="Presenta Metástasis"
                 />
-                <ModalMetastasis disabled={!tieneMetastasis} icon="plus" filled>
-                  Agregar Metástasis
-                </ModalMetastasis>
+                <Modal disabled={!tieneMetastasis} metastasis={true} icon="plus" filled>
+                  Agregar Metastasis
+                </Modal>
               </div>
             </SubSection>
           </Section>
@@ -420,9 +420,9 @@ export default function CaseForm(props: CaseFormProps) {
                   {...register("tiene-recurrencia")}
                   label="Presenta recurrencia"
                 />
-                <Button disabled={!tieneRecurrencia} icon="plus" filled>
+                <Modal disabled={!tieneRecurrencia} recurrencia={true} icon="plus" filled>
                   Agregar Recurrencia
-                </Button>
+                </Modal>
               </div>
             </SubSection>
           </Section>
@@ -433,9 +433,9 @@ export default function CaseForm(props: CaseFormProps) {
                   {...register("tiene-progresion")}
                   label="Presenta progresión"
                 />
-                <Button disabled={!tieneProgresion} icon="plus" filled>
+                <Modal disabled={!tieneProgresion} progresion={true} icon="plus" filled>
                   Agregar Progresión
-                </Button>
+                </Modal>
               </div>
             </SubSection>
           </Section>
