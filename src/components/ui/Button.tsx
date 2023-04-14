@@ -1,23 +1,25 @@
 import clsx from "clsx";
 import Image from "next/image";
-import _ from 'lodash';
+import _ from "lodash";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
+  clear?: boolean;
   icon?: string;
   disabled?: boolean;
 }
 
 export default function Button(props: ButtonProps) {
-  const { disabled, filled, icon } = props;
+  const { disabled, filled, clear, icon } = props;
   return (
     <button
-      {..._.omit(props, ['icon', 'filled'])}
+      {..._.omit(props, ["icon", "filled", "clear"])}
       className={clsx(
-        "h-10 rounded-lg border-2 border-primary text-sm tracking-wide",
+        "h-10 rounded-lg border-primary text-sm tracking-wide",
         props.children ? "px-4" : "w-10",
+        clear ? "border-none" : "border-2",
         filled ? "bg-primary text-white" : "text-primary",
-        disabled && "bg-primary border-primary border-opacity-0 bg-opacity-50",
+        disabled && "border-primary border-opacity-0 bg-primary bg-opacity-50",
         props.className
       )}
     >
