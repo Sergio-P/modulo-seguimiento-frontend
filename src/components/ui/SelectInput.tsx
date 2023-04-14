@@ -26,7 +26,7 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
           {({ value }) => (
             <>
-              <div>
+              <div className="mr-5 overflow-hidden">
                 {props.label && (
                   <span className="block whitespace-nowrap text-xs font-medium text-font-subtitle">
                     {props.label}
@@ -44,7 +44,7 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
         </Listbox.Button>
         <Listbox.Options
           className={clsx(
-            "absolute z-10 mt-1 max-h-60 w-full overflow-auto py-1",
+            "absolute z-10 mt-1 max-h-60 w-fit min-w-full overflow-auto py-1",
             "rounded-lg bg-background text-base shadow-lg",
             "ring-1 ring-zinc-800 ring-opacity-5",
             "focus:outline-none sm:text-sm"
