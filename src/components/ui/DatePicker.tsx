@@ -19,8 +19,8 @@ const DatePicker = React.forwardRef(
 
     return (
       <Popover>
-        <Popover.Button>
-          <div className="h-14 w-full cursor-pointer rounded-lg bg-background pl-5 pr-20 flex items-center"> 
+        <Popover.Button className="w-full">
+          <div className="flex h-14 w-full cursor-pointer items-center rounded-lg bg-background pl-5">
             <Image
               src={`/icons/date.svg`}
               width={20}
@@ -30,14 +30,14 @@ const DatePicker = React.forwardRef(
             />
             <div className="text-left">
               {props.label && (
-                <span className="block text-xs whitespace-nowrap font-medium text-font-subtitle pl-6">
+                <span className="block whitespace-nowrap pl-6 text-xs font-medium text-font-subtitle">
                   {props.label}
                 </span>
               )}
-            <input
-              {...inputProps}
-              className="bg-background cursor-pointer pl-6 text-font-input"
-            />
+              <input
+                {...inputProps}
+                className="w-full cursor-pointer bg-background pl-5 text-font-input"
+              />
             </div>
           </div>
         </Popover.Button>
