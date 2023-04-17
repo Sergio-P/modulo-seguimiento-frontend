@@ -26,9 +26,9 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
           {({ value }) => (
             <>
-              <div className="mr-5 overflow-hidden">
+              <div className="mr-7 overflow-hidden">
                 {props.label && (
-                  <span className="block whitespace-nowrap text-xs font-medium text-font-subtitle">
+                  <span className=" block whitespace-nowrap text-xs font-medium text-font-subtitle">
                     {props.label}
                   </span>
                 )}
