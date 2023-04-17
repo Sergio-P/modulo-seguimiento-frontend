@@ -1,4 +1,36 @@
-/*import { Listbox } from "@headlessui/react";
+import clsx from "clsx";
+import Image from "next/image";
+import React from "react";
+
+const TextInput = React.forwardRef(
+  (
+    props: { label?: string } & React.InputHTMLAttributes<HTMLInputElement>,
+    ref: React.ForwardedRef<HTMLInputElement>
+  ) => {
+    return (
+      <div className="relative">
+          <div className="h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
+            <>
+            {props.label && (
+              <span className="block whitespace-nowrap text-xs font-medium text-font-subtitle">
+                {props.label}
+              </span>
+            )}
+            <input
+              type="text"
+              ref={ref}
+              {...props}
+              className={clsx("w-full cursor-pointer bg-primary pl-5 text-font-input", props.className)}
+            />
+            </>
+          </div>
+      </div>
+    )}
+);
+TextInput.displayName = "TextInput";
+  
+  export default TextInput;
+      /*import { Listbox } from "@headlessui/react";
 import clsx from "clsx";
 import React from "react";
 import { HiChevronDown } from "react-icons/hi2";

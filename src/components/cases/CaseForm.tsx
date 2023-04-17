@@ -6,6 +6,7 @@ import Checkbox from "../ui/Checkbox";
 import SelectInput from "../ui/SelectInput";
 import DatePicker from "../ui/DatePicker";
 import Modal from "../ui/Modal";
+import TextInput from "../ui/TextInput";
 import MetastasisList from "./CaseForm/MetastasisList";
 
 interface CaseFormProps {
@@ -52,17 +53,17 @@ export default function CaseForm(props: CaseFormProps) {
   const { register, watch, handleSubmit, formState, control } = form;
   const tieneMetastasis: boolean = useWatch({
     control,
-    name: "tiene-metastasis",
+    name: "posee_metastasis",
     defaultValue: false,
   });
   const tieneRecurrencia: boolean = useWatch({
     control,
-    name: "tiene-recurrencia",
+    name: "posee_recurrencia",
     defaultValue: false,
   });
   const tieneProgresion: boolean = useWatch({
     control,
-    name: "tiene-progresion",
+    name: "posee-progresion",
     defaultValue: false,
   });
 
@@ -155,12 +156,13 @@ export default function CaseForm(props: CaseFormProps) {
               <Modal disabled={false} metastasis={true} icon="plus" filled>
                 Agregar Metastasis
               </Modal>
+              <TextInput label="hello"></TextInput>
             </Section>
             <Section id="diagnostico" title="Diagnóstico">
               <SubSection title="Antecedentes"></SubSection>
               <div className="grid max-w-5xl grid-cols-3 gap-8">
                 <Controller
-                  name="Diagnostico-Categoria"
+                  name="categoria"
                   control={control}
                   defaultValue={"Tiroides"}
                   render={({ field }) => (
@@ -175,7 +177,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="Diagnostico-subategoria"
+                  name="subcategoria"
                   control={control}
                   defaultValue={"Glandula Tiroides"}
                   render={({ field }) => (
@@ -194,7 +196,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Validación">
                 <div className="grid max-w-5xl grid-cols-3 gap-8">
                   <Controller
-                    name="fecha-diagnostico"
+                    name="fecha_dg"
                     control={control}
                     render={({ field }) => (
                       <DatePicker label="Fecha Diagnóstico" {...field} />
@@ -244,7 +246,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Datos Morfología"></SubSection>
               <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                 <Controller
-                  name="morfologiabusquedaESTOESUNALUPANOESUNSELECTHAYQUECAMBIARLO"
+                  name="morfologia"
                   control={control}
                   defaultValue={"(8260/3) Adenocarcinoma Papilar, Sai"}
                   render={({ field }) => (
@@ -309,7 +311,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Datos Topografía"></SubSection>
               <div className="grid max-w-5xl grid-cols-3 gap-8">
                 <Controller
-                  name="topografiabusquedaESTOESUNALUPANOESUNSELECTHAYQUECAMBIARLO"
+                  name="topografia"
                   control={control}
                   defaultValue={"(8260/3) Adenocarcinoma Papilar, Sai"}
                   render={({ field }) => (
@@ -361,7 +363,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Datos Complementarios">
                 <div className="grid max-w-5xl grid-cols-3 gap-8">
                   <Controller
-                    name="Lateralidad-Lateralidad"
+                    name="lateralidad"
                     control={control}
                     defaultValue={"No aplica"}
                     render={({ field }) => (
@@ -429,7 +431,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Lista Metástasis">
                 <div className="flex justify-between">
                   <Checkbox
-                    {...register("tiene-metastasis")}
+                    {...register("posee_metastasis")}
                     label="Presenta Metástasis"
                   />
                   <Modal
@@ -448,7 +450,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Lista Recurrencia">
                 <div className="flex justify-between">
                   <Checkbox
-                    {...register("tiene-recurrencia")}
+                    {...register("posee_recurrencia")}
                     label="Presenta recurrencia"
                   />
                   <Modal
@@ -466,7 +468,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Lista Progresión">
                 <div className="flex justify-between">
                   <Checkbox
-                    {...register("tiene-progresion")}
+                    {...register("posee-progresion")}
                     label="Presenta progresión"
                   />
                   <Modal
@@ -487,7 +489,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Configuración"></SubSection>
               <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                 <Controller
-                  name="clasecaso"
+                  name="clase_caso"
                   control={control}
                   defaultValue={"Diagnóstico y tratamiento en FALP"}
                   render={({ field }) => (
@@ -554,7 +556,7 @@ export default function CaseForm(props: CaseFormProps) {
               <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                 <div>
                   <Controller
-                    name="fecha-ultimocontacto"
+                    name="ultimo_contacto"
                     control={control}
                     render={({ field }) => (
                       <DatePicker label="Último Contacto" {...field} />
@@ -563,7 +565,7 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
                 <div className="flex items-center">
                   <Checkbox
-                    {...register("ultimoContacto-checkbox")}
+                    {...register("sigue_atencion_otro_centro")}
                     label="Seguimiento otro centro"
                   />
                 </div>
@@ -572,7 +574,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection title="Estado Vital"></SubSection>
               <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                 <Controller
-                  name="estadovitalselect"
+                  name="estado_vital"
                   control={control}
                   defaultValue={"Fallecido"}
                   render={({ field }) => (
@@ -586,7 +588,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="fecha-defuncion"
+                  name="fecha_defuncion"
                   control={control}
                   render={({ field }) => (
                     <DatePicker label="Fecha Defunción" {...field} />
@@ -599,7 +601,7 @@ export default function CaseForm(props: CaseFormProps) {
                   />
                 </div>
                 <Controller
-                  name="causadefuncion"
+                  name="causa_defuncion"
                   control={control}
                   defaultValue={"Causa Defunción"}
                   render={({ field }) => (
