@@ -8,6 +8,8 @@ import DatePicker from "../ui/DatePicker";
 import Modal from "../ui/Modal";
 import TextInput from "../ui/TextInput";
 import MetastasisList from "./CaseForm/MetastasisList";
+import RecurrenciaList from "./CaseForm/RecurrenciaList";
+import ProgresionList from "./CaseForm/ProgresionList";
 
 interface CaseFormProps {
   caseId: string;
@@ -447,7 +449,7 @@ export default function CaseForm(props: CaseFormProps) {
               </SubSection>
             </Section>
             <Section id="recurrencia" title="Recurrencia">
-              <SubSection title="Lista Recurrencia">
+              <SubSection>
                 <div className="flex justify-between">
                   <Checkbox
                     {...register("posee_recurrencia")}
@@ -463,9 +465,10 @@ export default function CaseForm(props: CaseFormProps) {
                   </Modal>
                 </div>
               </SubSection>
+              <RecurrenciaList />
             </Section>
             <Section id="progresion" title="Progresión">
-              <SubSection title="Lista Progresión">
+              <SubSection>
                 <div className="flex justify-between">
                   <Checkbox
                     {...register("posee-progresion")}
@@ -481,6 +484,7 @@ export default function CaseForm(props: CaseFormProps) {
                   </Modal>
                 </div>
               </SubSection>
+              <ProgresionList />
             </Section>
             <Section
               id="tratamiento"
