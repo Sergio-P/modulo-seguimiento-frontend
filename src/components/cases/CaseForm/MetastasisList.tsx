@@ -1,12 +1,10 @@
+import Datagrid from "@/components/ui/table/Datagrid";
 import {
-  Table,
-  useReactTable,
-  flexRender,
-  getCoreRowModel,
   createColumnHelper,
+  getCoreRowModel,
   getPaginationRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
-import clsx from "clsx";
 import * as fns from "date-fns";
 import { useState } from "react";
 
@@ -23,10 +21,12 @@ interface Metastasis {
 const columnHelper = createColumnHelper<Metastasis>();
 const columns = [
   columnHelper.accessor("fecha_diagnostico", {
-    cell: (info) => fns.format(info.getValue(), "dd-mm-yyyy"),
+    cell: (info) => fns.format(info.getValue(), "dd-LL-yyyy"),
+    header: (info) => "Fecha",
   }),
   columnHelper.accessor("detalle_topografia", {
     cell: (info) => info.getValue(),
+    header: (info) => "Detalle Topografía",
   }),
 ];
 
@@ -38,7 +38,7 @@ export default function MetastasisList() {
       caso_registro_id: 1,
       created_at: new Date(),
       updated_at: new Date(),
-      fecha_diagnostico: new Date("2023-03-20"),
+      fecha_diagnostico: new Date("2023-03-01"),
       detalle_topografia:
         "(C77.0) GANGLIOS LINFÁTICOS DE LA CABEZA, LA CARA Y EL CUELLO",
     },
@@ -150,83 +150,16 @@ export default function MetastasisList() {
     getPaginationRowModel: getPaginationRowModel(),
   });
   return (
-    <>
-      <h1 className="">Lista Metástasis</h1>
-      <Datagrid table={table} />
-    </>
-  );
-}
-
-function Datagrid<TData = any>({ table }: { table: Table<TData> }) {
-  return (
     <div>
-      <table>
-        <thead
-          className={clsx(
-            "overflow-hidden rounded-t-md border-b bg-background",
-            "text-sm font-semibold tracking-wide text-font-subtitle"
-          )}
-        >
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="h-12">
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-
-        <tbody className="">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="flex items-center justify-between">
-        <div />
-        {}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </button>
-          <button
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Inicio
-          </button>
-          <button
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            Fin
-          </button>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </button>
-        </div>
-      </div>
-      {JSON.stringify(table.getState().pagination)}
+      <Datagrid
+        table={table}
+        title="Lista Metástasis"
+        total={{
+          value: data.length,
+          name: "Metástasis",
+          pluralName: "Metástasis",
+        }}
+      />
     </div>
   );
 }
