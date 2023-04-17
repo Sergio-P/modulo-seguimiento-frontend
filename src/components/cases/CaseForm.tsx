@@ -426,7 +426,7 @@ export default function CaseForm(props: CaseFormProps) {
               </SubSection>
             </Section>
             <Section id="metastasis" title="Metástasis">
-              <SubSection title="Lista Metástasis">
+              <SubSection>
                 <div className="flex justify-between">
                   <Checkbox
                     {...register("tiene-metastasis")}
