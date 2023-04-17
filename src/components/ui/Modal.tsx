@@ -8,6 +8,7 @@ import DatePicker from "./DatePicker";
 import Checkbox from "./Checkbox";
 import SelectInput from "./SelectInput";
 import Button from "./Button";
+import TextInput from "./TextInput";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -169,28 +170,10 @@ export default function Modal(props: ButtonProps) {
                       )}
                     />
                     <Checkbox label="Fecha Estimada" />
-                    <Controller
-                      name="PlaceholderDeTEXTOAAAAA"
-                      control={control}
-                      defaultValue={
-                        "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"
-                      }
-                      render={({ field }) => (
-                        <div className="col-span-2">
-                          <SelectInput
-                            label={"TEXTO"}
-                            options={[
-                              {
-                                id: 1,
-                                name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA",
-                              },
-                              { id: 2, name: "Otro" },
-                            ]}
-                            {...field}
-                          />
-                        </div>
-                      )}
-                    />
+                    <div className="col-span-2">
+                      <TextInput label="Detalle Topografía"/>
+                    </div>
+
                   </div>
                   <div className="mt-6 flex justify-between">
                     <Button onClick={closeModalMetastasis}>Cancelar</Button>
@@ -279,28 +262,9 @@ export default function Modal(props: ButtonProps) {
                         </div>
                       )}
                     />
-                    <Controller
-                      name="PlaceholderDeTEXTOAAAAA"
-                      control={control}
-                      defaultValue={
-                        "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"
-                      }
-                      render={({ field }) => (
-                        <div className="col-span-2">
-                          <SelectInput
-                            label={"Detalle Topografía Recurrencia"}
-                            options={[
-                              {
-                                id: 1,
-                                name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA",
-                              },
-                              { id: 2, name: "Otro" },
-                            ]}
-                            {...field}
-                          />
-                        </div>
-                      )}
-                    />
+                    <div className="col-span-2">
+                      <TextInput label="Detalle Topografía Recurrencia"/>
+                    </div>
                   </div>
                   <div className="mt-6 flex justify-between">
                     <Button onClick={closeModalRecurrencia}>Cancelar</Button>
@@ -385,28 +349,9 @@ export default function Modal(props: ButtonProps) {
                         </div>
                       )}
                     />
-                    <Controller
-                      name="PlaceholderDeTEXTOAAAAA"
-                      control={control}
-                      defaultValue={
-                        "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"
-                      }
-                      render={({ field }) => (
-                        <div className="col-span-2">
-                          <SelectInput
-                            label={"Detalle Topografía Progresión"}
-                            options={[
-                              {
-                                id: 1,
-                                name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA",
-                              },
-                              { id: 2, name: "Otro" },
-                            ]}
-                            {...field}
-                          />
-                        </div>
-                      )}
-                    />
+                    <div className="col-span-2">
+                      <TextInput label="Detalle Topografía Progresión"/>
+                    </div>
                   </div>
                   <div className="mt-6 flex justify-between">
                     <Button onClick={closeModalProgresion}>Cancelar</Button>
@@ -589,28 +534,9 @@ export default function Modal(props: ButtonProps) {
                         </div>
                       )}
                     />
-                    <Controller
-                      name="Observaciones"
-                      control={control}
-                      defaultValue={
-                        "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"
-                      }
-                      render={({ field }) => (
-                        <div className="col-span-3">
-                          <SelectInput
-                            label={"Observaciones"}
-                            options={[
-                              {
-                                id: 1,
-                                name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA",
-                              },
-                              { id: 2, name: "Otro" },
-                            ]}
-                            {...field}
-                          />
-                        </div>
-                      )}
-                    />
+                    <div className="col-span-3">
+                      <TextInput label="Observaciones"/>
+                    </div>
                   </div>
                   <div className="mt-6 flex justify-between">
                     <Button onClick={closeModalTratamiento}>Cancelar</Button>

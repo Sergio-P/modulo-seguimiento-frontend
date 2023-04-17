@@ -156,7 +156,7 @@ export default function CaseForm(props: CaseFormProps) {
               <Modal disabled={false} metastasis={true} icon="plus" filled>
                 Agregar Metastasis
               </Modal>
-              <TextInput label="hello"></TextInput>
+              <TextInput label="ejemplo"></TextInput>
             </Section>
             <Section id="diagnostico" title="Diagnóstico">
               <SubSection title="Antecedentes"></SubSection>
