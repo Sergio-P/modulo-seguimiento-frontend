@@ -65,7 +65,7 @@ export default function CaseForm(props: CaseFormProps) {
   });
   const tieneProgresion: boolean = useWatch({
     control,
-    name: "posee-progresion",
+    name: "posee_progresion",
     defaultValue: false,
   });
 
@@ -206,7 +206,7 @@ export default function CaseForm(props: CaseFormProps) {
                   />
 
                   <Controller
-                    name="fecha-obtencion-diagnostico"
+                    name="fecha_lugar_obtencion_dg"
                     control={control}
                     render={({ field }) => (
                       <DatePicker
@@ -218,12 +218,12 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="flex items-center">
                     <Checkbox
                       className="col-start-3"
-                      {...register("diagnostico-checkbox")}
+                      {...register("fecha_estimada_dg")}
                       label="Fecha estimada"
                     />
                   </div>
                   <Controller
-                    name="Diagnostico-LugarObtencionDiagnostico"
+                    name="lugar_obtencion_dg"
                     control={control}
                     defaultValue={"Informe Anatomía Patológica"}
                     render={({ field }) => (
@@ -242,7 +242,7 @@ export default function CaseForm(props: CaseFormProps) {
             </Section>
             <Section id="morfologia" title="Morfología y Topografía">
               <Checkbox
-                {...register("morfologia-checkbox")}
+                {...register("sin_informacion_morfologia")}
                 label="Sin información"
               />
               <SubSection title="Datos Morfología"></SubSection>
@@ -268,7 +268,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="gradodiferenciacion"
+                  name="grado_diferenciacion"
                   control={control}
                   defaultValue={"Desconocido"}
                   render={({ field }) => (
@@ -284,7 +284,7 @@ export default function CaseForm(props: CaseFormProps) {
                 />
 
                 <Controller
-                  name="lugarobtenciondiagnosticomorf"
+                  name="lugar_obtencion_morfologia"
                   control={control}
                   defaultValue={"Informe Anatomía Patológica"}
                   render={({ field }) => (
@@ -299,7 +299,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="fecha-obtencion-morf"
+                  name="fecha_lugar_obtencion_morfologia"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
@@ -333,7 +333,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="lugarobtenciondiagnosticotop"
+                  name="lugar_obtencion_topografia"
                   control={control}
                   defaultValue={"Informe Anatomía Patológica"}
                   render={({ field }) => (
@@ -350,7 +350,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="fecha-obtencion-top"
+                  name="fecha_lugar_obtencion_topografia"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
@@ -380,7 +380,7 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <Controller
-                    name="Lateralidad-Comportamiento"
+                    name="comportamiento"
                     control={control}
                     defaultValue={"Neoplasias malignas de locali"}
                     render={({ field }) => (
@@ -395,7 +395,7 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <Controller
-                    name="Lateralidad-Extension"
+                    name="extension_dg"
                     control={control}
                     defaultValue={"Regional"}
                     render={({ field }) => (
@@ -412,7 +412,7 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <Controller
-                    name="Lateralidad-Datos"
+                    name="estadio_dg"
                     control={control}
                     defaultValue={"Desconocido"}
                     render={({ field }) => (
@@ -471,7 +471,7 @@ export default function CaseForm(props: CaseFormProps) {
               <SubSection>
                 <div className="flex justify-between">
                   <Checkbox
-                    {...register("posee-progresion")}
+                    {...register("posee_progresion")}
                     label="Presenta progresión"
                   />
                   <Modal
@@ -510,7 +510,7 @@ export default function CaseForm(props: CaseFormProps) {
                   )}
                 />
                 <Controller
-                  name="clasificaciondg"
+                  name="clasificacion_dg_ttos"
                   control={control}
                   defaultValue={"Informe Anatomía Patológica"}
                   render={({ field }) => (

@@ -163,7 +163,7 @@ export default function Modal(props: ButtonProps) {
                   </div>
                   <div className="grid grid-cols-2 items-center gap-6">
                     <Controller
-                      name="example-date"
+                      name="Metastasis.fecha_diagnostico"
                       control={control}
                       render={({ field }) => (
                         <DatePicker label="Fecha Diagnóstico" {...field} />
@@ -233,7 +233,7 @@ export default function Modal(props: ButtonProps) {
                   </div>
                   <div className="grid grid-cols-2 items-center gap-6">
                     <Controller
-                      name="example-date"
+                      name="RecurrenciaCreate.fecha_diagnostico"
                       control={control}
                       render={({ field }) => (
                         <DatePicker label="Fecha Diagnóstico" {...field} />
@@ -241,7 +241,7 @@ export default function Modal(props: ButtonProps) {
                     />
                     <Checkbox label="Fecha Estimada" />
                     <Controller
-                      name="ModalRecurrenciaTipo"
+                      name="RecurrenciaCreate.tipo"
                       control={control}
                       defaultValue={
                         "Blablablablablablablablablablablablablabalblanalnalanlanalna"
@@ -320,7 +320,7 @@ export default function Modal(props: ButtonProps) {
                   </div>
                   <div className="grid grid-cols-2 items-center gap-6">
                     <Controller
-                      name="example-date"
+                      name="ProgesionCreate.fecha_diagnostico"
                       control={control}
                       render={({ field }) => (
                         <DatePicker label="Fecha Diagnóstico" {...field} />
@@ -328,7 +328,7 @@ export default function Modal(props: ButtonProps) {
                     />
                     <Checkbox label="Fecha Estimada" />
                     <Controller
-                      name="ModalProgresionTipo"
+                      name="ProgesionCreate.tipo"
                       control={control}
                       defaultValue={
                         "Blablablablablablablablablablablablablabalblanalnalanlanalna"
