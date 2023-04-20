@@ -49,6 +49,7 @@ const DatePicker = React.forwardRef(
               captionLayout="dropdown-buttons"
               selected={props.value}
               onSelect={props.onChange}
+              disabled={props.disabled}
             />
           </div>
         </Popover.Panel>

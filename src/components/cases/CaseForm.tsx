@@ -131,7 +131,7 @@ export default function CaseForm(props: CaseFormProps) {
           className="mb-7 flex flex-col gap-7"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Section id="ejemplos" title="Ejemplos">
+          <Section id="ejemplos" title="Ejemplos" hidden={false}>
             <Controller
               name="example-select"
               control={control}
@@ -160,6 +160,7 @@ export default function CaseForm(props: CaseFormProps) {
                 <DatePicker label="Fecha ejemplo :0" {...field} />
               )}
             />
+            <DatePicker disabled={true} label="Fecha ejemplo :0" />
             <Button disabled={true} icon="FileIcon" className="mr-6">
               Ejemplo
             </Button>
@@ -235,7 +236,6 @@ export default function CaseForm(props: CaseFormProps) {
                 <div className="flex items-center">
                   <Checkbox
                     className="col-start-3"
-                    disabled={true}
                     {...register("fecha_estimada_dg")}
                     label="Fecha estimada"
                   />
@@ -247,7 +247,6 @@ export default function CaseForm(props: CaseFormProps) {
                   render={({ field }) => (
                     <SelectInput
                       label={"Lugar Obtención Diagnóstico"}
-                      disabled={true}
                       options={[
                         { id: 1, name: "Informe Anatomía Patológica" },
                         { id: 2, name: "Otro" },
@@ -327,6 +326,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <DatePicker
                     label="Fecha Lugar Obtención Diagnóstico"
+                    disabled={true}
                     {...field}
                   />
                 )}
@@ -380,6 +380,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <DatePicker
                     label="Fecha Lugar Obtención Diagnóstico"
+                    disabled={true}
                     {...field}
                   />
                 )}
@@ -531,7 +532,8 @@ export default function CaseForm(props: CaseFormProps) {
                       label={"Clase Caso"}
                       options={[
                         { id: 1, name: "Diagnóstico y tratamiento en FALP" },
-                        { id: 2, name: "M O N G A S" },
+                        { id: 2, name: "Tratamiento en FALP" },
+                        { id: 3, name: "Diagnóstico en FALP" },
                       ]}
                       {...field}
                     />
@@ -547,7 +549,7 @@ export default function CaseForm(props: CaseFormProps) {
                     label={"Clasificación DG/TTOS."}
                     options={[
                       { id: 1, name: "Informe Anatomía Patológica" },
-                      { id: 2, name: "No c" },
+                      { id: 2, name: "Otro" },
                     ]}
                     {...field}
                   />
@@ -592,7 +594,7 @@ export default function CaseForm(props: CaseFormProps) {
                   name="ultimo_contacto"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker label="Último Contacto" {...field} />
+                    <DatePicker disabled={true} label="Último Contacto" {...field} />
                   )}
                 />
               </div>
@@ -600,6 +602,7 @@ export default function CaseForm(props: CaseFormProps) {
                 <Checkbox
                   {...register("sigue_atencion_otro_centro")}
                   label="Seguimiento otro centro"
+                  disabled={true}
                 />
               </div>
             </div>
@@ -614,7 +617,10 @@ export default function CaseForm(props: CaseFormProps) {
                   <SelectInput
                     options={[
                       { id: 1, name: "Fallecido" },
-                      { id: 2, name: "Vivito y coleando" },
+                      { id: 2, name: "Vivo sin enfermedad" },
+                      { id: 3, name: "Vivo con enfermedad" },
+                      { id: 4, name: "Vivo SOE" },
+                      { id: 5, name: "Desconocido" },
                     ]}
                     {...field}
                   />
@@ -684,10 +690,10 @@ function BoundingBox(props: React.PropsWithChildren) {
 }
 
 function Section(
-  props: { title?: string; id?: string } & React.PropsWithChildren
+  props: { title?: string; id?: string, hidden?: any } & React.PropsWithChildren
 ) {
   return (
-    <div id={props.id || props.title}>
+    <div id={props.id || props.title} hidden={props.hidden}>
       <BoundingBox>
         <h2 className="mb-9 text-3xl font-bold text-font-title">
           {props.title}

@@ -244,7 +244,7 @@ export default function Modal(props: ButtonProps) {
                       name="RecurrenciaCreate.tipo"
                       control={control}
                       defaultValue={
-                        "Blablablablablablablablablablablablablabalblanalnalanlanalna"
+                        "Local"
                       }
                       render={({ field }) => (
                         <div className="col-span-2">
@@ -253,9 +253,12 @@ export default function Modal(props: ButtonProps) {
                             options={[
                               {
                                 id: 1,
-                                name: "Blablablablablablablablablablablablablabalblanalnalanlanalna",
+                                name: "Local",
                               },
-                              { id: 2, name: "Otro" },
+                              { id: 2, name: "Regional" },
+                              { id: 3, name: "Metástasis" },
+                              { id: 4, name: "Peritoneal" },
+                              { id: 5, name: "Sin información" },
                             ]}
                             {...field}
                           />
@@ -331,7 +334,7 @@ export default function Modal(props: ButtonProps) {
                       name="ProgesionCreate.tipo"
                       control={control}
                       defaultValue={
-                        "Blablablablablablablablablablablablablabalblanalnalanlanalna"
+                        "Local"
                       }
                       render={({ field }) => (
                         <div className="col-span-2">
@@ -340,9 +343,12 @@ export default function Modal(props: ButtonProps) {
                             options={[
                               {
                                 id: 1,
-                                name: "Blablablablablablablablablablablablablabalblanalnalanlanalna",
+                                name: "Local",
                               },
-                              { id: 2, name: "Otro" },
+                              { id: 2, name: "Regional" },
+                              { id: 3, name: "Metástasis" },
+                              { id: 4, name: "Peritoneal" },
+                              { id: 5, name: "Sin información" },
                             ]}
                             {...field}
                           />
@@ -456,17 +462,17 @@ export default function Modal(props: ButtonProps) {
                       name="tratamiento.categoria_tto"
                       control={control}
                       defaultValue={
-                        "Blablablablablablablablablablablablablabalblanalnalanlanalna"
+                        "Cirugía o procedimiento quirúrgico"
                       }
                       render={({ field }) => (
                         <SelectInput
                           label={"Categoría"}
                           options={[
-                            {
-                              id: 1,
-                              name: "Blablablablablablablablablablablablablabalblanalnalanlanalna",
-                            },
-                            { id: 2, name: "Otro" },
+                            { id: 1, name: "Cirugía o procedimiento quirúrgico"},
+                            { id: 2, name: "Terapia sistémica" },
+                            { id: 3, name: "Radioterapia" },
+                            { id: 4, name: "Otro" },
+                            
                           ]}
                           {...field}
                         />
@@ -476,7 +482,7 @@ export default function Modal(props: ButtonProps) {
                       name="tratamiento.subcategoria_tto"
                       control={control}
                       defaultValue={
-                        "Blablablablablablablablablablablablablabalblanalnalanlanalna"
+                        "Cirugía"
                       }
                       render={({ field }) => (
                         <SelectInput
@@ -484,9 +490,11 @@ export default function Modal(props: ButtonProps) {
                           options={[
                             {
                               id: 1,
-                              name: "Blablablablablablablablablablablablablabalblanalnalanlanalna",
+                              name: "Cirugía",
                             },
-                            { id: 2, name: "Otro" },
+                            { id: 2, name: "Resección endoscópica" },
+                            { id: 3, name: "Biopsia excisional o ampliación de márgenes" },
+                            { id: 4, name: "Desconocido" },
                           ]}
                           {...field}
                         />
@@ -496,7 +504,7 @@ export default function Modal(props: ButtonProps) {
                       name="tratamiento.intencion_tto"
                       control={control}
                       defaultValue={
-                        "Blablablablablablablablablablablablablabalblanalnalanlanalna"
+                        "Curativo"
                       }
                       render={({ field }) => (
                         <SelectInput
@@ -504,9 +512,10 @@ export default function Modal(props: ButtonProps) {
                           options={[
                             {
                               id: 1,
-                              name: "Blablablablablablablablablablablablablabalblanalnalanlanalna",
+                              name: "Curativo",
                             },
-                            { id: 2, name: "Otro" },
+                            { id: 2, name: "Paliativo" },
+                            { id: 3, name: "Desconocido" },
                           ]}
                           {...field}
                         />
@@ -516,7 +525,7 @@ export default function Modal(props: ButtonProps) {
                       name="tratamiento.descripcion_de_la_prestacion"
                       control={control}
                       defaultValue={
-                        "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        "Menú de busqueda"
                       }
                       render={({ field }) => (
                         <div className="col-span-3">
@@ -525,7 +534,7 @@ export default function Modal(props: ButtonProps) {
                             options={[
                               {
                                 id: 1,
-                                name: "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA",
+                                name: "Menú de busqueda",
                               },
                               { id: 2, name: "Otro" },
                             ]}
