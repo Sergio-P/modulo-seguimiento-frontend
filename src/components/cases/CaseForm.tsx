@@ -621,6 +621,11 @@ export default function CaseForm(props: CaseFormProps) {
                 )}
               />
             </div>
+            <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3 pt-8">
+              <div className="col-span-2">
+                <TextInput label="Observaciones"/>
+              </div>
+            </div>
           </Section>
           <input type="submit" />
         </form>
