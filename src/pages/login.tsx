@@ -21,8 +21,14 @@ export default function Home() {
     event.preventDefault();
   };
 
+  const handleLogin = () => {
+    // Validación de las credenciales del usuario
+      // Redireccionamiento a la página /cases/* si las credenciales son válidas
+      router.push('/cases/1');
+  }
+
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-gradient-to-br from-blue-300 to-purple-400">
+    <div className="flex h-screen flex-col items-center justify-center bg-primary">
       <Head>
         <title>Log In | My App</title>
       </Head>
@@ -63,6 +69,7 @@ export default function Home() {
         <button
           className="w-full rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
           type="submit"
+          onClick={handleLogin}
         >
           Log In
         </button>

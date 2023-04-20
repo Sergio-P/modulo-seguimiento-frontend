@@ -3,7 +3,7 @@ import Image from "next/image";
 import _ from "lodash";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm, useFormContext, useWatch } from "react-hook-form";
 import DatePicker from "./DatePicker";
 import Checkbox from "./Checkbox";
 import SelectInput from "./SelectInput";
@@ -34,7 +34,7 @@ export default function Modal(props: ButtonProps) {
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
-  const { control } = useForm();
+  const { control, register } = useFormContext();
 
   function closeModalMetastasis() {
     setIsOpenMetastasis(false);
@@ -169,7 +169,7 @@ export default function Modal(props: ButtonProps) {
                         <DatePicker label="Fecha Diagnóstico" {...field} />
                       )}
                     />
-                    <Checkbox label="Fecha Estimada" />
+                    <Checkbox label="Fecha Estimada" {...register("Metastasis.fecha_estimada")} />
                     <div className="col-span-2">
                       <TextInput label="Detalle Topografía"/>
                     </div>
@@ -239,7 +239,7 @@ export default function Modal(props: ButtonProps) {
                         <DatePicker label="Fecha Diagnóstico" {...field} />
                       )}
                     />
-                    <Checkbox label="Fecha Estimada" />
+                    <Checkbox {...register("recurrenciaCreate.fecha_estimada")} label="Fecha Estimada" />
                     <Controller
                       name="RecurrenciaCreate.tipo"
                       control={control}
@@ -326,7 +326,7 @@ export default function Modal(props: ButtonProps) {
                         <DatePicker label="Fecha Diagnóstico" {...field} />
                       )}
                     />
-                    <Checkbox label="Fecha Estimada" />
+                    <Checkbox {...register("ProgresionCreate.fecha_estimada")} label="Fecha Estimada" />
                     <Controller
                       name="ProgesionCreate.tipo"
                       control={control}
@@ -411,7 +411,7 @@ export default function Modal(props: ButtonProps) {
                   </div>
                   <div className="grid grid-cols-3 items-center gap-6">
                     <Controller
-                      name="Medico"
+                      name="Tratamiento.Medico"
                       control={control}
                       defaultValue={
                         "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez"
@@ -433,7 +433,7 @@ export default function Modal(props: ButtonProps) {
                       )}
                     />
                     <Controller
-                      name="example-date"
+                      name="Tratamiento.fecha_inicio"
                       control={control}
                       render={({ field }) => (
                         <div>
@@ -442,18 +442,18 @@ export default function Modal(props: ButtonProps) {
                       )}
                     />
                     <Controller
-                      name="example-date2"
+                      name="Tratamiento.fecha_termino"
                       control={control}
                       render={({ field }) => (
                         <DatePicker label="Término" {...field} />
                       )}
                     />
-                    <Checkbox label="Tratamiento" />
+                    <Checkbox {...register("Tratamiento.en_tto")} label="Tratamiento" />
                   </div>
                   <div className="pt-6 pb-4">Categorización Tratamiento</div>
                   <div className="grid grid-cols-3 items-center gap-6">
                     <Controller
-                      name="Categoría"
+                      name="tratamiento.categoria_tto"
                       control={control}
                       defaultValue={
                         "Blablablablablablablablablablablablablabalblanalnalanlanalna"
@@ -473,7 +473,7 @@ export default function Modal(props: ButtonProps) {
                       )}
                     />
                     <Controller
-                      name="Subcategoría"
+                      name="tratamiento.subcategoria_tto"
                       control={control}
                       defaultValue={
                         "Blablablablablablablablablablablablablabalblanalnalanlanalna"
@@ -493,7 +493,7 @@ export default function Modal(props: ButtonProps) {
                       )}
                     />
                     <Controller
-                      name="Intención"
+                      name="tratamiento.intencion_tto"
                       control={control}
                       defaultValue={
                         "Blablablablablablablablablablablablablabalblanalnalanlanalna"
@@ -513,7 +513,7 @@ export default function Modal(props: ButtonProps) {
                       )}
                     />
                     <Controller
-                      name="Descripción"
+                      name="tratamiento.descripcion_de_la_prestacion"
                       control={control}
                       defaultValue={
                         "PlaceholderPORQUEAQUIVATEXTOAAAAAAAAAAAAAAAAAAAAAAAAA"

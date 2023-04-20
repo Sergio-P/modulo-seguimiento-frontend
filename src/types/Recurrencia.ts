@@ -15,8 +15,8 @@ export interface RecurrenciaUpdate extends RecurrenciaBase {
 
 export interface Recurrencia extends RecurrenciaBase {
   id: number;
-  seguimiento_id?: number | null;
+  seguimiento_id: number | null;
   caso_registro_id: number;
   created_at: Date;
-  updated_at?: Date | null;
+  updated_at: Date | null;
 }
