@@ -8,6 +8,7 @@ interface SelectInputProps {
   label?: string;
   value?: any;
   onChange?: any;
+  disabled?: any;
 }
 const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
   const displayValue = (
@@ -21,7 +22,7 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
     return value.name;
   };
   return (
-    <Listbox value={props.value} onChange={props.onChange}>
+    <Listbox value={props.value} onChange={props.onChange} disabled={props.disabled}>
       <div className="relative">
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
           {({ value }) => (
