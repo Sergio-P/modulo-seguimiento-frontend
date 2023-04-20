@@ -11,6 +11,8 @@ import MetastasisList from "./CaseForm/MetastasisList";
 import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import ProgresionList from "./CaseForm/ProgresionList";
 import MainLayout from "../ui/layout/MainLayout";
+import Section from "../ui/layout/Section";
+import BoundingBox from "../ui/layout/BoundingBox";
 
 interface CaseFormProps {
   caseId: string;
@@ -445,7 +447,10 @@ export default function CaseForm(props: CaseFormProps) {
                   Agregar Metastasis
                 </Modal>
               </div>
-              <MetastasisList />
+
+              <div className="mt-5">
+                <MetastasisList />
+              </div>
             </SubSection>
           </Section>
           <Section id="recurrencia" title="Recurrencia">
@@ -465,7 +470,9 @@ export default function CaseForm(props: CaseFormProps) {
                 </Modal>
               </div>
             </SubSection>
-            <RecurrenciaList />
+            <div className="mt-5">
+              <RecurrenciaList />
+            </div>
           </Section>
           <Section id="progresion" title="Progresión">
             <SubSection>
@@ -484,7 +491,9 @@ export default function CaseForm(props: CaseFormProps) {
                 </Modal>
               </div>
             </SubSection>
-            <ProgresionList />
+            <div className="mt-5">
+              <ProgresionList />
+            </div>
           </Section>
           <Section
             id="tratamiento"
@@ -637,29 +646,6 @@ function Foo(props: { label: string; value: string }) {
     <div className="flex gap-1">
       <div className="font-bold">{label}: </div>{" "}
       <div className="font-bold">{value}</div>
-    </div>
-  );
-}
-
-function BoundingBox(props: React.PropsWithChildren) {
-  return (
-    <div className="mx-5 rounded-xl border border-zinc-400 p-6">
-      {props.children}
-    </div>
-  );
-}
-
-function Section(
-  props: { title?: string; id?: string } & React.PropsWithChildren
-) {
-  return (
-    <div id={props.id || props.title}>
-      <BoundingBox>
-        <h2 className="mb-9 text-3xl font-bold text-font-title">
-          {props.title}
-        </h2>
-        {props.children}
-      </BoundingBox>
     </div>
   );
 }

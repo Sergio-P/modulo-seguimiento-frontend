@@ -29,7 +29,7 @@ export default function Datagrid<TData = any>({
 
   return (
     <div>
-      <div className="my-5 flex items-center justify-between">
+      <div className="mb-5 flex items-center justify-between">
         <h3 className="text-xl font-bold text-font-title">{title}</h3>
         <div className="flex items-center gap-4">
           <SelectInput
@@ -43,53 +43,56 @@ export default function Datagrid<TData = any>({
           <span className="font-medium">Items por página</span>
         </div>
       </div>
-      <table className="w-full table-auto border-collapse">
-        <thead
-          className={clsx(
-            "text-sm font-semibold tracking-wide text-font-subtitle"
-          )}
-        >
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="h-12">
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={clsx(
-                    "border-b",
-                    "bg-background px-4 text-left",
-                    "first:rounded-tl-lg last:rounded-tr-lg"
-                  )}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
 
-        <tbody className="">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className={clsx(
-                    "border-t border-zinc-200 px-4 py-3",
-                    "text-sm tracking-wide text-font-title"
-                  )}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-auto">
+        <table className="w-full table-auto border-collapse">
+          <thead
+            className={clsx(
+              "text-sm font-semibold tracking-wide text-font-subtitle"
+            )}
+          >
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="h-12">
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className={clsx(
+                      "border-b",
+                      "bg-background px-4 text-left",
+                      "first:rounded-tl-lg last:rounded-tr-lg"
+                    )}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+
+          <tbody className="">
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className={clsx(
+                      "border-t border-zinc-200 px-4 py-3",
+                      "text-sm tracking-wide text-font-title"
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="mt-8 flex items-center justify-between text-font-title">
         <div>

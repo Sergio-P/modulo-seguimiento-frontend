@@ -8,6 +8,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useQuery } from "react-query";
+import Section from "../ui/layout/Section";
+import BoundingBox from "../ui/layout/BoundingBox";
+import Image from "next/image";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -17,7 +20,11 @@ export default function CaseList() {
   });
   return (
     <MainLayout>
-      {caseQuery.data && <CaseListTable data={caseQuery.data} />}
+      <div className="mt-10 px-5">
+        <BoundingBox>
+          {caseQuery.data && <CaseListTable data={caseQuery.data} />}
+        </BoundingBox>
+      </div>
     </MainLayout>
   );
 }
@@ -28,11 +35,53 @@ interface CaseListTableProps {
 
 const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
-  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {}),
   columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
-    header: () => "ola",
+    header: "Registro",
   }),
-  columnHelper.accessor("caso_registro_correspondiente.nombre", {}),
+  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
+    header: () => "Identificación",
+  }),
+  columnHelper.accessor(
+    (row) =>
+      `${row.caso_registro_correspondiente.nombre} ${row.caso_registro_correspondiente.apellido}`,
+    {
+      id: "paciente",
+      header: "Paciente",
+    }
+  ),
+  columnHelper.accessor("caso_registro_correspondiente.subcategoria", {
+    header: "Subcategoria",
+  }),
+  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
+    header: "Fecha diagnóstico",
+  }),
+  columnHelper.accessor("usuario.nombre", {
+    header: "Usuario asignado",
+  }),
+  columnHelper.accessor("posee_tto", {
+    header: "Rgtro. Tumor",
+  }),
+  columnHelper.accessor("tiene_comite_oncologico", {
+    header: "Resol. Comité",
+  }),
+  columnHelper.accessor("tiene_tratamiento", {
+    header: "Tratamiento",
+  }),
+  columnHelper.display({
+    id: "boton_asignar",
+    cell: (props) => (
+      <div className="h-6 w-6 text-primary">
+        <Image
+          alt=""
+          src="/icons/Two People.svg"
+          width={24}
+          height={24}
+          className="h-6 w-6"
+        />
+      </div>
+    ),
+    header: "",
+  }),
 ];
 function CaseListTable({ data }: CaseListTableProps) {
   const table = useReactTable({
@@ -41,9 +90,7 @@ function CaseListTable({ data }: CaseListTableProps) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
-  return (
-    <div>
-      <Datagrid table={table} />
-    </div>
-  );
+  return <Datagrid table={table} title="Lista de Casos" />;
 }
+
+function AssignButton() {}
