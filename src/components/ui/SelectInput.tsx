@@ -21,9 +21,13 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
     }
     return value.name;
   };
+  const {disabled} = props;
   return (
     <Listbox value={props.value} onChange={props.onChange} disabled={props.disabled}>
-      <div className="relative">
+      <div className={clsx(
+      "relative",
+      disabled && "opacity-50",
+      )}>
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
           {({ value }) => (
             <>
