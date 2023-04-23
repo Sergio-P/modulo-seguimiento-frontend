@@ -39,14 +39,17 @@ interface CaseListTableProps {
 
 const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
-  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
+  columnHelper.accessor("created_at", {
     header: "Registro",
     size: 100,
   }),
-  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
-    header: () => "Identificación",
-    size: 100,
-  }),
+  columnHelper.accessor(
+    "caso_registro_correspondiente.fecha_lugar_obtencion_dg",
+    {
+      header: () => "Identificación",
+      size: 100,
+    }
+  ),
   columnHelper.accessor(
     (row) =>
       `${row.caso_registro_correspondiente.nombre} ${row.caso_registro_correspondiente.apellido}`,
