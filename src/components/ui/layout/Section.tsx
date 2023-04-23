@@ -2,10 +2,10 @@ import clsx from "clsx";
 import BoundingBox from "./BoundingBox";
 
 export default function Section(
-  props: { title?: string; id?: string } & React.PropsWithChildren
+  props: { title?: string; id?: string; hidden?: any } & React.PropsWithChildren
 ) {
   return (
-    <div id={props.id || props.title}>
+    <div id={props.id || props.title} hidden={props.hidden}>
       <BoundingBox>
         <h2
           className={clsx(
