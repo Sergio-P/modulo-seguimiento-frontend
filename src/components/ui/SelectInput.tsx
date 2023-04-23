@@ -1,5 +1,6 @@
 import { Listbox } from "@headlessui/react";
 import clsx from "clsx";
+import _ from "lodash";
 import React from "react";
 import { HiChevronDown } from "react-icons/hi2";
 
@@ -12,22 +13,28 @@ interface SelectInputProps {
 }
 const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
   const displayValue = (
-    value: { id: string | number; name: string } | string | number | undefined
+    value:
+      | { id: string | number; name: string }
+      | string
+      | number
+      | undefined
+      | null
   ) => {
-    if (value === undefined) {
+    if (_.isNil(value)) {
       return "";
     } else if (typeof value === "string" || typeof value === "number") {
       return value;
     }
     return value.name;
   };
-  const {disabled} = props;
+  const { disabled } = props;
   return (
-    <Listbox value={props.value} onChange={props.onChange} disabled={props.disabled}>
-      <div className={clsx(
-      "relative",
-      disabled && "opacity-50",
-      )}>
+    <Listbox
+      value={props.value}
+      onChange={props.onChange}
+      disabled={props.disabled}
+    >
+      <div className={clsx("relative", disabled && "opacity-50")}>
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
           {({ value }) => (
             <>
