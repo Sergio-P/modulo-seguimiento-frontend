@@ -8,8 +8,12 @@ const Checkbox = React.forwardRef(
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
     const [checked, setChecked] = useState(props.checked || false);
+    const {disabled} = props;
     return (
-      <div className="flex gap-4">
+      <div className={clsx(
+        "flex gap-4",
+        disabled && "opacity-50",
+        )}>
         <input
           type="checkbox"
           ref={ref}

@@ -19,7 +19,7 @@ export default function Button(props: ButtonProps) {
         props.children ? "px-4" : "w-10",
         clear ? "border-none" : "border-2",
         filled ? "bg-primary text-white" : "text-primary",
-        disabled && "border-primary border-opacity-0 bg-primary bg-opacity-50",
+        disabled && "opacity-50",
         props.className
       )}
     >

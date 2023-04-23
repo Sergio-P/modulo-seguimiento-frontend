@@ -134,7 +134,7 @@ export default function CaseForm(props: CaseFormProps) {
           className="mb-7 flex flex-col gap-7"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Section id="ejemplos" title="Ejemplos">
+          <Section id="ejemplos" title="Ejemplos" hidden={false}>
             <Controller
               name="example-select"
               control={control}
@@ -143,7 +143,23 @@ export default function CaseForm(props: CaseFormProps) {
                 <SelectInput options={["ola", "wi"]} {...field} />
               )}
             />
-            <Checkbox {...register("example-checkbox1")} />
+            <Controller
+              name="disabled-select"
+              control={control}
+              defaultValue={"disabled"}
+              render={({ field }) => (
+                <SelectInput
+                  disabled={true}
+                  options={["test disabled", "esto no deberia verse"]}
+                  {...field}
+                />
+              )}
+            />
+            <Checkbox
+              disabled={true}
+              {...register("example-checkbox1")}
+              label="Checkbox disabled"
+            />
             <Checkbox
               {...register("example-checkbox2")}
               label="Checkbox con label"
@@ -155,13 +171,18 @@ export default function CaseForm(props: CaseFormProps) {
                 <DatePicker label="Fecha ejemplo :0" {...field} />
               )}
             />
-            <Button icon="FileIcon" className="mr-6">
+            <DatePicker disabled={true} label="Fecha ejemplo :0" />
+            <Button disabled={true} icon="FileIcon" className="mr-6">
               Ejemplo
             </Button>
             <Modal disabled={false} metastasis={true} icon="plus" filled>
               Agregar Metastasis
             </Modal>
-            <TextInput label="ejemplo"></TextInput>
+            <Controller
+              name="example-textinput"
+              control={control}
+              render={({ field }) => <TextInput label="ejemplo"></TextInput>}
+            />
           </Section>
           <Section id="diagnostico" title="Diagnóstico">
             <SubSection title="Antecedentes"></SubSection>
@@ -173,6 +194,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <SelectInput
                     label={"Categoría"}
+                    disabled={true}
                     options={[
                       { id: 1, name: "Tiroides" },
                       { id: 2, name: "Hola" },
@@ -188,6 +210,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <SelectInput
                     label={"Subcategoría"}
+                    disabled={true}
                     options={[
                       { id: 1, name: "Glandula Tiroides" },
                       { id: 2, name: "Chao" },
@@ -247,6 +270,7 @@ export default function CaseForm(props: CaseFormProps) {
             <Checkbox
               {...register("sin_informacion_morfologia")}
               label="Sin información"
+              disabled={true}
             />
             <SubSection title="Datos Morfología"></SubSection>
             <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
@@ -258,6 +282,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="col-span-1 lg:col-span-2">
                     <SelectInput
                       label={"Morfología"}
+                      disabled={true}
                       options={[
                         {
                           id: 1,
@@ -277,6 +302,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <SelectInput
                     label={"Grado Diferenciación"}
+                    disabled={true}
                     options={[
                       { id: 1, name: "Desconocido" },
                       { id: 2, name: "Conocido" },
@@ -293,6 +319,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <SelectInput
                     label={"Lugar Obtención Diagnóstico"}
+                    disabled={true}
                     options={[
                       { id: 1, name: "Informe Anatomía Patológica" },
                       { id: 2, name: "No c" },
@@ -307,6 +334,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <DatePicker
                     label="Fecha Lugar Obtención Diagnóstico"
+                    disabled={true}
                     {...field}
                   />
                 )}
@@ -323,6 +351,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="col-span-2">
                     <SelectInput
                       label={"Topografía"}
+                      disabled={true}
                       options={[
                         {
                           id: 1,
@@ -343,6 +372,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="col-start-1">
                     <SelectInput
                       label={"Lugar Obtención Diagnóstico"}
+                      disabled={true}
                       options={[
                         { id: 1, name: "Informe Anatomía Patológica" },
                         { id: 2, name: "No c" },
@@ -358,6 +388,7 @@ export default function CaseForm(props: CaseFormProps) {
                 render={({ field }) => (
                   <DatePicker
                     label="Fecha Lugar Obtención Diagnóstico"
+                    disabled={true}
                     {...field}
                   />
                 )}
@@ -374,6 +405,7 @@ export default function CaseForm(props: CaseFormProps) {
                   render={({ field }) => (
                     <SelectInput
                       label={"Lateralidad"}
+                      disabled={true}
                       options={[
                         { id: 1, name: "Tiroides" },
                         { id: 2, name: "Hola" },
@@ -389,6 +421,7 @@ export default function CaseForm(props: CaseFormProps) {
                   render={({ field }) => (
                     <SelectInput
                       label={"Comportamiento"}
+                      disabled={true}
                       options={[
                         { id: 1, name: "Neoplasias malignas de locali" },
                         { id: 2, name: "Chao" },
@@ -405,6 +438,7 @@ export default function CaseForm(props: CaseFormProps) {
                     <div className="col-start-1">
                       <SelectInput
                         label={"Extension Diagnostico"}
+                        disabled={true}
                         options={[
                           { id: 1, name: "Regional" },
                           { id: 2, name: "Hola" },
@@ -421,6 +455,7 @@ export default function CaseForm(props: CaseFormProps) {
                   render={({ field }) => (
                     <SelectInput
                       label={"Estadio Diagnostico"}
+                      disabled={true}
                       options={[
                         { id: 1, name: "Desconocido" },
                         { id: 2, name: "Chao" },
@@ -512,7 +547,8 @@ export default function CaseForm(props: CaseFormProps) {
                       label={"Clase Caso"}
                       options={[
                         { id: 1, name: "Diagnóstico y tratamiento en FALP" },
-                        { id: 2, name: "M O N G A S" },
+                        { id: 2, name: "Tratamiento en FALP" },
+                        { id: 3, name: "Diagnóstico en FALP" },
                       ]}
                       {...field}
                     />
@@ -528,7 +564,7 @@ export default function CaseForm(props: CaseFormProps) {
                     label={"Clasificación DG/TTOS."}
                     options={[
                       { id: 1, name: "Informe Anatomía Patológica" },
-                      { id: 2, name: "No c" },
+                      { id: 2, name: "Otro" },
                     ]}
                     {...field}
                   />
@@ -573,7 +609,11 @@ export default function CaseForm(props: CaseFormProps) {
                   name="ultimo_contacto"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker label="Último Contacto" {...field} />
+                    <DatePicker
+                      disabled={true}
+                      label="Último Contacto"
+                      {...field}
+                    />
                   )}
                 />
               </div>
@@ -581,6 +621,7 @@ export default function CaseForm(props: CaseFormProps) {
                 <Checkbox
                   {...register("sigue_atencion_otro_centro")}
                   label="Seguimiento otro centro"
+                  disabled={true}
                 />
               </div>
             </div>
@@ -595,7 +636,10 @@ export default function CaseForm(props: CaseFormProps) {
                   <SelectInput
                     options={[
                       { id: 1, name: "Fallecido" },
-                      { id: 2, name: "Vivito y coleando" },
+                      { id: 2, name: "Vivo sin enfermedad" },
+                      { id: 3, name: "Vivo con enfermedad" },
+                      { id: 4, name: "Vivo SOE" },
+                      { id: 5, name: "Desconocido" },
                     ]}
                     {...field}
                   />
@@ -630,6 +674,11 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 )}
               />
+            </div>
+            <div className="grid max-w-5xl grid-cols-1 gap-8 pt-8 lg:grid-cols-3">
+              <div className="col-span-2">
+                <TextInput label="Observaciones" />
+              </div>
             </div>
           </Section>
           <input type="submit" />

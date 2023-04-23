@@ -35,8 +35,8 @@ export interface CasoRegistroBase {
   ultimo_contacto: Date;
   sigue_atencion_otro_centro: string;
   estado_vital: string;
-  fecha_defuncion?: Date | null;
-  causa_defuncion?: string | null;
+  fecha_defuncion: Date | null;
+  causa_defuncion: string | null;
 }
 
 export interface CasoRegistroCreate extends CasoRegistroBase {}

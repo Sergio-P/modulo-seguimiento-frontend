@@ -30,6 +30,6 @@ export interface TratamientoAntesFALPUpdate extends TratamientoAntesFALPBase {
 
 export interface TratamientoAntesFALP extends TratamientoAntesFALPBase {
   id: number;
-  seguimiento_id?: number | null;
+  seguimiento_id: number | null;
   caso_registro_id: number;
 }

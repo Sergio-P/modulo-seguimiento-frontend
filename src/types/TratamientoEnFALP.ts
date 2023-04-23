@@ -19,7 +19,7 @@ export interface TratamientoEnFALPBase {
     | SubcategoriaTTORadioterapia
     | SubcategoriaTTOOtro;
   intencion_tto: IntencionTTO;
-  descripcion_de_la_prestacion?: string | null;
+  descripcion_de_la_prestacion: string | null;
   observaciones: string;
 }
 
@@ -31,8 +31,8 @@ export interface TratamientoEnFALPUpdate extends TratamientoEnFALPBase {
 
 export interface TratamientoEnFALP extends TratamientoEnFALPBase {
   id: number;
-  seguimiento_id?: number | null;
+  seguimiento_id: number | null;
   caso_registro_id: number;
   created_at: Date;
-  updated_at?: Date | null;
+  updated_at: Date | null;
 }

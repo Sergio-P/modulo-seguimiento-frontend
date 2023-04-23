@@ -5,6 +5,7 @@ import React from "react";
 import { DayPicker, useInput } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import Image from "next/image";
+import clsx from "clsx";
 
 const DatePicker = React.forwardRef(
   (props: any, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -16,11 +17,16 @@ const DatePicker = React.forwardRef(
       required: true,
       locale: es,
     });
-
+    const {disabled} = props;
     return (
-      <Popover>
+      <Popover className={clsx(
+      disabled && "opacity-50",
+      )}>
         <Popover.Button className="w-full">
-          <div className="flex h-14 w-full cursor-pointer items-center gap-5 rounded-lg bg-background pl-5">
+          <div className={clsx(
+          "flex h-14 w-full items-center gap-5 rounded-lg bg-background pl-5",
+          disabled? "cursor-default" : "cursor-pointer"
+          )}>
             <Image
               src={`/icons/date.svg`}
               width={20}
@@ -36,12 +42,18 @@ const DatePicker = React.forwardRef(
               )}
               <input
                 {...inputProps}
-                className="w-full cursor-pointer bg-background text-font-input"
+                className={clsx(
+                "w-full bg-background text-font-input",
+                disabled? "cursor-default" : "cursor-pointer" 
+                )}
               />
             </div>
           </div>
         </Popover.Button>
-        <Popover.Panel className="absolute z-10">
+        <Popover.Panel className={clsx(
+        "absolute z-10",
+        disabled && "invisible",
+        )}>
           <div className="rounded-lg bg-white px-3 py-1 shadow-lg">
             <DayPicker
               {...dayPickerProps}
@@ -49,6 +61,7 @@ const DatePicker = React.forwardRef(
               captionLayout="dropdown-buttons"
               selected={props.value}
               onSelect={props.onChange}
+              disabled={props.disabled}
             />
           </div>
         </Popover.Panel>
