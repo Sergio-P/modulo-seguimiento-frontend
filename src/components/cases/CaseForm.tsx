@@ -13,6 +13,7 @@ import ProgresionList from "./CaseForm/ProgresionList";
 import MainLayout from "../ui/layout/MainLayout";
 import Section from "../ui/layout/Section";
 import BoundingBox from "../ui/layout/BoundingBox";
+import Link from "next/link";
 
 interface CaseFormProps {
   caseId: string;
@@ -92,7 +93,7 @@ export default function CaseForm(props: CaseFormProps) {
         <div className="sticky top-0 z-30 bg-white">
           <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
             <h1 className="text-4xl font-bold text-font-title">
-              Seguimiento de Casos
+              <Link href="/">Seguimiento de Casos</Link>
             </h1>
             <div className="flex items-center">
               <div className="mr-14 w-72">

@@ -58,9 +58,14 @@ export default function Datagrid<TData = any>({
                     key={header.id}
                     className={clsx(
                       "border-b",
-                      "bg-background px-4 text-left",
+                      "bg-background px-2 text-left",
                       "first:rounded-tl-lg last:rounded-tr-lg"
                     )}
+                    colSpan={header.colSpan}
+                    style={{
+                      width: header.getSize(),
+                      minWidth: header.getSize(),
+                    }}
                   >
                     {header.isPlaceholder
                       ? null
@@ -81,9 +86,14 @@ export default function Datagrid<TData = any>({
                   <td
                     key={cell.id}
                     className={clsx(
-                      "border-t border-zinc-200 px-4 py-3",
-                      "text-sm tracking-wide text-font-title"
+                      "border-t border-zinc-200 px-2 py-2",
+                      "text-sm tracking-wide text-font-title",
+                      "bg-background-light"
                     )}
+                    style={{
+                      width: cell.column.getSize(),
+                      minWidth: cell.column.getSize(),
+                    }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
