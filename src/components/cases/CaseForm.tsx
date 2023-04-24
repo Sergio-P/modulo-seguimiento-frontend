@@ -206,6 +206,7 @@ export default function CaseForm(props: CaseFormProps) {
                       control={control}
                       render={({ field }) => (
                         <DatePicker
+                          defaultValue={new Date(2017, 1, 12)}
                           label="Fecha Lugar Obtención Diagnóstico"
                           {...field}
                         />
@@ -554,8 +555,8 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label={"Agregar Tratamiento"}
                         options={[
-                          { id: 1, name: "Cosa" },
-                          { id: 2, name: "No c" },
+                          { id: 1, name: "Tratamiento 1" },
+                          { id: 2, name: "Tratamiento 2" },
                         ]}
                       />
                     </div>

@@ -24,7 +24,7 @@ export default function Home() {
   const handleLogin = () => {
     // Validación de las credenciales del usuario
       // Redireccionamiento a la página /cases/* si las credenciales son válidas
-      router.push('/cases/1');
+      router.push('/');
   }
 
   return (

@@ -9,8 +9,9 @@ import clsx from "clsx";
 
 const DatePicker = React.forwardRef(
   (props: any, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const { defaultValue } = props;
     const { inputProps, dayPickerProps } = useInput({
-      defaultSelected: new Date(),
+      defaultSelected: props.hasOwnProperty('defaultValue') ? new Date(props.defaultValue) : new Date(),
       fromYear: 1990,
       toYear: date.getYear(new Date()) + 2,
       format: "PP",
