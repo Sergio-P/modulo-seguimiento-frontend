@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -29,6 +30,33 @@ export default function Home() {
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-primary">
+      <div className="absolute bottom-0 right-0">
+        <Image
+          src={"abstractform.svg"}
+          width='500'
+          height='500'
+          alt=""
+          className="opacity-30"
+          />
+      </div>
+      <div className="absolute top-10 left-10">
+        <Image
+          src={"logo-imds.svg"}
+          width='250'
+          height='250'
+          alt=""
+          className=""
+          />
+      </div>
+      <div className="absolute bottom-10 left-10">
+        <Image
+          src={"logo-falp.svg"}
+          width='220'
+          height='220'
+          alt=""
+          className=""
+          />
+      </div>
       <Head>
         <title>Log In | My App</title>
       </Head>
