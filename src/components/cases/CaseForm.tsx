@@ -197,7 +197,11 @@ export default function CaseForm(props: CaseFormProps) {
                       name="caso_registro_correspondiente.fecha_dg"
                       control={control}
                       render={({ field }) => (
-                        <DatePicker label="Fecha Diagnóstico" {...field} />
+                        <DatePicker
+                          label="Fecha Diagnóstico"
+                          defaultValue={caso?.fecha_dg ? new Date(caso.fecha_dg) : new Date()}
+                          {...field}
+                        />
                       )}
                     />
 
@@ -206,7 +210,7 @@ export default function CaseForm(props: CaseFormProps) {
                       control={control}
                       render={({ field }) => (
                         <DatePicker
-                          defaultValue={new Date(2017, 1, 12)}
+                          defaultValue={caso?.fecha_lugar_obtencion_dg ? new Date(caso.fecha_lugar_obtencion_dg) : new Date()}
                           label="Fecha Lugar Obtención Diagnóstico"
                           {...field}
                         />
@@ -309,6 +313,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Lugar Obtención Diagnóstico"
+                        defaultValue={caso?.fecha_lugar_obtencion_morfologia ? new Date(caso.fecha_lugar_obtencion_morfologia) : new Date()}
                         disabled={true}
                         {...field}
                       />
@@ -363,6 +368,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Lugar Obtención Diagnóstico"
+                        defaultValue={caso?.fecha_lugar_obtencion_topografia ? new Date(caso.fecha_lugar_obtencion_topografia) : new Date()}
                         disabled={true}
                         {...field}
                       />
@@ -581,6 +587,7 @@ export default function CaseForm(props: CaseFormProps) {
                       render={({ field }) => (
                         <DatePicker
                           disabled={true}
+                          defaultValue={caso?.ultimo_contacto ? new Date(caso.ultimo_contacto) : new Date()}
                           label="Último Contacto"
                           {...field}
                         />
@@ -621,7 +628,11 @@ export default function CaseForm(props: CaseFormProps) {
                     name="fecha_defuncion"
                     control={control}
                     render={({ field }) => (
-                      <DatePicker label="Fecha Defunción" {...field} />
+                      <DatePicker
+                        label="Fecha Defunción"
+                        defaultValue={caso?.fecha_defuncion ? new Date(caso.fecha_defuncion) : new Date()}
+                        {...field}
+                     />
                     )}
                   />
                   <div className="flex items-center">
