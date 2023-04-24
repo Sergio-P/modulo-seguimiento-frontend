@@ -199,6 +199,7 @@ export default function CaseForm(props: CaseFormProps) {
                       render={({ field }) => (
                         <DatePicker
                           label="Fecha Diagnóstico"
+                          disabled={true}
                           defaultValue={caso?.fecha_dg ? new Date(caso.fecha_dg) : new Date()}
                           {...field}
                         />
@@ -210,6 +211,7 @@ export default function CaseForm(props: CaseFormProps) {
                       control={control}
                       render={({ field }) => (
                         <DatePicker
+                          disabled={true}
                           defaultValue={caso?.fecha_lugar_obtencion_dg ? new Date(caso.fecha_lugar_obtencion_dg) : new Date()}
                           label="Fecha Lugar Obtención Diagnóstico"
                           {...field}
@@ -222,6 +224,7 @@ export default function CaseForm(props: CaseFormProps) {
                         {...register(
                           "caso_registro_correspondiente.fecha_estimada_dg"
                         )}
+                        disabled={true}
                         label="Fecha estimada"
                       />
                     </div>
@@ -232,6 +235,7 @@ export default function CaseForm(props: CaseFormProps) {
                       render={({ field }) => (
                         <SelectInput
                           label={"Lugar Obtención Diagnóstico"}
+                          disabled={true}
                           options={[
                             { id: 1, name: "Informe Anatomía Patológica" },
                             { id: 2, name: "Otro" },
