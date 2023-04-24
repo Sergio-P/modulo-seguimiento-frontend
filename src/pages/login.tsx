@@ -39,16 +39,16 @@ export default function Home() {
           className="opacity-30"
           />
       </div>
-      <div className="absolute top-10 left-10">
+      <div className="absolute top-14 left-10 max-md:w-1/3 md:w-1/4">
         <Image
           src={"logo-imds.svg"}
-          width='250'
-          height='250'
+          width='280'
+          height='280'
           alt=""
           className=""
           />
       </div>
-      <div className="absolute bottom-10 left-10">
+      <div className="absolute max-md:top-8 max-md:right-10 md:bottom-10 md:left-10 max-md:w-1/4 md:w-1/5 min-w-200">
         <Image
           src={"logo-falp.svg"}
           width='220'
@@ -61,7 +61,7 @@ export default function Home() {
         <title>Log In | My App</title>
       </Head>
       <form
-        className="rounded-lg bg-white p-10 shadow-md"
+        className="rounded-lg bg-white p-10 shadow-md z-10"
         onSubmit={handleSubmit}
       >
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
