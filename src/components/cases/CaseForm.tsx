@@ -551,8 +551,10 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label={"Clasificación DG/TTOS."}
                         options={[
-                          { id: 1, name: "Informe Anatomía Patológica" },
-                          { id: 2, name: "Otro" },
+                          { id: 1, name: "Cirugía o procedimiento quirúrgico" },
+                          { id: 2, name: "Terapia sistémica" },
+                          { id: 3, name: "Radioterapia" },
+                          { id: 4, name: "Otro" },
                         ]}
                         {...field}
                       />
@@ -565,8 +567,9 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label={"Agregar Tratamiento"}
                         options={[
-                          { id: 1, name: "Tratamiento 1" },
-                          { id: 2, name: "Tratamiento 2" },
+                          { id: 1, name: "Diagnóstico y tratamiento en FALP" },
+                          { id: 2, name: "Tratamiento en FALP" },
+                          { id: 3, name: "Diagnóstico en FALP" },
                         ]}
                       />
                     </div>
@@ -590,7 +593,6 @@ export default function CaseForm(props: CaseFormProps) {
                       control={control}
                       render={({ field }) => (
                         <DatePicker
-                          disabled={true}
                           defaultValue={caso?.ultimo_contacto ? new Date(caso.ultimo_contacto) : new Date()}
                           label="Último Contacto"
                           {...field}
@@ -604,7 +606,6 @@ export default function CaseForm(props: CaseFormProps) {
                         "caso_registro_correspondiente.sigue_atencion_otro_centro"
                       )}
                       label="Seguimiento otro centro"
-                      disabled={true}
                     />
                   </div>
                 </div>
@@ -617,6 +618,7 @@ export default function CaseForm(props: CaseFormProps) {
                     defaultValue={EstadoVital.muerto}
                     render={({ field }) => (
                       <SelectInput
+                      label="Estado Vital"
                         options={[
                           { id: 1, name: "Fallecido" },
                           { id: 2, name: "Vivo sin enfermedad" },
@@ -649,9 +651,11 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <div className="col-start-1">
                         <SelectInput
+                          label="Causa Defunción"
                           options={[
-                            { id: 1, name: "Causa Defunción" },
-                            { id: 2, name: "Si" },
+                            { id: 1, name: "Muerte por cáncer o complicación" },
+                            { id: 2, name: "Muerte por otra causa" },
+                            { id: 3, name: "Desconocido" },
                           ]}
                           {...field}
                         />
