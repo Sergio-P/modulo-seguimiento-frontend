@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 import { Seguimiento } from "@/types/Seguimiento";
 import { EstadoVital } from "@/types/Enums";
+import { VscSave } from "react-icons/vsc"
 
 interface CaseFormProps {
   caseId: string;
@@ -127,9 +128,11 @@ export default function CaseForm(props: CaseFormProps) {
                   <Button icon="FileIcon" className="mr-6">
                     Historial
                   </Button>
-                  <Button icon="GeoLocate" filled>
-                    Seguimientos
-                  </Button>
+                  <Link href="../../">
+                    <Button icon="GeoLocate" filled>
+                      Seguimientos
+                    </Button>
+                  </Link>
                 </div>
               </div>
               <div className="mt-8 pb-7">
@@ -470,7 +473,7 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
 
                   <div className="mt-5">
-                    <MetastasisList />
+                    <MetastasisList elements={caso?.metastasis ? caso.metastasis: []} />
                   </div>
                 </SubSection>
               </Section>
@@ -492,7 +495,7 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
                 <div className="mt-5">
-                  <RecurrenciaList />
+                  <RecurrenciaList elements={caso?.recurrencias ? caso?.recurrencias: []}/>
                 </div>
               </Section>
               <Section id="progresion" title="Progresión">
@@ -513,12 +516,12 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
                 <div className="mt-5">
-                  <ProgresionList />
+                  <ProgresionList elements={caso?.progresiones ? caso?.progresiones: []} />
                 </div>
               </Section>
               <Section
                 id="tratamiento"
-                title="Antecedentes Tratamiento (Estado XXX)"
+                title="Antecedentes Tratamiento"
               >
                 <SubSection title="Configuración"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
@@ -530,6 +533,7 @@ export default function CaseForm(props: CaseFormProps) {
                       <div className="col-span-2">
                         <SelectInput
                           label={"Clase Caso"}
+                          disabled={true}
                           options={[
                             {
                               id: 1,
@@ -550,6 +554,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <SelectInput
                         label={"Clasificación DG/TTOS."}
+                        disabled={true}
                         options={[
                           { id: 1, name: "Cirugía o procedimiento quirúrgico" },
                           { id: 2, name: "Terapia sistémica" },
@@ -567,9 +572,8 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label={"Agregar Tratamiento"}
                         options={[
-                          { id: 1, name: "Diagnóstico y tratamiento en FALP" },
-                          { id: 2, name: "Tratamiento en FALP" },
-                          { id: 3, name: "Diagnóstico en FALP" },
+                          { id: 1, name: "Tratamiento En FALP" },
+                          { id: 2, name: "Tratamiento Post/Durante FALP" },
                         ]}
                       />
                     </div>
@@ -613,37 +617,37 @@ export default function CaseForm(props: CaseFormProps) {
                 <SubSection title="Estado Vital"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                   <Controller
-                    name="estado_vital"
+                    name="condicion_del_caso"
                     control={control}
-                    defaultValue={EstadoVital.muerto}
                     render={({ field }) => (
                       <SelectInput
-                      label="Estado Vital"
+                      label="Condición del Caso"
                         options={[
-                          { id: 1, name: "Fallecido" },
-                          { id: 2, name: "Vivo sin enfermedad" },
-                          { id: 3, name: "Vivo con enfermedad" },
-                          { id: 4, name: "Vivo SOE" },
-                          { id: 5, name: "Desconocido" },
+                          { id: 1, name: "Vivo sin enfermedad" },
+                          { id: 2, name: "Vivo con enfermedad" },
+                          { id: 3, name: "Vivo SOE" },
+                          { id: 4, name: "Desconocido" },
+                          { id: 5, name: "Fallecido" },
                         ]}
                         {...field}
                       />
                     )}
                   />
                   <Controller
-                    name="fecha_defuncion"
+                    name="estado_vital"
                     control={control}
+                    
                     render={({ field }) => (
-                      <DatePicker
-                        label="Fecha Defunción"
-                        defaultValue={caso?.fecha_defuncion ? new Date(caso.fecha_defuncion) : new Date()}
+                      <SelectInput
+                      label="Estado Vital"
+                        options={[
+                          { id: 1, name: "Vivo" },
+                          { id: 2, name: "Muerto" },
+                        ]}
                         {...field}
-                     />
+                      />
                     )}
                   />
-                  <div className="flex items-center">
-                    <Checkbox label="Estimada" />
-                  </div>
                   <Controller
                     name="causa_defuncion"
                     control={control}
@@ -662,14 +666,27 @@ export default function CaseForm(props: CaseFormProps) {
                       </div>
                     )}
                   />
-                </div>
-                <div className="grid max-w-5xl grid-cols-1 gap-8 pt-8 lg:grid-cols-3">
-                  <div className="col-span-2">
-                    <TextInput label="Observaciones" />
+                  <Controller
+                    name="fecha_defuncion"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        label="Fecha Defunción"
+                        defaultValue={caso?.fecha_defuncion ? new Date(caso.fecha_defuncion) : new Date()}
+                        {...field}
+                      />
+                    )}
+                  />
+                  <div className="flex items-center">
+                    <Checkbox label="Estimada" />
                   </div>
                 </div>
               </Section>
-              <input type="submit" />
+              <div className="flex justify-around">
+                <Button type="submit" filled className="w-1/7">
+                  Guardar
+                </Button>
+              </div>
             </form>
           </>
         )}

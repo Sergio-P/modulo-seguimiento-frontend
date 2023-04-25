@@ -7,48 +7,31 @@ import {
 } from "@tanstack/react-table";
 import * as fns from "date-fns";
 import { useState } from "react";
+import { Recurrencia } from "@/types/Recurrencia";
 
-interface Recurrencia {
-  id: number;
-  seguimiento_id: number;
-  caso_registro_id: number;
-  created_at: Date;
-  updated_at: Date;
-  fecha_diagnostico: Date;
-  tipo: string; // Local, Regional, Metástasis, Peritoneal, Sin información
-  detalle_topografia_recurrencia: string;
+
+interface RecurrenciaListProps {
+  elements: Recurrencia[];
 }
 
 const columnHelper = createColumnHelper<Recurrencia>();
 const columns = [
   columnHelper.accessor("fecha_diagnostico", {
-    cell: (info) => fns.format(info.getValue(), "dd-LL-yyyy"),
-    header: (info) => "Fecha",
+    header: "Fecha diagnóstico",
+    size: 110,
   }),
   columnHelper.accessor("tipo", {
-    cell: (info) => info.getValue(),
-    header: (info) => "Tipo Recurrencia",
+    header: "Tipo Recurrencia",
+    size: 110,
   }),
   columnHelper.accessor("detalle_topografia_recurrencia", {
-    cell: (info) => info.getValue(),
-    header: (info) => "Detalle Topografía Recurrencia",
+    header: "Detalle Topografía Recurrencia",
+    size: 110,
   }),
 ];
 
-export default function RecurrenciaList() {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      seguimiento_id: 1,
-      caso_registro_id: 1,
-      created_at: new Date(),
-      updated_at: new Date(),
-      fecha_diagnostico: new Date("2023-03-01"),
-      detalle_topografia_recurrencia:
-        "(C77.0) GANGLIOS LINFÁTICOS DE LA CABEZA, LA CARA Y EL CUELLO",
-      tipo: "Local",
-    },
-  ]);
+export default function RecurrenciaList(props: RecurrenciaListProps) {
+  const [data, setData] = useState(props.elements);
   const table = useReactTable({
     data: data,
     columns,

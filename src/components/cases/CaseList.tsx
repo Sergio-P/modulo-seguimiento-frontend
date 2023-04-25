@@ -39,17 +39,10 @@ interface CaseListTableProps {
 
 const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
-  columnHelper.accessor("created_at", {
-    header: "Registro",
+  columnHelper.accessor("caso_registro_correspondiente.num_registro", {
+    header: "N° Registro",
     size: 100,
   }),
-  columnHelper.accessor(
-    "caso_registro_correspondiente.fecha_lugar_obtencion_dg",
-    {
-      header: () => "Identificación",
-      size: 100,
-    }
-  ),
   columnHelper.accessor(
     (row) =>
       `${row.caso_registro_correspondiente.nombre} ${row.caso_registro_correspondiente.apellido}`,
@@ -67,22 +60,27 @@ const columns = [
     header: "Fecha diagnóstico",
     size: 110,
   }),
-  columnHelper.accessor("usuario.nombre", {
+  columnHelper.accessor("usuario_asignado.nombre", {
     header: "Usuario asignado",
     size: 128,
   }),
-  columnHelper.accessor("posee_tto", {
-    header: "Rgtro. Tumor",
+  columnHelper.accessor("tiene_consulta_nueva", {
+    header: "Consulta Nueva",
+    size: 64,
+    cell: BooleanCell,
+  }),
+  columnHelper.accessor("tiene_examenes", {
+    header: "Examenes",
     size: 64,
     cell: BooleanCell,
   }),
   columnHelper.accessor("tiene_comite_oncologico", {
-    header: "Resol. Comité",
+    header: "Comité Onc.",
     size: 64,
     cell: BooleanCell,
   }),
   columnHelper.accessor("tiene_tratamiento", {
-    header: "Trata miento",
+    header: "Tratamiento",
     size: 64,
     cell: BooleanCell,
   }),

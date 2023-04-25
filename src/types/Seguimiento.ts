@@ -46,6 +46,6 @@ export interface Seguimiento extends SeguimientoBase {
   created_at: Date;
   updated_at: Date | null;
   state: SeguimientoState;
-  usuario: Usuario | null;
+  usuario_asignado: Usuario | null;
   caso_registro_correspondiente: CasoRegistro;
 }
