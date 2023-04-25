@@ -28,7 +28,7 @@ const columns = [
 
 export default function MetastasisList(props: MetastasisListProps) {
   const [data, setData] = useState(props.elements);
-  //console.log(data)
+  console.log(data)
   const table = useReactTable({
     data: data,
     columns,

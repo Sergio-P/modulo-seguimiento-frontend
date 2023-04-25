@@ -18,6 +18,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   recurrencia?: boolean;
   progresion?: boolean;
   tratamiento?: boolean;
+  onUpdateMetastasis?: any;
 }
 
 export default function Modal(props: ButtonProps) {
@@ -29,11 +30,13 @@ export default function Modal(props: ButtonProps) {
     recurrencia,
     progresion,
     tratamiento,
+    onUpdateMetastasis,
   } = props;
   let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
+  let [nuevaMetastasisTemp, setNuevaMetastasisTemp] = useState({})
   const { control, register } = useFormContext();
 
   function closeModalMetastasis() {
@@ -78,6 +81,7 @@ export default function Modal(props: ButtonProps) {
           "recurrencia",
           "progresion",
           "tratamiento",
+          "onUpdateMetastasis",
         ])}
         onClick={() => {
           if (metastasis) {
@@ -521,6 +525,7 @@ export default function Modal(props: ButtonProps) {
                         />
                       )}
                     />
+                    {/* 
                     <Controller
                       name="tratamiento.descripcion_de_la_prestacion"
                       control={control}
@@ -543,6 +548,7 @@ export default function Modal(props: ButtonProps) {
                         </div>
                       )}
                     />
+                    */}
                     <div className="col-span-3">
                       <TextInput label="Observaciones"/>
                     </div>

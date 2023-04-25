@@ -10,6 +10,7 @@ import TextInput from "../ui/TextInput";
 import MetastasisList from "./CaseForm/MetastasisList";
 import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import ProgresionList from "./CaseForm/ProgresionList";
+import TratamientoList from "./CaseForm/TratamientoList";
 import MainLayout from "../ui/layout/MainLayout";
 import Section from "../ui/layout/Section";
 import BoundingBox from "../ui/layout/BoundingBox";
@@ -71,6 +72,18 @@ export default function CaseForm(props: CaseFormProps) {
       ficha: "094321223",
     },
   };
+
+  const [metastasisTemp, setMetastasisTemp] = useState({
+    id: caso?.metastasis ? caso.metastasis.length : 1,
+    fecha_diagnostico: null, //
+    fecha_estimada: false, //
+    detalle_topografia: null, //
+    seguimiento_id: seguimientoQuery.data?.id,
+    caso_registro_id: seguimientoQuery.data?.caso_registro_id ,
+    created_at: new Date(),
+    updated_at: new Date(),
+  });
+
   const [selectedSection, setSelectedSection] = useState(sections[0]);
   const form = useForm({
     defaultValues: seguimientoQuery.data,
@@ -101,6 +114,9 @@ export default function CaseForm(props: CaseFormProps) {
     window.scroll(0, window.scrollY - headerHeight);
     setSelectedSection(value);
   };
+
+
+
   const onSubmit = (data: any) => {
     // subimos a la api,,,
     console.log(data);
@@ -566,7 +582,8 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                 </div>
-                <SubSection title="Lista de Tratamientos">
+                <Separator />
+                <SubSection title="">
                   <div className="grid max-w-5xl grid-cols-1 items-center gap-8 lg:grid-cols-3">
                     <div>
                       <SelectInput
@@ -585,6 +602,9 @@ export default function CaseForm(props: CaseFormProps) {
                     >
                       Agregar
                     </Modal>
+                  </div>
+                  <div className="mt-5">
+                    <TratamientoList elements={caso?.tratamientos_en_falp ? caso.tratamientos_en_falp: []} />
                   </div>
                 </SubSection>
               </Section>
