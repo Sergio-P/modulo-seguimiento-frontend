@@ -740,9 +740,13 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <div className="flex justify-around">
-                <Button type="submit" filled className="w-1/7">
+                {/* <Button type="submit" filled className="w-1/7">
                   Guardar
-                </Button>
+                </Button> */}
+                {/* TODO: Make real submit save button */}
+                <Link href="../../">
+                  <Button filled>Guardar</Button>
+                </Link>
               </div>
             </form>
           </>
