@@ -1,4 +1,5 @@
 import Datagrid from "@/components/ui/table/Datagrid";
+import DateCell from "@/components/ui/table/DateCell";
 import { Metastasis } from "@/types/Metastasis";
 import {
   createColumnHelper,
@@ -6,8 +7,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as fns from "date-fns";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 interface MetastasisListProps {
   elements: Metastasis[];
@@ -17,6 +17,7 @@ const columnHelper = createColumnHelper<Metastasis>();
 const columns = [
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha diagnóstico",
+    cell: DateCell,
     size: 110,
   }),
   columnHelper.accessor("detalle_topografia", {
