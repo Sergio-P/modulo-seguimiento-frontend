@@ -2,7 +2,9 @@ import { CellContext } from "@tanstack/react-table";
 import clsx from "clsx";
 import Image from "next/image";
 
-export default function BooleanCell<T>(props: CellContext<T, boolean>) {
+export default function BooleanCell<T>(
+  props: CellContext<T, boolean | string>
+) {
   return (
     <div
       className={clsx(
@@ -12,7 +14,11 @@ export default function BooleanCell<T>(props: CellContext<T, boolean>) {
     >
       <Image
         alt=""
-        src={`/icons/${props.cell.getValue() ? "Check" : "Close X"}.svg`}
+        src={`/icons/${
+          props.cell.getValue() === true || props.cell.getValue() === "true"
+            ? "Check"
+            : "Close X"
+        }.svg`}
         width={24}
         height={24}
         className="h-6 w-6"
