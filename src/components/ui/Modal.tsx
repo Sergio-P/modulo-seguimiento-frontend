@@ -3,12 +3,14 @@ import Image from "next/image";
 import _ from "lodash";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { Controller, useForm, useFormContext, useWatch } from "react-hook-form";
+import { Controller, useForm, useFormContext, useWatch, SubmitHandler } from "react-hook-form";
 import DatePicker from "./DatePicker";
 import Checkbox from "./Checkbox";
 import SelectInput from "./SelectInput";
 import Button from "./Button";
 import TextInput from "./TextInput";
+import { Seguimiento } from "@/types/Seguimiento";
+import { Metastasis } from "@/types/Metastasis";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -18,7 +20,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   recurrencia?: boolean;
   progresion?: boolean;
   tratamiento?: boolean;
-  onUpdateMetastasis?: any;
+  seguimiento: Seguimiento;
+  setNewMetastasisList?: any,
 }
 
 export default function Modal(props: ButtonProps) {
@@ -30,14 +33,29 @@ export default function Modal(props: ButtonProps) {
     recurrencia,
     progresion,
     tratamiento,
-    onUpdateMetastasis,
+    seguimiento,
+    setNewMetastasisList,
   } = props;
   let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
-  let [nuevaMetastasisTemp, setNuevaMetastasisTemp] = useState({})
   const { control, register } = useFormContext();
+
+  const caso = seguimiento.caso_registro_correspondiente;
+  interface MetastasisValues {
+    fecha_diagnostico: null | Date;
+    fecha_estimada: boolean;
+    detalle_topografia: null | string;
+  }
+  const metastasisForm = useForm<MetastasisValues>({
+    defaultValues: {
+      fecha_diagnostico: null, //
+      fecha_estimada: false, //
+      detalle_topografia: null, //
+    }
+  })
+
 
   function closeModalMetastasis() {
     setIsOpenMetastasis(false);
@@ -69,6 +87,34 @@ export default function Modal(props: ButtonProps) {
 
   function openModalTratamiento() {
     setIsOpenTratamiento(true);
+  }
+
+  const addMetastasis: SubmitHandler<MetastasisValues> = (data) => {
+    if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
+      const newMetastasis: Metastasis = {
+        id: caso?.metastasis ? caso.metastasis.length +1  : 1,
+        seguimiento_id: seguimiento.id,
+        caso_registro_id: seguimiento.caso_registro_id ,
+        created_at: new Date(),
+        updated_at: new Date(),
+        ...data,
+        fecha_diagnostico: data.fecha_diagnostico,
+        detalle_topografia: data.detalle_topografia
+      }
+      // /*console.log(newMetastasis)
+      console.log("updating metastasis")
+      setNewMetastasisList((prev: Metastasis[]) => {
+        console.log(prev)
+        console.log(newMetastasis)
+        console.log([...prev, newMetastasis])
+        return [...prev, newMetastasis]
+      });
+      // /*console.log(newMetastasis)
+      console.log("updated metastasis")
+      closeModalMetastasis()
+    }
+    // TODO: this shouldn't close the modal, instead it should show an error
+    closeModalMetastasis()
   }
 
   return (
@@ -156,35 +202,37 @@ export default function Modal(props: ButtonProps) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <div className="flex justify-between">
-                    <Dialog.Title
-                      as="h3"
-                      className="pb-6 text-3xl font-bold leading-6 text-font"
-                    >
-                      Metástasis
-                    </Dialog.Title>
-                    <Button icon="cross" clear onClick={closeModalMetastasis} />
-                  </div>
-                  <div className="grid grid-cols-2 items-center gap-6">
-                    <Controller
-                      name="Metastasis.fecha_diagnostico"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker label="Fecha Diagnóstico" {...field} />
-                      )}
-                    />
-                    <Checkbox label="Fecha Estimada" {...register("Metastasis.fecha_estimada")} />
-                    <div className="col-span-2">
-                      <TextInput label="Detalle Topografía"/>
+                  <form onSubmit={metastasisForm.handleSubmit(addMetastasis)}>
+                    <div className="flex justify-between">
+                      <Dialog.Title
+                        as="h3"
+                        className="pb-6 text-3xl font-bold leading-6 text-font"
+                      >
+                        Metástasis
+                      </Dialog.Title>
+                      <Button icon="cross" clear onClick={closeModalMetastasis} />
                     </div>
+                    <div className="grid grid-cols-2 items-center gap-6">
+                      <Controller
+                        name="fecha_diagnostico"
+                        control={metastasisForm.control}
+                        render={({ field }) => (
+                          <DatePicker label="Fecha Diagnóstico" {...field} />
+                        )}
+                      />
+                      <Checkbox label="Fecha Estimada" {...metastasisForm.register("fecha_estimada")} />
+                      <div className="col-span-2">
+                        <TextInput label="Detalle Topografía" {...metastasisForm.register("detalle_topografia")}/>
+                      </div>
 
-                  </div>
-                  <div className="mt-6 flex justify-between">
-                    <Button onClick={closeModalMetastasis}>Cancelar</Button>
-                    <Button filled onClick={closeModalMetastasis}>
-                      Agregar Metástasis
-                    </Button>
-                  </div>
+                    </div>
+                    <div className="mt-6 flex justify-between">
+                      <Button onClick={closeModalMetastasis}>Cancelar</Button>
+                      <Button filled type="submit">
+                        Agregar Metástasis
+                      </Button>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

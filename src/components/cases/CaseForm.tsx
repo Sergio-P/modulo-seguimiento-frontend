@@ -64,25 +64,9 @@ export default function CaseForm(props: CaseFormProps) {
     () => seguimientoQuery.data?.caso_registro_correspondiente,
     [seguimientoQuery.data]
   );
-  const data = {
-    patient: {
-      rut: "10.233.456-8",
-      name: "Marcelo Donoso R.",
-      registro: "0000000",
-      ficha: "094321223",
-    },
-  };
 
-  const [metastasisTemp, setMetastasisTemp] = useState({
-    id: caso?.metastasis ? caso.metastasis.length : 1,
-    fecha_diagnostico: null, //
-    fecha_estimada: false, //
-    detalle_topografia: null, //
-    seguimiento_id: seguimientoQuery.data?.id,
-    caso_registro_id: seguimientoQuery.data?.caso_registro_id ,
-    created_at: new Date(),
-    updated_at: new Date(),
-  });
+  const [newMetastasisList, setNewMetastasisList] = useState([]);
+
 
   const [selectedSection, setSelectedSection] = useState(sections[0]);
   const form = useForm({
@@ -115,11 +99,11 @@ export default function CaseForm(props: CaseFormProps) {
     setSelectedSection(value);
   };
 
-
-
   const onSubmit = (data: any) => {
     // subimos a la api,,,
+    // manejamos también newMetastasisList añadiendola a new_entries
     console.log(data);
+    // fetch() a la API para subir seguimientos
   };
   console.log(watch());
   return (
@@ -483,13 +467,15 @@ export default function CaseForm(props: CaseFormProps) {
                       metastasis={true}
                       icon="plus"
                       filled
+                      seguimiento={seguimientoQuery.data}
+                      setNewMetastasisList={setNewMetastasisList}
                     >
                       Agregar Metastasis
                     </Modal>
                   </div>
 
                   <div className="mt-5">
-                    <MetastasisList elements={caso?.metastasis ? caso.metastasis: []} />
+                    <MetastasisList elements={caso?.metastasis ? [...caso.metastasis, ...newMetastasisList]: newMetastasisList} />
                   </div>
                 </SubSection>
               </Section>
@@ -504,6 +490,7 @@ export default function CaseForm(props: CaseFormProps) {
                       disabled={!tieneRecurrencia}
                       recurrencia={true}
                       icon="plus"
+                      seguimiento={seguimientoQuery.data}
                       filled
                     >
                       Agregar Recurrencia
@@ -525,6 +512,7 @@ export default function CaseForm(props: CaseFormProps) {
                       disabled={!tieneProgresion}
                       progresion={true}
                       icon="plus"
+                      seguimiento={seguimientoQuery.data}
                       filled
                     >
                       Agregar Progresión
@@ -598,6 +586,7 @@ export default function CaseForm(props: CaseFormProps) {
                       className="max-w-[115px]"
                       tratamiento={true}
                       icon="plus"
+                      seguimiento={seguimientoQuery.data}
                       filled
                     >
                       Agregar
