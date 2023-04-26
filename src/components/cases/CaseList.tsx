@@ -24,7 +24,9 @@ export default function CaseList() {
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
-        <h1 className="text-4xl font-bold text-font-title">Registro</h1>
+        <h1 className="text-4xl font-bold text-font-title">
+          Seguimiento de Casos
+        </h1>
       </div>
       <BoundingBox>
         {caseQuery.data && <CaseListTable data={caseQuery.data} />}
