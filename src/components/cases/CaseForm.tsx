@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 import { Seguimiento } from "@/types/Seguimiento";
 import { EstadoVital } from "@/types/Enums";
-import { VscSave } from "react-icons/vsc"
+import { VscSave } from "react-icons/vsc";
 
 interface CaseFormProps {
   caseId: string;
@@ -66,8 +66,6 @@ export default function CaseForm(props: CaseFormProps) {
   );
 
   const [newMetastasisList, setNewMetastasisList] = useState([]);
-
-
   const [selectedSection, setSelectedSection] = useState(sections[0]);
   const form = useForm({
     defaultValues: seguimientoQuery.data,
@@ -203,7 +201,11 @@ export default function CaseForm(props: CaseFormProps) {
                         <DatePicker
                           label="Fecha Diagnóstico"
                           disabled={true}
-                          defaultValue={caso?.fecha_dg ? new Date(caso.fecha_dg) : new Date()}
+                          defaultValue={
+                            caso?.fecha_dg
+                              ? new Date(caso.fecha_dg)
+                              : new Date()
+                          }
                           {...field}
                         />
                       )}
@@ -215,7 +217,11 @@ export default function CaseForm(props: CaseFormProps) {
                       render={({ field }) => (
                         <DatePicker
                           disabled={true}
-                          defaultValue={caso?.fecha_lugar_obtencion_dg ? new Date(caso.fecha_lugar_obtencion_dg) : new Date()}
+                          defaultValue={
+                            caso?.fecha_lugar_obtencion_dg
+                              ? new Date(caso.fecha_lugar_obtencion_dg)
+                              : new Date()
+                          }
                           label="Fecha Lugar Obtención Diagnóstico"
                           {...field}
                         />
@@ -320,7 +326,11 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Lugar Obtención Diagnóstico"
-                        defaultValue={caso?.fecha_lugar_obtencion_morfologia ? new Date(caso.fecha_lugar_obtencion_morfologia) : new Date()}
+                        defaultValue={
+                          caso?.fecha_lugar_obtencion_morfologia
+                            ? new Date(caso.fecha_lugar_obtencion_morfologia)
+                            : new Date()
+                        }
                         disabled={true}
                         {...field}
                       />
@@ -375,7 +385,11 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Lugar Obtención Diagnóstico"
-                        defaultValue={caso?.fecha_lugar_obtencion_topografia ? new Date(caso.fecha_lugar_obtencion_topografia) : new Date()}
+                        defaultValue={
+                          caso?.fecha_lugar_obtencion_topografia
+                            ? new Date(caso.fecha_lugar_obtencion_topografia)
+                            : new Date()
+                        }
                         disabled={true}
                         {...field}
                       />
@@ -475,7 +489,13 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
 
                   <div className="mt-5">
-                    <MetastasisList elements={caso?.metastasis ? [...caso.metastasis, ...newMetastasisList]: newMetastasisList} />
+                    <MetastasisList
+                      elements={
+                        caso?.metastasis
+                          ? [...caso.metastasis, ...newMetastasisList]
+                          : newMetastasisList
+                      }
+                    />
                   </div>
                 </SubSection>
               </Section>
@@ -498,7 +518,9 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
                 <div className="mt-5">
-                  <RecurrenciaList elements={caso?.recurrencias ? caso?.recurrencias: []}/>
+                  <RecurrenciaList
+                    elements={caso?.recurrencias ? caso?.recurrencias : []}
+                  />
                 </div>
               </Section>
               <Section id="progresion" title="Progresión">
@@ -520,13 +542,12 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
                 <div className="mt-5">
-                  <ProgresionList elements={caso?.progresiones ? caso?.progresiones: []} />
+                  <ProgresionList
+                    elements={caso?.progresiones ? caso?.progresiones : []}
+                  />
                 </div>
               </Section>
-              <Section
-                id="tratamiento"
-                title="Antecedentes Tratamiento"
-              >
+              <Section id="tratamiento" title="Antecedentes Tratamiento">
                 <SubSection title="Configuración"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                   <Controller
@@ -593,7 +614,13 @@ export default function CaseForm(props: CaseFormProps) {
                     </Modal>
                   </div>
                   <div className="mt-5">
-                    <TratamientoList elements={caso?.tratamientos_en_falp ? caso.tratamientos_en_falp: []} />
+                    <TratamientoList
+                      elements={
+                        caso?.tratamientos_en_falp
+                          ? caso.tratamientos_en_falp
+                          : []
+                      }
+                    />
                   </div>
                 </SubSection>
               </Section>
@@ -606,7 +633,11 @@ export default function CaseForm(props: CaseFormProps) {
                       control={control}
                       render={({ field }) => (
                         <DatePicker
-                          defaultValue={caso?.ultimo_contacto ? new Date(caso.ultimo_contacto) : new Date()}
+                          defaultValue={
+                            caso?.ultimo_contacto
+                              ? new Date(caso.ultimo_contacto)
+                              : new Date()
+                          }
                           label="Último Contacto"
                           {...field}
                         />
@@ -630,7 +661,7 @@ export default function CaseForm(props: CaseFormProps) {
                     control={control}
                     render={({ field }) => (
                       <SelectInput
-                      label="Condición del Caso"
+                        label="Condición del Caso"
                         options={[
                           { id: 1, name: "Vivo sin enfermedad" },
                           { id: 2, name: "Vivo con enfermedad" },
@@ -645,10 +676,9 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="estado_vital"
                     control={control}
-                    
                     render={({ field }) => (
                       <SelectInput
-                      label="Estado Vital"
+                        label="Estado Vital"
                         options={[
                           { id: 1, name: "Vivo" },
                           { id: 2, name: "Muerto" },
@@ -681,7 +711,11 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Defunción"
-                        defaultValue={caso?.fecha_defuncion ? new Date(caso.fecha_defuncion) : new Date()}
+                        defaultValue={
+                          caso?.fecha_defuncion
+                            ? new Date(caso.fecha_defuncion)
+                            : new Date()
+                        }
                         {...field}
                       />
                     )}

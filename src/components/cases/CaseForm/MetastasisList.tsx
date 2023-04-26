@@ -7,8 +7,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as fns from "date-fns";
-import { useState } from "react";
-
+import { useMemo, useState } from "react";
 
 interface MetastasisListProps {
   elements: Metastasis[];
@@ -27,9 +26,8 @@ const columns = [
 ];
 
 export default function MetastasisList(props: MetastasisListProps) {
-  const [data, setData] = useState(props.elements);
-  //console.log("MetastasisList")
-  console.log(data)
+  const data = useMemo(() => props.elements, [props.elements]);
+  console.log("MetastasisList elements: ", data);
   const table = useReactTable({
     data: data,
     columns,
