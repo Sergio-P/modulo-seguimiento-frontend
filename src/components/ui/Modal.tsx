@@ -98,7 +98,7 @@ export default function Modal(props: ButtonProps) {
   })
 
   interface TratamientoValues {
-    medico: null | {name: string};
+    medico: null | string;
     fecha_inicio: null | Date;
     fecha_fin: null | Date;
     en_tto: boolean;
@@ -224,7 +224,7 @@ export default function Modal(props: ButtonProps) {
         created_at: new Date(),
         updated_at: new Date(),
         ...data,
-        medico: data.medico.name,
+        medico: data.medico,
         observaciones: data.observaciones,
         fecha_de_inicio: data.fecha_inicio,
         fecha_de_termino: data.fecha_fin,
@@ -597,29 +597,33 @@ export default function Modal(props: ButtonProps) {
                       />
                     </div>
                     <div className="grid grid-cols-3 items-center gap-6">
-                      <Controller
-                        name="medico"
-                        control={tratamientoForm.control}
-                        defaultValue={
-                          {name: "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez"}
-                        }
-                        render={({ field }) => (
-                          <div className="col-span-3">
-                            <SelectInput
-                              label={"Médico"}
-                              options={[
-                                {
-                                  id: 1,
-                                  name: "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez",
-                                },
-                                { id: 2, name: "Otro" },
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                      
+                      {/*
+                        <Controller
+                          name="medico"
+                          control={tratamientoForm.control}
+                          defaultValue={
+                            {name: "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez"}
+                          }
+                          render={({ field }) => (
+                            <div className="col-span-3">
+                              <SelectInput
+                                label={"Médico"}
+                                options={[
+                                  {
+                                    id: 1,
+                                    name: "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez",
+                                  },
+                                  { id: 2, name: "Otro" },
+                                ]}
+                                {...field}
+                              />
+                            </div>
+                          )}
+                        />
+                      */}
+                      <div className="col-span-3">
+                        <TextInput label="Médico" {...tratamientoForm.register("medico")}/>
+                      </div>
                       <Controller
                         name="fecha_inicio"
                         control={tratamientoForm.control}
