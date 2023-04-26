@@ -66,6 +66,9 @@ export default function CaseForm(props: CaseFormProps) {
   );
 
   const [newMetastasisList, setNewMetastasisList] = useState([]);
+  const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
+  const [newProgresionList, setNewProgresionList] = useState([]);
+  const [newTratamientoList, setNewTratamientoList] = useState([]);
   const [selectedSection, setSelectedSection] = useState(sections[0]);
   const form = useForm({
     defaultValues: seguimientoQuery.data,
@@ -512,6 +515,7 @@ export default function CaseForm(props: CaseFormProps) {
                       icon="plus"
                       seguimiento={seguimientoQuery.data}
                       filled
+                      setNewRecurrenciaList={setNewRecurrenciaList}
                     >
                       Agregar Recurrencia
                     </Modal>
@@ -519,7 +523,11 @@ export default function CaseForm(props: CaseFormProps) {
                 </SubSection>
                 <div className="mt-5">
                   <RecurrenciaList
-                    elements={caso?.recurrencias ? caso?.recurrencias : []}
+                    elements={
+                      caso?.recurrencias
+                        ? [...caso.recurrencias, ...newRecurrenciaList]
+                        : newMetastasisList
+                      }
                   />
                 </div>
               </Section>
@@ -536,6 +544,7 @@ export default function CaseForm(props: CaseFormProps) {
                       icon="plus"
                       seguimiento={seguimientoQuery.data}
                       filled
+                      setNewProgresionList={setNewProgresionList}
                     >
                       Agregar Progresión
                     </Modal>
@@ -543,7 +552,11 @@ export default function CaseForm(props: CaseFormProps) {
                 </SubSection>
                 <div className="mt-5">
                   <ProgresionList
-                    elements={caso?.progresiones ? caso?.progresiones : []}
+                    elements={
+                      caso?.progresiones 
+                      ? [...caso.progresiones, ...newProgresionList]
+                      : newProgresionList
+                    }
                   />
                 </div>
               </Section>
@@ -609,6 +622,7 @@ export default function CaseForm(props: CaseFormProps) {
                       icon="plus"
                       seguimiento={seguimientoQuery.data}
                       filled
+                      setNewTratamientoList={setNewTratamientoList}
                     >
                       Agregar
                     </Modal>
@@ -617,8 +631,8 @@ export default function CaseForm(props: CaseFormProps) {
                     <TratamientoList
                       elements={
                         caso?.tratamientos_en_falp
-                          ? caso.tratamientos_en_falp
-                          : []
+                          ? [...caso.tratamientos_en_falp, ...newTratamientoList]
+                          : newTratamientoList
                       }
                     />
                   </div>

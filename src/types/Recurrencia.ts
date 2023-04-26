@@ -3,7 +3,7 @@ import { TipoRecurrenciaProgresion } from "./Enums";
 export interface RecurrenciaBase {
   fecha_diagnostico: Date;
   fecha_estimada: boolean;
-  tipo: TipoRecurrenciaProgresion;
+  tipo: Object;
   detalle_topografia_recurrencia: string;
 }
 

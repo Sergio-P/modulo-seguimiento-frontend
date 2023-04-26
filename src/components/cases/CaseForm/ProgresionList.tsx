@@ -8,6 +8,8 @@ import {
 import * as fns from "date-fns";
 import { useState } from "react";
 import { Progresion } from "@/types/Progresion";
+import DateCell from "@/components/ui/table/DateCell";
+import { useMemo } from "react";
 
 
 interface ProgresionListProps {
@@ -18,9 +20,10 @@ const columnHelper = createColumnHelper<Progresion>();
 const columns = [
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha",
+    cell: DateCell,
     size: 110,
   }),
-  columnHelper.accessor("tipo", {
+  columnHelper.accessor("tipo.name", {
     header: "Tipo Recurrencia",
     size: 110,
   }),
@@ -31,7 +34,8 @@ const columns = [
 ];
 
 export default function ProgresionList(props: ProgresionListProps) {
-  const [data, setData] = useState(props.elements);
+  const data = useMemo(() => props.elements, [props.elements]);
+  console.log("RecurrenciaList elements: ", data);
   const table = useReactTable({
     data: data,
     columns,
