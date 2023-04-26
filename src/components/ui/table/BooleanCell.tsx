@@ -14,11 +14,7 @@ export default function BooleanCell<T>(
     >
       <Image
         alt=""
-        src={`/icons/${
-          props.cell.getValue() === true || props.cell.getValue() === "true"
-            ? "Check"
-            : "Close X"
-        }.svg`}
+        src={`/icons/${props.cell.getValue() ? "CheckGreen" : "Close X"}.svg`}
         width={24}
         height={24}
         className="h-6 w-6"
