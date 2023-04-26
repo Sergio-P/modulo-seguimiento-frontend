@@ -98,13 +98,13 @@ export default function Modal(props: ButtonProps) {
   })
 
   interface TratamientoValues {
-    medico: null | string;
+    medico: null | {name: string};
     fecha_inicio: null | Date;
     fecha_fin: null | Date;
     en_tto: boolean;
-    categoria_tto: null | string;
-    subcategoria_tto: null | string;
-    intencion_tto: null | string;
+    categoria_tto: null | {name: string};
+    subcategoria_tto: null | {name: string};
+    intencion_tto: null | {name: string};
     observaciones: null | string;
   }
 
@@ -224,13 +224,13 @@ export default function Modal(props: ButtonProps) {
         created_at: new Date(),
         updated_at: new Date(),
         ...data,
-        medico: data.medico,
+        medico: data.medico.name,
         observaciones: data.observaciones,
         fecha_de_inicio: data.fecha_inicio,
         fecha_de_termino: data.fecha_fin,
-        categoria_tto: data.categoria_tto,
-        subcategoria_tto: data.subcategoria_tto,
-        intencion_tto: data.intencion_tto,
+        categoria_tto: data.categoria_tto.name,
+        subcategoria_tto: data.subcategoria_tto.name,
+        intencion_tto: data.intencion_tto.name,
         descripcion_de_la_prestacion: "no esta este campo en el formulario"
       }
       setNewTratamientoList((prev: TratamientoEnFALP[]) => {
@@ -601,7 +601,7 @@ export default function Modal(props: ButtonProps) {
                         name="medico"
                         control={tratamientoForm.control}
                         defaultValue={
-                          "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez"
+                          {name: "Panchito Romero Miguel Junipero Francisco Quintero Gonzalez"}
                         }
                         render={({ field }) => (
                           <div className="col-span-3">
@@ -644,7 +644,7 @@ export default function Modal(props: ButtonProps) {
                         name="categoria_tto"
                         control={tratamientoForm.control}
                         defaultValue={
-                          "Cirugía o procedimiento quirúrgico"
+                          {name: "Cirugía o procedimiento quirúrgico"}
                         }
                         render={({ field }) => (
                           <SelectInput
@@ -664,7 +664,7 @@ export default function Modal(props: ButtonProps) {
                         name="subcategoria_tto"
                         control={tratamientoForm.control}
                         defaultValue={
-                          "Cirugía"
+                          {name: "Cirugía"}
                         }
                         render={({ field }) => (
                           <SelectInput
@@ -686,7 +686,7 @@ export default function Modal(props: ButtonProps) {
                         name="intencion_tto"
                         control={tratamientoForm.control}
                         defaultValue={
-                          "Curativo"
+                          {name: "Curativo"}
                         }
                         render={({ field }) => (
                           <SelectInput

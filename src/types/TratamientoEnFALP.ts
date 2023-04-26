@@ -8,7 +8,7 @@ import {
 } from "./Enums";
 
 export interface TratamientoEnFALPBase {
-  medico: string | Object;
+  medico: Object;
   fecha_de_inicio: Date;
   fecha_de_termino: Date;
   en_tto: boolean;

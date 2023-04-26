@@ -29,19 +29,19 @@ const columns = [
     cell: DateCell,
     size: 110,
   }),
-  columnHelper.accessor("medico.name", {
+  columnHelper.accessor("medico", {
     header: "Médico",
     size: 110,
   }),
-  columnHelper.accessor("categoria_tto.name", {
+  columnHelper.accessor("categoria_tto", {
     header: "Categoría",
     size: 110,
   }),
-  columnHelper.accessor("subcategoria_tto.name", {
+  columnHelper.accessor("subcategoria_tto", {
     header: "Subcategoría",
     size: 110,
   }),
-  columnHelper.accessor("intencion_tto.name", {
+  columnHelper.accessor("intencion_tto", {
     header: "Intención",
     size: 110,
   }),
