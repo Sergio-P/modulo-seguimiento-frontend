@@ -251,7 +251,10 @@ export default function Modal(props: ButtonProps) {
           "recurrencia",
           "progresion",
           "tratamiento",
-          "onUpdateMetastasis",
+          "setNewMetastasisList",
+          "setNewRecurrenciaList",
+          "setNewProgresionList",
+          "setNewTratamientoList",
         ])}
         onClick={() => {
           if (metastasis) {
