@@ -338,7 +338,7 @@ export default function Modal(props: ButtonProps) {
                       >
                         Metástasis
                       </Dialog.Title>
-                      <Button icon="cross" clear onClick={closeModalMetastasis} />
+                      <Button type="button" icon="cross" clear onClick={closeModalMetastasis} />
                     </div>
                     <div className="grid grid-cols-2 items-center gap-6">
                       <Controller
@@ -355,7 +355,7 @@ export default function Modal(props: ButtonProps) {
 
                     </div>
                     <div className="mt-6 flex justify-between">
-                      <Button onClick={closeModalMetastasis}>Cancelar</Button>
+                      <Button type="button" onClick={closeModalMetastasis}>Cancelar</Button>
                       <Button filled type="submit">
                         Agregar Metástasis
                       </Button>
@@ -410,6 +410,7 @@ export default function Modal(props: ButtonProps) {
                         icon="cross"
                         clear
                         onClick={closeModalRecurrencia}
+                        type="button"
                       />
                     </div>
                     <div className="grid grid-cols-2 items-center gap-6">
@@ -451,7 +452,7 @@ export default function Modal(props: ButtonProps) {
                       </div>
                     </div>
                     <div className="mt-6 flex justify-between">
-                      <Button onClick={closeModalRecurrencia}>Cancelar</Button>
+                      <Button type="button" onClick={closeModalRecurrencia}>Cancelar</Button>
                       <Button filled type="submit">
                         Agregar Recurrencia
                       </Button>
@@ -502,7 +503,7 @@ export default function Modal(props: ButtonProps) {
                       >
                         Progresión
                       </Dialog.Title>
-                      <Button icon="cross" clear onClick={closeModalProgresion} />
+                      <Button type="button" icon="cross" clear onClick={closeModalProgresion} />
                     </div>
                     <div className="grid grid-cols-2 items-center gap-6">
                       <Controller
@@ -543,7 +544,7 @@ export default function Modal(props: ButtonProps) {
                       </div>
                     </div>
                     <div className="mt-6 flex justify-between">
-                      <Button onClick={closeModalProgresion}>Cancelar</Button>
+                      <Button type="button" onClick={closeModalProgresion}>Cancelar</Button>
                       <Button filled type="submit">
                         Agregar Progresión
                       </Button>
@@ -595,6 +596,7 @@ export default function Modal(props: ButtonProps) {
                         Tratamientos
                       </Dialog.Title>
                       <Button
+                        type="button"
                         icon="cross"
                         clear
                         onClick={closeModalTratamiento}
@@ -740,7 +742,7 @@ export default function Modal(props: ButtonProps) {
                       </div>
                     </div>
                     <div className="mt-6 flex justify-between">
-                      <Button onClick={closeModalTratamiento}>Cancelar</Button>
+                      <Button type="button" onClick={closeModalTratamiento}>Cancelar</Button>
                       <Button filled type="submit">
                         Agregar Tratamiento
                       </Button>
