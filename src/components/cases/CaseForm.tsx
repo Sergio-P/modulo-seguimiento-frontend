@@ -65,6 +65,19 @@ export default function CaseForm(props: CaseFormProps) {
     [seguimientoQuery.data]
   );
 
+  async function closeSeguimiento(seguimientoId: number) {
+    const response = await fetch(`http://localhost:8000/seguimiento/close/${seguimientoId}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // Aquí puedes agregar los datos que quieras enviar en la petición PATCH
+      }),
+    });
+    return response.json();
+  }
+
   const [newMetastasisList, setNewMetastasisList] = useState([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
@@ -103,6 +116,11 @@ export default function CaseForm(props: CaseFormProps) {
   const onSubmit = (data: any) => {
     // subimos a la api,,,
     // manejamos también newMetastasisList añadiendola a new_entries
+    if (seguimientoQuery.data?.id){
+      closeSeguimiento(seguimientoQuery.data?.id).then((response) => {
+        // Aquí puedes realizar cualquier acción que desees después de que la petición PATCH tenga éxito, como actualizar la lista de seguimientos.
+      });
+    }
     console.log(data);
     // fetch() a la API para subir seguimientos
   };
@@ -744,8 +762,9 @@ export default function CaseForm(props: CaseFormProps) {
                   Guardar
                 </Button> */}
                 {/* TODO: Make real submit save button */}
+                <Button filled type="submit">Cerrar Seguimiento</Button>
                 <Link href="../../">
-                  <Button filled>Guardar</Button>
+                  <Button filled>Guardar Falso</Button>
                 </Link>
               </div>
             </form>
