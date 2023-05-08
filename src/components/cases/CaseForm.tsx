@@ -498,6 +498,7 @@ export default function CaseForm(props: CaseFormProps) {
                       label="Presenta Metástasis"
                     />
                     <Modal
+                      type="button"
                       disabled={!tieneMetastasis}
                       metastasis={true}
                       icon="plus"
@@ -528,6 +529,7 @@ export default function CaseForm(props: CaseFormProps) {
                       label="Presenta recurrencia"
                     />
                     <Modal
+                      type="button"
                       disabled={!tieneRecurrencia}
                       recurrencia={true}
                       icon="plus"
@@ -557,6 +559,7 @@ export default function CaseForm(props: CaseFormProps) {
                       label="Presenta progresión"
                     />
                     <Modal
+                      type="button"
                       disabled={!tieneProgresion}
                       progresion={true}
                       icon="plus"
@@ -635,6 +638,7 @@ export default function CaseForm(props: CaseFormProps) {
                       />
                     </div>
                     <Modal
+                      type="button"
                       className="max-w-[115px]"
                       tratamiento={true}
                       icon="plus"

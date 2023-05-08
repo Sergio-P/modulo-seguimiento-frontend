@@ -153,7 +153,8 @@ export default function Modal(props: ButtonProps) {
     setIsOpenTratamiento(true);
   }
 
-  const addMetastasis: SubmitHandler<MetastasisValues> = (data) => {
+  const addMetastasis: SubmitHandler<MetastasisValues> = (data, event) => {
+    event?.stopPropagation();
     if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
       const newMetastasis: Metastasis = {
         id: caso?.metastasis ? caso.metastasis.length +1  : 1,
