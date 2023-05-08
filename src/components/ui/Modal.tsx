@@ -330,7 +330,11 @@ export default function Modal(props: ButtonProps) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form onSubmit={metastasisForm.handleSubmit(addMetastasis)}>
+                  <form onSubmit={(e) =>{
+                    e.preventDefault(); 
+                    metastasisForm.handleSubmit(addMetastasis)(e);
+                    e.stopPropagation();
+                    }}>
                     <div className="flex justify-between">
                       <Dialog.Title
                         as="h3"
@@ -398,7 +402,11 @@ export default function Modal(props: ButtonProps) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form onSubmit={recurrenciaForm.handleSubmit(addRecurrencia)}>
+                  <form onSubmit={(e) =>{
+                    e.preventDefault(); 
+                    recurrenciaForm.handleSubmit(addRecurrencia)(e);
+                    e.stopPropagation();
+                    }}>
                     <div className="flex justify-between">
                       <Dialog.Title
                         as="h3"
@@ -495,7 +503,11 @@ export default function Modal(props: ButtonProps) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form onSubmit={progresionForm.handleSubmit(addProgresion)}>
+                  <form onSubmit={(e) =>{
+                    e.preventDefault(); 
+                    progresionForm.handleSubmit(addProgresion)(e);
+                    e.stopPropagation();
+                    }}>
                     <div className="flex justify-between">
                       <Dialog.Title
                         as="h3"
@@ -587,7 +599,11 @@ export default function Modal(props: ButtonProps) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form onSubmit={tratamientoForm.handleSubmit(addTratamiento)}>
+                  <form onSubmit={(e) =>{
+                    e.preventDefault(); 
+                    tratamientoForm.handleSubmit(addTratamiento)(e);
+                    e.stopPropagation();
+                    }}>
                     <div className="flex justify-between">
                       <Dialog.Title
                         as="h3"
