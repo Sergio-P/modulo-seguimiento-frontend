@@ -77,6 +77,29 @@ export default function CaseForm(props: CaseFormProps) {
     return response.json();
   }
 
+  async function saveNewMetastasis(metastasisList: any[]){
+    for (const metastasis of metastasisList) {
+      fetch(`http://127.0.0.1:8000/metastasis/?caso_registro_id=${metastasis.caso_registro_id}&seguimiento_id=${metastasis.seguimiento_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha_diagnostico: fns.format(metastasis.fecha_diagnostico, 'yyyy-MM-dd'),
+          fecha_estimada: metastasis.fecha_estimada,
+          detalle_topografia: metastasis.detalle_topografia,
+        }),
+      })
+        .then((response) => {
+          // Manejar la respuesta de la petición aquí
+        })
+        .catch((error) => {
+          // Manejar el error de la petición aquí
+        });
+    }
+    metastasisList = [];
+  }
+
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
@@ -120,25 +143,7 @@ export default function CaseForm(props: CaseFormProps) {
         // Aquí puedes realizar cualquier acción que desees después de que la petición PATCH tenga éxito, como actualizar la lista de seguimientos.
       });
     }
-    for (const metastasis of newMetastasisList) {
-      fetch(`http://127.0.0.1:8000/metastasis/?caso_registro_id=${metastasis.caso_registro_id}&seguimiento_id=${metastasis.seguimiento_id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fecha_diagnostico: fns.format(metastasis.fecha_diagnostico, 'yyyy-MM-dd'),
-          fecha_estimada: metastasis.fecha_estimada,
-          detalle_topografia: metastasis.detalle_topografia,
-        }),
-      })
-        .then((response) => {
-          // Manejar la respuesta de la petición aquí
-        })
-        .catch((error) => {
-          // Manejar el error de la petición aquí
-        });
-    }
+    saveNewMetastasis(newMetastasisList);
 
     console.log(data);
     // fetch() a la API para subir seguimientos
