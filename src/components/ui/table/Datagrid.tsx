@@ -124,6 +124,7 @@ export default function Datagrid<TData = any>({
             <HiChevronLeft />
           </button>
           <button
+            type="button"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
             className="disabled:opacity-50"
@@ -154,6 +155,7 @@ export default function Datagrid<TData = any>({
           </div>
 
           <button
+            
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
             className="disabled:opacity-50"
