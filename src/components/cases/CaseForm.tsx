@@ -19,6 +19,8 @@ import { useQuery } from "react-query";
 import { Seguimiento } from "@/types/Seguimiento";
 import { EstadoVital } from "@/types/Enums";
 import { VscSave } from "react-icons/vsc";
+import { Metastasis } from "@/types/Metastasis";
+import * as fns from "date-fns";
 
 interface CaseFormProps {
   caseId: string;
@@ -71,14 +73,11 @@ export default function CaseForm(props: CaseFormProps) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        // Aquí puedes agregar los datos que quieras enviar en la petición PATCH
-      }),
     });
     return response.json();
   }
 
-  const [newMetastasisList, setNewMetastasisList] = useState([]);
+  const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
   const [newTratamientoList, setNewTratamientoList] = useState([]);
@@ -121,6 +120,26 @@ export default function CaseForm(props: CaseFormProps) {
         // Aquí puedes realizar cualquier acción que desees después de que la petición PATCH tenga éxito, como actualizar la lista de seguimientos.
       });
     }
+    for (const metastasis of newMetastasisList) {
+      fetch(`http://127.0.0.1:8000/metastasis/?caso_registro_id=${metastasis.caso_registro_id}&seguimiento_id=${metastasis.seguimiento_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha_diagnostico: fns.format(metastasis.fecha_diagnostico, 'yyyy-MM-dd'),
+          fecha_estimada: metastasis.fecha_estimada,
+          detalle_topografia: metastasis.detalle_topografia,
+        }),
+      })
+        .then((response) => {
+          // Manejar la respuesta de la petición aquí
+        })
+        .catch((error) => {
+          // Manejar el error de la petición aquí
+        });
+    }
+
     console.log(data);
     // fetch() a la API para subir seguimientos
   };

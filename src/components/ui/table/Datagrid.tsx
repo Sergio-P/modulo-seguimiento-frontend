@@ -155,7 +155,7 @@ export default function Datagrid<TData = any>({
           </div>
 
           <button
-            
+            type="button"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
             className="disabled:opacity-50"
