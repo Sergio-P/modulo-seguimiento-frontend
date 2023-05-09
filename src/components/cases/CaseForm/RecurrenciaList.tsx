@@ -23,7 +23,7 @@ const columns = [
     cell: DateCell,
     size: 110,
   }),
-  columnHelper.accessor("tipo.name", {
+  columnHelper.accessor("tipo", {
     header: "Tipo Recurrencia",
     size: 110,
   }),

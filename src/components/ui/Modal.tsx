@@ -68,7 +68,7 @@ export default function Modal(props: ButtonProps) {
   interface RecurrenciaValues {
     fecha_diagnostico: null | Date;
     fecha_estimada: boolean;
-    tipo: null | string;
+    tipo: null | {id: number, name: string};
     detalle_topografia_recurrencia: null | string;
   }
 
@@ -184,7 +184,7 @@ export default function Modal(props: ButtonProps) {
         created_at: new Date(),
         updated_at: new Date(),
         ...data,
-        tipo: data.tipo,
+        tipo: data.tipo.name,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia_recurrencia: data.detalle_topografia_recurrencia
       }
@@ -434,7 +434,7 @@ export default function Modal(props: ButtonProps) {
                         name="tipo"
                         control={recurrenciaForm.control}
                         defaultValue={
-                          "Local"
+                          {id: 1, name: "Local"}
                         }
                         render={({ field }) => (
                           <div className="col-span-2">

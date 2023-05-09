@@ -21,6 +21,7 @@ import { EstadoVital } from "@/types/Enums";
 import { VscSave } from "react-icons/vsc";
 import { Metastasis } from "@/types/Metastasis";
 import * as fns from "date-fns";
+import { set } from "lodash";
 
 interface CaseFormProps {
   caseId: string;
@@ -79,7 +80,7 @@ export default function CaseForm(props: CaseFormProps) {
 
   async function saveNewMetastasis(metastasisList: any[]){
     for (const metastasis of metastasisList) {
-      fetch(`http://127.0.0.1:8000/metastasis/?caso_registro_id=${metastasis.caso_registro_id}&seguimiento_id=${metastasis.seguimiento_id}`, {
+      fetch(`http://localhost:8000/metastasis/?caso_registro_id=${metastasis.caso_registro_id}&seguimiento_id=${metastasis.seguimiento_id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +98,31 @@ export default function CaseForm(props: CaseFormProps) {
           // Manejar el error de la petición aquí
         });
     }
-    metastasisList = [];
+    setNewMetastasisList([]);
+  }
+
+  async function saveNewRecurrencia(recurrenciaList: any[]){
+    for (const recurrencia of recurrenciaList) {
+      fetch(`http://localhost:8000/recurrencia/?caso_registro_id=${recurrencia.caso_registro_id}&seguimiento_id=${recurrencia.seguimiento_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha_diagnostico: fns.format(recurrencia.fecha_diagnostico, 'yyyy-MM-dd'),
+          fecha_estimada: recurrencia.fecha_estimada,
+          tipo: recurrencia.tipo,
+          detalle_topografia_recurrencia: recurrencia.detalle_topografia_recurrencia,
+        }),
+      })
+        .then((response) => {
+          // Manejar la respuesta de la petición aquí
+        })
+        .catch((error) => {
+          // Manejar el error de la petición aquí
+        });
+    }
+    setNewRecurrenciaList([]);
   }
 
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
@@ -144,9 +169,12 @@ export default function CaseForm(props: CaseFormProps) {
       });
     }
     saveNewMetastasis(newMetastasisList);
+    saveNewRecurrencia(newRecurrenciaList);
+
 
     console.log(data);
     // fetch() a la API para subir seguimientos
+    // finalmente una redireccion de vuelta a la lista de seguimientos
   };
   console.log(watch());
   return (
