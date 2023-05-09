@@ -125,6 +125,30 @@ export default function CaseForm(props: CaseFormProps) {
     setNewRecurrenciaList([]);
   }
 
+  async function saveNewProgresion(progresionList: any[]){
+    for (const progresion of progresionList) {
+      fetch(`http://localhost:8000/progresion/?caso_registro_id=${progresion.caso_registro_id}&caso_seguimiento_id=${progresion.seguimiento_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha_diagnostico: fns.format(progresion.fecha_diagnostico, 'yyyy-MM-dd'),
+          fecha_estimada: progresion.fecha_estimada,
+          tipo: progresion.tipo,
+          detalle_topografia_progresion: progresion.detalle_topografia_progresion,
+        }),
+      })
+        .then((response) => {
+          // Manejar la respuesta de la petición aquí
+        })
+        .catch((error) => {
+          // Manejar el error de la petición aquí
+        });
+    }
+    setNewProgresionList([]);
+  }
+
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
@@ -170,9 +194,11 @@ export default function CaseForm(props: CaseFormProps) {
     }
     saveNewMetastasis(newMetastasisList);
     saveNewRecurrencia(newRecurrenciaList);
+    saveNewProgresion(newProgresionList);
 
 
     console.log(data);
+    
     // fetch() a la API para subir seguimientos
     // finalmente una redireccion de vuelta a la lista de seguimientos
   };

@@ -84,7 +84,7 @@ export default function Modal(props: ButtonProps) {
   interface ProgresionValues {
     fecha_diagnostico: null | Date;
     fecha_estimada: boolean;
-    tipo: null | string;
+    tipo: null | {id: number, name: string};
     detalle_topografia_progresion: null | string;
   }
 
@@ -204,7 +204,7 @@ export default function Modal(props: ButtonProps) {
         created_at: new Date(),
         updated_at: new Date(),
         ...data,
-        tipo: data.tipo,
+        tipo: data.tipo.name,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia_progresion: data.detalle_topografia_progresion
       }
@@ -530,7 +530,7 @@ export default function Modal(props: ButtonProps) {
                         name="tipo"
                         control={progresionForm.control}
                         defaultValue={
-                          "Local"
+                          {id: 1, name:"Local"}
                         }
                         render={({ field }) => (
                           <div className="col-span-2">

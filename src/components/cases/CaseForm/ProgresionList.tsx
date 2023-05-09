@@ -23,7 +23,7 @@ const columns = [
     cell: DateCell,
     size: 110,
   }),
-  columnHelper.accessor("tipo.name", {
+  columnHelper.accessor("tipo", {
     header: "Tipo Recurrencia",
     size: 110,
   }),
@@ -35,7 +35,7 @@ const columns = [
 
 export default function ProgresionList(props: ProgresionListProps) {
   const data = useMemo(() => props.elements, [props.elements]);
-  console.log("RecurrenciaList elements: ", data);
+  console.log("Progresion elements: ", data);
   const table = useReactTable({
     data: data,
     columns,
