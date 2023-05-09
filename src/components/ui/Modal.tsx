@@ -100,7 +100,7 @@ export default function Modal(props: ButtonProps) {
   interface TratamientoValues {
     medico: null | string;
     fecha_inicio: null | Date;
-    fecha_fin: null | Date;
+    fecha_termino: null | Date;
     en_tto: boolean;
     categoria_tto: null | {name: string};
     subcategoria_tto: null | {name: string};
@@ -112,7 +112,7 @@ export default function Modal(props: ButtonProps) {
     defaultValues: {
       medico: null, //
       fecha_inicio: null, //
-      fecha_fin: null, //
+      fecha_termino: null, //
       en_tto: false, //
       categoria_tto: null, //
       subcategoria_tto: null, //
@@ -217,7 +217,7 @@ export default function Modal(props: ButtonProps) {
 
 
   const addTratamiento: SubmitHandler<TratamientoValues> = (data) => {
-    if (data.fecha_inicio !== null && data.fecha_fin !== null && data.categoria_tto !== null && data.subcategoria_tto !== null && data.intencion_tto !== null && data.medico !== null && data.observaciones !== null) {
+    if (data.fecha_inicio !== null && data.fecha_termino !== null && data.categoria_tto !== null && data.subcategoria_tto !== null && data.intencion_tto !== null && data.medico !== null && data.observaciones !== null) {
       const newTratamiento: TratamientoEnFALP = {
         id: caso?.tratamientos_en_falp ? caso.tratamientos_en_falp.length +1  : 1,
         seguimiento_id: seguimiento.id,
@@ -228,7 +228,7 @@ export default function Modal(props: ButtonProps) {
         medico: data.medico,
         observaciones: data.observaciones,
         fecha_de_inicio: data.fecha_inicio,
-        fecha_de_termino: data.fecha_fin,
+        fecha_de_termino: data.fecha_termino,
         categoria_tto: data.categoria_tto.name,
         subcategoria_tto: data.subcategoria_tto.name,
         intencion_tto: data.intencion_tto.name,
@@ -656,7 +656,7 @@ export default function Modal(props: ButtonProps) {
                         )}
                       />
                       <Controller
-                        name="fecha_fin"
+                        name="fecha_termino"
                         control={tratamientoForm.control}
                         render={({ field }) => (
                           <DatePicker label="Término" {...field} />

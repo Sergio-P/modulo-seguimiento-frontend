@@ -149,6 +149,34 @@ export default function CaseForm(props: CaseFormProps) {
     setNewProgresionList([]);
   }
 
+  async function saveNewTratamientoEnFalp(tratamientoList: any[]){
+    for (const tratamiento of tratamientoList) {
+      fetch(`http://localhost:8000/tratamiento/en_falp?caso_registro_id=${tratamiento.caso_registro_id}&seguimiento_id=${tratamiento.seguimiento_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          medico: tratamiento.medico,
+          fecha_de_inicio: fns.format(tratamiento.fecha_inicio, 'yyyy-MM-dd'),
+          fecha_de_termino: fns.format(tratamiento.fecha_termino, 'yyyy-MM-dd'),
+          en_tto: tratamiento.en_tto,
+          categoria_tto: tratamiento.categoria_tto,
+          subcategoria_tto: tratamiento.subcategoria_tto,
+          intencion_tto: tratamiento.intencion_tto,
+          observaciones: tratamiento.observaciones,
+        }),
+      })
+        .then((response) => {
+          // Manejar la respuesta de la petición aquí
+        })
+        .catch((error) => {
+          // Manejar el error de la petición aquí
+        });
+    }
+    setNewTratamientoList([]);
+  }
+
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
@@ -195,6 +223,7 @@ export default function CaseForm(props: CaseFormProps) {
     saveNewMetastasis(newMetastasisList);
     saveNewRecurrencia(newRecurrenciaList);
     saveNewProgresion(newProgresionList);
+    saveNewTratamientoEnFalp(newTratamientoList);
 
 
     console.log(data);
