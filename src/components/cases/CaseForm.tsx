@@ -274,6 +274,14 @@ export default function CaseForm(props: CaseFormProps) {
                       <Button icon="2cuadrados" filled />
                       <Button icon="chatbubble" filled />
                     </div>
+                    <Modal
+                      type="button"
+                      morePatientInfo = {true}
+                      filled
+                      seguimiento={seguimientoQuery.data}
+                    >
+                      Más Información
+                    </Modal>
                   </div>
                 </BoundingBox>
               </div>

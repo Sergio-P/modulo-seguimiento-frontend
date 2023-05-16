@@ -41,8 +41,26 @@ interface CaseListTableProps {
 
 const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
+  columnHelper.display({
+    id: "boton_ver",
+    size: 32,
+    cell: (props) => (
+      <Link
+        href={`/cases/${props.row.original.id}`}
+        className="block h-6 w-6 text-primary"
+      >
+        <Image
+          alt=""
+          src="/icons/View.svg"
+          width={24}
+          height={24}
+          className="h-6 w-6"
+        />
+      </Link>
+    ),
+  }),
   columnHelper.accessor("caso_registro_correspondiente.num_registro", {
-    header: "N° Registro",
+    header: "Identificación",
     size: 100,
   }),
   columnHelper.accessor(
@@ -107,23 +125,9 @@ const columns = [
       </button>
     ),
   }),
-  columnHelper.display({
-    id: "boton_ver",
-    size: 32,
-    cell: (props) => (
-      <Link
-        href={`/cases/${props.row.original.id}`}
-        className="block h-6 w-6 text-primary"
-      >
-        <Image
-          alt=""
-          src="/icons/View.svg"
-          width={24}
-          height={24}
-          className="h-6 w-6"
-        />
-      </Link>
-    ),
+  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
+    header: "Registro",
+    size: 100,
   }),
 ];
 

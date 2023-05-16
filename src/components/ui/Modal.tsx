@@ -23,6 +23,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   recurrencia?: boolean;
   progresion?: boolean;
   tratamiento?: boolean;
+  morePatientInfo?: boolean;
   seguimiento: Seguimiento;
   setNewMetastasisList?: any,
   setNewRecurrenciaList?: any,
@@ -44,11 +45,13 @@ export default function Modal(props: ButtonProps) {
     setNewRecurrenciaList,
     setNewProgresionList,
     setNewTratamientoList,
+    morePatientInfo,
   } = props;
   let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
+  let [isOpenMoreInfo, setIsOpenMoreInfo] = useState(false);
   const { control, register } = useFormContext();
 
   const caso = seguimiento.caso_registro_correspondiente;
@@ -153,6 +156,14 @@ export default function Modal(props: ButtonProps) {
     setIsOpenTratamiento(true);
   }
 
+  function closeMoreInfo() {
+    setIsOpenMoreInfo(false);
+  }
+
+  function openMoreInfo() {
+    setIsOpenMoreInfo(true);
+  }
+
   const addMetastasis: SubmitHandler<MetastasisValues> = (data, event) => {
     event?.stopPropagation();
     if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
@@ -252,6 +263,7 @@ export default function Modal(props: ButtonProps) {
           "recurrencia",
           "progresion",
           "tratamiento",
+          "morePatientInfo",
           "setNewMetastasisList",
           "setNewRecurrenciaList",
           "setNewProgresionList",
@@ -266,6 +278,8 @@ export default function Modal(props: ButtonProps) {
             openModalProgresion();
           } else if (tratamiento) {
             openModalTratamiento();
+          } else if (morePatientInfo) {
+            openMoreInfo();
           }
         }}
         className={clsx(
@@ -764,6 +778,63 @@ export default function Modal(props: ButtonProps) {
                       </Button>
                     </div>
                   </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+      <Transition appear show={isOpenMoreInfo} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-30"
+          onClose={closeMoreInfo}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-80" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-4xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <div>
+                    <div className="flex justify-between">
+                      <Dialog.Title
+                        as="h3"
+                        className="pb-6 text-3xl font-bold leading-6 text-font"
+                      >
+                        Información de {caso?.nombre} {caso?.apellido}
+                      </Dialog.Title>
+                      <Button type="button" icon="cross" clear onClick={closeMoreInfo} />
+                    </div>
+                    <div className="grid grid-cols-2 items-center gap-6">
+                      <div className="grid grid-cols-2 items-center gap-1">
+                        <div className="font-bold">Estado Vital:</div>
+                        <div>{caso?.estado_vital}</div>
+                      </div>
+                      <div className="grid grid-cols-2 items-center gap-1">
+
+                      </div>
+                    </div>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
