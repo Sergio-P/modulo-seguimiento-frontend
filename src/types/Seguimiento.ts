@@ -12,6 +12,8 @@ import { Usuario } from "./Usuario";
 // this will happen while state is not "finalizado"
 
 export interface SeguimientoBase {
+  state: SeguimientoState;
+  numero_seguimiento: number;
   validacion_clase_caso: ClaseCaso | null;
   posee_recurrencia: boolean;
   posee_progresion: boolean;
@@ -45,7 +47,6 @@ export interface Seguimiento extends SeguimientoBase {
   caso_registro_id: number;
   created_at: Date;
   updated_at: Date | null;
-  state: SeguimientoState;
   usuario_asignado: Usuario | null;
   caso_registro_correspondiente: CasoRegistro;
 }

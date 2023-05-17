@@ -13,10 +13,17 @@ export enum Rol {
 }
 
 export enum SeguimientoState {
-  pendiente_asignacion = "pendiente_asignacion",
-  asignado = "asignado",
-  en_progreso = "en_progreso",
-  cerrado = "cerrado",
+  seguimiento_automatico_gatillado = "seguimiento_automatico_gatillado",
+  seguimiento_automatico_finalizado = "seguimiento_automatico_finalizado",
+  seguimiento_por_consulta_sin_asignar = "seguimiento_por_consulta_sin_asignar",
+  seguimiento_por_consulta_asignado = "seguimiento_por_consulta_asignado",
+  seguimiento_por_consulta_incompleto = "seguimiento_por_consulta_incompleto",
+  seguimiento_por_consulta_finalizado = "seguimiento_por_consulta_finalizado",
+  seguimiento_por_tratamiento_sin_asignar = "seguimiento_por_tratamiento_sin_asignar",
+  seguimiento_por_tratamiento_asignado = "seguimiento_por_tratamiento_asignado",
+  seguimiento_por_tratamiento_incompleto = "seguimiento_por_tratamiento_incompleto",
+  seguimiento_por_tratamiento_finalizado = "seguimiento_por_tratamiento_finalizado",
+  seguimiento_completo_fallecido = "seguimiento_completo_fallecido",
 }
 
 export enum ClaseCaso {
