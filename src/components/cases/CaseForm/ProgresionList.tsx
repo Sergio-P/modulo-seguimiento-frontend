@@ -18,6 +18,10 @@ interface ProgresionListProps {
 
 const columnHelper = createColumnHelper<Progresion>();
 const columns = [
+  columnHelper.accessor("updated_at", {
+    header: "Fecha Última Modificación",
+    size: 110,
+  }),
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha",
     cell: DateCell,
@@ -42,6 +46,12 @@ export default function ProgresionList(props: ProgresionListProps) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
+      sorting: [
+        {
+          id: "updated_at",
+          desc: true
+        }
+      ],
       pagination: {
         pageSize: 5,
       },

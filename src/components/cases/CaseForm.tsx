@@ -69,112 +69,45 @@ export default function CaseForm(props: CaseFormProps) {
   );
 
   async function closeSeguimiento(seguimientoId: number) {
-    const response = await fetch(`http://localhost:8000/seguimiento/close/${seguimientoId}/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const requestBody = {
+      id: seguimientoId,
+      caso_registro_id: caso?.id,
+      state: seguimientoQuery.data?.state,
+      numero_seguimiento: seguimientoQuery.data?.numero_seguimiento,
+      validacion_clase_caso: seguimientoQuery.data?.validacion_clase_caso,
+      posee_recurrencia: seguimientoQuery.data?.posee_recurrencia,
+      posee_progresion: seguimientoQuery.data?.posee_progresion,
+      posee_metastasis: seguimientoQuery.data?.posee_metastasis,
+      posee_tto: seguimientoQuery.data?.posee_tto,
+      condicion_del_caso: seguimientoQuery.data?.condicion_del_caso,
+      ultimo_contacto: seguimientoQuery.data?.ultimo_contacto,
+      estado_vital: seguimientoQuery.data?.estado_vital,
+      cierre_del_caso: seguimientoQuery.data?.cierre_del_caso,
+      tiene_consulta_nueva: seguimientoQuery.data?.tiene_consulta_nueva,
+      tiene_examenes: seguimientoQuery.data?.tiene_examenes,
+      tiene_comite_oncologico: seguimientoQuery.data?.tiene_comite_oncologico,
+      tiene_tratamiento: seguimientoQuery.data?.tiene_tratamiento,
+      new_entries: [] as { entry_type: string; entry_content: any }[],
+      updated_entries: [],
+      deleted_entries: []
+    };
+    fetch(`http://localhost:8000/seguimiento/sign/${seguimientoId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+    })
+    .then((response) => {
+      // Manejar la respuesta de la petición aquí
+      setNewMetastasisList([]);
+      setNewRecurrenciaList([]);
+      setNewProgresionList([]);
+      setNewTratamientoList([]);
+    })
+    .catch((error) => {
+      // Manejar el error de la petición aquí
     });
-    return response.json();
-  }
-
-  async function saveNewMetastasis(metastasisList: any[]){
-    for (const metastasis of metastasisList) {
-      fetch(`http://localhost:8000/metastasis/?caso_registro_id=${metastasis.caso_registro_id}&seguimiento_id=${metastasis.seguimiento_id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fecha_diagnostico: fns.format(metastasis.fecha_diagnostico, 'yyyy-MM-dd'),
-          fecha_estimada: metastasis.fecha_estimada,
-          detalle_topografia: metastasis.detalle_topografia,
-        }),
-      })
-        .then((response) => {
-          // Manejar la respuesta de la petición aquí
-        })
-        .catch((error) => {
-          // Manejar el error de la petición aquí
-        });
-    }
-    setNewMetastasisList([]);
-  }
-
-  async function saveNewRecurrencia(recurrenciaList: any[]){
-    for (const recurrencia of recurrenciaList) {
-      fetch(`http://localhost:8000/recurrencia/?caso_registro_id=${recurrencia.caso_registro_id}&seguimiento_id=${recurrencia.seguimiento_id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fecha_diagnostico: fns.format(recurrencia.fecha_diagnostico, 'yyyy-MM-dd'),
-          fecha_estimada: recurrencia.fecha_estimada,
-          tipo: recurrencia.tipo,
-          detalle_topografia_recurrencia: recurrencia.detalle_topografia_recurrencia,
-        }),
-      })
-        .then((response) => {
-          // Manejar la respuesta de la petición aquí
-        })
-        .catch((error) => {
-          // Manejar el error de la petición aquí
-        });
-    }
-    setNewRecurrenciaList([]);
-  }
-
-  async function saveNewProgresion(progresionList: any[]){
-    for (const progresion of progresionList) {
-      fetch(`http://localhost:8000/progresion/?caso_registro_id=${progresion.caso_registro_id}&caso_seguimiento_id=${progresion.seguimiento_id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fecha_diagnostico: fns.format(progresion.fecha_diagnostico, 'yyyy-MM-dd'),
-          fecha_estimada: progresion.fecha_estimada,
-          tipo: progresion.tipo,
-          detalle_topografia_progresion: progresion.detalle_topografia_progresion,
-        }),
-      })
-        .then((response) => {
-          // Manejar la respuesta de la petición aquí
-        })
-        .catch((error) => {
-          // Manejar el error de la petición aquí
-        });
-    }
-    setNewProgresionList([]);
-  }
-
-  async function saveNewTratamientoEnFalp(tratamientoList: any[]){
-    for (const tratamiento of tratamientoList) {
-      fetch(`http://localhost:8000/tratamiento/en_falp?caso_registro_id=${tratamiento.caso_registro_id}&seguimiento_id=${tratamiento.seguimiento_id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          medico: tratamiento.medico,
-          fecha_de_inicio: fns.format(tratamiento.fecha_inicio, 'yyyy-MM-dd'),
-          fecha_de_termino: fns.format(tratamiento.fecha_termino, 'yyyy-MM-dd'),
-          en_tto: tratamiento.en_tto,
-          categoria_tto: tratamiento.categoria_tto,
-          subcategoria_tto: tratamiento.subcategoria_tto,
-          intencion_tto: tratamiento.intencion_tto,
-          observaciones: tratamiento.observaciones,
-        }),
-      })
-        .then((response) => {
-          // Manejar la respuesta de la petición aquí
-        })
-        .catch((error) => {
-          // Manejar el error de la petición aquí
-        });
-    }
-    setNewTratamientoList([]);
   }
 
   async function updateSeguimiento(metastasisList:any[], recurrenciaList:any[], progresionList:any[], tratamientoList: any[]){
@@ -264,7 +197,7 @@ export default function CaseForm(props: CaseFormProps) {
     }
 
   // Realizar la petición PUT a la API
-  fetch(`http://localhost:8000/seguimiento/${seguimientoId}`, {
+  fetch(`http://localhost:8000/seguimiento/save/${seguimientoId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -282,15 +215,6 @@ export default function CaseForm(props: CaseFormProps) {
       // Manejar el error de la petición aquí
     });
 }
-
-
-
-
-
-
-
-  
-
 
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
@@ -330,23 +254,24 @@ export default function CaseForm(props: CaseFormProps) {
   const onSubmit = (data: any) => {
     // subimos a la api,,,
     // manejamos también newMetastasisList añadiendola a new_entries
+    updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList);
+    //ahora guardar
+    //o cerrar (sign)
     if (seguimientoQuery.data?.id){
       closeSeguimiento(seguimientoQuery.data?.id).then((response) => {
         // Aquí puedes realizar cualquier acción que desees después de que la petición PATCH tenga éxito, como actualizar la lista de seguimientos.
       });
     }
-    //saveNewMetastasis(newMetastasisList);
-    //saveNewRecurrencia(newRecurrenciaList);
-    //saveNewProgresion(newProgresionList);
-    //saveNewTratamientoEnFalp(newTratamientoList);
 
-    updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList);
-
+    
 
     console.log(data);
     
     // fetch() a la API para subir seguimientos
     // finalmente una redireccion de vuelta a la lista de seguimientos
+    //const history = useHistory();
+    //history.push("/"); // Redireccionar a la página raíz
+
   };
   console.log(watch());
   return (
@@ -999,9 +924,7 @@ export default function CaseForm(props: CaseFormProps) {
                 </Button> */}
                 {/* TODO: Make real submit save button */}
                 <Button filled type="submit">Cerrar Seguimiento</Button>
-                <Link href="../../">
-                  <Button filled>Guardar Falso</Button>
-                </Link>
+                <Button filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}>Guardar</Button>
               </div>
             </form>
           </>

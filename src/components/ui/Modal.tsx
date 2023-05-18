@@ -828,7 +828,7 @@ export default function Modal(props: ButtonProps) {
                       <Button type="button" icon="cross" clear onClick={closeMoreInfo} />
                     </div>
                     <div className="grid grid-cols-6 gap-4 text-left rounded-2xl w-full p-2">
-                      <div className="contents bg-background">
+                      <div className="contents">
                         <div className="font-bold">Nombre Paciente</div>
                         <div className="col-span-5">{caso?.nombre} {caso?.apellido}</div>
                       </div>
@@ -842,7 +842,7 @@ export default function Modal(props: ButtonProps) {
                         <div className="">{caso?.num_registro}</div>
                       </div>
                       <Separator/>
-                      <div className="contents bg-background">
+                      <div className="contents">
                         <div className="font-bold">Categoría</div>
                         <div className="col-span-5">{caso?.categoria}</div>
                       </div>
@@ -852,7 +852,7 @@ export default function Modal(props: ButtonProps) {
                         <div className="col-span-5">{caso?.subcategoria}</div>
                       </div>
                       <Separator/>
-                      <div className="contents bg-background">
+                      <div className="contents">
                         <div className="font-bold">Fecha Diagnóstico</div>
                         <div className="">{caso?.fecha_dg.toString()}</div>
                         <div className="font-bold">Lateralidad</div>
@@ -866,7 +866,7 @@ export default function Modal(props: ButtonProps) {
                         <div className="col-span-5">{caso?.morfologia}</div>
                       </div>
                       <Separator/>
-                      <div className="contents bg-background">
+                      <div className="contents">
                         <div className="font-bold">Topografía</div>
                         <div className="col-span-5">{caso?.topografia}</div>
                       </div>

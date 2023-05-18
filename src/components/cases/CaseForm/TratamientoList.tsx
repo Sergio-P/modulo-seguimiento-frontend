@@ -19,6 +19,10 @@ interface TratamientoListProps {
 
 const columnHelper = createColumnHelper<TratamientoEnFALP>();
 const columns = [
+  columnHelper.accessor("updated_at", {
+    header: "Fecha Última Modificación",
+    size: 110,
+  }),
   columnHelper.accessor("fecha_de_inicio", {
     header: "Inicio",
     cell: DateCell,
@@ -56,6 +60,12 @@ export default function TratamientoList(props: TratamientoListProps) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
+      sorting: [
+        {
+          id: "updated_at",
+          desc: true
+        }
+      ],
       pagination: {
         pageSize: 5,
       },
