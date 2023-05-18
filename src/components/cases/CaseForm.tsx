@@ -104,6 +104,7 @@ export default function CaseForm(props: CaseFormProps) {
       setNewRecurrenciaList([]);
       setNewProgresionList([]);
       setNewTratamientoList([]);
+      window.location.href = `/`;
     })
     .catch((error) => {
       // Manejar el error de la petición aquí
@@ -210,6 +211,7 @@ export default function CaseForm(props: CaseFormProps) {
       setNewRecurrenciaList([]);
       setNewProgresionList([]);
       setNewTratamientoList([]);
+      window.location.reload(); //solucion parche aqui lo que se deberia hacer es hacer solo reload de las tablas con los valores nuevos
     })
     .catch((error) => {
       // Manejar el error de la petición aquí
@@ -316,6 +318,7 @@ export default function CaseForm(props: CaseFormProps) {
                       <Button icon="2cuadrados" filled />
                       <Button icon="chatbubble" filled />
                     </div>
+                    <Button filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}>Guardar</Button>
                     <Modal
                       type="button"
                       morePatientInfo = {true}
