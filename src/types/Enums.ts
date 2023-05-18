@@ -12,6 +12,12 @@ export enum Rol {
   registrador = "registrador",
 }
 
+export enum TipoSeguimiento {
+  seguimiento_automatico = "Seguimiento automático",
+  seguimiento_por_consulta = "Seguimiento asociado a prestaciones de consultas médicas",
+  seguimiento_por_tratamiento = "Seguimiento asociado a prestaciones de tratamientos",
+}
+
 export enum SeguimientoState {
   seguimiento_automatico_gatillado = "seguimiento_automatico_gatillado",
   seguimiento_automatico_finalizado = "seguimiento_automatico_finalizado",
