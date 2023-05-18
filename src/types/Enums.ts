@@ -19,17 +19,12 @@ export enum TipoSeguimiento {
 }
 
 export enum SeguimientoState {
-  seguimiento_automatico_gatillado = "seguimiento_automatico_gatillado",
-  seguimiento_automatico_finalizado = "seguimiento_automatico_finalizado",
-  seguimiento_por_consulta_sin_asignar = "seguimiento_por_consulta_sin_asignar",
-  seguimiento_por_consulta_asignado = "seguimiento_por_consulta_asignado",
-  seguimiento_por_consulta_incompleto = "seguimiento_por_consulta_incompleto",
-  seguimiento_por_consulta_finalizado = "seguimiento_por_consulta_finalizado",
-  seguimiento_por_tratamiento_sin_asignar = "seguimiento_por_tratamiento_sin_asignar",
-  seguimiento_por_tratamiento_asignado = "seguimiento_por_tratamiento_asignado",
-  seguimiento_por_tratamiento_incompleto = "seguimiento_por_tratamiento_incompleto",
-  seguimiento_por_tratamiento_finalizado = "seguimiento_por_tratamiento_finalizado",
-  seguimiento_completo_fallecido = "seguimiento_completo_fallecido",
+  gatillado = "Gatillado",
+  sin_asignar = "Sin asignar",
+  asignado = "Asignado",
+  incompleto = "Incompleto",
+  completo_fallecido = "Completo fallecido",
+  finalizado = "Finalizado",
 }
 
 export enum ClaseCaso {
