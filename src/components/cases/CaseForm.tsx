@@ -177,50 +177,83 @@ export default function CaseForm(props: CaseFormProps) {
     setNewTratamientoList([]);
   }
 
-  async function updateSeguimiento(tratamientoList: any[]){
+  async function updateSeguimiento(metastasisList:any[], recurrenciaList:any[], progresionList:any[], tratamientoList: any[]){
     const seguimientoId = seguimientoQuery.data?.id;
-      fetch(`http://localhost:8000/seguimiento/${seguimientoId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          "id": 1,
-          "caso_registro_id": 1,
-          "state": "seguimiento_por_consulta_asignado",
-          "numero_seguimiento": 1,
-          "validacion_clase_caso": "Diagnóstico y tratamiento en FALP",
-          "posee_recurrencia": true,
-          "posee_progresion": true,
-          "posee_metastasis": true,
-          "posee_tto": true,
-          "condicion_del_caso": "Vivo con enfermedad",
-          "ultimo_contacto": "2023-03-20",
-          "estado_vital": "Vivo",
-          "cierre_del_caso": false,
-          "tiene_consulta_nueva": false,
-          "tiene_examenes": false,
-          "tiene_comite_oncologico": false,
-          "tiene_tratamiento": false,
-          "new_entries": [
-            
-          ],
-          "updated_entries": [
-           
-          ],
-          "deleted_entries": [
-            
-          ]
-        }),
-      })
-        .then((response) => {
-          // Manejar la respuesta de la petición aquí
-        })
-        .catch((error) => {
-          // Manejar el error de la petición aquí
-        });
+    const requestBody = {
+      id: seguimientoId,
+      caso_registro_id: caso?.id,
+      state: seguimientoQuery.data?.state,
+      numero_seguimiento: seguimientoQuery.data?.numero_seguimiento,
+      validacion_clase_caso: seguimientoQuery.data?.validacion_clase_caso,
+      posee_recurrencia: seguimientoQuery.data?.posee_recurrencia,
+      posee_progresion: seguimientoQuery.data?.posee_progresion,
+      posee_metastasis: seguimientoQuery.data?.posee_metastasis,
+      posee_tto: seguimientoQuery.data?.posee_tto,
+      condicion_del_caso: seguimientoQuery.data?.condicion_del_caso,
+      ultimo_contacto: seguimientoQuery.data?.ultimo_contacto,
+      estado_vital: seguimientoQuery.data?.estado_vital,
+      cierre_del_caso: seguimientoQuery.data?.cierre_del_caso,
+      tiene_consulta_nueva: seguimientoQuery.data?.tiene_consulta_nueva,
+      tiene_examenes: seguimientoQuery.data?.tiene_examenes,
+      tiene_comite_oncologico: seguimientoQuery.data?.tiene_comite_oncologico,
+      tiene_tratamiento: seguimientoQuery.data?.tiene_tratamiento,
+      new_entries: [] as { entry_type: string; entry_content: any }[],
+      updated_entries: [],
+      deleted_entries: []
+    };
+    // Construir new_entries
+    for (const metastasis of metastasisList) {
+      requestBody.new_entries.push(
+        {
+          entry_type: "metastasis",
+          entry_content: {
+            fecha_diagnostico: fns.format(metastasis.fecha_diagnostico, 'yyyy-MM-dd'),
+            fecha_estimada: metastasis.fecha_estimada,
+            detalle_topografia: metastasis.detalle_topografia
+          }
+        }
+      );
     }
-    //setNewTratamientoList([]);
+
+    for (const recurrencia of recurrenciaList) {
+      requestBody.new_entries.push(
+        {
+          entry_type: "recurrencia",
+          entry_content: {
+            fecha_diagnostico: fns.format(recurrencia.fecha_diagnostico, 'yyyy-MM-dd'),
+            fecha_estimada: recurrencia.fecha_estimada,
+            tipo: recurrencia.tipo,
+            detalle_topografia_recurrencia: recurrencia.detalle_topografia_recurrencia
+          }
+        }
+      );
+    }
+
+  // Realizar la petición PUT a la API
+  fetch(`http://localhost:8000/seguimiento/${seguimientoId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+    .then((response) => {
+      // Manejar la respuesta de la petición aquí
+      setNewMetastasisList([]);
+      setNewRecurrenciaList([]);
+    })
+    .catch((error) => {
+      // Manejar el error de la petición aquí
+    });
+}
+
+
+
+
+
+
+
+  
 
 
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
@@ -271,9 +304,7 @@ export default function CaseForm(props: CaseFormProps) {
     //saveNewProgresion(newProgresionList);
     //saveNewTratamientoEnFalp(newTratamientoList);
 
-    //console.log("newTratamientoList: ", newTratamientoList);
-    //console.log("newMetastasisList: ", newMetastasisList);
-    updateSeguimiento(newTratamientoList);
+    updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList);
 
 
     console.log(data);
@@ -341,7 +372,7 @@ export default function CaseForm(props: CaseFormProps) {
               className="mb-7 flex flex-col gap-7"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <Section id="diagnostico" title="Diagnóstico">
+              {/*<Section id="diagnostico" title="Diagnóstico">
                 <SubSection title="Antecedentes"></SubSection>
                 <div className="grid max-w-5xl grid-cols-3 gap-8">
                   <Controller
@@ -654,7 +685,7 @@ export default function CaseForm(props: CaseFormProps) {
                     />
                   </div>
                 </SubSection>
-              </Section>
+              </Section>*/}
               <Section id="metastasis" title="Metástasis">
                 <SubSection>
                   <div className="flex justify-between">
