@@ -229,6 +229,40 @@ export default function CaseForm(props: CaseFormProps) {
       );
     }
 
+    for (const progresion of progresionList) {
+      requestBody.new_entries.push(
+        {
+          entry_type: "progresion",
+          entry_content: {
+            id: progresion.id,
+            fecha_diagnostico: fns.format(progresion.fecha_diagnostico, 'yyyy-MM-dd'),
+            fecha_estimada: progresion.fecha_estimada,
+            tipo: progresion.tipo,
+            detalle_topografia_progresion: progresion.detalle_topografia_progresion
+          }
+        }
+      );
+    }
+
+    for (const tratamiento of tratamientoList) {
+      requestBody.new_entries.push(
+        {
+          entry_type: "tratamiento_en_falp",
+          entry_content: {
+            medico: tratamiento.medico,
+            fecha_de_inicio: fns.format(tratamiento.fecha_inicio, 'yyyy-MM-dd'),
+            fecha_de_termino: fns.format(tratamiento.fecha_termino, 'yyyy-MM-dd'),
+            en_tto: tratamiento.en_tto,
+            categoria_tto: tratamiento.categoria_tto,
+            subcategoria_tto: tratamiento.subcategoria_tto,
+            intencion_tto: tratamiento.intencion_tto,
+            //descripcion_de_la_prestacion: "tratamiento.descripcion_de_la_prestacion",
+            observaciones: tratamiento.observaciones
+          }
+        }
+      );
+    }
+
   // Realizar la petición PUT a la API
   fetch(`http://localhost:8000/seguimiento/${seguimientoId}`, {
     method: 'PUT',
@@ -241,6 +275,8 @@ export default function CaseForm(props: CaseFormProps) {
       // Manejar la respuesta de la petición aquí
       setNewMetastasisList([]);
       setNewRecurrenciaList([]);
+      setNewProgresionList([]);
+      setNewTratamientoList([]);
     })
     .catch((error) => {
       // Manejar el error de la petición aquí
