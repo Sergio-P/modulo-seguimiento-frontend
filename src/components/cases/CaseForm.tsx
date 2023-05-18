@@ -177,6 +177,52 @@ export default function CaseForm(props: CaseFormProps) {
     setNewTratamientoList([]);
   }
 
+  async function updateSeguimiento(tratamientoList: any[]){
+    const seguimientoId = seguimientoQuery.data?.id;
+      fetch(`http://localhost:8000/seguimiento/${seguimientoId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "id": 1,
+          "caso_registro_id": 1,
+          "state": "seguimiento_por_consulta_asignado",
+          "numero_seguimiento": 1,
+          "validacion_clase_caso": "Diagnóstico y tratamiento en FALP",
+          "posee_recurrencia": true,
+          "posee_progresion": true,
+          "posee_metastasis": true,
+          "posee_tto": true,
+          "condicion_del_caso": "Vivo con enfermedad",
+          "ultimo_contacto": "2023-03-20",
+          "estado_vital": "Vivo",
+          "cierre_del_caso": false,
+          "tiene_consulta_nueva": false,
+          "tiene_examenes": false,
+          "tiene_comite_oncologico": false,
+          "tiene_tratamiento": false,
+          "new_entries": [
+            
+          ],
+          "updated_entries": [
+           
+          ],
+          "deleted_entries": [
+            
+          ]
+        }),
+      })
+        .then((response) => {
+          // Manejar la respuesta de la petición aquí
+        })
+        .catch((error) => {
+          // Manejar el error de la petición aquí
+        });
+    }
+    //setNewTratamientoList([]);
+
+
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
@@ -220,10 +266,14 @@ export default function CaseForm(props: CaseFormProps) {
         // Aquí puedes realizar cualquier acción que desees después de que la petición PATCH tenga éxito, como actualizar la lista de seguimientos.
       });
     }
-    saveNewMetastasis(newMetastasisList);
-    saveNewRecurrencia(newRecurrenciaList);
-    saveNewProgresion(newProgresionList);
-    saveNewTratamientoEnFalp(newTratamientoList);
+    //saveNewMetastasis(newMetastasisList);
+    //saveNewRecurrencia(newRecurrenciaList);
+    //saveNewProgresion(newProgresionList);
+    //saveNewTratamientoEnFalp(newTratamientoList);
+
+    //console.log("newTratamientoList: ", newTratamientoList);
+    //console.log("newMetastasisList: ", newMetastasisList);
+    updateSeguimiento(newTratamientoList);
 
 
     console.log(data);

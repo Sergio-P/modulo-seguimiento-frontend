@@ -14,6 +14,7 @@ import { Metastasis } from "@/types/Metastasis";
 import { Recurrencia } from "@/types/Recurrencia";
 import { Progresion } from "@/types/Progresion";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
+import * as fns from "date-fns";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -243,6 +244,7 @@ export default function Modal(props: ButtonProps) {
         categoria_tto: data.categoria_tto.name,
         subcategoria_tto: data.subcategoria_tto.name,
         intencion_tto: data.intencion_tto.name,
+        en_tto: data.en_tto,
         descripcion_de_la_prestacion: "no esta este campo en el formulario"
       }
       setNewTratamientoList((prev: TratamientoEnFALP[]) => {
@@ -814,25 +816,46 @@ export default function Modal(props: ButtonProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-4xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-5xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                   <div>
                     <div className="flex justify-between">
                       <Dialog.Title
                         as="h3"
                         className="pb-6 text-3xl font-bold leading-6 text-font"
                       >
-                        Información de {caso?.nombre} {caso?.apellido}
+                        Antecedentes Personales
                       </Dialog.Title>
                       <Button type="button" icon="cross" clear onClick={closeMoreInfo} />
                     </div>
-                    <div className="grid grid-cols-2 items-center gap-6">
-                      <div className="grid grid-cols-2 items-center gap-1">
-                        <div className="font-bold">Estado Vital:</div>
-                        <div>{caso?.estado_vital}</div>
-                      </div>
-                      <div className="grid grid-cols-2 items-center gap-1">
-
-                      </div>
+                    <div className="grid grid-cols-6 gap-4 text-left rounded-2xl w-full p-2">
+                      <div className="font-bold">Nombre Paciente</div>
+                      <div className="col-span-5">{caso?.nombre} {caso?.apellido}</div>
+                      <Separator/>
+                      <div className="font-bold">Ficha</div>
+                      <div className="">{caso?.ficha}</div>
+                      <div className="font-bold">RUT/DNI</div>
+                      <div className="">{caso?.rut_dni}</div>
+                      <div className="font-bold">N° Registro</div>
+                      <div className="">{caso?.num_registro}</div>
+                      <Separator/>
+                      <div className="font-bold">Categoría</div>
+                      <div className="col-span-5">{caso?.categoria}</div>
+                      <Separator/>
+                      <div className="font-bold">Subcategoría</div>
+                      <div className="col-span-5">{caso?.subcategoria}</div>
+                      <Separator/>
+                      <div className="font-bold">Fecha Diagnóstico</div>
+                      <div className="">{caso?.fecha_dg.toString()}</div>
+                      <div className="font-bold">Lateralidad</div>
+                      <div className="">{caso?.lateralidad}</div>
+                      <div className="font-bold">Estadío Diagnóstico</div>
+                      <div className="">{caso?.estadio_dg}</div>
+                      <Separator/>
+                      <div className="font-bold">Morfología</div>
+                      <div className="col-span-5">{caso?.morfologia}</div>
+                      <Separator/>
+                      <div className="font-bold">Topografía</div>
+                      <div className="col-span-5">{caso?.topografia}</div>
                     </div>
                   </div>
                 </Dialog.Panel>
@@ -843,4 +866,8 @@ export default function Modal(props: ButtonProps) {
       </Transition>
     </>
   );
+}
+
+function Separator() {
+  return <div className="h-[1px] w-full col-span-6 bg-zinc-400"></div>;
 }
