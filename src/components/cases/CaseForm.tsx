@@ -211,7 +211,7 @@ export default function CaseForm(props: CaseFormProps) {
       setNewRecurrenciaList([]);
       setNewProgresionList([]);
       setNewTratamientoList([]);
-      window.location.reload(); //solucion parche aqui lo que se deberia hacer es hacer solo reload de las tablas con los valores nuevos
+      seguimientoQuery.refetch();
     })
     .catch((error) => {
       // Manejar el error de la petición aquí
@@ -260,19 +260,11 @@ export default function CaseForm(props: CaseFormProps) {
     //ahora guardar
     //o cerrar (sign)
     if (seguimientoQuery.data?.id){
-      closeSeguimiento(seguimientoQuery.data?.id).then((response) => {
-        // Aquí puedes realizar cualquier acción que desees después de que la petición PATCH tenga éxito, como actualizar la lista de seguimientos.
-      });
+      closeSeguimiento(seguimientoQuery.data?.id);
     }
-
-    
 
     console.log(data);
     
-    // fetch() a la API para subir seguimientos
-    // finalmente una redireccion de vuelta a la lista de seguimientos
-    //const history = useHistory();
-    //history.push("/"); // Redireccionar a la página raíz
 
   };
   console.log(watch());
