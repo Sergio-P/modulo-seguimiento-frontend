@@ -28,9 +28,6 @@ interface CaseFormProps {
 }
 
 const sections = [
-  { id: "diagnostico", name: "Diagnóstico" },
-  { id: "morfologia", name: "Morfología y Topografía" },
-  { id: "lateralidad", name: "Lateralidad y Estadío" },
   { id: "metastasis", name: "Metástasis" },
   { id: "recurrencia", name: "Recurrencia" },
   { id: "progresion", name: "Progresión" },
@@ -304,8 +301,8 @@ export default function CaseForm(props: CaseFormProps) {
                       {caso?.nombre} {caso?.apellido}
                     </h2>
                     <Foo label={"RUT"} value={caso?.rut_dni || ""} />
-                    <Foo label={"Registro"} value={caso?.num_registro || ""} />
-                    <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
+                    <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
+                    <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
                     <div className="flex justify-between gap-4">
                       <Button icon="2cuadrados" filled />
                       <Button icon="chatbubble" filled />
