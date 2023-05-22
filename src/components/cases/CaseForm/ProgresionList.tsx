@@ -35,6 +35,32 @@ const columns = [
     header: "Detalle Topografía Recurrencia",
     size: 110,
   }),
+  columnHelper.display({
+    id: "buttons_metastasis",
+    size: 50,
+    cell: (props) => (
+      <div className="flex gap-6">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            alert(`aquí deberíamos editar`);
+          }}
+          className="h-6 w-8 text-primary"
+        >
+          Editar
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            alert(`aquí deberíamos borrar`);
+          }}
+          className="h-6 w-8 text-primary"
+        >
+          Borrar
+        </button>
+      </div>
+    ),
+  }),
 ];
 
 export default function ProgresionList(props: ProgresionListProps) {

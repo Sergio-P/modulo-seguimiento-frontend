@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { Button } from "react-day-picker";
 
 interface MetastasisListProps {
   elements: Metastasis[];
@@ -27,6 +28,32 @@ const columns = [
   columnHelper.accessor("detalle_topografia", {
     header: "Detalle Topografia",
     size: 110,
+  }),
+  columnHelper.display({
+    id: "buttons_metastasis",
+    size: 20,
+    cell: (props) => (
+      <div className="flex gap-6">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            alert(`aquí deberíamos editar`);
+          }}
+          className="h-6 w-8 text-primary"
+        >
+          Editar
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            alert(`aquí deberíamos borrar`);
+          }}
+          className="h-6 w-8 text-primary"
+        >
+          Borrar
+        </button>
+      </div>
+    ),
   }),
 ];
 

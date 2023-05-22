@@ -301,21 +301,23 @@ export default function CaseForm(props: CaseFormProps) {
                       {caso?.nombre} {caso?.apellido}
                     </h2>
                     <Foo label={"RUT"} value={caso?.rut_dni || ""} />
+                    <Foo label={"N° Registro"} value={caso?.num_registro || ""} />
                     <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
                     <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
-                    <div className="flex justify-between gap-4">
-                      <Button icon="2cuadrados" filled />
-                      <Button icon="chatbubble" filled />
-                    </div>
-                    <Button filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}>Guardar</Button>
                     <Modal
                       type="button"
                       morePatientInfo = {true}
                       filled
                       seguimiento={seguimientoQuery.data}
                     >
-                      Más Información
+                      Más...
                     </Modal>
+                    <div className="flex justify-between gap-4">
+                      <Button icon="2cuadrados" filled />
+                      <Button icon="chatbubble" filled />
+                      <Button icon="SaveIcon" filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}/>
+                    </div>
+                    
                   </div>
                 </BoundingBox>
               </div>
@@ -915,8 +917,7 @@ export default function CaseForm(props: CaseFormProps) {
                   Guardar
                 </Button> */}
                 {/* TODO: Make real submit save button */}
-                <Button filled type="submit">Cerrar Seguimiento</Button>
-                <Button filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}>Guardar</Button>
+                <Button filled type="submit">Firmar Seguimiento</Button>
               </div>
             </form>
           </>
