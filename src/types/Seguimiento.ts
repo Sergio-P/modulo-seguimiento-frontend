@@ -9,9 +9,6 @@ import { EntryUpdate, EntryCreate, EntryDelete } from "./UtilitySchemas";
 import { CasoRegistro } from "./CasoRegistro";
 import { Usuario } from "./Usuario";
 
-// TODO In Seguimiento, fields can be null while the assigned user is filling them.
-// this will happen while state is not "finalizado"
-
 export interface SeguimientoBase {
   validacion_clase_caso: ClaseCaso | null;
   posee_recurrencia: boolean;
@@ -23,7 +20,6 @@ export interface SeguimientoBase {
   estado_vital: EstadoVital | null;
   fecha_defuncion: Date | null;
   causa_defuncion: string | null;
-  cierre_del_caso: boolean | null;
   tiene_consulta_nueva: boolean;
   tiene_examenes: boolean;
   tiene_comite_oncologico: boolean;
@@ -49,4 +45,5 @@ export interface Seguimiento extends SeguimientoBase {
   numero_seguimiento: number;
   usuario_asignado: Usuario | null;
   caso_registro_correspondiente: CasoRegistro;
+  cierre_del_caso: boolean;
 }
