@@ -40,6 +40,7 @@ export interface Seguimiento extends SeguimientoBase {
   caso_registro_id: number;
   created_at: Date;
   updated_at: Date | null;
+  fecha_asignacion: Date | null;
   state: SeguimientoState;
   tipo_seguimiento: TipoSeguimiento;
   numero_seguimiento: number;
