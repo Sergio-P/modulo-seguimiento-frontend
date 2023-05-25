@@ -22,6 +22,7 @@ import { VscSave } from "react-icons/vsc";
 import { Metastasis } from "@/types/Metastasis";
 import * as fns from "date-fns";
 import { set } from "lodash";
+import { es } from "date-fns/locale";
 
 interface CaseFormProps {
   caseId: string;
@@ -239,6 +240,10 @@ export default function CaseForm(props: CaseFormProps) {
     name: "posee_progresion",
     defaultValue: false,
   });
+
+  const { watch: watchForm } = form;
+  const estadoVital = watchForm("estado_vital");
+
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
@@ -899,10 +904,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <SelectInput
                         label="Estado Vital"
-                        options={[
-                          { id: 1, name: "Vivo" },
-                          { id: 2, name: "Muerto" },
-                        ]}
+                        options={["Vivo", "Muerto"]}
                         {...field}
                       />
                     )}
@@ -914,12 +916,9 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <div className="col-start-1">
                         <SelectInput
+                          disabled={estadoVital === "Muerto"}
                           label="Causa Defunción"
-                          options={[
-                            { id: 1, name: "Muerte por cáncer o complicación" },
-                            { id: 2, name: "Muerte por otra causa" },
-                            { id: 3, name: "Desconocido" },
-                          ]}
+                          options={[ "Muerte por cáncer o complicación", "Muerte por otra causa", "Desconocido" ]}
                           {...field}
                         />
                       </div>
@@ -931,6 +930,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Defunción"
+                        disabled={estadoVital === "Muerto"}
                         defaultValue={
                           caso?.fecha_defuncion
                             ? new Date(caso.fecha_defuncion)
@@ -941,7 +941,7 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <div className="flex items-center">
-                    <Checkbox label="Estimada" />
+                    <Checkbox disabled={estadoVital === "Muerto"} label="Estimada" />
                   </div>
                 </div>
               </Section>
