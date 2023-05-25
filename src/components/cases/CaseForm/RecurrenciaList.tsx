@@ -1,12 +1,12 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
+import LastDateCell from "@/components/ui/table/LastDateCell";
 import {
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as fns from "date-fns";
 import { useState } from "react";
 import { Recurrencia } from "@/types/Recurrencia";
 import { useMemo } from "react";
@@ -21,6 +21,7 @@ const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
     size: 110,
+    cell: LastDateCell,
   }),
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha Diagnóstico",

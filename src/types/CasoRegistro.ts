@@ -2,6 +2,7 @@ import { Comentario } from "./Comentario";
 import { Metastasis } from "./Metastasis";
 import { Recurrencia } from "./Recurrencia";
 import { Progresion } from "./Progresion";
+import { Comite } from "./Comite";
 import { TratamientoAntesFALP } from "./TratamientoAntesFALP";
 import { TratamientoEnFALP } from "./TratamientoEnFALP";
 import { TratamientoPostDuranteFALP } from "./TratamientoPostDuranteFALP";
@@ -47,6 +48,7 @@ export interface CasoRegistro extends CasoRegistroBase {
   metastasis: Metastasis[];
   recurrencias: Recurrencia[];
   progresiones: Progresion[];
+  comites: Comite[];
   tratamientos_antes_falp: TratamientoAntesFALP[];
   tratamientos_en_falp: TratamientoEnFALP[];
   tratamientos_post_durante_falp: TratamientoPostDuranteFALP[];

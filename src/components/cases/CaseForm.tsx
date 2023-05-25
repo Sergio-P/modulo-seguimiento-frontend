@@ -913,11 +913,14 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <div className="flex justify-around">
-                {/* <Button type="submit" filled className="w-1/7">
-                  Guardar
-                </Button> */}
-                {/* TODO: Make real submit save button */}
-                <Button filled type="submit">Firmar Seguimiento</Button>
+                <Modal
+                      type="button"
+                      sign={true}
+                      seguimiento={seguimientoQuery.data}
+                      filled
+                    >
+                      Firmar Seguimiento
+                </Modal>
               </div>
             </form>
           </>
