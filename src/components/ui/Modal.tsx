@@ -419,7 +419,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalMetastasis}>Cancelar</Button>
-                      <Button filled type="submit" disabled={!detalle_topografia || !fecha_diagnostico}>
+                      <Button filled type="submit" disabled={!detalle_topografia || !fecha_diagnostico}
+                      title={!detalle_topografia || !fecha_diagnostico ? "Por favor complete todos los campos" : ""}>
                         Agregar Metástasis
                       </Button>
                     </div>
@@ -520,7 +521,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalRecurrencia}>Cancelar</Button>
-                      <Button filled type="submit" disabled={!tipo || !detalle_topografia_recurrencia || !fecha_diagnostico_recurrencia}>
+                      <Button filled type="submit" disabled={!tipo || !detalle_topografia_recurrencia || !fecha_diagnostico_recurrencia}
+                      title={!tipo || !detalle_topografia_recurrencia || !fecha_diagnostico_recurrencia ? "Por favor complete todos los campos" : ""}>
                         Agregar Recurrencia
                       </Button>
                     </div>
@@ -616,7 +618,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalProgresion}>Cancelar</Button>
-                      <Button filled type="submit" disabled={!tipo_progresion || !detalle_topografia_progresion || !fecha_diagnostico_progresion}>
+                      <Button filled type="submit" disabled={!tipo_progresion || !detalle_topografia_progresion || !fecha_diagnostico_progresion}
+                      title={!tipo_progresion || !detalle_topografia_progresion || !fecha_diagnostico_progresion ? "Por favor complete todos los campos" : ""}>
                         Agregar Progresión
                       </Button>
                     </div>
@@ -818,7 +821,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalTratamiento}>Cancelar</Button>
-                      <Button filled type="submit" disabled={!medico || !fecha_inicio || !fecha_termino || !categoria_tto || !subcategoria_tto || !intencion_tto || !observaciones}>
+                      <Button filled type="submit" disabled={!medico || !fecha_inicio || !fecha_termino || !categoria_tto || !subcategoria_tto || !intencion_tto || !observaciones}
+                      title={!medico || !fecha_inicio || !fecha_termino || !categoria_tto || !subcategoria_tto || !intencion_tto || !observaciones ? "Por favor complete todos los campos" : ""}>
                         Agregar Tratamiento
                       </Button>
                     </div>
