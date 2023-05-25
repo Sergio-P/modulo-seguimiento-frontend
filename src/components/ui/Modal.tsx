@@ -25,6 +25,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   progresion?: boolean;
   tratamiento?: boolean;
   morePatientInfo?: boolean;
+  sign?: boolean;
   seguimiento: Seguimiento;
   setNewMetastasisList?: any,
   setNewRecurrenciaList?: any,
@@ -47,12 +48,14 @@ export default function Modal(props: ButtonProps) {
     setNewProgresionList,
     setNewTratamientoList,
     morePatientInfo,
+    sign,
   } = props;
   let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
   let [isOpenMoreInfo, setIsOpenMoreInfo] = useState(false);
+  let [isOpenSign, setIsOpenSign] = useState(false);
   const { control, register } = useFormContext();
 
   const caso = seguimiento.caso_registro_correspondiente;
@@ -165,6 +168,14 @@ export default function Modal(props: ButtonProps) {
     setIsOpenMoreInfo(true);
   }
 
+  function closeSign() {
+    setIsOpenSign(false);
+  }
+
+  function openSign() {
+    setIsOpenSign(true);
+  }
+
   const addMetastasis: SubmitHandler<MetastasisValues> = (data, event) => {
     event?.stopPropagation();
     if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
@@ -266,6 +277,7 @@ export default function Modal(props: ButtonProps) {
           "progresion",
           "tratamiento",
           "morePatientInfo",
+          "sign",
           "setNewMetastasisList",
           "setNewRecurrenciaList",
           "setNewProgresionList",
@@ -282,7 +294,10 @@ export default function Modal(props: ButtonProps) {
             openModalTratamiento();
           } else if (morePatientInfo) {
             openMoreInfo();
+          } else if (sign) {
+            openSign();
           }
+
         }}
         className={clsx(
           "h-10 rounded-lg border-2 border-primary text-sm tracking-wide",
@@ -872,6 +887,62 @@ export default function Modal(props: ButtonProps) {
                       </div>
                     </div>
                   </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+
+      <Transition appear show={isOpenSign} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-30"
+          onClose={closeSign}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-80" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <form onSubmit={closeSign}>
+                    <div className="flex justify-between">
+                      <Dialog.Title
+                        as="h3"
+                        className="pb-6 text-3xl font-bold leading-6 text-font"
+                      >
+                        Firmar el seguimiento?
+                      </Dialog.Title>
+                      <Button type="button" icon="cross" clear onClick={closeSign} />
+                    </div>
+                    <div className="mt-6 flex justify-between">
+                      <Button type="button" onClick={closeSign}>Cancelar</Button>
+                      <Button filled type="submit">
+                        Firmar Seguimiento
+                      </Button>
+                    </div>
+                  </form>
+                  
                 </Dialog.Panel>
               </Transition.Child>
             </div>
