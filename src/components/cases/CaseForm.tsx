@@ -916,7 +916,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <div className="col-start-1">
                         <SelectInput
-                          disabled={estadoVital === "Muerto"}
+                          disabled={estadoVital === "Vivo"}
                           label="Causa Defunción"
                           options={[ "Muerte por cáncer o complicación", "Muerte por otra causa", "Desconocido" ]}
                           {...field}
@@ -930,7 +930,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Defunción"
-                        disabled={estadoVital === "Muerto"}
+                        disabled={estadoVital === "Vivo"}
                         defaultValue={
                           caso?.fecha_defuncion
                             ? new Date(caso.fecha_defuncion)
@@ -941,7 +941,7 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <div className="flex items-center">
-                    <Checkbox disabled={estadoVital === "Muerto"} label="Estimada" />
+                    <Checkbox disabled={estadoVital === "Vivo"} label="Estimada" />
                   </div>
                 </div>
               </Section>
