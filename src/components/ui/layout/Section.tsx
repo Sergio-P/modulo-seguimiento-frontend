@@ -6,7 +6,7 @@ export default function Section(
 ) {
   return (
     <div id={props.id || props.title} hidden={props.hidden}>
-      <BoundingBox>
+      <BoundingBox className="border-background-dark">
         <h2
           className={clsx(
             props.title && "mb-9",

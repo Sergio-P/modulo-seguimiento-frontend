@@ -294,8 +294,8 @@ export default function CaseForm(props: CaseFormProps) {
                   </Link>
                 </div>
               </div>
-              <div className="mt-8 pb-2">
-                <BoundingBox>
+              <div className="mt-8">
+                <BoundingBox className="border-2 bg-background-dark border-background-dark">
                   <div className="flex items-center justify-between">
                     <h2 className="flex-none text-2xl font-bold">
                       {caso?.nombre} {caso?.apellido}
@@ -324,7 +324,7 @@ export default function CaseForm(props: CaseFormProps) {
             </div>
 
             <form
-              className="mb-7 flex flex-col gap-7"
+              className="mt-2 mb-3 flex flex-col gap-7"
               onSubmit={handleSubmit(onSubmit)}
             >
               {/*<Section id="diagnostico" title="Diagnóstico">

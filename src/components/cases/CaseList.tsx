@@ -13,6 +13,7 @@ import BoundingBox from "../ui/layout/BoundingBox";
 import Image from "next/image";
 import BooleanCell from "../ui/table/BooleanCell";
 import Link from "next/link";
+import dateCell from "../ui/table/DateCell";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -84,6 +85,7 @@ const columns = [
   columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
     header: "Fecha diagnóstico",
     size: 110,
+    cell: dateCell,
   }),
   columnHelper.accessor("usuario_asignado.nombre", {
     header: "Usuario asignado",

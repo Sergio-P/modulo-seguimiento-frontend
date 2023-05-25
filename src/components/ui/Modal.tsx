@@ -60,17 +60,20 @@ export default function Modal(props: ButtonProps) {
 
   const caso = seguimiento.caso_registro_correspondiente;
   interface MetastasisValues {
-    fecha_diagnostico: null | Date;
+    fecha_diagnostico: Date | null;
     fecha_estimada: boolean;
     detalle_topografia: null | string;
   }
+
   const metastasisForm = useForm<MetastasisValues>({
+    mode: "onChange",
     defaultValues: {
       fecha_diagnostico: null, //
       fecha_estimada: false, //
       detalle_topografia: null, //
     }
   })
+
 
   interface RecurrenciaValues {
     fecha_diagnostico: null | Date;
@@ -380,18 +383,22 @@ export default function Modal(props: ButtonProps) {
                         name="fecha_diagnostico"
                         control={metastasisForm.control}
                         render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field} />
+                          <DatePicker label="Fecha Diagnóstico" {...field} rules={{
+                            required: "La fecha de diagnóstico es requerida",
+                          }}/>
                         )}
                       />
                       <Checkbox label="Fecha Estimada" {...metastasisForm.register("fecha_estimada")} />
                       <div className="col-span-2">
-                        <TextInput label="Detalle Topografía" {...metastasisForm.register("detalle_topografia")}/>
+                        <TextInput label="Detalle Topografía" {...metastasisForm.register("detalle_topografia", {
+                          required: "El detalle de topografía es requerido",
+                          })}/>
                       </div>
 
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalMetastasis}>Cancelar</Button>
-                      <Button filled type="submit">
+                      <Button filled type="submit" disabled={!metastasisForm.formState.isValid}>
                         Agregar Metástasis
                       </Button>
                     </div>
