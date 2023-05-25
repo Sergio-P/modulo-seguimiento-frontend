@@ -74,6 +74,9 @@ export default function Modal(props: ButtonProps) {
     }
   })
 
+  const { watch: watchMetastais } = metastasisForm;
+  const detalle_topografia = watchMetastais("detalle_topografia");
+  const fecha_diagnostico = watchMetastais("fecha_diagnostico");
 
   interface RecurrenciaValues {
     fecha_diagnostico: null | Date;
@@ -91,6 +94,12 @@ export default function Modal(props: ButtonProps) {
     }
   })
 
+  const { watch: watchRecurrencia } = recurrenciaForm;
+  const tipo = watchRecurrencia("tipo");
+  const detalle_topografia_recurrencia = watchRecurrencia("detalle_topografia_recurrencia");
+  const fecha_diagnostico_recurrencia = watchRecurrencia("fecha_diagnostico");
+
+
   interface ProgresionValues {
     fecha_diagnostico: null | Date;
     fecha_estimada: boolean;
@@ -106,6 +115,11 @@ export default function Modal(props: ButtonProps) {
       detalle_topografia_progresion: null, //
     }
   })
+
+  const { watch: watchProgresion } = progresionForm;
+  const tipo_progresion = watchProgresion("tipo");
+  const detalle_topografia_progresion = watchProgresion("detalle_topografia_progresion");
+  const fecha_diagnostico_progresion = watchProgresion("fecha_diagnostico");
 
   interface TratamientoValues {
     medico: null | string;
@@ -130,6 +144,17 @@ export default function Modal(props: ButtonProps) {
       observaciones: null, //
     }
   })
+
+  const { watch: watchTratamiento } = tratamientoForm;
+  const medico = watchTratamiento("medico");
+  const fecha_inicio = watchTratamiento("fecha_inicio");
+  const fecha_termino = watchTratamiento("fecha_termino");
+  const categoria_tto = watchTratamiento("categoria_tto");
+  const subcategoria_tto = watchTratamiento("subcategoria_tto");
+  const intencion_tto = watchTratamiento("intencion_tto");
+  const observaciones = watchTratamiento("observaciones");
+  const en_tto = watchTratamiento("en_tto");
+
 
   function closeModalMetastasis() {
     setIsOpenMetastasis(false);
@@ -383,22 +408,19 @@ export default function Modal(props: ButtonProps) {
                         name="fecha_diagnostico"
                         control={metastasisForm.control}
                         render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field} rules={{
-                            required: "La fecha de diagnóstico es requerida",
-                          }}/>
+                          <DatePicker label="Fecha Diagnóstico" {...field}/>
                         )}
                       />
                       <Checkbox label="Fecha Estimada" {...metastasisForm.register("fecha_estimada")} />
                       <div className="col-span-2">
-                        <TextInput label="Detalle Topografía" {...metastasisForm.register("detalle_topografia", {
-                          required: "El detalle de topografía es requerido",
-                          })}/>
+                        <TextInput label="Detalle Topografía" {...metastasisForm.register("detalle_topografia")}/>
                       </div>
 
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalMetastasis}>Cancelar</Button>
-                      <Button filled type="submit" disabled={!metastasisForm.formState.isValid}>
+                      <Button filled type="submit" disabled={!detalle_topografia || !fecha_diagnostico}
+                      title={!detalle_topografia || !fecha_diagnostico ? "Por favor complete todos los campos" : ""}>
                         Agregar Metástasis
                       </Button>
                     </div>
@@ -499,7 +521,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalRecurrencia}>Cancelar</Button>
-                      <Button filled type="submit">
+                      <Button filled type="submit" disabled={!tipo || !detalle_topografia_recurrencia || !fecha_diagnostico_recurrencia}
+                      title={!tipo || !detalle_topografia_recurrencia || !fecha_diagnostico_recurrencia ? "Por favor complete todos los campos" : ""}>
                         Agregar Recurrencia
                       </Button>
                     </div>
@@ -595,7 +618,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalProgresion}>Cancelar</Button>
-                      <Button filled type="submit">
+                      <Button filled type="submit" disabled={!tipo_progresion || !detalle_topografia_progresion || !fecha_diagnostico_progresion}
+                      title={!tipo_progresion || !detalle_topografia_progresion || !fecha_diagnostico_progresion ? "Por favor complete todos los campos" : ""}>
                         Agregar Progresión
                       </Button>
                     </div>
@@ -797,7 +821,8 @@ export default function Modal(props: ButtonProps) {
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalTratamiento}>Cancelar</Button>
-                      <Button filled type="submit">
+                      <Button filled type="submit" disabled={!medico || !fecha_inicio || !fecha_termino || !categoria_tto || !subcategoria_tto || !intencion_tto || !observaciones}
+                      title={!medico || !fecha_inicio || !fecha_termino || !categoria_tto || !subcategoria_tto || !intencion_tto || !observaciones ? "Por favor complete todos los campos" : ""}>
                         Agregar Tratamiento
                       </Button>
                     </div>
