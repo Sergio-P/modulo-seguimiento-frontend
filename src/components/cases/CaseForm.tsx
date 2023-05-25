@@ -284,39 +284,45 @@ export default function CaseForm(props: CaseFormProps) {
                       onChange={handleSectionSelect}
                     />
                   </div>
-                  <Button icon="FileIcon" className="mr-6">
-                    Historial
-                  </Button>
-                  <Link href="../../">
-                    <Button icon="GeoLocate" filled>
-                      Seguimientos
-                    </Button>
-                  </Link>
+                  <div className="flex justify-center gap-4">
+                      <Button icon="FileIcon" className="">
+                        Historial
+                      </Button>
+                      <Button icon="2cuadrados" filled />
+                      <Button icon="chatbubble" filled />
+                      <Button icon="SaveIcon" filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}/>
+                      <Link href="../../">
+                        <Button icon="GeoLocate" filled>
+                          Seguimientos
+                        </Button>
+                      </Link>
+                    </div>
                 </div>
               </div>
-              <div className="mt-8">
-                <BoundingBox className="border-2 bg-background-dark border-background-dark">
-                  <div className="flex items-center justify-between">
-                    <h2 className="flex-none text-2xl font-bold">
-                      {caso?.nombre} {caso?.apellido}
-                    </h2>
+              <div className="mt-4">
+                <BoundingBox thin className="border-2 bg-background border-background-dark m-4">
+                  <div className="flex justify-around place-items-center">
+                    <div className="flex-col justify-center items-center">
+                      <h2 className="text-2xl font-bold">
+                        {caso?.nombre} {caso?.apellido}
+                      </h2>
+                      <div className="">
+                        <MiniFoo label={"Seguimiento"} value={seguimientoQuery?.data?.numero_seguimiento?.toString() || ""} />
+                      </div>
+                    </div>
                     <Foo label={"RUT"} value={caso?.rut_dni || ""} />
                     <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
                     <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
                     <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
                     <Modal
+                    className="w-48 place-self-center"
                       type="button"
                       morePatientInfo = {true}
                       filled
                       seguimiento={seguimientoQuery.data}
                     >
-                      Más...
+                      Más Información
                     </Modal>
-                    <div className="flex justify-between gap-4">
-                      <Button icon="2cuadrados" filled />
-                      <Button icon="chatbubble" filled />
-                      <Button icon="SaveIcon" filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}/>
-                    </div>
                     
                   </div>
                 </BoundingBox>
@@ -733,7 +739,7 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <Section id="tratamiento" title="Antecedentes Tratamiento">
-                <SubSection title="Configuración"></SubSection>
+                {/* <SubSection title="Configuración"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                   <Controller
                     name="caso_registro_correspondiente.clase_caso"
@@ -775,8 +781,7 @@ export default function CaseForm(props: CaseFormProps) {
                       />
                     )}
                   />
-                </div>
-                <Separator />
+                </div> */}
                 <SubSection title="">
                   <div className="grid max-w-5xl grid-cols-1 items-center gap-8 lg:grid-cols-3">
                     <div>
@@ -811,7 +816,35 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
               </Section>
-              <Section id="estadovital" title="Antecedentes Estado Vital">
+              <Section id="estadovital" title="Validación Antecedentes">
+                <SubSection title="Validación Clase de Caso"></SubSection>
+                <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
+                  <Controller
+                    name="caso_registro_correspondiente.clase_caso"
+                    control={control}
+                    defaultValue={seguimientoQuery?.data?.validacion_clase_caso
+                      ? "whhat?"
+                      : "no wn no funciona xD"
+                    }
+                    render={({ field }) => (
+                      <div className="col-span-2">
+                        <SelectInput
+                          label={"Clase Caso"}
+                          options={[
+                            {
+                              id: 1,
+                              name: "Diagnóstico y tratamiento en FALP",
+                            },
+                            { id: 2, name: "Tratamiento en FALP" },
+                            { id: 3, name: "Diagnóstico en FALP" },
+                          ]}
+                          {...field}
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
+                <Separator/>
                 <SubSection title="Último Contacto"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                   <div>
@@ -821,8 +854,8 @@ export default function CaseForm(props: CaseFormProps) {
                       render={({ field }) => (
                         <DatePicker
                           defaultValue={
-                            caso?.ultimo_contacto
-                              ? new Date(caso.ultimo_contacto)
+                            seguimientoQuery.data?.ultimo_contacto
+                              ? new Date(seguimientoQuery.data?.ultimo_contacto)
                               : new Date()
                           }
                           label="Último Contacto"
@@ -937,6 +970,16 @@ function Foo(props: { label: string; value: string }) {
     <div className="flex gap-1">
       <div className="font-bold">{label}: </div>{" "}
       <div className="font-bold">{value}</div>
+    </div>
+  );
+}
+
+function MiniFoo(props: { label: string; value: string }) {
+  const { label, value } = props;
+  return (
+    <div className="flex gap-1">
+      <div className="font-subtitle">{label} </div>{" "}
+      <div className="font-subtitle">{value}</div>
     </div>
   );
 }
