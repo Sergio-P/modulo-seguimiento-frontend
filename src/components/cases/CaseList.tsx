@@ -43,6 +43,7 @@ const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
   columnHelper.display({
     id: "boton_ver",
+    header: "Ver",
     size: 32,
     cell: (props) => (
       <Link
@@ -59,8 +60,12 @@ const columns = [
       </Link>
     ),
   }),
-  columnHelper.accessor("caso_registro_correspondiente.num_registro", {
-    header: "Identificación",
+  columnHelper.accessor("caso_registro_correspondiente.ficha", {
+    header: "Ficha",
+    size: 100,
+  }),
+  columnHelper.accessor("state", {
+    header: "Estado",
     size: 100,
   }),
   columnHelper.accessor(
@@ -106,6 +111,7 @@ const columns = [
   }),
   columnHelper.display({
     id: "boton_asignar",
+    header: "Asignar",
     size: 40,
     cell: (props) => (
       <button
@@ -124,10 +130,6 @@ const columns = [
         />
       </button>
     ),
-  }),
-  columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
-    header: "Registro",
-    size: 100,
   }),
 ];
 

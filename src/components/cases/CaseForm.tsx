@@ -294,14 +294,14 @@ export default function CaseForm(props: CaseFormProps) {
                   </Link>
                 </div>
               </div>
-              <div className="mt-8 pb-7">
+              <div className="mt-8 pb-2">
                 <BoundingBox>
                   <div className="flex items-center justify-between">
                     <h2 className="flex-none text-2xl font-bold">
                       {caso?.nombre} {caso?.apellido}
                     </h2>
                     <Foo label={"RUT"} value={caso?.rut_dni || ""} />
-                    <Foo label={"N° Registro"} value={caso?.num_registro || ""} />
+                    <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
                     <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
                     <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
                     <Modal
