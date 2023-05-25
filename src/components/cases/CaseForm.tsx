@@ -913,14 +913,13 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <div className="flex justify-around">
-                <Button filled type="submit">Firmar Seguimiento</Button>
                 <Modal
                       type="button"
                       sign={true}
                       seguimiento={seguimientoQuery.data}
                       filled
                     >
-                      Firmar Seguimiento con Alerta
+                      Firmar Seguimiento
                 </Modal>
               </div>
             </form>

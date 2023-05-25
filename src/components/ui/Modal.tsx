@@ -926,16 +926,15 @@ export default function Modal(props: ButtonProps) {
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                   <form onSubmit={closeSign}>
-                    <div className="flex justify-between">
+                    <div className="flex justify-start">
                       <Dialog.Title
                         as="h3"
                         className="pb-6 text-3xl font-bold leading-6 text-font"
                       >
-                        Firmar el seguimiento?
+                        ¿Estás seguro/a de firmar seguimiento?
                       </Dialog.Title>
-                      <Button type="button" icon="cross" clear onClick={closeSign} />
                     </div>
-                    <div className="mt-6 flex justify-between">
+                    <div className="mt-6 flex justify-end gap-4">
                       <Button type="button" onClick={closeSign}>Cancelar</Button>
                       <Button filled type="submit">
                         Firmar Seguimiento
