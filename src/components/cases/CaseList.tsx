@@ -36,10 +36,6 @@ export default function CaseList() {
   );
 }
 
-interface CaseListTableProps {
-  data: Seguimiento[];
-}
-
 const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
   columnHelper.display({
@@ -134,6 +130,10 @@ const columns = [
     ),
   }),
 ];
+
+interface CaseListTableProps {
+  data: Seguimiento[];
+}
 
 function CaseListTable({ data }: CaseListTableProps) {
   const table = useReactTable({
