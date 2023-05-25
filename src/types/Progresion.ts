@@ -18,5 +18,5 @@ export interface Progresion extends ProgresionBase {
   seguimiento_id: number | null;
   caso_registro_id: number;
   created_at: Date;
-  updated_at: Date | null;
+  updated_at: Date;
 }

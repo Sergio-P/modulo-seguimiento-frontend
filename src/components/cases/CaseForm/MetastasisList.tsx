@@ -1,5 +1,6 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
+import LastDateCell from "@/components/ui/table/LastDateCell";
 import { Metastasis } from "@/types/Metastasis";
 import {
   createColumnHelper,
@@ -19,6 +20,7 @@ const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
     size: 110,
+    cell: LastDateCell,
   }),
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha Diagnóstico",
