@@ -27,7 +27,7 @@ export default function CaseList() {
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
         <h1 className="text-4xl font-bold text-font-title">
-          Seguimiento de Casos
+          <Link href="/">Seguimiento de Casos</Link>
         </h1>
       </div>
       <BoundingBox>
