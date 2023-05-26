@@ -52,6 +52,12 @@ export default function CaseForm(props: CaseFormProps) {
     [seguimientoQuery.data]
   );
 
+  const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
+  const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
+  const [newProgresionList, setNewProgresionList] = useState([]);
+  const [newTratamientoList, setNewTratamientoList] = useState([]);
+  const [selectedSection, setSelectedSection] = useState(sections[0]);
+
   async function closeSeguimiento(seguimientoId: number) {
     const requestBody = {
       id: seguimientoId,
@@ -210,11 +216,6 @@ export default function CaseForm(props: CaseFormProps) {
       });
   }
 
-  const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
-  const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
-  const [newProgresionList, setNewProgresionList] = useState([]);
-  const [newTratamientoList, setNewTratamientoList] = useState([]);
-  const [selectedSection, setSelectedSection] = useState(sections[0]);
   const form = useForm({
     defaultValues: seguimientoQuery.data,
   });
