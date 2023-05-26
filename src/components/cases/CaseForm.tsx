@@ -33,22 +33,8 @@ const sections = [
   { id: "recurrencia", name: "Recurrencia" },
   { id: "progresion", name: "Progresión" },
   { id: "tratamiento", name: "Tratamiento" },
-  { id: "estadovital", name: "Estado Vital" },
+  { id: "validacion", name: "Validación Antecedentes" },
 ];
-/*
-          <Section id="recurrencia" title="Recurrencia">
-            <SubSection title="Datos Complementarios">ola</SubSection>
-          </Section>
-          <Section id="progresion" title="Progresión">
-            <SubSection title="Datos Complementarios">ola</SubSection>
-          </Section>
-          <Section id="antecedentes" title="Antecedentes tratamiento ">
-            <SubSection title="Datos Complementarios">ola</SubSection>
-          </Section>
-          <Section id="lateralidad" title="Lateralidad y Estadío">
-            <SubSection title="Datos Complementarios">ola</SubSection>
-          </Section>
-          */
 
 interface SeguimientoForm extends Seguimiento {}
 
@@ -501,7 +487,7 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
               </Section>
-              <Section id="estadovital" title="Validación Antecedentes">
+              <Section id="validacion" title="Validación Antecedentes">
                 <SubSection title="Validación Clase de Caso"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                   <Controller
@@ -548,6 +534,7 @@ export default function CaseForm(props: CaseFormProps) {
                     />
                   </div>
                   <div className="flex items-center">
+                    {/* TODO: Este campo no existe en el modelo */}
                     <Checkbox
                       {...register(
                         "caso_registro_correspondiente.sigue_atencion_otro_centro"
