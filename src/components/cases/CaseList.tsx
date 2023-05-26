@@ -14,6 +14,7 @@ import Image from "next/image";
 import BooleanCell from "../ui/table/BooleanCell";
 import Link from "next/link";
 import dateCell from "../ui/table/DateCell";
+import Checkbox from "../ui/Checkbox";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -38,6 +39,31 @@ export default function CaseList() {
 
 const columnHelper = createColumnHelper<Seguimiento>();
 const columns = [
+  columnHelper.display({
+    id: "checkbox",
+    size: 48,
+    header: (props) => (
+      <div className="flex justify-center">
+        <Checkbox
+          type="checkbox"
+          sizeType="sm"
+          onClick={props.table.getToggleAllRowsSelectedHandler()}
+          checked={props.table.getIsAllRowsSelected()}
+        />
+      </div>
+    ),
+    cell: (props) => (
+      <div className="flex justify-center">
+        <Checkbox
+          type="checkbox"
+          sizeType="sm"
+          onClick={props.row.getToggleSelectedHandler()}
+          checked={props.row.getIsSelected()}
+          disabled={!props.row.getCanSelect()}
+        />
+      </div>
+    ),
+  }),
   columnHelper.display({
     id: "boton_ver",
     header: "Ver",
@@ -75,7 +101,7 @@ const columns = [
     }
   ),
   columnHelper.accessor("caso_registro_correspondiente.subcategoria", {
-    header: "Subcategoria",
+    header: "Subcategoría",
     size: 168,
   }),
   columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
@@ -107,6 +133,7 @@ const columns = [
     size: 64,
     cell: BooleanCell,
   }),
+  /*
   columnHelper.display({
     id: "boton_asignar",
     header: "Asignar",
@@ -129,6 +156,7 @@ const columns = [
       </button>
     ),
   }),
+  */
 ];
 
 interface CaseListTableProps {
