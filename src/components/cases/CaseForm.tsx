@@ -87,29 +87,34 @@ export default function CaseForm(props: CaseFormProps) {
       tiene_tratamiento: seguimientoQuery.data?.tiene_tratamiento,
       new_entries: [] as { entry_type: string; entry_content: any }[],
       updated_entries: [],
-      deleted_entries: []
+      deleted_entries: [],
     };
     fetch(`http://localhost:8000/seguimiento/sign/${seguimientoId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
     })
-    .then((response) => {
-      // Manejar la respuesta de la petición aquí
-      setNewMetastasisList([]);
-      setNewRecurrenciaList([]);
-      setNewProgresionList([]);
-      setNewTratamientoList([]);
-      window.location.href = `/`;
-    })
-    .catch((error) => {
-      // Manejar el error de la petición aquí
-    });
+      .then((response) => {
+        // Manejar la respuesta de la petición aquí
+        setNewMetastasisList([]);
+        setNewRecurrenciaList([]);
+        setNewProgresionList([]);
+        setNewTratamientoList([]);
+        window.location.href = `/`;
+      })
+      .catch((error) => {
+        // Manejar el error de la petición aquí
+      });
   }
 
-  async function updateSeguimiento(metastasisList:any[], recurrenciaList:any[], progresionList:any[], tratamientoList: any[]){
+  async function updateSeguimiento(
+    metastasisList: any[],
+    recurrenciaList: any[],
+    progresionList: any[],
+    tratamientoList: any[]
+  ) {
     const seguimientoId = seguimientoQuery.data?.id;
     const requestBody = {
       id: seguimientoId,
@@ -131,90 +136,93 @@ export default function CaseForm(props: CaseFormProps) {
       tiene_tratamiento: seguimientoQuery.data?.tiene_tratamiento,
       new_entries: [] as { entry_type: string; entry_content: any }[],
       updated_entries: [],
-      deleted_entries: []
+      deleted_entries: [],
     };
     // Construir new_entries
     for (const metastasis of metastasisList) {
-      requestBody.new_entries.push(
-        {
-          entry_type: "metastasis",
-          entry_content: {
-            fecha_diagnostico: fns.format(metastasis.fecha_diagnostico, 'yyyy-MM-dd'),
-            fecha_estimada: metastasis.fecha_estimada,
-            detalle_topografia: metastasis.detalle_topografia
-          }
-        }
-      );
+      requestBody.new_entries.push({
+        entry_type: "metastasis",
+        entry_content: {
+          fecha_diagnostico: fns.format(
+            metastasis.fecha_diagnostico,
+            "yyyy-MM-dd"
+          ),
+          fecha_estimada: metastasis.fecha_estimada,
+          detalle_topografia: metastasis.detalle_topografia,
+        },
+      });
     }
 
     for (const recurrencia of recurrenciaList) {
-      requestBody.new_entries.push(
-        {
-          entry_type: "recurrencia",
-          entry_content: {
-            fecha_diagnostico: fns.format(recurrencia.fecha_diagnostico, 'yyyy-MM-dd'),
-            fecha_estimada: recurrencia.fecha_estimada,
-            tipo: recurrencia.tipo,
-            detalle_topografia_recurrencia: recurrencia.detalle_topografia_recurrencia
-          }
-        }
-      );
+      requestBody.new_entries.push({
+        entry_type: "recurrencia",
+        entry_content: {
+          fecha_diagnostico: fns.format(
+            recurrencia.fecha_diagnostico,
+            "yyyy-MM-dd"
+          ),
+          fecha_estimada: recurrencia.fecha_estimada,
+          tipo: recurrencia.tipo,
+          detalle_topografia_recurrencia:
+            recurrencia.detalle_topografia_recurrencia,
+        },
+      });
     }
 
     for (const progresion of progresionList) {
-      requestBody.new_entries.push(
-        {
-          entry_type: "progresion",
-          entry_content: {
-            id: progresion.id,
-            fecha_diagnostico: fns.format(progresion.fecha_diagnostico, 'yyyy-MM-dd'),
-            fecha_estimada: progresion.fecha_estimada,
-            tipo: progresion.tipo,
-            detalle_topografia_progresion: progresion.detalle_topografia_progresion
-          }
-        }
-      );
+      requestBody.new_entries.push({
+        entry_type: "progresion",
+        entry_content: {
+          id: progresion.id,
+          fecha_diagnostico: fns.format(
+            progresion.fecha_diagnostico,
+            "yyyy-MM-dd"
+          ),
+          fecha_estimada: progresion.fecha_estimada,
+          tipo: progresion.tipo,
+          detalle_topografia_progresion:
+            progresion.detalle_topografia_progresion,
+        },
+      });
     }
 
     for (const tratamiento of tratamientoList) {
-      requestBody.new_entries.push(
-        {
-          entry_type: "tratamiento_en_falp",
-          entry_content: {
-            medico: tratamiento.medico,
-            fecha_de_inicio: fns.format(tratamiento.fecha_inicio, 'yyyy-MM-dd'),
-            fecha_de_termino: fns.format(tratamiento.fecha_termino, 'yyyy-MM-dd'),
-            en_tto: tratamiento.en_tto,
-            categoria_tto: tratamiento.categoria_tto,
-            subcategoria_tto: tratamiento.subcategoria_tto,
-            intencion_tto: tratamiento.intencion_tto,
-            //descripcion_de_la_prestacion: "tratamiento.descripcion_de_la_prestacion",
-            observaciones: tratamiento.observaciones
-          }
-        }
-      );
+      requestBody.new_entries.push({
+        entry_type: "tratamiento_en_falp",
+        entry_content: {
+          medico: tratamiento.medico,
+          fecha_de_inicio: fns.format(tratamiento.fecha_inicio, "yyyy-MM-dd"),
+          fecha_de_termino: fns.format(tratamiento.fecha_termino, "yyyy-MM-dd"),
+          en_tto: tratamiento.en_tto,
+          categoria_tto: tratamiento.categoria_tto,
+          subcategoria_tto: tratamiento.subcategoria_tto,
+          intencion_tto: tratamiento.intencion_tto,
+          //descripcion_de_la_prestacion: "tratamiento.descripcion_de_la_prestacion",
+          observaciones: tratamiento.observaciones,
+        },
+      });
     }
 
-  // Realizar la petición PUT a la API
-  fetch(`http://localhost:8000/seguimiento/save/${seguimientoId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  })
-    .then((response) => {
-      // Manejar la respuesta de la petición aquí
-      setNewMetastasisList([]);
-      setNewRecurrenciaList([]);
-      setNewProgresionList([]);
-      setNewTratamientoList([]);
-      seguimientoQuery.refetch();
+    // Realizar la petición PUT a la API
+    fetch(`http://localhost:8000/seguimiento/save/${seguimientoId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
     })
-    .catch((error) => {
-      // Manejar el error de la petición aquí
-    });
-}
+      .then((response) => {
+        // Manejar la respuesta de la petición aquí
+        setNewMetastasisList([]);
+        setNewRecurrenciaList([]);
+        setNewProgresionList([]);
+        setNewTratamientoList([]);
+        seguimientoQuery.refetch();
+      })
+      .catch((error) => {
+        // Manejar el error de la petición aquí
+      });
+  }
 
   const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
@@ -244,7 +252,6 @@ export default function CaseForm(props: CaseFormProps) {
   const { watch: watchForm } = form;
   const estadoVital = watchForm("estado_vital");
 
-
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
     const element = document.getElementById(value.id);
@@ -258,16 +265,19 @@ export default function CaseForm(props: CaseFormProps) {
   const onSubmit = (data: any) => {
     // subimos a la api,,,
     // manejamos también newMetastasisList añadiendola a new_entries
-    updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList);
+    updateSeguimiento(
+      newMetastasisList,
+      newRecurrenciaList,
+      newProgresionList,
+      newTratamientoList
+    );
     //ahora guardar
     //o cerrar (sign)
-    if (seguimientoQuery.data?.id){
+    if (seguimientoQuery.data?.id) {
       closeSeguimiento(seguimientoQuery.data?.id);
     }
 
     console.log(data);
-    
-
   };
   console.log(watch());
   return (
@@ -290,45 +300,69 @@ export default function CaseForm(props: CaseFormProps) {
                     />
                   </div>
                   <div className="flex justify-center gap-4">
-                      <Button icon="FileIcon" className="">
-                        Historial
+                    <Button icon="FileIcon" className="">
+                      Historial
+                    </Button>
+                    <Button icon="2cuadrados" filled />
+                    <Button icon="chatbubble" filled />
+                    <Button
+                      icon="SaveIcon"
+                      filled
+                      type="button"
+                      onClick={() =>
+                        updateSeguimiento(
+                          newMetastasisList,
+                          newRecurrenciaList,
+                          newProgresionList,
+                          newTratamientoList
+                        )
+                      }
+                    />
+                    <Link href="../../">
+                      <Button icon="GeoLocate" filled>
+                        Seguimientos
                       </Button>
-                      <Button icon="2cuadrados" filled />
-                      <Button icon="chatbubble" filled />
-                      <Button icon="SaveIcon" filled type="button" onClick={() => updateSeguimiento(newMetastasisList, newRecurrenciaList, newProgresionList, newTratamientoList)}/>
-                      <Link href="../../">
-                        <Button icon="GeoLocate" filled>
-                          Seguimientos
-                        </Button>
-                      </Link>
-                    </div>
+                    </Link>
+                  </div>
                 </div>
               </div>
               <div className="mt-4">
-                <BoundingBox thin className="border-2 bg-background border-background-dark m-4">
-                  <div className="flex justify-around place-items-center">
-                    <div className="flex-col justify-center items-center">
+                <BoundingBox
+                  thin
+                  className="m-4 border-2 border-background-dark bg-background"
+                >
+                  <div className="flex place-items-center justify-around">
+                    <div className="flex-col items-center justify-center">
                       <h2 className="text-2xl font-bold">
                         {caso?.nombre} {caso?.apellido}
                       </h2>
-                      <div className="">
-                        <MiniFoo label={"Seguimiento"} value={seguimientoQuery?.data?.numero_seguimiento?.toString() || ""} />
-                      </div>
+                      <Subtitle
+                        label={"Seguimiento"}
+                        value={
+                          seguimientoQuery?.data?.numero_seguimiento?.toString() ||
+                          ""
+                        }
+                      />
                     </div>
                     <Foo label={"RUT"} value={caso?.rut_dni || ""} />
                     <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
-                    <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
-                    <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
+                    <Foo
+                      label={"Subcategoría"}
+                      value={caso?.subcategoria || ""}
+                    />
+                    <Foo
+                      label={"Lateralidad"}
+                      value={caso?.lateralidad || ""}
+                    />
                     <Modal
-                    className="w-48 place-self-center"
+                      className="w-48 place-self-center"
                       type="button"
-                      morePatientInfo = {true}
+                      morePatientInfo={true}
                       filled
                       seguimiento={seguimientoQuery.data}
                     >
                       Más Información
                     </Modal>
-                    
                   </div>
                 </BoundingBox>
               </div>
@@ -709,7 +743,7 @@ export default function CaseForm(props: CaseFormProps) {
                       caso?.recurrencias
                         ? [...caso.recurrencias, ...newRecurrenciaList]
                         : newMetastasisList
-                      }
+                    }
                   />
                 </div>
               </Section>
@@ -736,9 +770,9 @@ export default function CaseForm(props: CaseFormProps) {
                 <div className="mt-5">
                   <ProgresionList
                     elements={
-                      caso?.progresiones 
-                      ? [...caso.progresiones, ...newProgresionList]
-                      : newProgresionList
+                      caso?.progresiones
+                        ? [...caso.progresiones, ...newProgresionList]
+                        : newProgresionList
                     }
                   />
                 </div>
@@ -814,7 +848,10 @@ export default function CaseForm(props: CaseFormProps) {
                     <TratamientoList
                       elements={
                         caso?.tratamientos_en_falp
-                          ? [...caso.tratamientos_en_falp, ...newTratamientoList]
+                          ? [
+                              ...caso.tratamientos_en_falp,
+                              ...newTratamientoList,
+                            ]
                           : newTratamientoList
                       }
                     />
@@ -827,9 +864,10 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="caso_registro_correspondiente.clase_caso"
                     control={control}
-                    defaultValue={seguimientoQuery?.data?.validacion_clase_caso
-                      ? "whhat?"
-                      : "no wn no funciona xD"
+                    defaultValue={
+                      seguimientoQuery?.data?.validacion_clase_caso
+                        ? "whhat?"
+                        : "no wn no funciona xD"
                     }
                     render={({ field }) => (
                       <div className="col-span-2">
@@ -849,7 +887,7 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                 </div>
-                <Separator/>
+                <Separator />
                 <SubSection title="Último Contacto"></SubSection>
                 <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
                   <div>
@@ -918,7 +956,11 @@ export default function CaseForm(props: CaseFormProps) {
                         <SelectInput
                           disabled={estadoVital === "Vivo"}
                           label="Causa Defunción"
-                          options={[ "Muerte por cáncer o complicación", "Muerte por otra causa", "Desconocido" ]}
+                          options={[
+                            "Muerte por cáncer o complicación",
+                            "Muerte por otra causa",
+                            "Desconocido",
+                          ]}
                           {...field}
                         />
                       </div>
@@ -941,18 +983,21 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <div className="flex items-center">
-                    <Checkbox disabled={estadoVital === "Vivo"} label="Estimada" />
+                    <Checkbox
+                      disabled={estadoVital === "Vivo"}
+                      label="Estimada"
+                    />
                   </div>
                 </div>
               </Section>
               <div className="flex justify-around">
                 <Modal
-                      type="button"
-                      sign={true}
-                      seguimiento={seguimientoQuery.data}
-                      filled
-                    >
-                      Firmar Seguimiento
+                  type="button"
+                  sign={true}
+                  seguimiento={seguimientoQuery.data}
+                  filled
+                >
+                  Firmar Seguimiento
                 </Modal>
               </div>
             </form>
@@ -974,10 +1019,10 @@ function Foo(props: { label: string; value: string }) {
   );
 }
 
-function MiniFoo(props: { label: string; value: string }) {
+function Subtitle(props: { label: string; value: string }) {
   const { label, value } = props;
   return (
-    <div className="flex gap-1">
+    <div className="flex items-center justify-center gap-1">
       <div className="font-subtitle">{label} </div>{" "}
       <div className="font-subtitle">{value}</div>
     </div>
