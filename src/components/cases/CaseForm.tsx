@@ -17,7 +17,7 @@ import BoundingBox from "../ui/layout/BoundingBox";
 import Link from "next/link";
 import { useQuery } from "react-query";
 import { Seguimiento } from "@/types/Seguimiento";
-import { EstadoVital } from "@/types/Enums";
+import { CondicionCaso, EstadoVital } from "@/types/Enums";
 import { VscSave } from "react-icons/vsc";
 import { Metastasis } from "@/types/Metastasis";
 import * as fns from "date-fns";
@@ -372,320 +372,6 @@ export default function CaseForm(props: CaseFormProps) {
               className="mt-2 mb-3 flex flex-col gap-7"
               onSubmit={handleSubmit(onSubmit)}
             >
-              {/*<Section id="diagnostico" title="Diagnóstico">
-                <SubSection title="Antecedentes"></SubSection>
-                <div className="grid max-w-5xl grid-cols-3 gap-8">
-                  <Controller
-                    name="caso_registro_correspondiente.categoria"
-                    control={control}
-                    defaultValue={"Tiroides"}
-                    render={({ field }) => (
-                      <SelectInput
-                        label={"Categoría"}
-                        disabled={true}
-                        options={[
-                          { id: 1, name: "Tiroides" },
-                          { id: 2, name: "Hola" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="caso_registro_correspondiente.subcategoria"
-                    control={control}
-                    defaultValue={"Glandula Tiroides"}
-                    render={({ field }) => (
-                      <SelectInput
-                        label={"Subcategoría"}
-                        disabled={true}
-                        options={[
-                          { id: 1, name: "Glandula Tiroides" },
-                          { id: 2, name: "Chao" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-                <Separator />
-                <SubSection title="Validación">
-                  <div className="grid max-w-5xl grid-cols-3 gap-8">
-                    <Controller
-                      name="caso_registro_correspondiente.fecha_dg"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          label="Fecha Diagnóstico"
-                          disabled={true}
-                          defaultValue={
-                            caso?.fecha_dg
-                              ? new Date(caso.fecha_dg)
-                              : new Date()
-                          }
-                          {...field}
-                        />
-                      )}
-                    />
-
-                    <Controller
-                      name="caso_registro_correspondiente.fecha_lugar_obtencion_dg"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          disabled={true}
-                          defaultValue={
-                            caso?.fecha_lugar_obtencion_dg
-                              ? new Date(caso.fecha_lugar_obtencion_dg)
-                              : new Date()
-                          }
-                          label="Fecha Lugar Obtención Diagnóstico"
-                          {...field}
-                        />
-                      )}
-                    />
-                    <div className="flex items-center">
-                      <Checkbox
-                        className="col-start-3"
-                        {...register(
-                          "caso_registro_correspondiente.fecha_estimada_dg"
-                        )}
-                        disabled={true}
-                        label="Fecha estimada"
-                      />
-                    </div>
-                    <Controller
-                      name="caso_registro_correspondiente.lugar_obtencion_dg"
-                      control={control}
-                      defaultValue={"Informe Anatomía Patológica"}
-                      render={({ field }) => (
-                        <SelectInput
-                          label={"Lugar Obtención Diagnóstico"}
-                          disabled={true}
-                          options={[
-                            { id: 1, name: "Informe Anatomía Patológica" },
-                            { id: 2, name: "Otro" },
-                          ]}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </div>
-                </SubSection>
-              </Section>
-              <Section id="morfologia" title="Morfología y Topografía">
-                <Checkbox
-                  {...register(
-                    "caso_registro_correspondiente.sin_informacion_morfologia"
-                  )}
-                  label="Sin información"
-                  disabled={true}
-                />
-                <SubSection title="Datos Morfología"></SubSection>
-                <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                  <Controller
-                    name="caso_registro_correspondiente.morfologia"
-                    control={control}
-                    defaultValue={"(8260/3) Adenocarcinoma Papilar, Sai"}
-                    render={({ field }) => (
-                      <div className="col-span-1 lg:col-span-2">
-                        <SelectInput
-                          label={"Morfología"}
-                          disabled={true}
-                          options={[
-                            {
-                              id: 1,
-                              name: "(8260/3) Adenocarcinoma Papilar, Sai",
-                            },
-                            { id: 2, name: "Opción 2" },
-                          ]}
-                          {...field}
-                        />
-                      </div>
-                    )}
-                  />
-                  <Controller
-                    name="caso_registro_correspondiente.grado_diferenciacion"
-                    control={control}
-                    defaultValue={"Desconocido"}
-                    render={({ field }) => (
-                      <SelectInput
-                        label={"Grado Diferenciación"}
-                        disabled={true}
-                        options={[
-                          { id: 1, name: "Desconocido" },
-                          { id: 2, name: "Conocido" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name="caso_registro_correspondiente.lugar_obtencion_morfologia"
-                    control={control}
-                    defaultValue={"Informe Anatomía Patológica"}
-                    render={({ field }) => (
-                      <SelectInput
-                        label={"Lugar Obtención Diagnóstico"}
-                        disabled={true}
-                        options={[
-                          { id: 1, name: "Informe Anatomía Patológica" },
-                          { id: 2, name: "No c" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="caso_registro_correspondiente.fecha_lugar_obtencion_morfologia"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        label="Fecha Lugar Obtención Diagnóstico"
-                        defaultValue={
-                          caso?.fecha_lugar_obtencion_morfologia
-                            ? new Date(caso.fecha_lugar_obtencion_morfologia)
-                            : new Date()
-                        }
-                        disabled={true}
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-                <Separator />
-                <SubSection title="Datos Topografía"></SubSection>
-                <div className="grid max-w-5xl grid-cols-3 gap-8">
-                  <Controller
-                    name="caso_registro_correspondiente.topografia"
-                    control={control}
-                    defaultValue={"(8260/3) Adenocarcinoma Papilar, Sai"}
-                    render={({ field }) => (
-                      <div className="col-span-2">
-                        <SelectInput
-                          label={"Topografía"}
-                          disabled={true}
-                          options={[
-                            {
-                              id: 1,
-                              name: "(8260/3) Adenocarcinoma Papilar, Sai",
-                            },
-                            { id: 2, name: "Opción 2" },
-                          ]}
-                          {...field}
-                        />
-                      </div>
-                    )}
-                  />
-                  <Controller
-                    name="caso_registro_correspondiente.lugar_obtencion_topografia"
-                    control={control}
-                    defaultValue={"Informe Anatomía Patológica"}
-                    render={({ field }) => (
-                      <div className="col-start-1">
-                        <SelectInput
-                          label={"Lugar Obtención Diagnóstico"}
-                          disabled={true}
-                          options={[
-                            { id: 1, name: "Informe Anatomía Patológica" },
-                            { id: 2, name: "No c" },
-                          ]}
-                          {...field}
-                        />
-                      </div>
-                    )}
-                  />
-                  <Controller
-                    name="caso_registro_correspondiente.fecha_lugar_obtencion_dg"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        label="Fecha Lugar Obtención Diagnóstico"
-                        defaultValue={
-                          caso?.fecha_lugar_obtencion_topografia
-                            ? new Date(caso.fecha_lugar_obtencion_topografia)
-                            : new Date()
-                        }
-                        disabled={true}
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </Section>
-              <Section id="lateralidad" title="Lateralidad y Estadío">
-                <SubSection title="Datos Complementarios">
-                  <div className="grid max-w-5xl grid-cols-3 gap-8">
-                    <Controller
-                      name="caso_registro_correspondiente.lateralidad"
-                      control={control}
-                      defaultValue={"No aplica"}
-                      render={({ field }) => (
-                        <SelectInput
-                          label={"Lateralidad"}
-                          disabled={true}
-                          options={[
-                            { id: 1, name: "Tiroides" },
-                            { id: 2, name: "Hola" },
-                          ]}
-                          {...field}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="caso_registro_correspondiente.comportamiento"
-                      control={control}
-                      defaultValue={"Neoplasias malignas de locali"}
-                      render={({ field }) => (
-                        <SelectInput
-                          label={"Comportamiento"}
-                          disabled={true}
-                          options={[
-                            { id: 1, name: "Neoplasias malignas de locali" },
-                            { id: 2, name: "Chao" },
-                          ]}
-                          {...field}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="caso_registro_correspondiente.extension_dg"
-                      control={control}
-                      defaultValue={"Regional"}
-                      render={({ field }) => (
-                        <div className="col-start-1">
-                          <SelectInput
-                            label={"Extension Diagnostico"}
-                            disabled={true}
-                            options={[
-                              { id: 1, name: "Regional" },
-                              { id: 2, name: "Hola" },
-                            ]}
-                            {...field}
-                          />
-                        </div>
-                      )}
-                    />
-                    <Controller
-                      name="caso_registro_correspondiente.estadio_dg"
-                      control={control}
-                      defaultValue={"Desconocido"}
-                      render={({ field }) => (
-                        <SelectInput
-                          label={"Estadio Diagnostico"}
-                          disabled={true}
-                          options={[
-                            { id: 1, name: "Desconocido" },
-                            { id: 2, name: "Chao" },
-                          ]}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </div>
-                </SubSection>
-              </Section>*/}
               <Section id="metastasis" title="Metástasis">
                 <SubSection>
                   <div className="flex justify-between">
@@ -778,49 +464,6 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <Section id="tratamiento" title="Antecedentes Tratamiento">
-                {/* <SubSection title="Configuración"></SubSection>
-                <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                  <Controller
-                    name="caso_registro_correspondiente.clase_caso"
-                    control={control}
-                    defaultValue={"Diagnóstico y tratamiento en FALP"}
-                    render={({ field }) => (
-                      <div className="col-span-2">
-                        <SelectInput
-                          label={"Clase Caso"}
-                          disabled={true}
-                          options={[
-                            {
-                              id: 1,
-                              name: "Diagnóstico y tratamiento en FALP",
-                            },
-                            { id: 2, name: "Tratamiento en FALP" },
-                            { id: 3, name: "Diagnóstico en FALP" },
-                          ]}
-                          {...field}
-                        />
-                      </div>
-                    )}
-                  />
-                  <Controller
-                    name="caso_registro_correspondiente.clasificacion_dg_ttos"
-                    control={control}
-                    defaultValue={"Informe Anatomía Patológica"}
-                    render={({ field }) => (
-                      <SelectInput
-                        label={"Clasificación DG/TTOS."}
-                        disabled={true}
-                        options={[
-                          { id: 1, name: "Cirugía o procedimiento quirúrgico" },
-                          { id: 2, name: "Terapia sistémica" },
-                          { id: 3, name: "Radioterapia" },
-                          { id: 4, name: "Otro" },
-                        ]}
-                        {...field}
-                      />
-                    )}
-                  />
-                </div> */}
                 <SubSection title="">
                   <div className="grid max-w-5xl grid-cols-1 items-center gap-8 lg:grid-cols-3">
                     <div>
@@ -864,11 +507,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="caso_registro_correspondiente.clase_caso"
                     control={control}
-                    defaultValue={
-                      seguimientoQuery?.data?.validacion_clase_caso
-                        ? "whhat?"
-                        : "no wn no funciona xD"
-                    }
+                    defaultValue={seguimientoQuery.data.validacion_clase_caso!}
                     render={({ field }) => (
                       <div className="col-span-2">
                         <SelectInput
@@ -894,6 +533,7 @@ export default function CaseForm(props: CaseFormProps) {
                     <Controller
                       name="ultimo_contacto"
                       control={control}
+                      defaultValue={seguimientoQuery.data.ultimo_contacto!}
                       render={({ field }) => (
                         <DatePicker
                           defaultValue={
@@ -922,6 +562,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="condicion_del_caso"
                     control={control}
+                    defaultValue={seguimientoQuery.data?.condicion_del_caso}
                     render={({ field }) => (
                       <SelectInput
                         label="Condición del Caso"
@@ -939,6 +580,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="estado_vital"
                     control={control}
+                    defaultValue={seguimientoQuery.data?.estado_vital}
                     render={({ field }) => (
                       <SelectInput
                         label="Estado Vital"
@@ -950,11 +592,14 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="causa_defuncion"
                     control={control}
-                    defaultValue={"Causa Defunción"}
+                    defaultValue={seguimientoQuery.data?.causa_defuncion}
                     render={({ field }) => (
                       <div className="col-start-1">
                         <SelectInput
-                          disabled={estadoVital === "Vivo"}
+                          disabled={
+                            seguimientoQuery.data?.estado_vital === "Vivo" &&
+                            estadoVital !== "Muerto"
+                          }
                           label="Causa Defunción"
                           options={[
                             "Muerte por cáncer o complicación",
@@ -969,10 +614,14 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="fecha_defuncion"
                     control={control}
+                    defaultValue={seguimientoQuery.data?.fecha_defuncion}
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Defunción"
-                        disabled={estadoVital === "Vivo"}
+                        disabled={
+                          seguimientoQuery.data?.estado_vital === "Vivo" &&
+                          estadoVital !== "Muerto"
+                        }
                         defaultValue={
                           caso?.fecha_defuncion
                             ? new Date(caso.fecha_defuncion)
@@ -983,8 +632,12 @@ export default function CaseForm(props: CaseFormProps) {
                     )}
                   />
                   <div className="flex items-center">
+                    {/* TODO: Agregar fecha estimada en modelo de datos, actualmente no existe */}
                     <Checkbox
-                      disabled={estadoVital === "Vivo"}
+                      disabled={
+                        seguimientoQuery.data?.estado_vital === "Vivo" &&
+                        estadoVital !== "Muerto"
+                      }
                       label="Estimada"
                     />
                   </div>
