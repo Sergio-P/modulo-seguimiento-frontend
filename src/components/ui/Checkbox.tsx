@@ -1,19 +1,27 @@
 import clsx from "clsx";
+import _ from "lodash";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+
+type CheckboxSizes = "sm" | "md";
 
 const Checkbox = React.forwardRef(
   (
-    props: { label?: string } & React.InputHTMLAttributes<HTMLInputElement>,
+    props: {
+      label?: string;
+      sizeType?: CheckboxSizes;
+    } & React.InputHTMLAttributes<HTMLInputElement>,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
-    const [checked, setChecked] = useState(props.checked || false);
-    const {disabled} = props;
+    const [checkedState, setChecked] = useState(props.checked || false);
+    const { disabled } = props;
+    const checked = useMemo(
+      () => (_.isNil(props.checked) ? checkedState : props.checked),
+      [checkedState, props.checked]
+    );
+    const size = props.sizeType || "md";
     return (
-      <div className={clsx(
-        "flex gap-4",
-        disabled && "opacity-50",
-        )}>
+      <div className={clsx("flex gap-4", disabled && "opacity-50")}>
         <input
           type="checkbox"
           ref={ref}
@@ -22,12 +30,19 @@ const Checkbox = React.forwardRef(
             setChecked(event.target.checked);
             props.onChange && props.onChange(event);
           }}
-          className={clsx("absolute h-8 w-8 opacity-0", props.className)}
+          className={clsx(
+            "absolute opacity-0",
+            size === "sm" && "h-4 w-4",
+            size === "md" && "h-8 w-8"
+          )}
         />
         <div
           className={clsx(
-            "flex h-8 w-8 items-center justify-center rounded-lg",
-            checked ? "bg-primary" : "bg-background-dark"
+            "flex items-center justify-center rounded-lg",
+            size === "sm" && "h-4 w-4 rounded-sm",
+            size === "md" && "h-8 w-8 rounded-lg",
+            checked ? "bg-primary" : "bg-background-dark",
+            props.className
           )}
         >
           <Image
@@ -35,15 +50,21 @@ const Checkbox = React.forwardRef(
             width={20}
             height={20}
             alt=""
-            className={clsx("h-5 w-5", !checked && "invisible")}
+            className={clsx(
+              !checked && "invisible",
+              size === "sm" && "h-4 w-4",
+              size === "md" && "h-5 w-5"
+            )}
           />
         </div>
-        <label
-          htmlFor={props.name}
-          className="flex -translate-y-[1px] items-center text-center font-medium text-font"
-        >
-          {props.label}
-        </label>
+        {props.label && (
+          <label
+            htmlFor={props.name}
+            className="flex -translate-y-[1px] items-center text-center font-medium text-font"
+          >
+            {props.label}
+          </label>
+        )}
       </div>
     );
   }
