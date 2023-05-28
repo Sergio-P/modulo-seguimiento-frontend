@@ -660,7 +660,7 @@ export default function CaseForm(props: CaseFormProps) {
             </form>
           </>
         )}
-        <div className="h-screen" />
+        <div className="h-10" />
       </MainLayout>
     </FormProvider>
   );
