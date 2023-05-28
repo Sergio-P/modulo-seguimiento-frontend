@@ -120,6 +120,7 @@ export default function CaseForm(props: CaseFormProps) {
         : seguimientoQuery.data?.ultimo_contacto
     );
     console.log("data estado vital:", formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital);
+    const estado_vital = formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital;
     const requestBody = {
       id: seguimientoId,
       caso_registro_id: caso?.id,
@@ -132,11 +133,11 @@ export default function CaseForm(props: CaseFormProps) {
       posee_tto: seguimientoQuery.data?.posee_tto,
       condicion_del_caso: formData.condicion_del_caso ? formData.condicion_del_caso : seguimientoQuery.data?.condicion_del_caso,
       ultimo_contacto: formData.ultimo_contacto ? typeof formData.ultimo_contacto === "string" ? formData.ultimo_contacto : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd") : seguimientoQuery.data?.ultimo_contacto,
-      causa_defuncion: formData.causa_defuncion ? formData.causa_defuncion : seguimientoQuery.data?.causa_defuncion,
-      fecha_defuncion: formData.fecha_defuncion ? typeof formData.fecha_defuncion === "string" ? formData.fecha_defuncion : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd") : seguimientoQuery.data?.fecha_defuncion,
-      //sigue_atencion_otro_centro: formData.sigue_atencion_otro_centro,  //OJO NO ESTA EN EL FORMULARIO PERO EL PUT NO LO RECIBE
+      causa_defuncion: formData.causa_defuncion && estado_vital === "Muerto" ? formData.causa_defuncion : seguimientoQuery.data?.causa_defuncion,
+      fecha_defuncion: formData.fecha_defuncion && estado_vital === "Muerto" ? typeof formData.fecha_defuncion === "string" ? formData.fecha_defuncion : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd") : seguimientoQuery.data?.fecha_defuncion,
+      //sigue_atencion_otro_centro: formData.sigue_atencion_otro_centro,  //OJO NO ESTA EN EL Modelo de datos
       //fecha_estimada: formData.fecha_estimada,  //OJO NO ESTA EN EL MODELO DE DATOS
-      estado_vital: formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital,
+      estado_vital: estado_vital,
       cierre_del_caso: seguimientoQuery.data?.cierre_del_caso,
       tiene_consulta_nueva: seguimientoQuery.data?.tiene_consulta_nueva,
       tiene_examenes: seguimientoQuery.data?.tiene_examenes,
