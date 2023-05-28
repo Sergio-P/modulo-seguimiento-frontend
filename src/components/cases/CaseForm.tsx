@@ -253,8 +253,10 @@ export default function CaseForm(props: CaseFormProps) {
     defaultValue: false,
   });
 
-  const { watch: watchForm } = form;
-  const estadoVital = watchForm("estado_vital");
+  const estadoVital = useWatch({
+    control,
+    name: "estado_vital",
+  });
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
