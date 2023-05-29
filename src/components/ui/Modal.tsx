@@ -20,7 +20,9 @@ import { Metastasis } from "@/types/Metastasis";
 import { Recurrencia } from "@/types/Recurrencia";
 import { Progresion } from "@/types/Progresion";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
+import { Comite } from "@/types/Comite";
 import * as fns from "date-fns";
+import { IntencionTTO } from "@/types/Enums";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -31,12 +33,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   progresion?: boolean;
   tratamiento?: boolean;
   morePatientInfo?: boolean;
+  comite?: boolean;
   sign?: boolean;
   seguimiento: Seguimiento;
   setNewMetastasisList?: any;
   setNewRecurrenciaList?: any;
   setNewProgresionList?: any;
   setNewTratamientoList?: any;
+  setNewComiteList?: any;
 }
 
 export default function Modal(props: ButtonProps) {
@@ -49,10 +53,12 @@ export default function Modal(props: ButtonProps) {
     progresion,
     tratamiento,
     seguimiento,
+    comite,
     setNewMetastasisList,
     setNewRecurrenciaList,
     setNewProgresionList,
     setNewTratamientoList,
+    setNewComiteList,
     morePatientInfo,
     sign,
   } = props;
@@ -61,6 +67,7 @@ export default function Modal(props: ButtonProps) {
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
   let [isOpenMoreInfo, setIsOpenMoreInfo] = useState(false);
+  let [isOpenComite, setIsOpenComite] = useState(false);
   let [isOpenSign, setIsOpenSign] = useState(false);
   const { control, register } = useFormContext();
 
@@ -80,9 +87,9 @@ export default function Modal(props: ButtonProps) {
     },
   });
 
-  const { watch: watchMetastais } = metastasisForm;
-  const detalle_topografia = watchMetastais("detalle_topografia");
-  const fecha_diagnostico = watchMetastais("fecha_diagnostico");
+  const { watch: watchMetastasis } = metastasisForm;
+  const detalle_topografia = watchMetastasis("detalle_topografia");
+  const fecha_diagnostico = watchMetastasis("fecha_diagnostico");
 
   interface RecurrenciaValues {
     fecha_diagnostico: null | Date;
@@ -164,6 +171,25 @@ export default function Modal(props: ButtonProps) {
   const observaciones = watchTratamiento("observaciones");
   const en_tto = watchTratamiento("en_tto");
 
+  interface ComiteValues {
+    medico: null | string;
+    intencion_tto: null | IntencionTTO;
+    fecha_comite: null | Date;
+  }
+
+  const comiteForm = useForm<ComiteValues>({
+    defaultValues: {
+      medico: null, //
+      intencion_tto: null, //
+      fecha_comite: null, //
+    },
+  });
+
+  const { watch: watchComite } = comiteForm;
+  const medico_comite = watchComite("medico");
+  const intencion_tto_comite = watchComite("intencion_tto");
+  const fecha_comite = watchComite("fecha_comite");
+
   function closeModalMetastasis() {
     setIsOpenMetastasis(false);
   }
@@ -210,6 +236,14 @@ export default function Modal(props: ButtonProps) {
 
   function openSign() {
     setIsOpenSign(true);
+  }
+
+  function openModalComite() {
+    setIsOpenComite(true);
+  }
+
+  function closeModalComite() {
+    setIsOpenComite(false);
   }
 
   const addMetastasis: SubmitHandler<MetastasisValues> = (data, event) => {
@@ -318,6 +352,30 @@ export default function Modal(props: ButtonProps) {
     }
   };
 
+  const addComite: SubmitHandler<ComiteValues> = (data) => {
+    if (
+      data.medico !== null &&
+      data.intencion_tto !== null &&
+      data.fecha_comite !== null
+    ) {
+      const newComite: Comite = {
+        id: caso?.comites ? caso.comites.length + 1 : 1,
+        seguimiento_id: seguimiento.id,
+        caso_registro_id: seguimiento.caso_registro_id,
+        created_at: new Date(),
+        updated_at: new Date(),
+        ...data,
+        medico: data.medico,
+        intencion_tto: data.intencion_tto,
+        fecha_comite: data.fecha_comite,
+      };
+      setNewComiteList((prev: Comite[]) => {
+        return [...prev, newComite];
+      });
+      closeModalComite();
+    }
+  };
+
   return (
     <>
       <button
@@ -330,10 +388,12 @@ export default function Modal(props: ButtonProps) {
           "tratamiento",
           "morePatientInfo",
           "sign",
+          "comite",
           "setNewMetastasisList",
           "setNewRecurrenciaList",
           "setNewProgresionList",
           "setNewTratamientoList",
+          "setNewComiteList",
         ])}
         onClick={() => {
           if (metastasis) {
@@ -348,6 +408,8 @@ export default function Modal(props: ButtonProps) {
             openMoreInfo();
           } else if (sign) {
             openSign();
+          } else if (comite) {
+            openModalComite();
           }
         }}
         className={clsx(
@@ -1057,6 +1119,114 @@ export default function Modal(props: ButtonProps) {
                       </Button>
                       <Button filled type="submit">
                         Firmar Seguimiento
+                      </Button>
+                    </div>
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+      
+      <Transition appear show={isOpenComite} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-30"
+          onClose={closeModalComite}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-80" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      comiteForm.handleSubmit(addComite)(e);
+                      e.stopPropagation();
+                    }}
+                  >
+                    <div className="flex justify-between">
+                      <Dialog.Title
+                        as="h3"
+                        className="pb-6 text-3xl font-bold leading-6 text-font"
+                      >
+                        Comité Oncológico
+                      </Dialog.Title>
+                      <Button
+                        type="button"
+                        icon="cross"
+                        clear
+                        onClick={closeModalComite}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 items-center gap-6">
+                        <Controller
+                          name="fecha_comite"
+                          control={comiteForm.control}
+                          render={({ field }) => (
+                            <DatePicker label="Fecha Comité" {...field} />
+                          )}
+                        />
+
+                        <Controller
+                          name="intencion_tto"
+                          control={comiteForm.control}
+                          defaultValue={IntencionTTO.curativo}
+                          render={({ field }) => (
+                            <SelectInput
+                              label={"Intención Tratamiento"}
+                              options={[
+                                IntencionTTO.curativo,
+                                IntencionTTO.paliativo,
+                                IntencionTTO.desconocido,
+                              ]}
+                              {...field}
+                            />
+                          )}
+                        />
+                        <div className="col-span-2">
+                            <TextInput
+                              label="Médico"
+                              {...comiteForm.register("medico")}
+                            />
+                        </div>
+                    </div>
+                    <div className="mt-6 flex justify-between">
+                      <Button type="button" onClick={closeModalMetastasis}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        filled
+                        type="submit"
+                        disabled={!medico_comite || !intencion_tto_comite || !fecha_comite}
+                        title={
+                          !detalle_topografia || !fecha_diagnostico || !fecha_comite
+                            ? "Por favor complete todos los campos"
+                            : ""
+                        }
+                      >
+                        Agregar Comité
                       </Button>
                     </div>
                   </form>

@@ -11,6 +11,7 @@ import MetastasisList from "./CaseForm/MetastasisList";
 import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import ProgresionList from "./CaseForm/ProgresionList";
 import TratamientoList from "./CaseForm/TratamientoList";
+import ComiteList from "./CaseForm/ComiteList";
 import MainLayout from "../ui/layout/MainLayout";
 import Section from "../ui/layout/Section";
 import BoundingBox from "../ui/layout/BoundingBox";
@@ -33,6 +34,7 @@ const sections = [
   { id: "recurrencia", name: "Recurrencia" },
   { id: "progresion", name: "Progresión" },
   { id: "tratamiento", name: "Tratamiento" },
+  { id: "comite", name: "Comité" },
   { id: "validacion", name: "Validación Antecedentes" },
 ];
 
@@ -56,6 +58,7 @@ export default function CaseForm(props: CaseFormProps) {
   const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
   const [newProgresionList, setNewProgresionList] = useState([]);
   const [newTratamientoList, setNewTratamientoList] = useState([]);
+  const [newComiteList, setNewComiteList] = useState([]);
   const [selectedSection, setSelectedSection] = useState(sections[0]);
 
   async function closeSeguimiento(seguimientoId: number) {
@@ -94,6 +97,7 @@ export default function CaseForm(props: CaseFormProps) {
         setNewRecurrenciaList([]);
         setNewProgresionList([]);
         setNewTratamientoList([]);
+        setNewComiteList([]);
         window.location.href = `/`;
       })
       .catch((error) => {
@@ -106,6 +110,7 @@ export default function CaseForm(props: CaseFormProps) {
     recurrenciaList: any[],
     progresionList: any[],
     tratamientoList: any[],
+    comiteList: any[],
     formData: SeguimientoForm
   ) {
     const seguimientoId = seguimientoQuery.data?.id;
@@ -212,6 +217,18 @@ export default function CaseForm(props: CaseFormProps) {
       });
     }
 
+    for (const comite of comiteList) {
+      requestBody.new_entries.push({
+        entry_type: "comite",
+        entry_content: {
+          medico: comite.medico,
+          fecha_comite: fns.format(comite.fecha_comite, "yyyy-MM-dd"),
+          intencion_tto: comite.intencion_tto,
+        },
+      });
+    }
+
+
     // Realizar la petición PUT a la API
     fetch(`http://localhost:8000/seguimiento/save/${seguimientoId}`, {
       method: "PUT",
@@ -226,6 +243,7 @@ export default function CaseForm(props: CaseFormProps) {
         setNewRecurrenciaList([]);
         setNewProgresionList([]);
         setNewTratamientoList([]);
+        setNewComiteList([]);
         seguimientoQuery.refetch();
       })
       .catch((error) => {
@@ -276,6 +294,7 @@ export default function CaseForm(props: CaseFormProps) {
       newRecurrenciaList,
       newProgresionList,
       newTratamientoList,
+      newComiteList,
       data
     );
     //ahora guardar
@@ -322,6 +341,7 @@ export default function CaseForm(props: CaseFormProps) {
                           newRecurrenciaList,
                           newProgresionList,
                           newTratamientoList,
+                          newComiteList,
                           form.getValues()
                         )
                       }
@@ -508,6 +528,31 @@ export default function CaseForm(props: CaseFormProps) {
                     />
                   </div>
                 </SubSection>
+              </Section>
+              <Section id="comite" title="Comité Oncólogico">
+                <SubSection>
+                  <div className="flex justify-between">
+                    <Modal
+                      type="button"
+                      comite={true}
+                      icon="plus"
+                      seguimiento={seguimientoQuery.data}
+                      filled
+                      setNewComiteList={setNewComiteList}
+                    >
+                      Agregar Comité
+                    </Modal>
+                  </div>
+                </SubSection>
+                <div className="mt-5">
+                  <ComiteList
+                    elements={
+                      caso?.comites
+                        ? [...caso.comites, ...newComiteList]
+                        : newComiteList
+                    }
+                  />
+                </div>
               </Section>
               <Section id="validacion" title="Validación Antecedentes">
                 <SubSection title="Validación Clase de Caso"></SubSection>
