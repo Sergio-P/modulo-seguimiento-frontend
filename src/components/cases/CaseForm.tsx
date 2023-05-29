@@ -511,6 +511,36 @@ export default function CaseForm(props: CaseFormProps) {
                   />
                 </div>
               </Section>
+              <Section id="comite" title="Comité Oncológico">
+                <SubSection>
+                  <div className="flex justify-between">
+                    <Checkbox
+                      {...register("tiene_comite_oncologico")}
+                      label="Presenta Comité Oncológico"
+                    />
+                    <Modal
+                      type="button"
+                      comite={true}
+                      disabled={!tieneComite}
+                      icon="plus"
+                      seguimiento={seguimientoQuery.data}
+                      filled
+                      setNewComiteList={setNewComiteList}
+                    >
+                      Agregar Comité
+                    </Modal>
+                  </div>
+                </SubSection>
+                <div className="mt-5">
+                  <ComiteList
+                    elements={
+                      caso?.comites
+                        ? [...caso.comites, ...newComiteList]
+                        : newComiteList
+                    }
+                  />
+                </div>
+              </Section>
               <Section id="tratamiento" title="Antecedentes Tratamiento">
                 <SubSection title="">
                   <div className="grid max-w-5xl grid-cols-1 items-center gap-8 lg:grid-cols-3">
@@ -548,36 +578,6 @@ export default function CaseForm(props: CaseFormProps) {
                     />
                   </div>
                 </SubSection>
-              </Section>
-              <Section id="comite" title="Comité Oncológico">
-                <SubSection>
-                  <div className="flex justify-between">
-                    <Checkbox
-                      {...register("tiene_comite_oncologico")}
-                      label="Presenta Comité Oncológico"
-                    />
-                    <Modal
-                      type="button"
-                      comite={true}
-                      disabled={!tieneComite}
-                      icon="plus"
-                      seguimiento={seguimientoQuery.data}
-                      filled
-                      setNewComiteList={setNewComiteList}
-                    >
-                      Agregar Comité
-                    </Modal>
-                  </div>
-                </SubSection>
-                <div className="mt-5">
-                  <ComiteList
-                    elements={
-                      caso?.comites
-                        ? [...caso.comites, ...newComiteList]
-                        : newComiteList
-                    }
-                  />
-                </div>
               </Section>
               <Section id="validacion" title="Validación Antecedentes">
                 <SubSection title="Validación Clase de Caso"></SubSection>
