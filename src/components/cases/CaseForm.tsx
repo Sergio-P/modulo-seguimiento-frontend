@@ -48,6 +48,7 @@ export default function CaseForm(props: CaseFormProps) {
       fetch(`http://localhost:8000/seguimiento/${seguimientoId}`).then((res) =>
         res.json()
       ),
+      enabled: !!seguimientoId,
   });
   const caso = useMemo(
     () => seguimientoQuery.data?.caso_registro_correspondiente,
