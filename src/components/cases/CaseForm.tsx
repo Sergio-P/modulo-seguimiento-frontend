@@ -105,22 +105,39 @@ export default function CaseForm(props: CaseFormProps) {
     metastasisList: any[],
     recurrenciaList: any[],
     progresionList: any[],
-    tratamientoList: any[]
+    tratamientoList: any[],
+    formData: SeguimientoForm
   ) {
     const seguimientoId = seguimientoQuery.data?.id;
+    console.log("data entregado", formData);
+    console.log("data clase caso:", formData.caso_registro_correspondiente.clase_caso ? formData.caso_registro_correspondiente.clase_caso: seguimientoQuery.data?.validacion_clase_caso);
+    console.log(
+      "data ultimo_contacto:",
+      formData.ultimo_contacto
+        ? typeof formData.ultimo_contacto === "string"
+          ? formData.ultimo_contacto
+          : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd")
+        : seguimientoQuery.data?.ultimo_contacto
+    );
+    console.log("data estado vital:", formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital);
+    const estado_vital = formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital;
     const requestBody = {
       id: seguimientoId,
       caso_registro_id: caso?.id,
       state: seguimientoQuery.data?.state,
       numero_seguimiento: seguimientoQuery.data?.numero_seguimiento,
-      validacion_clase_caso: seguimientoQuery.data?.validacion_clase_caso,
+      validacion_clase_caso: formData.caso_registro_correspondiente.clase_caso ? formData.caso_registro_correspondiente.clase_caso : seguimientoQuery.data?.validacion_clase_caso,
       posee_recurrencia: seguimientoQuery.data?.posee_recurrencia,
       posee_progresion: seguimientoQuery.data?.posee_progresion,
       posee_metastasis: seguimientoQuery.data?.posee_metastasis,
       posee_tto: seguimientoQuery.data?.posee_tto,
-      condicion_del_caso: seguimientoQuery.data?.condicion_del_caso,
-      ultimo_contacto: seguimientoQuery.data?.ultimo_contacto,
-      estado_vital: seguimientoQuery.data?.estado_vital,
+      condicion_del_caso: formData.condicion_del_caso ? formData.condicion_del_caso : seguimientoQuery.data?.condicion_del_caso,
+      ultimo_contacto: formData.ultimo_contacto ? typeof formData.ultimo_contacto === "string" ? formData.ultimo_contacto : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd") : seguimientoQuery.data?.ultimo_contacto,
+      causa_defuncion: formData.causa_defuncion && estado_vital === "Muerto" ? formData.causa_defuncion : seguimientoQuery.data?.causa_defuncion,
+      fecha_defuncion: formData.fecha_defuncion && estado_vital === "Muerto" ? typeof formData.fecha_defuncion === "string" ? formData.fecha_defuncion : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd") : seguimientoQuery.data?.fecha_defuncion,
+      //sigue_atencion_otro_centro: formData.sigue_atencion_otro_centro,  //OJO NO ESTA EN EL Modelo de datos
+      //fecha_estimada: formData.fecha_estimada,  //OJO NO ESTA EN EL MODELO DE DATOS
+      estado_vital: estado_vital,
       cierre_del_caso: seguimientoQuery.data?.cierre_del_caso,
       tiene_consulta_nueva: seguimientoQuery.data?.tiene_consulta_nueva,
       tiene_examenes: seguimientoQuery.data?.tiene_examenes,
@@ -236,8 +253,10 @@ export default function CaseForm(props: CaseFormProps) {
     defaultValue: false,
   });
 
-  const { watch: watchForm } = form;
-  const estadoVital = watchForm("estado_vital");
+  const estadoVital = useWatch({
+    control,
+    name: "estado_vital",
+  });
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
@@ -256,7 +275,8 @@ export default function CaseForm(props: CaseFormProps) {
       newMetastasisList,
       newRecurrenciaList,
       newProgresionList,
-      newTratamientoList
+      newTratamientoList,
+      data
     );
     //ahora guardar
     //o cerrar (sign)
@@ -301,7 +321,8 @@ export default function CaseForm(props: CaseFormProps) {
                           newMetastasisList,
                           newRecurrenciaList,
                           newProgresionList,
-                          newTratamientoList
+                          newTratamientoList,
+                          form.getValues()
                         )
                       }
                     />
@@ -500,12 +521,9 @@ export default function CaseForm(props: CaseFormProps) {
                         <SelectInput
                           label={"Clase Caso"}
                           options={[
-                            {
-                              id: 1,
-                              name: "Diagnóstico y tratamiento en FALP",
-                            },
-                            { id: 2, name: "Tratamiento en FALP" },
-                            { id: 3, name: "Diagnóstico en FALP" },
+                            "Diagnóstico y tratamiento en FALP",
+                            "Tratamiento en FALP",
+                            "Diagnóstico en FALP",
                           ]}
                           {...field}
                         />
@@ -555,11 +573,11 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label="Condición del Caso"
                         options={[
-                          { id: 1, name: "Vivo sin enfermedad" },
-                          { id: 2, name: "Vivo con enfermedad" },
-                          { id: 3, name: "Vivo SOE" },
-                          { id: 4, name: "Desconocido" },
-                          { id: 5, name: "Fallecido" },
+                          "Vivo sin enfermedad",
+                          "Vivo con enfermedad",
+                          "Vivo SOE",
+                          "Desconocido",
+                          "Fallecido",
                         ]}
                         {...field}
                       />
@@ -602,7 +620,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <Controller
                     name="fecha_defuncion"
                     control={control}
-                    defaultValue={seguimientoQuery.data?.fecha_defuncion}
+                    defaultValue={seguimientoQuery.data?.fecha_defuncion!}
                     render={({ field }) => (
                       <DatePicker
                         label="Fecha Defunción"
@@ -611,8 +629,8 @@ export default function CaseForm(props: CaseFormProps) {
                           estadoVital !== "Muerto"
                         }
                         defaultValue={
-                          caso?.fecha_defuncion
-                            ? new Date(caso.fecha_defuncion)
+                          seguimientoQuery.data?.fecha_defuncion
+                            ? new Date(seguimientoQuery.data.fecha_defuncion)
                             : new Date()
                         }
                         {...field}
@@ -644,7 +662,7 @@ export default function CaseForm(props: CaseFormProps) {
             </form>
           </>
         )}
-        <div className="h-screen" />
+        <div className="h-10" />
       </MainLayout>
     </FormProvider>
   );
