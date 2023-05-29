@@ -2,15 +2,18 @@ import { Table, flexRender } from "@tanstack/react-table";
 import SelectInput from "../SelectInput";
 import clsx from "clsx";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { isPropertySignature } from "typescript";
 
 export default function Datagrid<TData = any>({
   table,
   title,
   total,
+  extraHeader,
 }: {
   table: Table<TData>;
   title?: string;
   total?: { value: number; name: string; pluralName?: string };
+  extraHeader?: React.ReactNode;
 }) {
   const PaginationButton = ({ pageIndex }: { pageIndex: number }) => (
     <button
@@ -32,6 +35,7 @@ export default function Datagrid<TData = any>({
       <div className="mb-5 flex items-center justify-between">
         <h3 className="text-xl font-bold text-font-title">{title}</h3>
         <div className="flex items-center gap-4">
+          {extraHeader}
           <SelectInput
             options={[5, 10, 20]}
             value={table.getState().pagination.pageSize}
