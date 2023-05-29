@@ -22,7 +22,8 @@ import { Progresion } from "@/types/Progresion";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { Comite } from "@/types/Comite";
 import * as fns from "date-fns";
-import { IntencionTTO } from "@/types/Enums";
+import { CategoriaTTO, IntencionTTO } from "@/types/Enums";
+import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -142,7 +143,7 @@ export default function Modal(props: ButtonProps) {
     fecha_inicio: null | Date;
     fecha_termino: null | Date;
     en_tto: boolean;
-    categoria_tto: null | { name: string };
+    categoria_tto: null | CategoriaTTO;
     subcategoria_tto: null | { name: string };
     intencion_tto: null | { name: string };
     observaciones: null | string;
@@ -170,6 +171,7 @@ export default function Modal(props: ButtonProps) {
   const intencion_tto = watchTratamiento("intencion_tto");
   const observaciones = watchTratamiento("observaciones");
   const en_tto = watchTratamiento("en_tto");
+  const subcategoria_TTO_options = subcategoriaTTOForCategoriaTTO(categoria_tto);
 
   interface ComiteValues {
     medico: null | string;
@@ -339,7 +341,7 @@ export default function Modal(props: ButtonProps) {
         observaciones: data.observaciones,
         fecha_de_inicio: data.fecha_inicio,
         fecha_de_termino: data.fecha_termino,
-        categoria_tto: data.categoria_tto.name,
+        categoria_tto: data.categoria_tto,
         subcategoria_tto: data.subcategoria_tto.name,
         intencion_tto: data.intencion_tto.name,
         en_tto: data.en_tto,
@@ -875,20 +877,15 @@ export default function Modal(props: ButtonProps) {
                       <Controller
                         name="categoria_tto"
                         control={tratamientoForm.control}
-                        defaultValue={{
-                          name: "Cirugía o procedimiento quirúrgico",
-                        }}
+                        defaultValue={CategoriaTTO.cirugia_o_procedimiento_quirurgico}
                         render={({ field }) => (
                           <SelectInput
                             label={"Categoría"}
                             options={[
-                              {
-                                id: 1,
-                                name: "Cirugía o procedimiento quirúrgico",
-                              },
-                              { id: 2, name: "Terapia sistémica" },
-                              { id: 3, name: "Radioterapia" },
-                              { id: 4, name: "Otro" },
+                              CategoriaTTO.cirugia_o_procedimiento_quirurgico,
+                              CategoriaTTO.terapia_sistemica,
+                              CategoriaTTO.radioterapia,
+                              CategoriaTTO.otro,
                             ]}
                             {...field}
                           />
@@ -901,18 +898,7 @@ export default function Modal(props: ButtonProps) {
                         render={({ field }) => (
                           <SelectInput
                             label={"Subcategoría"}
-                            options={[
-                              {
-                                id: 1,
-                                name: "Cirugía",
-                              },
-                              { id: 2, name: "Resección endoscópica" },
-                              {
-                                id: 3,
-                                name: "Biopsia excisional o ampliación de márgenes",
-                              },
-                              { id: 4, name: "Desconocido" },
-                            ]}
+                            options={subcategoria_TTO_options}
                             {...field}
                           />
                         )}

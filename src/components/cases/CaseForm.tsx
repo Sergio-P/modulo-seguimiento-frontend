@@ -336,12 +336,19 @@ export default function CaseForm(props: CaseFormProps) {
                     <Button icon="FileIcon" className="">
                       Historial
                     </Button>
-                    <Button icon="2cuadrados" filled />
-                    <Button icon="chatbubble" filled />
+                    <Button 
+                      title="Duplicar Caso"
+                      type="button"
+                      icon="2cuadrados" filled />
+                    <Button 
+                      title="Comentar"
+                      type="button"
+                      icon="chatbubble" filled />
                     <Button
                       icon="SaveIcon"
                       filled
                       type="button"
+                      title="Guardar"
                       onClick={() =>
                         updateSeguimiento(
                           newMetastasisList,
@@ -353,6 +360,7 @@ export default function CaseForm(props: CaseFormProps) {
                         )
                       }
                     />
+
                     <Link href="../../">
                       <Button icon="GeoLocate" filled>
                         Seguimientos
@@ -364,7 +372,7 @@ export default function CaseForm(props: CaseFormProps) {
               <div className="mt-4">
                 <BoundingBox
                   thin
-                  className="m-4 border-2 border-background-dark bg-background"
+                  className="m-4 border-background-dark"
                 >
                   <div className="flex place-items-center justify-around">
                     <div className="flex-col items-center justify-center">
@@ -541,7 +549,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="flex justify-between">
                     <Checkbox
                       {...register("tiene_comite_oncologico")}
-                      label="Presenta comite oncológico"
+                      label="Presenta comité oncológico"
                     />
                     <Modal
                       type="button"
