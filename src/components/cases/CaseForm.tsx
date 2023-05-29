@@ -272,6 +272,12 @@ export default function CaseForm(props: CaseFormProps) {
     defaultValue: false,
   });
 
+  const tieneComite: boolean = useWatch({
+    control,
+    name: "tiene_comite_oncologico",
+    defaultValue: false,
+  });
+
   const estadoVital = useWatch({
     control,
     name: "estado_vital",
@@ -530,12 +536,17 @@ export default function CaseForm(props: CaseFormProps) {
                   </div>
                 </SubSection>
               </Section>
-              <Section id="comite" title="Comité Oncólogico">
+              <Section id="comite" title="Comité Oncológico">
                 <SubSection>
                   <div className="flex justify-between">
+                    <Checkbox
+                      {...register("tiene_comite_oncologico")}
+                      label="Presenta comite oncológico"
+                    />
                     <Modal
                       type="button"
                       comite={true}
+                      disabled={!tieneComite}
                       icon="plus"
                       seguimiento={seguimientoQuery.data}
                       filled
