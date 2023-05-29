@@ -139,8 +139,8 @@ export default function CaseForm(props: CaseFormProps) {
       posee_tto: seguimientoQuery.data?.posee_tto,
       condicion_del_caso: formData.condicion_del_caso ? formData.condicion_del_caso : seguimientoQuery.data?.condicion_del_caso,
       ultimo_contacto: formData.ultimo_contacto ? typeof formData.ultimo_contacto === "string" ? formData.ultimo_contacto : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd") : seguimientoQuery.data?.ultimo_contacto,
-      causa_defuncion: formData.causa_defuncion && estado_vital === "Muerto" ? formData.causa_defuncion : seguimientoQuery.data?.causa_defuncion,
-      fecha_defuncion: formData.fecha_defuncion && estado_vital === "Muerto" ? typeof formData.fecha_defuncion === "string" ? formData.fecha_defuncion : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd") : seguimientoQuery.data?.fecha_defuncion,
+      causa_defuncion: formData.causa_defuncion && estado_vital === "Muerto" ? formData.causa_defuncion : null,
+      fecha_defuncion: formData.fecha_defuncion && estado_vital === "Muerto" ? typeof formData.fecha_defuncion === "string" ? formData.fecha_defuncion : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd") : null,
       //sigue_atencion_otro_centro: formData.sigue_atencion_otro_centro,  //OJO NO ESTA EN EL Modelo de datos
       //fecha_estimada: formData.fecha_estimada,  //OJO NO ESTA EN EL MODELO DE DATOS
       estado_vital: estado_vital,
@@ -281,6 +281,11 @@ export default function CaseForm(props: CaseFormProps) {
   const estadoVital = useWatch({
     control,
     name: "estado_vital",
+  });
+
+  const causaDefuncion = useWatch({
+    control,
+    name: "causa_defuncion",
   });
 
   const headerHeight = 251;
@@ -451,7 +456,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="flex justify-between">
                     <Checkbox
                       {...register("posee_recurrencia")}
-                      label="Presenta recurrencia"
+                      label="Presenta Recurrencia"
                     />
                     <Modal
                       type="button"
@@ -481,7 +486,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="flex justify-between">
                     <Checkbox
                       {...register("posee_progresion")}
-                      label="Presenta progresión"
+                      label="Presenta Progresión"
                     />
                     <Modal
                       type="button"
@@ -549,7 +554,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <div className="flex justify-between">
                     <Checkbox
                       {...register("tiene_comite_oncologico")}
-                      label="Presenta comité oncológico"
+                      label="Presenta Comité Oncológico"
                     />
                     <Modal
                       type="button"
@@ -720,6 +725,9 @@ export default function CaseForm(props: CaseFormProps) {
                   sign={true}
                   seguimiento={seguimientoQuery.data}
                   filled
+                  disabled={
+                    (estadoVital === "Muerto" && !causaDefuncion)
+                  }
                 >
                   Firmar Seguimiento
                 </Modal>

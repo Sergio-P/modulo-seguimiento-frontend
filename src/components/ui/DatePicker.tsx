@@ -22,6 +22,9 @@ const DatePicker = React.forwardRef(
       locale: es,
     });
     const { disabled } = props;
+    const disabledDays = [
+      {after: new Date()}
+    ]
     return (
       <Popover className={clsx(disabled && "opacity-50")}>
         <Popover.Button className="w-full">
@@ -64,7 +67,7 @@ const DatePicker = React.forwardRef(
               captionLayout="dropdown-buttons"
               selected={props.value}
               onSelect={props.onChange}
-              disabled={props.disabled}
+              disabled={disabledDays}
               modifiersStyles={{
                 selected: { backgroundColor: "var(--primary-color)" },
               }}
