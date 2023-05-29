@@ -1,19 +1,21 @@
 import clsx from "clsx";
 import Image from "next/image";
 import _ from "lodash";
+import { FaSpinner } from "react-icons/fa";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
   clear?: boolean;
   icon?: string;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export default function Button(props: ButtonProps) {
-  const { disabled, filled, clear, icon } = props;
+  const { disabled, filled, clear, icon, loading } = props;
   return (
     <button
-      {..._.omit(props, ["icon", "filled", "clear"])}
+      {..._.omit(props, ["icon", "filled", "clear", "loading"])}
       className={clsx(
         "h-10 rounded-lg border-primary text-sm tracking-wide",
         props.children ? "px-4" : "w-10",
@@ -23,7 +25,12 @@ export default function Button(props: ButtonProps) {
         props.className
       )}
     >
-      {icon && props.children ? (
+      {loading && props.children ? (
+        <div className="flex items-center gap-3">
+          <FaSpinner className="h-4 w-4 animate-spin" />
+          <div>{props.children}</div>
+        </div>
+      ) : icon && props.children ? (
         <div className="flex items-center gap-3">
           <Image
             src={`/icons/${icon}.svg`}
