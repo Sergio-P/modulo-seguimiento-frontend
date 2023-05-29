@@ -22,7 +22,7 @@ import { Progresion } from "@/types/Progresion";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { Comite } from "@/types/Comite";
 import * as fns from "date-fns";
-import { CategoriaTTO, IntencionTTO } from "@/types/Enums";
+import { CategoriaTTO, IntencionTTO, SubcategoriaTTOCirugiaOProcedimientoQuirurgico, TipoRecurrenciaProgresion, SubcategoriaTTOOtro, SubcategoriaTTORadioterapia, SubcategoriaTTOTerapiaSistemica } from "@/types/Enums";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -95,7 +95,7 @@ export default function Modal(props: ButtonProps) {
   interface RecurrenciaValues {
     fecha_diagnostico: null | Date;
     fecha_estimada: boolean;
-    tipo: null | { id: number; name: string };
+    tipo: null | TipoRecurrenciaProgresion;
     detalle_topografia_recurrencia: null | string;
   }
 
@@ -118,7 +118,7 @@ export default function Modal(props: ButtonProps) {
   interface ProgresionValues {
     fecha_diagnostico: null | Date;
     fecha_estimada: boolean;
-    tipo: null | { id: number; name: string };
+    tipo: null | TipoRecurrenciaProgresion;
     detalle_topografia_progresion: null | string;
   }
 
@@ -144,8 +144,8 @@ export default function Modal(props: ButtonProps) {
     fecha_termino: null | Date;
     en_tto: boolean;
     categoria_tto: null | CategoriaTTO;
-    subcategoria_tto: null | { name: string };
-    intencion_tto: null | { name: string };
+    subcategoria_tto: null | string;
+    intencion_tto: null | IntencionTTO;
     observaciones: null | string;
   }
 
@@ -283,7 +283,7 @@ export default function Modal(props: ButtonProps) {
         created_at: new Date(),
         updated_at: new Date(),
         ...data,
-        tipo: data.tipo.name,
+        tipo: data.tipo,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
       };
@@ -307,7 +307,7 @@ export default function Modal(props: ButtonProps) {
         created_at: new Date(),
         updated_at: new Date(),
         ...data,
-        tipo: data.tipo.name,
+        tipo: data.tipo,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia_progresion: data.detalle_topografia_progresion,
       };
@@ -342,8 +342,8 @@ export default function Modal(props: ButtonProps) {
         fecha_de_inicio: data.fecha_inicio,
         fecha_de_termino: data.fecha_termino,
         categoria_tto: data.categoria_tto,
-        subcategoria_tto: data.subcategoria_tto.name,
-        intencion_tto: data.intencion_tto.name,
+        subcategoria_tto: data.subcategoria_tto,
+        intencion_tto: data.intencion_tto,
         en_tto: data.en_tto,
         descripcion_de_la_prestacion: "no esta este campo en el formulario",
       };
@@ -597,7 +597,7 @@ export default function Modal(props: ButtonProps) {
                         name="fecha_diagnostico"
                         control={recurrenciaForm.control}
                         render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field} />
+                          <DatePicker label="Fecha Diagnóstico" {...field}/>
                         )}
                       />
                       <Checkbox
@@ -607,20 +607,17 @@ export default function Modal(props: ButtonProps) {
                       <Controller
                         name="tipo"
                         control={recurrenciaForm.control}
-                        defaultValue={{ id: 1, name: "Local" }}
+                        defaultValue={TipoRecurrenciaProgresion.local}
                         render={({ field }) => (
                           <div className="col-span-2">
                             <SelectInput
                               label={"Tipo"}
                               options={[
-                                {
-                                  id: 1,
-                                  name: "Local",
-                                },
-                                { id: 2, name: "Regional" },
-                                { id: 3, name: "Metástasis" },
-                                { id: 4, name: "Peritoneal" },
-                                { id: 5, name: "Sin información" },
+                                TipoRecurrenciaProgresion.local,
+                                TipoRecurrenciaProgresion.regional,
+                                TipoRecurrenciaProgresion.metastasis,
+                                TipoRecurrenciaProgresion.peritoneal,
+                                TipoRecurrenciaProgresion.sin_informacion,
                               ]}
                               {...field}
                             />
@@ -733,20 +730,17 @@ export default function Modal(props: ButtonProps) {
                       <Controller
                         name="tipo"
                         control={progresionForm.control}
-                        defaultValue={{ id: 1, name: "Local" }}
+                        defaultValue={TipoRecurrenciaProgresion.local}
                         render={({ field }) => (
                           <div className="col-span-2">
                             <SelectInput
                               label={"Tipo"}
                               options={[
-                                {
-                                  id: 1,
-                                  name: "Local",
-                                },
-                                { id: 2, name: "Regional" },
-                                { id: 3, name: "Metástasis" },
-                                { id: 4, name: "Peritoneal" },
-                                { id: 5, name: "Sin información" },
+                                TipoRecurrenciaProgresion.local,
+                                TipoRecurrenciaProgresion.regional,
+                                TipoRecurrenciaProgresion.metastasis,
+                                TipoRecurrenciaProgresion.peritoneal,
+                                TipoRecurrenciaProgresion.sin_informacion,
                               ]}
                               {...field}
                             />
@@ -894,7 +888,6 @@ export default function Modal(props: ButtonProps) {
                       <Controller
                         name="subcategoria_tto"
                         control={tratamientoForm.control}
-                        defaultValue={{ name: "Cirugía" }}
                         render={({ field }) => (
                           <SelectInput
                             label={"Subcategoría"}
@@ -906,17 +899,14 @@ export default function Modal(props: ButtonProps) {
                       <Controller
                         name="intencion_tto"
                         control={tratamientoForm.control}
-                        defaultValue={{ name: "Curativo" }}
+                        defaultValue={IntencionTTO.curativo}
                         render={({ field }) => (
                           <SelectInput
                             label={"Intención"}
                             options={[
-                              {
-                                id: 1,
-                                name: "Curativo",
-                              },
-                              { id: 2, name: "Paliativo" },
-                              { id: 3, name: "Desconocido" },
+                              IntencionTTO.curativo,
+                              IntencionTTO.paliativo,
+                              IntencionTTO.desconocido,
                             ]}
                             {...field}
                           />
