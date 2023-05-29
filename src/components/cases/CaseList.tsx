@@ -1,20 +1,25 @@
 import { Seguimiento } from "@/types/Seguimiento";
-import MainLayout from "../ui/layout/MainLayout";
-import Datagrid from "../ui/table/Datagrid";
 import {
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useQuery } from "react-query";
-import Section from "../ui/layout/Section";
-import BoundingBox from "../ui/layout/BoundingBox";
+import _ from "lodash";
 import Image from "next/image";
-import BooleanCell from "../ui/table/BooleanCell";
 import Link from "next/link";
-import dateCell from "../ui/table/DateCell";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
+import CustomDialog from "../ui/CustomDialog";
+import BoundingBox from "../ui/layout/BoundingBox";
+import MainLayout from "../ui/layout/MainLayout";
+import BooleanCell from "../ui/table/BooleanCell";
+import Datagrid from "../ui/table/Datagrid";
+import dateCell from "../ui/table/DateCell";
+import AssignmentModal from "./CaseList/AssignmentModal";
+import { SeguimientoState } from "@/types/Enums";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -133,30 +138,6 @@ const columns = [
     size: 64,
     cell: BooleanCell,
   }),
-  /*
-  columnHelper.display({
-    id: "boton_asignar",
-    header: "Asignar",
-    size: 40,
-    cell: (props) => (
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          alert(`aquí deberíamos asignar`);
-        }}
-        className="h-6 w-6 text-primary"
-      >
-        <Image
-          alt=""
-          src="/icons/Two People.svg"
-          width={24}
-          height={24}
-          className="h-6 w-6"
-        />
-      </button>
-    ),
-  }),
-  */
 ];
 
 interface CaseListTableProps {
@@ -169,6 +150,45 @@ function CaseListTable({ data }: CaseListTableProps) {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    enableRowSelection: (row) => {
+      return [SeguimientoState.sin_asignar].includes(row.original.state);
+    },
   });
-  return <Datagrid table={table} title="Lista de Casos" />;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  return (
+    <>
+      <Datagrid
+        table={table}
+        title="Lista de Casos"
+        extraHeader={
+          <div>
+            <Button
+              filled
+              disabled={!_.some(Object.values(table.getState().rowSelection))}
+              onClick={() => {
+                let selected = Object.keys(table.getState().rowSelection).map(
+                  (id: string) => {
+                    return table.getRowModel().rowsById[id].original.id;
+                  }
+                );
+                setSelectedIds(selected);
+                setModalOpen(true);
+              }}
+            >
+              Asignar seguimiento
+            </Button>
+          </div>
+        }
+      />
+      <AssignmentModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSuccess={() => {
+          table.resetRowSelection();
+        }}
+        seguimientoIds={selectedIds}
+      />
+    </>
+  );
 }
