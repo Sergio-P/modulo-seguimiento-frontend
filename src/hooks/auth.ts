@@ -23,16 +23,16 @@ export const login = (credentials: { email: string; password: string }) =>
     )
     .then((response) => response.data)
     .then((data) => {
-      sessionStorage.setItem("token", data.access_token);
+      localStorage.setItem("token", data.access_token);
       return data;
     })
     .catch((err) => {
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       throw err;
     });
 
 export const logout = async () => {
-  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
 };
 
 export const useUser = () => {
@@ -43,8 +43,6 @@ export const useUser = () => {
         .get<Usuario>("/usuario/user/me")
         .then((response) => response.data),
     retry: false,
-    onError: () => {
-      sessionStorage.removeItem("token");
-    },
+    enabled: typeof window !== "undefined",
   });
 };

@@ -28,10 +28,10 @@ export default function Home() {
 
   const userQuery = useUser();
   useEffect(() => {
-    if (userQuery.isSuccess) {
+    if (!userQuery.isLoading && userQuery.isSuccess) {
       router.push("/");
     }
-  }, [router, userQuery.isSuccess]);
+  }, [router, userQuery.isSuccess, userQuery.isLoading]);
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-primary">
