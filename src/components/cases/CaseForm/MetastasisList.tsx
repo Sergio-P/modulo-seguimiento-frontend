@@ -7,9 +7,10 @@ import {
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "react-day-picker";
 
 interface MetastasisListProps {
@@ -32,8 +33,11 @@ const columns = [
     header: "Origen",
     size: 110,
     cell: ({ row }) => {
-      if (row.original.numero_seguimiento === null || row.original.numero_seguimiento === undefined) {
-        return 'Registro';
+      if (
+        row.original.numero_seguimiento === null ||
+        row.original.numero_seguimiento === undefined
+      ) {
+        return "Registro";
       } else {
         return `Seguimiento ${row.original.numero_seguimiento}`;
       }
@@ -72,12 +76,18 @@ const columns = [
 ];
 
 export default function MetastasisList(props: MetastasisListProps) {
-  const data = useMemo(() => props.elements.map(element => ({
-    ...element,
-    updated_at: new Date(element.updated_at)
-  })), [props.elements]);
-
-  console.log("MetastasisList elements: ", data);
+  const data = useMemo(
+    () =>
+      props.elements.map((element) => ({
+        ...element,
+        updated_at:
+          typeof element.updated_at == "string"
+            ? new Date(element.updated_at + "Z")
+            : element.updated_at,
+      })),
+    [props.elements]
+  );
+  console.log("MetastasisList elements:", data);
 
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -86,29 +96,16 @@ export default function MetastasisList(props: MetastasisListProps) {
     },
   ]);
 
-  const sortedData = useMemo(() => {
-    const sorted = [...props.elements].sort((a, b) => {
-      const aDate = new Date(a.updated_at);
-      const bDate = new Date(b.updated_at);
-      return aDate.getTime() - bDate.getTime();
-    });
-    if (sorting[0].desc) {
-      sorted.reverse();
-    }
-    return sorted;
-  }, [props.elements, sorting]);
-
   const table = useReactTable({
-    data: sortedData,
+    data: data,
     columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
     },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   });
-
 
   return (
     <div>
@@ -116,7 +113,7 @@ export default function MetastasisList(props: MetastasisListProps) {
         table={table}
         title="Lista Metástasis"
         total={{
-          value: sortedData.length,
+          value: data.length,
           name: "Metástasis",
           pluralName: "Metástasis",
         }}

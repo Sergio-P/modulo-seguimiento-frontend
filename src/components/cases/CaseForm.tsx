@@ -345,6 +345,8 @@ export default function CaseForm(props: CaseFormProps) {
     console.log(data);
   };
   console.log(watch());
+  console.log("newMetastasisList", newMetastasisList);
+  console.log("casoMetastasisList", caso?.metastasis);
   return (
     <FormProvider {...form}>
       <MainLayout>
