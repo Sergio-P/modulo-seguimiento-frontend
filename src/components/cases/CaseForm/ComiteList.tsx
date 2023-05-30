@@ -6,10 +6,10 @@ import {
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { Button } from "react-day-picker";
 
 interface ComiteListProps {
   elements: Comite[];
@@ -31,8 +31,11 @@ const columns = [
     header: "Origen",
     size: 110,
     cell: ({ row }) => {
-      if (row.original.numero_seguimiento === null || row.original.numero_seguimiento === undefined) {
-        return 'Registro';
+      if (
+        row.original.numero_seguimiento === null ||
+        row.original.numero_seguimiento === undefined
+      ) {
+        return "Registro";
       } else {
         return `Seguimiento ${row.original.numero_seguimiento}`;
       }
@@ -75,13 +78,24 @@ const columns = [
 ];
 
 export default function ComiteList(props: ComiteListProps) {
-  const data = useMemo(() => props.elements, [props.elements]);
+  const data = useMemo(
+    () =>
+      props.elements.map((element) => ({
+        ...element,
+        updated_at:
+          typeof element.updated_at == "string"
+            ? new Date(element.updated_at + "Z")
+            : element.updated_at,
+      })),
+    [props.elements]
+  );
   console.log("ComiteList elements: ", data);
   const table = useReactTable({
     data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     initialState: {
       sorting: [
         {

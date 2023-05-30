@@ -3,15 +3,13 @@ import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
 import { Metastasis } from "@/types/Metastasis";
 import {
-  SortingState,
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "react-day-picker";
+import { useMemo } from "react";
 
 interface MetastasisListProps {
   elements: Metastasis[];
@@ -88,22 +86,22 @@ export default function MetastasisList(props: MetastasisListProps) {
     [props.elements]
   );
   console.log("MetastasisList elements:", data);
-
-  const [sorting, setSorting] = useState<SortingState>([
-    {
-      id: "updated_at",
-      desc: true,
-    },
-  ]);
-
   const table = useReactTable({
     data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
+    initialState: {
+      sorting: [
+        {
+          id: "updated_at",
+          desc: true,
+        },
+      ],
+      pagination: {
+        pageSize: 5,
+      },
     },
   });
 
