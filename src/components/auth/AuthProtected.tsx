@@ -6,9 +6,17 @@ export default function AuthProtected(props: React.PropsWithChildren) {
   const userQuery = useUser();
   const router = useRouter();
   useEffect(() => {
-    if (userQuery.isError) {
+    if (userQuery.isError && typeof window !== "undefined") {
       router.push("/login/");
     }
   });
-  return <>{props.children}</>;
+  return (
+    <div>
+      {userQuery.isLoading || typeof window === "undefined" ? (
+        <div>loading...</div>
+      ) : (
+        props.children
+      )}
+    </div>
+  );
 }
