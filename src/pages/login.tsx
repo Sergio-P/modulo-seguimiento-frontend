@@ -3,29 +3,23 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 import Image from "next/image";
+import { useLogin } from "@/hooks/auth";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type Inputs = {
+  email: string;
+  password: string;
+};
 
 export default function Home() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { profileId, dark } = router.query;
+  const login = useLogin();
+  const { register, handleSubmit } = useForm<Inputs>();
 
-  const handleEmailChange = (event: any) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: any) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-  };
-
-  const handleLogin = () => {
-    // Validación de las credenciales del usuario
-    // Redireccionamiento a la página /cases/* si las credenciales son válidas
-    router.push("/");
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    login.mutate(data);
+    console.log("ola");
   };
 
   return (
@@ -62,7 +56,7 @@ export default function Home() {
       </Head>
       <form
         className="z-10 rounded-lg bg-white p-10 shadow-md"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
           Log In
@@ -73,10 +67,7 @@ export default function Home() {
           </label>
           <input
             className="w-full rounded-lg border border-gray-400 p-2"
-            id="email"
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
+            {...register("email", { required: true })}
           />
         </div>
         <div className="mb-6">
@@ -88,22 +79,21 @@ export default function Home() {
           </label>
           <input
             className="w-full rounded-lg border border-gray-400 p-2"
-            id="password"
             type="password"
-            value={password}
-            onChange={handlePasswordChange}
+            {...register("password", { required: true })}
           />
         </div>
         <button
           className="w-full rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
           type="submit"
-          onClick={handleLogin}
         >
           Log In
         </button>
+        {/*
         <div className="flex flex-row justify-center p-10">
           <GoogleLoginButton dark={dark === "true"} />
         </div>
+      */}
       </form>
     </div>
   );
