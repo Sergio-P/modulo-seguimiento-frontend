@@ -17,6 +17,7 @@ import MetastasisList from "./CaseForm/MetastasisList";
 import ProgresionList from "./CaseForm/ProgresionList";
 import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import TratamientoList from "./CaseForm/TratamientoList";
+import axiosClient from "@/utils/axios";
 
 interface CaseFormProps {
   caseId: string;
@@ -38,9 +39,9 @@ export default function CaseForm(props: CaseFormProps) {
   const seguimientoQuery = useQuery<Seguimiento>({
     queryKey: ["seguimiento", seguimientoId],
     queryFn: () =>
-      fetch(`http://localhost:8000/seguimiento/${seguimientoId}`).then((res) =>
-        res.json()
-      ),
+      axiosClient
+        .get(`http://localhost:8000/seguimiento/${seguimientoId}`)
+        .then((res) => res.data),
     enabled: !!seguimientoId,
   });
   const caso = useMemo(
@@ -78,13 +79,16 @@ export default function CaseForm(props: CaseFormProps) {
       updated_entries: [],
       deleted_entries: [],
     };
-    fetch(`http://localhost:8000/seguimiento/sign/${seguimientoId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    })
+    axiosClient
+      .put(
+        `http://localhost:8000/seguimiento/sign/${seguimientoId}`,
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
         setNewMetastasisList([]);
@@ -251,13 +255,16 @@ export default function CaseForm(props: CaseFormProps) {
     }
 
     // Realizar la petición PUT a la API
-    fetch(`http://localhost:8000/seguimiento/save/${seguimientoId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    })
+    axiosClient
+      .put(
+        `http://localhost:8000/seguimiento/save/${seguimientoId}`,
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
         setNewMetastasisList([]);
