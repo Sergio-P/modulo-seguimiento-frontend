@@ -54,9 +54,6 @@ export const useUser = () => {
       axiosClient
         .get<Usuario>("/usuario/user/me")
         .then((response) => response.data),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
     retry: false,
     onError: () => {
       sessionStorage.removeItem("token");
