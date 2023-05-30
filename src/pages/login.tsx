@@ -24,44 +24,44 @@ export default function Home() {
 
   const handleLogin = () => {
     // Validación de las credenciales del usuario
-      // Redireccionamiento a la página /cases/* si las credenciales son válidas
-      router.push('/');
-  }
+    // Redireccionamiento a la página /cases/* si las credenciales son válidas
+    router.push("/");
+  };
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-primary">
       <div className="absolute bottom-0 right-0">
         <Image
           src={"abstractform.svg"}
-          width='500'
-          height='500'
+          width="500"
+          height="500"
           alt=""
           className="opacity-30"
-          />
+        />
       </div>
       <div className="absolute top-14 left-10 max-md:w-1/3 md:w-1/4">
         <Image
           src={"logo-imds.svg"}
-          width='280'
-          height='280'
+          width="280"
+          height="280"
           alt=""
           className=""
-          />
+        />
       </div>
-      <div className="absolute max-md:top-8 max-md:right-10 md:bottom-10 md:left-10 max-md:w-1/4 md:w-1/5 min-w-200">
+      <div className="min-w-200 absolute max-md:top-8 max-md:right-10 max-md:w-1/4 md:bottom-10 md:left-10 md:w-1/5">
         <Image
           src={"logo-falp.svg"}
-          width='220'
-          height='220'
+          width="220"
+          height="220"
           alt=""
           className=""
-          />
+        />
       </div>
       <Head>
         <title>Log In | My App</title>
       </Head>
       <form
-        className="rounded-lg bg-white p-10 shadow-md z-10"
+        className="z-10 rounded-lg bg-white p-10 shadow-md"
         onSubmit={handleSubmit}
       >
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">

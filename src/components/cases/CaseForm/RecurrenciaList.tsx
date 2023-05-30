@@ -11,7 +11,6 @@ import { useState } from "react";
 import { Recurrencia } from "@/types/Recurrencia";
 import { useMemo } from "react";
 
-
 interface RecurrenciaListProps {
   elements: Recurrencia[];
 }
@@ -76,8 +75,8 @@ export default function RecurrenciaList(props: RecurrenciaListProps) {
       sorting: [
         {
           id: "updated_at",
-          desc: true
-        }
+          desc: true,
+        },
       ],
       pagination: {
         pageSize: 5,

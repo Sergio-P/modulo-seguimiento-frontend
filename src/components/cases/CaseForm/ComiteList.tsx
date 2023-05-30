@@ -75,8 +75,8 @@ export default function ComiteList(props: ComiteListProps) {
       sorting: [
         {
           id: "updated_at",
-          desc: true
-        }
+          desc: true,
+        },
       ],
       pagination: {
         pageSize: 5,

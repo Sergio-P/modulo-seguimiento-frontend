@@ -22,7 +22,15 @@ import { Progresion } from "@/types/Progresion";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { Comite } from "@/types/Comite";
 import * as fns from "date-fns";
-import { CategoriaTTO, IntencionTTO, SubcategoriaTTOCirugiaOProcedimientoQuirurgico, TipoRecurrenciaProgresion, SubcategoriaTTOOtro, SubcategoriaTTORadioterapia, SubcategoriaTTOTerapiaSistemica } from "@/types/Enums";
+import {
+  CategoriaTTO,
+  IntencionTTO,
+  SubcategoriaTTOCirugiaOProcedimientoQuirurgico,
+  TipoRecurrenciaProgresion,
+  SubcategoriaTTOOtro,
+  SubcategoriaTTORadioterapia,
+  SubcategoriaTTOTerapiaSistemica,
+} from "@/types/Enums";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -171,7 +179,8 @@ export default function Modal(props: ButtonProps) {
   const intencion_tto = watchTratamiento("intencion_tto");
   const observaciones = watchTratamiento("observaciones");
   const en_tto = watchTratamiento("en_tto");
-  const subcategoria_TTO_options = subcategoriaTTOForCategoriaTTO(categoria_tto);
+  const subcategoria_TTO_options =
+    subcategoriaTTOForCategoriaTTO(categoria_tto);
 
   interface ComiteValues {
     medico: null | string;
@@ -597,7 +606,7 @@ export default function Modal(props: ButtonProps) {
                         name="fecha_diagnostico"
                         control={recurrenciaForm.control}
                         render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field}/>
+                          <DatePicker label="Fecha Diagnóstico" {...field} />
                         )}
                       />
                       <Checkbox
@@ -871,7 +880,9 @@ export default function Modal(props: ButtonProps) {
                       <Controller
                         name="categoria_tto"
                         control={tratamientoForm.control}
-                        defaultValue={CategoriaTTO.cirugia_o_procedimiento_quirurgico}
+                        defaultValue={
+                          CategoriaTTO.cirugia_o_procedimiento_quirurgico
+                        }
                         render={({ field }) => (
                           <SelectInput
                             label={"Categoría"}
@@ -1104,13 +1115,9 @@ export default function Modal(props: ButtonProps) {
           </div>
         </Dialog>
       </Transition>
-      
+
       <Transition appear show={isOpenComite} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-30"
-          onClose={closeModalComite}
-        >
+        <Dialog as="div" className="relative z-30" onClose={closeModalComite}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -1157,36 +1164,36 @@ export default function Modal(props: ButtonProps) {
                       />
                     </div>
                     <div className="grid grid-cols-2 items-center gap-6">
-                        <Controller
-                          name="fecha_comite"
-                          control={comiteForm.control}
-                          render={({ field }) => (
-                            <DatePicker label="Fecha Comité" {...field} />
-                          )}
-                        />
+                      <Controller
+                        name="fecha_comite"
+                        control={comiteForm.control}
+                        render={({ field }) => (
+                          <DatePicker label="Fecha Comité" {...field} />
+                        )}
+                      />
 
-                        <Controller
-                          name="intencion_tto"
-                          control={comiteForm.control}
-                          defaultValue={IntencionTTO.curativo}
-                          render={({ field }) => (
-                            <SelectInput
-                              label={"Intención Tratamiento"}
-                              options={[
-                                IntencionTTO.curativo,
-                                IntencionTTO.paliativo,
-                                IntencionTTO.desconocido,
-                              ]}
-                              {...field}
-                            />
-                          )}
+                      <Controller
+                        name="intencion_tto"
+                        control={comiteForm.control}
+                        defaultValue={IntencionTTO.curativo}
+                        render={({ field }) => (
+                          <SelectInput
+                            label={"Intención Tratamiento"}
+                            options={[
+                              IntencionTTO.curativo,
+                              IntencionTTO.paliativo,
+                              IntencionTTO.desconocido,
+                            ]}
+                            {...field}
+                          />
+                        )}
+                      />
+                      <div className="col-span-2">
+                        <TextInput
+                          label="Médico"
+                          {...comiteForm.register("medico")}
                         />
-                        <div className="col-span-2">
-                            <TextInput
-                              label="Médico"
-                              {...comiteForm.register("medico")}
-                            />
-                        </div>
+                      </div>
                     </div>
                     <div className="mt-6 flex justify-between">
                       <Button type="button" onClick={closeModalMetastasis}>
@@ -1195,9 +1202,15 @@ export default function Modal(props: ButtonProps) {
                       <Button
                         filled
                         type="submit"
-                        disabled={!medico_comite || !intencion_tto_comite || !fecha_comite}
+                        disabled={
+                          !medico_comite ||
+                          !intencion_tto_comite ||
+                          !fecha_comite
+                        }
                         title={
-                          !detalle_topografia || !fecha_diagnostico || !fecha_comite
+                          !detalle_topografia ||
+                          !fecha_diagnostico ||
+                          !fecha_comite
                             ? "Por favor complete todos los campos"
                             : ""
                         }

@@ -48,7 +48,7 @@ export default function CaseForm(props: CaseFormProps) {
       fetch(`http://localhost:8000/seguimiento/${seguimientoId}`).then((res) =>
         res.json()
       ),
-      enabled: !!seguimientoId,
+    enabled: !!seguimientoId,
   });
   const caso = useMemo(
     () => seguimientoQuery.data?.caso_registro_correspondiente,
@@ -116,7 +116,12 @@ export default function CaseForm(props: CaseFormProps) {
   ) {
     const seguimientoId = seguimientoQuery.data?.id;
     console.log("data entregado", formData);
-    console.log("data clase caso:", formData.caso_registro_correspondiente.clase_caso ? formData.caso_registro_correspondiente.clase_caso: seguimientoQuery.data?.validacion_clase_caso);
+    console.log(
+      "data clase caso:",
+      formData.caso_registro_correspondiente.clase_caso
+        ? formData.caso_registro_correspondiente.clase_caso
+        : seguimientoQuery.data?.validacion_clase_caso
+    );
     console.log(
       "data ultimo_contacto:",
       formData.ultimo_contacto
@@ -125,22 +130,45 @@ export default function CaseForm(props: CaseFormProps) {
           : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd")
         : seguimientoQuery.data?.ultimo_contacto
     );
-    console.log("data estado vital:", formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital);
-    const estado_vital = formData.estado_vital ? formData.estado_vital : seguimientoQuery.data?.estado_vital;
+    console.log(
+      "data estado vital:",
+      formData.estado_vital
+        ? formData.estado_vital
+        : seguimientoQuery.data?.estado_vital
+    );
+    const estado_vital = formData.estado_vital
+      ? formData.estado_vital
+      : seguimientoQuery.data?.estado_vital;
     const requestBody = {
       id: seguimientoId,
       caso_registro_id: caso?.id,
       state: seguimientoQuery.data?.state,
       numero_seguimiento: seguimientoQuery.data?.numero_seguimiento,
-      validacion_clase_caso: formData.caso_registro_correspondiente.clase_caso ? formData.caso_registro_correspondiente.clase_caso : seguimientoQuery.data?.validacion_clase_caso,
+      validacion_clase_caso: formData.caso_registro_correspondiente.clase_caso
+        ? formData.caso_registro_correspondiente.clase_caso
+        : seguimientoQuery.data?.validacion_clase_caso,
       posee_recurrencia: seguimientoQuery.data?.posee_recurrencia,
       posee_progresion: seguimientoQuery.data?.posee_progresion,
       posee_metastasis: seguimientoQuery.data?.posee_metastasis,
       posee_tto: seguimientoQuery.data?.posee_tto,
-      condicion_del_caso: formData.condicion_del_caso ? formData.condicion_del_caso : seguimientoQuery.data?.condicion_del_caso,
-      ultimo_contacto: formData.ultimo_contacto ? typeof formData.ultimo_contacto === "string" ? formData.ultimo_contacto : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd") : seguimientoQuery.data?.ultimo_contacto,
-      causa_defuncion: formData.causa_defuncion && estado_vital === "Muerto" ? formData.causa_defuncion : null,
-      fecha_defuncion: formData.fecha_defuncion && estado_vital === "Muerto" ? typeof formData.fecha_defuncion === "string" ? formData.fecha_defuncion : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd") : null,
+      condicion_del_caso: formData.condicion_del_caso
+        ? formData.condicion_del_caso
+        : seguimientoQuery.data?.condicion_del_caso,
+      ultimo_contacto: formData.ultimo_contacto
+        ? typeof formData.ultimo_contacto === "string"
+          ? formData.ultimo_contacto
+          : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd")
+        : seguimientoQuery.data?.ultimo_contacto,
+      causa_defuncion:
+        formData.causa_defuncion && estado_vital === "Muerto"
+          ? formData.causa_defuncion
+          : null,
+      fecha_defuncion:
+        formData.fecha_defuncion && estado_vital === "Muerto"
+          ? typeof formData.fecha_defuncion === "string"
+            ? formData.fecha_defuncion
+            : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd")
+          : null,
       //sigue_atencion_otro_centro: formData.sigue_atencion_otro_centro,  //OJO NO ESTA EN EL Modelo de datos
       //fecha_estimada: formData.fecha_estimada,  //OJO NO ESTA EN EL MODELO DE DATOS
       estado_vital: estado_vital,
@@ -228,7 +256,6 @@ export default function CaseForm(props: CaseFormProps) {
         },
       });
     }
-
 
     // Realizar la petición PUT a la API
     fetch(`http://localhost:8000/seguimiento/save/${seguimientoId}`, {
@@ -341,14 +368,18 @@ export default function CaseForm(props: CaseFormProps) {
                     <Button icon="FileIcon" className="">
                       Historial
                     </Button>
-                    <Button 
+                    <Button
                       title="Duplicar Caso"
                       type="button"
-                      icon="2cuadrados" filled />
-                    <Button 
+                      icon="2cuadrados"
+                      filled
+                    />
+                    <Button
                       title="Comentar"
                       type="button"
-                      icon="chatbubble" filled />
+                      icon="chatbubble"
+                      filled
+                    />
                     <Button
                       icon="SaveIcon"
                       filled
@@ -375,10 +406,7 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </div>
               <div className="mt-4">
-                <BoundingBox
-                  thin
-                  className="m-4 border-background-dark"
-                >
+                <BoundingBox thin className="m-4 border-background-dark">
                   <div className="flex place-items-center justify-around">
                     <div className="flex-col items-center justify-center">
                       <h2 className="text-2xl font-bold">
@@ -725,9 +753,7 @@ export default function CaseForm(props: CaseFormProps) {
                   sign={true}
                   seguimiento={seguimientoQuery.data}
                   filled
-                  disabled={
-                    (estadoVital === "Muerto" && !causaDefuncion)
-                  }
+                  disabled={estadoVital === "Muerto" && !causaDefuncion}
                 >
                   Firmar Seguimiento
                 </Modal>

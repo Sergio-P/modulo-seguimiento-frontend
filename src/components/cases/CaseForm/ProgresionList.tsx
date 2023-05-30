@@ -12,7 +12,6 @@ import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
 import { useMemo } from "react";
 
-
 interface ProgresionListProps {
   elements: Progresion[];
 }
@@ -77,8 +76,8 @@ export default function ProgresionList(props: ProgresionListProps) {
       sorting: [
         {
           id: "updated_at",
-          desc: true
-        }
+          desc: true,
+        },
       ],
       pagination: {
         pageSize: 5,

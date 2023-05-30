@@ -10,7 +10,9 @@ export default function MainLayout({ children }: React.PropsWithChildren) {
         alt=""
         className="fixed bottom-0 right-0 -z-5 opacity-30"
       />*/}
-      <div className="container mx-auto min-h-screen bg-white z-0">{children}</div>
+      <div className="container z-0 mx-auto min-h-screen bg-white">
+        {children}
+      </div>
     </div>
   );
 }

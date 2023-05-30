@@ -19,7 +19,7 @@ export interface TratamientoEnFALPBase {
     | SubcategoriaTTORadioterapia
     | SubcategoriaTTOOtro
     | Object;
-    
+
   intencion_tto: IntencionTTO | Object;
   descripcion_de_la_prestacion: string | null;
   observaciones: string;

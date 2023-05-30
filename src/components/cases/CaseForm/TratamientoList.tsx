@@ -13,7 +13,6 @@ import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
 import { useMemo } from "react";
 
-
 interface TratamientoListProps {
   elements: TratamientoEnFALP[];
 }
@@ -91,8 +90,8 @@ export default function TratamientoList(props: TratamientoListProps) {
       sorting: [
         {
           id: "updated_at",
-          desc: true
-        }
+          desc: true,
+        },
       ],
       pagination: {
         pageSize: 5,

@@ -22,9 +22,7 @@ const DatePicker = React.forwardRef(
       locale: es,
     });
     const { disabled } = props;
-    const disabledDays = [
-      {after: new Date()}
-    ]
+    const disabledDays = [{ after: new Date() }];
     return (
       <Popover className={clsx(disabled && "opacity-50")}>
         <Popover.Button className="w-full">
