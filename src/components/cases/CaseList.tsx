@@ -20,14 +20,16 @@ import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
 import AssignmentModal from "./CaseList/AssignmentModal";
 import { SeguimientoState } from "@/types/Enums";
+import axiosClient from "@/utils/axios";
 
 export default function CaseList() {
   const caseQuery = useQuery({
     queryKey: ["seguimientos"],
     queryFn: () =>
-      fetch("http://localhost:8000/seguimiento/").then((res) => res.json()),
+      axiosClient
+        .get("http://localhost:8000/seguimiento/")
+        .then((res) => res.data),
   });
-  console.log(caseQuery.data);
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
@@ -151,7 +153,11 @@ function CaseListTable({ data }: CaseListTableProps) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     enableRowSelection: (row) => {
-      return [SeguimientoState.sin_asignar].includes(row.original.state);
+      return [
+        SeguimientoState.sin_asignar,
+        SeguimientoState.asignado,
+        SeguimientoState.incompleto,
+      ].includes(row.original.state);
     },
   });
   const [modalOpen, setModalOpen] = useState(false);
