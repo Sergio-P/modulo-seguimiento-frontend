@@ -31,7 +31,7 @@ export const login = (credentials: { email: string; password: string }) =>
       throw err;
     });
 
-export const logout = () => {
+export const logout = async () => {
   sessionStorage.removeItem("token");
 };
 

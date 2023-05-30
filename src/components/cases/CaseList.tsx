@@ -21,6 +21,7 @@ import dateCell from "../ui/table/DateCell";
 import AssignmentModal from "./CaseList/AssignmentModal";
 import { SeguimientoState } from "@/types/Enums";
 import axiosClient from "@/utils/axios";
+import LogoutButton from "../auth/LogoutButton";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -33,9 +34,14 @@ export default function CaseList() {
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
-        <h1 className="text-4xl font-bold text-font-title">
-          <Link href="/">Seguimiento de Casos</Link>
-        </h1>
+        <div className="flex justify-between">
+          <h1 className="text-4xl font-bold text-font-title">
+            <Link href="/">Seguimiento de Casos</Link>
+          </h1>
+          <div>
+            <LogoutButton />
+          </div>
+        </div>
       </div>
       <BoundingBox>
         {caseQuery.data && <CaseListTable data={caseQuery.data} />}
