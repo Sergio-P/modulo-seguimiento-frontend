@@ -16,4 +16,5 @@ export interface Metastasis extends MetastasisBase {
   caso_registro_id: number;
   created_at: Date;
   updated_at: Date;
+  numero_seguimiento: number | null;
 }

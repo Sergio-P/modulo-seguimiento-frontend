@@ -1,7 +1,7 @@
 import {
   CategoriaTTO,
   SubcategoriaTTOCirugiaOProcedimientoQuirurgico,
-  SubcategoriaTTOTerapiaSistematica,
+  SubcategoriaTTOTerapiaSistemica,
   SubcategoriaTTORadioterapia,
   SubcategoriaTTOOtro,
   IntencionTTO,
@@ -15,7 +15,7 @@ export interface TratamientoEnFALPBase {
   categoria_tto: CategoriaTTO | Object;
   subcategoria_tto:
     | SubcategoriaTTOCirugiaOProcedimientoQuirurgico
-    | SubcategoriaTTOTerapiaSistematica
+    | SubcategoriaTTOTerapiaSistemica
     | SubcategoriaTTORadioterapia
     | SubcategoriaTTOOtro
     | Object;
@@ -37,4 +37,5 @@ export interface TratamientoEnFALP extends TratamientoEnFALPBase {
   caso_registro_id: number;
   created_at: Date;
   updated_at: Date;
+  numero_seguimiento: number | null;
 }

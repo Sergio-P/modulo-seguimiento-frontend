@@ -24,6 +24,17 @@ const columns = [
     size: 110,
     cell: LastDateCell,
   }),
+  columnHelper.accessor("numero_seguimiento", {
+    header: "Origen",
+    size: 110,
+    cell: ({ row }) => {
+      if (row.original.numero_seguimiento === null || row.original.numero_seguimiento === undefined) {
+        return 'Registro';
+      } else {
+        return `Seguimiento ${row.original.numero_seguimiento}`;
+      }
+    },
+  }),
   columnHelper.accessor("fecha_de_inicio", {
     header: "Inicio",
     cell: DateCell,
