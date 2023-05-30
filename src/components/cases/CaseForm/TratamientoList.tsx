@@ -24,6 +24,16 @@ const columns = [
     size: 110,
     cell: LastDateCell,
   }),
+  columnHelper.accessor("fecha_de_inicio", {
+    header: "Inicio",
+    cell: DateCell,
+    size: 110,
+  }),
+  columnHelper.accessor("fecha_de_termino", {
+    header: "Término",
+    cell: DateCell,
+    size: 110,
+  }),
   columnHelper.accessor("numero_seguimiento", {
     header: "Origen",
     size: 110,
@@ -34,16 +44,6 @@ const columns = [
         return `Seguimiento ${row.original.numero_seguimiento}`;
       }
     },
-  }),
-  columnHelper.accessor("fecha_de_inicio", {
-    header: "Inicio",
-    cell: DateCell,
-    size: 110,
-  }),
-  columnHelper.accessor("fecha_de_termino", {
-    header: "Término",
-    cell: DateCell,
-    size: 110,
   }),
   columnHelper.accessor("medico", {
     header: "Médico",
