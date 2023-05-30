@@ -269,6 +269,7 @@ export default function Modal(props: ButtonProps) {
         ...data,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia: data.detalle_topografia,
+        numero_seguimiento: seguimiento.numero_seguimiento,
       };
       setNewMetastasisList((prev: Metastasis[]) => {
         return [...prev, newMetastasis];
@@ -295,6 +296,7 @@ export default function Modal(props: ButtonProps) {
         tipo: data.tipo,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
+        numero_seguimiento: seguimiento.numero_seguimiento,
       };
       setNewRecurrenciaList((prev: Recurrencia[]) => {
         return [...prev, newRecurrencia];
@@ -319,6 +321,7 @@ export default function Modal(props: ButtonProps) {
         tipo: data.tipo,
         fecha_diagnostico: data.fecha_diagnostico,
         detalle_topografia_progresion: data.detalle_topografia_progresion,
+        numero_seguimiento: seguimiento.numero_seguimiento,
       };
       setNewProgresionList((prev: Progresion[]) => {
         return [...prev, newProgresion];
@@ -355,6 +358,7 @@ export default function Modal(props: ButtonProps) {
         intencion_tto: data.intencion_tto,
         en_tto: data.en_tto,
         descripcion_de_la_prestacion: "no esta este campo en el formulario",
+        numero_seguimiento: seguimiento.numero_seguimiento,
       };
       setNewTratamientoList((prev: TratamientoEnFALP[]) => {
         return [...prev, newTratamiento];
@@ -379,6 +383,7 @@ export default function Modal(props: ButtonProps) {
         medico: data.medico,
         intencion_tto: data.intencion_tto,
         fecha_comite: data.fecha_comite,
+        numero_seguimiento: seguimiento.numero_seguimiento,
       };
       setNewComiteList((prev: Comite[]) => {
         return [...prev, newComite];

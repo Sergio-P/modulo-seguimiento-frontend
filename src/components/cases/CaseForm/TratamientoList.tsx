@@ -34,6 +34,17 @@ const columns = [
     cell: DateCell,
     size: 110,
   }),
+  columnHelper.accessor("numero_seguimiento", {
+    header: "Origen",
+    size: 110,
+    cell: ({ row }) => {
+      if (row.original.numero_seguimiento === null || row.original.numero_seguimiento === undefined) {
+        return 'Registro';
+      } else {
+        return `Seguimiento ${row.original.numero_seguimiento}`;
+      }
+    },
+  }),
   columnHelper.accessor("medico", {
     header: "Médico",
     size: 110,
