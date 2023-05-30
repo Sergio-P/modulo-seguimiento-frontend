@@ -1,10 +1,11 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 import Image from "next/image";
-import { useLogin } from "@/hooks/auth";
+import { login, useUser } from "@/hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
 
 type Inputs = {
   email: string;
@@ -13,14 +14,24 @@ type Inputs = {
 
 export default function Home() {
   const router = useRouter();
-  const { profileId, dark } = router.query;
-  const login = useLogin();
+  const queryClient = useQueryClient();
+  const loginMutation = useMutation(login, {
+    onSettled: () => {
+      queryClient.invalidateQueries(["usuario", "me"]);
+    },
+  });
   const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    login.mutate(data);
-    console.log("ola");
+    loginMutation.mutate(data);
   };
+
+  const userQuery = useUser();
+  useEffect(() => {
+    if (userQuery.isSuccess) {
+      router.push("/");
+    }
+  }, [router, userQuery.isSuccess]);
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-primary">
