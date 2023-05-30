@@ -30,6 +30,8 @@ export default function Button(props: ButtonProps) {
           <FaSpinner className="h-4 w-4 animate-spin" />
           <div>{props.children}</div>
         </div>
+      ) : loading && !props.children ? (
+        <FaSpinner className="m-auto h-4 w-4 animate-spin" />
       ) : icon && props.children ? (
         <div className="flex items-center gap-3">
           <Image

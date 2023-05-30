@@ -3,7 +3,7 @@ import * as fns from "date-fns";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import DatePicker from "../ui/DatePicker";
@@ -18,6 +18,7 @@ import ProgresionList from "./CaseForm/ProgresionList";
 import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import TratamientoList from "./CaseForm/TratamientoList";
 import axiosClient from "@/utils/axios";
+import sleep from "@/utils/sleep";
 
 interface CaseFormProps {
   caseId: string;
@@ -315,6 +316,18 @@ export default function CaseForm(props: CaseFormProps) {
     name: "causa_defuncion",
   });
 
+  const saveMutation = useMutation(async () => {
+    await updateSeguimiento(
+      newMetastasisList,
+      newRecurrenciaList,
+      newProgresionList,
+      newTratamientoList,
+      newComiteList,
+      form.getValues()
+    );
+    await sleep(500);
+  });
+
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
     const element = document.getElementById(value.id);
@@ -385,18 +398,10 @@ export default function CaseForm(props: CaseFormProps) {
                     <Button
                       icon="SaveIcon"
                       filled
+                      loading={saveMutation.isLoading}
                       type="button"
                       title="Guardar"
-                      onClick={() =>
-                        updateSeguimiento(
-                          newMetastasisList,
-                          newRecurrenciaList,
-                          newProgresionList,
-                          newTratamientoList,
-                          newComiteList,
-                          form.getValues()
-                        )
-                      }
+                      onClick={() => saveMutation.mutate()}
                     />
 
                     <Link href="../../">
