@@ -3,12 +3,13 @@ import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
 import { Metastasis } from "@/types/Metastasis";
 import {
+  SortingState,
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "react-day-picker";
 
 interface MetastasisListProps {
@@ -71,32 +72,51 @@ const columns = [
 ];
 
 export default function MetastasisList(props: MetastasisListProps) {
-  const data = useMemo(() => props.elements, [props.elements]);
+  const data = useMemo(() => props.elements.map(element => ({
+    ...element,
+    updated_at: new Date(element.updated_at)
+  })), [props.elements]);
+
   console.log("MetastasisList elements: ", data);
+
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "updated_at",
+      desc: true,
+    },
+  ]);
+
+  const sortedData = useMemo(() => {
+    const sorted = [...props.elements].sort((a, b) => {
+      const aDate = new Date(a.updated_at);
+      const bDate = new Date(b.updated_at);
+      return aDate.getTime() - bDate.getTime();
+    });
+    if (sorting[0].desc) {
+      sorted.reverse();
+    }
+    return sorted;
+  }, [props.elements, sorting]);
+
   const table = useReactTable({
-    data: data,
+    data: sortedData,
     columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: {
-      sorting: [
-        {
-          id: "updated_at",
-          desc: true,
-        },
-      ],
-      pagination: {
-        pageSize: 5,
-      },
-    },
   });
+
+
   return (
     <div>
       <Datagrid
         table={table}
         title="Lista Metástasis"
         total={{
-          value: data.length,
+          value: sortedData.length,
           name: "Metástasis",
           pluralName: "Metástasis",
         }}
