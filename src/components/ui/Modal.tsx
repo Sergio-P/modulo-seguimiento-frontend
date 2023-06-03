@@ -1,37 +1,31 @@
-import clsx from "clsx";
-import Image from "next/image";
-import _ from "lodash";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import {
-  Controller,
-  useForm,
-  useFormContext,
-  useWatch,
-  SubmitHandler,
-} from "react-hook-form";
-import DatePicker from "./DatePicker";
-import Checkbox from "./Checkbox";
-import SelectInput from "./SelectInput";
-import Button from "./Button";
-import TextInput from "./TextInput";
-import { Seguimiento } from "@/types/Seguimiento";
-import { Metastasis } from "@/types/Metastasis";
-import { Recurrencia } from "@/types/Recurrencia";
-import { Progresion } from "@/types/Progresion";
-import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { Comite } from "@/types/Comite";
-import * as fns from "date-fns";
 import {
   CategoriaTTO,
   IntencionTTO,
-  SubcategoriaTTOCirugiaOProcedimientoQuirurgico,
   TipoRecurrenciaProgresion,
-  SubcategoriaTTOOtro,
-  SubcategoriaTTORadioterapia,
-  SubcategoriaTTOTerapiaSistemica,
 } from "@/types/Enums";
+import { Metastasis } from "@/types/Metastasis";
+import { Progresion } from "@/types/Progresion";
+import { Recurrencia } from "@/types/Recurrencia";
+import { Seguimiento } from "@/types/Seguimiento";
+import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
+import { Dialog, Transition } from "@headlessui/react";
+import clsx from "clsx";
+import _ from "lodash";
+import Image from "next/image";
+import { Fragment, useState } from "react";
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
+import Button from "./Button";
+import Checkbox from "./Checkbox";
+import DatePicker from "./DatePicker";
+import SelectInput from "./SelectInput";
+import TextInput from "./TextInput";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
