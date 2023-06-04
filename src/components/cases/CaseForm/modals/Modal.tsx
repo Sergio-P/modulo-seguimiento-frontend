@@ -21,12 +21,12 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import Button from "./Button";
-import Checkbox from "./Checkbox";
-import DatePicker from "./DatePicker";
-import SelectInput from "./SelectInput";
-import TextInput from "./TextInput";
-import CustomDialog from "./CustomDialog";
+import Button from "../../../ui/Button";
+import Checkbox from "../../../ui/Checkbox";
+import DatePicker from "../../../ui/DatePicker";
+import SelectInput from "../../../ui/SelectInput";
+import TextInput from "../../../ui/TextInput";
+import CustomDialog from "../../../ui/CustomDialog";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
