@@ -10,11 +10,10 @@ import { Recurrencia } from "@/types/Recurrencia";
 import { Seguimiento } from "@/types/Seguimiento";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
-import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import _ from "lodash";
 import Image from "next/image";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import {
   Controller,
   SubmitHandler,
@@ -23,10 +22,10 @@ import {
 } from "react-hook-form";
 import Button from "../../../ui/Button";
 import Checkbox from "../../../ui/Checkbox";
+import CustomDialog from "../../../ui/CustomDialog";
 import DatePicker from "../../../ui/DatePicker";
 import SelectInput from "../../../ui/SelectInput";
 import TextInput from "../../../ui/TextInput";
-import CustomDialog from "../../../ui/CustomDialog";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -36,7 +35,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   recurrencia?: boolean;
   progresion?: boolean;
   tratamiento?: boolean;
-  morePatientInfo?: boolean;
   comite?: boolean;
   sign?: boolean;
   seguimiento: Seguimiento;
@@ -63,14 +61,12 @@ export default function Modal(props: ButtonProps) {
     setNewProgresionList,
     setNewTratamientoList,
     setNewComiteList,
-    morePatientInfo,
     sign,
   } = props;
   let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
-  let [isOpenMoreInfo, setIsOpenMoreInfo] = useState(false);
   let [isOpenComite, setIsOpenComite] = useState(false);
   let [isOpenSign, setIsOpenSign] = useState(false);
   const { control, register } = useFormContext();
@@ -226,14 +222,6 @@ export default function Modal(props: ButtonProps) {
 
   function openModalTratamiento() {
     setIsOpenTratamiento(true);
-  }
-
-  function closeMoreInfo() {
-    setIsOpenMoreInfo(false);
-  }
-
-  function openMoreInfo() {
-    setIsOpenMoreInfo(true);
   }
 
   function closeSign() {
@@ -397,7 +385,6 @@ export default function Modal(props: ButtonProps) {
           "recurrencia",
           "progresion",
           "tratamiento",
-          "morePatientInfo",
           "sign",
           "comite",
           "setNewMetastasisList",
@@ -415,8 +402,6 @@ export default function Modal(props: ButtonProps) {
             openModalProgresion();
           } else if (tratamiento) {
             openModalTratamiento();
-          } else if (morePatientInfo) {
-            openMoreInfo();
           } else if (sign) {
             openSign();
           } else if (comite) {
@@ -788,60 +773,6 @@ export default function Modal(props: ButtonProps) {
       </CustomDialog>
 
       <CustomDialog
-        open={isOpenMoreInfo}
-        onClose={closeMoreInfo}
-        title="Antecedentes Personales"
-        width="lg"
-      >
-        <div className="grid w-full grid-cols-6 gap-4 rounded-2xl p-2 text-left">
-          <div className="contents">
-            <div className="font-bold">Nombre Paciente</div>
-            <div className="col-span-5">
-              {caso?.nombre} {caso?.apellido}
-            </div>
-          </div>
-          <Separator />
-          <div className="contents">
-            <div className="font-bold">Ficha</div>
-            <div className="">{caso?.ficha}</div>
-            <div className="font-bold">RUT/DNI</div>
-            <div className="">{caso?.rut_dni}</div>
-            <div className="font-bold">N° Registro</div>
-            <div className="">{caso?.num_registro}</div>
-          </div>
-          <Separator />
-          <div className="contents">
-            <div className="font-bold">Categoría</div>
-            <div className="col-span-5">{caso?.categoria}</div>
-          </div>
-          <Separator />
-          <div className="contents">
-            <div className="font-bold">Subcategoría</div>
-            <div className="col-span-5">{caso?.subcategoria}</div>
-          </div>
-          <Separator />
-          <div className="contents">
-            <div className="font-bold">Fecha Diagnóstico</div>
-            <div className="">{caso?.fecha_dg.toString()}</div>
-            <div className="font-bold">Lateralidad</div>
-            <div className="">{caso?.lateralidad}</div>
-            <div className="font-bold">Estadío Diagnóstico</div>
-            <div className="">{caso?.estadio_dg}</div>
-          </div>
-          <Separator />
-          <div className="contents">
-            <div className="font-bold">Morfología</div>
-            <div className="col-span-5">{caso?.morfologia}</div>
-          </div>
-          <Separator />
-          <div className="contents">
-            <div className="font-bold">Topografía</div>
-            <div className="col-span-5">{caso?.topografia}</div>
-          </div>
-        </div>
-      </CustomDialog>
-
-      <CustomDialog
         open={isOpenSign}
         onClose={closeSign}
         title="¿Estás seguro/a de firmar seguimiento?"
@@ -922,8 +853,4 @@ export default function Modal(props: ButtonProps) {
       </CustomDialog>
     </>
   );
-}
-
-function Separator() {
-  return <div className="col-span-6 h-[1px] w-full bg-zinc-400"></div>;
 }

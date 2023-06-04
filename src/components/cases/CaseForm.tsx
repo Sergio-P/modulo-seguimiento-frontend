@@ -19,6 +19,7 @@ import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import TratamientoList from "./CaseForm/TratamientoList";
 import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
+import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -437,15 +438,7 @@ export default function CaseForm(props: CaseFormProps) {
                       label={"Lateralidad"}
                       value={caso?.lateralidad || ""}
                     />
-                    <Modal
-                      className="w-48 place-self-center"
-                      type="button"
-                      morePatientInfo={true}
-                      filled
-                      seguimiento={seguimientoQuery.data}
-                    >
-                      Más Información
-                    </Modal>
+                    <MoreInfoModal seguimiento={seguimientoQuery.data} />
                   </div>
                 </BoundingBox>
               </div>
