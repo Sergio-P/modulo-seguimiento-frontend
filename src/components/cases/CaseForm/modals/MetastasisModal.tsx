@@ -14,7 +14,7 @@ interface MetastasisModalProps extends Partial<ModalProps> {
   setNewMetastasisList: Dispatch<SetStateAction<Metastasis[]>>;
 }
 
-interface MetastasisValues {
+interface FormValues {
   fecha_diagnostico: Date | null;
   fecha_estimada: boolean;
   detalle_topografia: null | string;
@@ -23,7 +23,7 @@ interface MetastasisValues {
 const ModalRender = (props: MetastasisModalProps & ModalRenderProps) => {
   const { seguimiento, setNewMetastasisList, handleClose } = props;
   const caso = seguimiento.caso_registro_correspondiente;
-  const form = useForm<MetastasisValues>({
+  const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
       fecha_diagnostico: null, //
@@ -33,7 +33,7 @@ const ModalRender = (props: MetastasisModalProps & ModalRenderProps) => {
   });
   const detalle_topografia = form.watch("detalle_topografia");
   const fecha_diagnostico = form.watch("fecha_diagnostico");
-  const addMetastasis: SubmitHandler<MetastasisValues> = (data, event) => {
+  const addMetastasis: SubmitHandler<FormValues> = (data, event) => {
     event?.stopPropagation();
     if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
       const newMetastasis: Metastasis = {

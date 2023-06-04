@@ -16,7 +16,7 @@ interface RecurrenciaModalProps extends Partial<ModalProps> {
   setNewRecurrenciaList: Dispatch<SetStateAction<Recurrencia[]>>;
 }
 
-interface RecurrenciaValues {
+interface FormValues {
   fecha_diagnostico: null | Date;
   fecha_estimada: boolean;
   tipo: null | TipoRecurrenciaProgresion;
@@ -26,7 +26,7 @@ interface RecurrenciaValues {
 const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
   const { seguimiento, setNewRecurrenciaList, handleClose } = props;
   const caso = seguimiento.caso_registro_correspondiente;
-  const form = useForm<RecurrenciaValues>({
+  const form = useForm<FormValues>({
     defaultValues: {
       fecha_diagnostico: null, //
       fecha_estimada: false, //
@@ -41,7 +41,7 @@ const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
   );
   const fecha_diagnostico_recurrencia = form.watch("fecha_diagnostico");
 
-  const addRecurrencia: SubmitHandler<RecurrenciaValues> = (data) => {
+  const addRecurrencia: SubmitHandler<FormValues> = (data) => {
     if (
       data.fecha_diagnostico !== null &&
       data.tipo !== null &&
