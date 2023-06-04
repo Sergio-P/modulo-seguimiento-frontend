@@ -5,7 +5,6 @@ import {
   TipoRecurrenciaProgresion,
 } from "@/types/Enums";
 import { Progresion } from "@/types/Progresion";
-import { Recurrencia } from "@/types/Recurrencia";
 import { Seguimiento } from "@/types/Seguimiento";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
@@ -25,12 +24,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
   icon?: string;
   disabled?: boolean;
-  recurrencia?: boolean;
   progresion?: boolean;
   tratamiento?: boolean;
   comite?: boolean;
   seguimiento: Seguimiento;
-  setNewRecurrenciaList?: any;
   setNewProgresionList?: any;
   setNewTratamientoList?: any;
   setNewComiteList?: any;
@@ -41,45 +38,19 @@ export default function DeprecatedModal(props: ButtonProps) {
     disabled,
     filled,
     icon,
-    recurrencia,
     progresion,
     tratamiento,
     seguimiento,
     comite,
-    setNewRecurrenciaList,
     setNewProgresionList,
     setNewTratamientoList,
     setNewComiteList,
   } = props;
-  let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
   let [isOpenComite, setIsOpenComite] = useState(false);
 
   const caso = seguimiento.caso_registro_correspondiente;
-
-  interface RecurrenciaValues {
-    fecha_diagnostico: null | Date;
-    fecha_estimada: boolean;
-    tipo: null | TipoRecurrenciaProgresion;
-    detalle_topografia_recurrencia: null | string;
-  }
-
-  const recurrenciaForm = useForm<RecurrenciaValues>({
-    defaultValues: {
-      fecha_diagnostico: null, //
-      fecha_estimada: false, //
-      tipo: null, //
-      detalle_topografia_recurrencia: null, //
-    },
-  });
-
-  const { watch: watchRecurrencia } = recurrenciaForm;
-  const tipo = watchRecurrencia("tipo");
-  const detalle_topografia_recurrencia = watchRecurrencia(
-    "detalle_topografia_recurrencia"
-  );
-  const fecha_diagnostico_recurrencia = watchRecurrencia("fecha_diagnostico");
 
   interface ProgresionValues {
     fecha_diagnostico: null | Date;
@@ -159,14 +130,6 @@ export default function DeprecatedModal(props: ButtonProps) {
   const intencion_tto_comite = watchComite("intencion_tto");
   const fecha_comite = watchComite("fecha_comite");
 
-  function closeModalRecurrencia() {
-    setIsOpenRecurrencia(false);
-  }
-
-  function openModalRecurrencia() {
-    setIsOpenRecurrencia(true);
-  }
-
   function closeModalProgresion() {
     setIsOpenProgresion(false);
   }
@@ -190,31 +153,6 @@ export default function DeprecatedModal(props: ButtonProps) {
   function closeModalComite() {
     setIsOpenComite(false);
   }
-
-  const addRecurrencia: SubmitHandler<RecurrenciaValues> = (data) => {
-    if (
-      data.fecha_diagnostico !== null &&
-      data.tipo !== null &&
-      data.detalle_topografia_recurrencia !== null
-    ) {
-      const newRecurrencia: Recurrencia = {
-        id: caso?.recurrencias ? caso.recurrencias.length + 1 : 1,
-        seguimiento_id: seguimiento.id,
-        caso_registro_id: seguimiento.caso_registro_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...data,
-        tipo: data.tipo,
-        fecha_diagnostico: data.fecha_diagnostico,
-        detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      setNewRecurrenciaList((prev: Recurrencia[]) => {
-        return [...prev, newRecurrencia];
-      });
-      closeModalRecurrencia();
-    }
-  };
 
   const addProgresion: SubmitHandler<ProgresionValues> = (data) => {
     if (
@@ -309,19 +247,15 @@ export default function DeprecatedModal(props: ButtonProps) {
         {..._.omit(props, [
           "icon",
           "filled",
-          "recurrencia",
           "progresion",
           "tratamiento",
           "comite",
-          "setNewRecurrenciaList",
           "setNewProgresionList",
           "setNewTratamientoList",
           "setNewComiteList",
         ])}
         onClick={() => {
-          if (recurrencia) {
-            openModalRecurrencia();
-          } else if (progresion) {
+          if (progresion) {
             openModalProgresion();
           } else if (tratamiento) {
             openModalTratamiento();
@@ -361,83 +295,6 @@ export default function DeprecatedModal(props: ButtonProps) {
           props.children
         )}
       </button>
-
-      <CustomDialog
-        open={isOpenRecurrencia}
-        onClose={closeModalRecurrencia}
-        title="Recurrencia"
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            recurrenciaForm.handleSubmit(addRecurrencia)(e);
-            e.stopPropagation();
-          }}
-        >
-          <div className="grid grid-cols-2 items-center gap-6">
-            <Controller
-              name="fecha_diagnostico"
-              control={recurrenciaForm.control}
-              render={({ field }) => (
-                <DatePicker label="Fecha Diagnóstico" {...field} />
-              )}
-            />
-            <Checkbox
-              label="Fecha Estimada"
-              {...recurrenciaForm.register("fecha_estimada")}
-            />
-            <Controller
-              name="tipo"
-              control={recurrenciaForm.control}
-              defaultValue={TipoRecurrenciaProgresion.local}
-              render={({ field }) => (
-                <div className="col-span-2">
-                  <SelectInput
-                    label={"Tipo"}
-                    options={[
-                      TipoRecurrenciaProgresion.local,
-                      TipoRecurrenciaProgresion.regional,
-                      TipoRecurrenciaProgresion.metastasis,
-                      TipoRecurrenciaProgresion.peritoneal,
-                      TipoRecurrenciaProgresion.sin_informacion,
-                    ]}
-                    {...field}
-                  />
-                </div>
-              )}
-            />
-            <div className="col-span-2">
-              <TextInput
-                label="Detalle Topografía Recurrencia"
-                {...recurrenciaForm.register("detalle_topografia_recurrencia")}
-              />
-            </div>
-          </div>
-          <div className="mt-6 flex justify-between">
-            <Button type="button" onClick={closeModalRecurrencia}>
-              Cancelar
-            </Button>
-            <Button
-              filled
-              type="submit"
-              disabled={
-                !tipo ||
-                !detalle_topografia_recurrencia ||
-                !fecha_diagnostico_recurrencia
-              }
-              title={
-                !tipo ||
-                !detalle_topografia_recurrencia ||
-                !fecha_diagnostico_recurrencia
-                  ? "Por favor complete todos los campos"
-                  : ""
-              }
-            >
-              Agregar Recurrencia
-            </Button>
-          </div>
-        </form>
-      </CustomDialog>
 
       <CustomDialog
         open={isOpenProgresion}

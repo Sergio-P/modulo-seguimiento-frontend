@@ -22,6 +22,11 @@ import sleep from "@/utils/sleep";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import SignModal from "./CaseForm/modals/SignModal";
 import MetastasisModal from "./CaseForm/modals/MetastasisModal";
+import RecurrenciaModal from "./CaseForm/modals/RecurrenciaModal";
+import { Recurrencia } from "@/types/Recurrencia";
+import { Progresion } from "@/types/Progresion";
+import { Comite } from "@/types/Comite";
+import { Metastasis } from "@/types/Metastasis";
 
 interface CaseFormProps {
   caseId: string;
@@ -53,11 +58,13 @@ export default function CaseForm(props: CaseFormProps) {
     [seguimientoQuery.data]
   );
 
-  const [newMetastasisList, setNewMetastasisList] = useState<any[]>([]);
-  const [newRecurrenciaList, setNewRecurrenciaList] = useState([]);
-  const [newProgresionList, setNewProgresionList] = useState([]);
-  const [newTratamientoList, setNewTratamientoList] = useState([]);
-  const [newComiteList, setNewComiteList] = useState([]);
+  const [newMetastasisList, setNewMetastasisList] = useState<Metastasis[]>([]);
+  const [newRecurrenciaList, setNewRecurrenciaList] = useState<Recurrencia[]>(
+    []
+  );
+  const [newProgresionList, setNewProgresionList] = useState<Progresion[]>([]);
+  const [newTratamientoList, setNewTratamientoList] = useState<any[]>([]);
+  const [newComiteList, setNewComiteList] = useState<Comite[]>([]);
   const [selectedSection, setSelectedSection] = useState(sections[0]);
 
   async function closeSeguimiento(seguimientoId: number) {
@@ -482,17 +489,11 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("posee_recurrencia")}
                       label="Presenta Recurrencia"
                     />
-                    <DeprecatedModal
-                      type="button"
+                    <RecurrenciaModal
                       disabled={!tieneRecurrencia}
-                      recurrencia={true}
-                      icon="plus"
                       seguimiento={seguimientoQuery.data}
-                      filled
                       setNewRecurrenciaList={setNewRecurrenciaList}
-                    >
-                      Agregar Recurrencia
-                    </DeprecatedModal>
+                    />
                   </div>
                 </SubSection>
                 <div className="mt-5">
@@ -500,7 +501,7 @@ export default function CaseForm(props: CaseFormProps) {
                     elements={
                       caso?.recurrencias
                         ? [...caso.recurrencias, ...newRecurrenciaList]
-                        : newMetastasisList
+                        : newRecurrenciaList
                     }
                   />
                 </div>
