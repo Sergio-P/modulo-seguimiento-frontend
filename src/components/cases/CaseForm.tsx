@@ -28,6 +28,8 @@ import { Progresion } from "@/types/Progresion";
 import { Comite } from "@/types/Comite";
 import { Metastasis } from "@/types/Metastasis";
 import ProgresionModal from "./CaseForm/modals/ProgresionModal";
+import ComiteModal from "./CaseForm/modals/ComiteModal";
+import TratamientoModal from "./CaseForm/modals/TratamientoModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -538,17 +540,11 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("tiene_comite_oncologico")}
                       label="Presenta Comité Oncológico"
                     />
-                    <DeprecatedModal
-                      type="button"
-                      comite={true}
+                    <ComiteModal
                       disabled={!tieneComite}
-                      icon="plus"
                       seguimiento={seguimientoQuery.data}
-                      filled
                       setNewComiteList={setNewComiteList}
-                    >
-                      Agregar Comité
-                    </DeprecatedModal>
+                    />
                   </div>
                 </SubSection>
                 <div className="mt-5">
@@ -573,17 +569,11 @@ export default function CaseForm(props: CaseFormProps) {
                         ]}
                       />
                     </div>
-                    <DeprecatedModal
-                      type="button"
+                    <TratamientoModal
                       className="max-w-[115px]"
-                      tratamiento={true}
-                      icon="plus"
-                      seguimiento={seguimientoQuery.data}
-                      filled
                       setNewTratamientoList={setNewTratamientoList}
-                    >
-                      Agregar
-                    </DeprecatedModal>
+                      seguimiento={seguimientoQuery.data}
+                    />
                   </div>
                   <div className="mt-5">
                     <TratamientoList
