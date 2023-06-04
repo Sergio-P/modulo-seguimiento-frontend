@@ -6,7 +6,7 @@ import TextInput from "@/components/ui/TextInput";
 import { Metastasis } from "@/types/Metastasis";
 import { Seguimiento } from "@/types/Seguimiento";
 import _ from "lodash";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 interface MetastasisModalProps extends Partial<ModalProps> {
