@@ -8,8 +8,13 @@ export default function CustomDialog(
     open: boolean;
     onClose: () => void;
     title?: string;
+    width?: "md" | "lg";
   } & React.PropsWithChildren
 ) {
+  const widthClassName = {
+    md: "max-w-2xl",
+    lg: "max-w-5xl",
+  };
   return (
     <Transition show={props.open} as={Fragment}>
       <Dialog as="div" onClose={props.onClose} className="relative z-30">
@@ -42,7 +47,8 @@ export default function CustomDialog(
               {/*<Dialog.Panel className="mx-auto max-w-sm rounded bg-white">*/}
               <Dialog.Panel
                 className={clsx(
-                  "w-full max-w-2xl transform overflow-visible rounded-2xl bg-white",
+                  widthClassName[props.width || "md"],
+                  "w-full transform overflow-visible rounded-2xl bg-white",
                   "py-6 px-8 align-middle shadow-xl transition-all"
                 )}
               >
