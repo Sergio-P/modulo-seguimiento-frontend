@@ -4,7 +4,6 @@ import {
   IntencionTTO,
   TipoRecurrenciaProgresion,
 } from "@/types/Enums";
-import { Metastasis } from "@/types/Metastasis";
 import { Progresion } from "@/types/Progresion";
 import { Recurrencia } from "@/types/Recurrencia";
 import { Seguimiento } from "@/types/Seguimiento";
@@ -14,12 +13,7 @@ import clsx from "clsx";
 import _ from "lodash";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  Controller,
-  SubmitHandler,
-  useForm,
-  useFormContext,
-} from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../ui/Button";
 import Checkbox from "../../../ui/Checkbox";
 import CustomDialog from "../../../ui/CustomDialog";
@@ -31,13 +25,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
   icon?: string;
   disabled?: boolean;
-  metastasis?: boolean;
   recurrencia?: boolean;
   progresion?: boolean;
   tratamiento?: boolean;
   comite?: boolean;
   seguimiento: Seguimiento;
-  setNewMetastasisList?: any;
   setNewRecurrenciaList?: any;
   setNewProgresionList?: any;
   setNewTratamientoList?: any;
@@ -49,44 +41,22 @@ export default function DeprecatedModal(props: ButtonProps) {
     disabled,
     filled,
     icon,
-    metastasis,
     recurrencia,
     progresion,
     tratamiento,
     seguimiento,
     comite,
-    setNewMetastasisList,
     setNewRecurrenciaList,
     setNewProgresionList,
     setNewTratamientoList,
     setNewComiteList,
   } = props;
-  let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
   let [isOpenComite, setIsOpenComite] = useState(false);
-  const { control, register } = useFormContext();
 
   const caso = seguimiento.caso_registro_correspondiente;
-  interface MetastasisValues {
-    fecha_diagnostico: Date | null;
-    fecha_estimada: boolean;
-    detalle_topografia: null | string;
-  }
-
-  const metastasisForm = useForm<MetastasisValues>({
-    mode: "onChange",
-    defaultValues: {
-      fecha_diagnostico: null, //
-      fecha_estimada: false, //
-      detalle_topografia: null, //
-    },
-  });
-
-  const { watch: watchMetastasis } = metastasisForm;
-  const detalle_topografia = watchMetastasis("detalle_topografia");
-  const fecha_diagnostico = watchMetastasis("fecha_diagnostico");
 
   interface RecurrenciaValues {
     fecha_diagnostico: null | Date;
@@ -189,14 +159,6 @@ export default function DeprecatedModal(props: ButtonProps) {
   const intencion_tto_comite = watchComite("intencion_tto");
   const fecha_comite = watchComite("fecha_comite");
 
-  function closeModalMetastasis() {
-    setIsOpenMetastasis(false);
-  }
-
-  function openModalMetastasis() {
-    setIsOpenMetastasis(true);
-  }
-
   function closeModalRecurrencia() {
     setIsOpenRecurrencia(false);
   }
@@ -228,29 +190,6 @@ export default function DeprecatedModal(props: ButtonProps) {
   function closeModalComite() {
     setIsOpenComite(false);
   }
-
-  const addMetastasis: SubmitHandler<MetastasisValues> = (data, event) => {
-    event?.stopPropagation();
-    if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
-      const newMetastasis: Metastasis = {
-        id: caso?.metastasis ? caso.metastasis.length + 1 : 1,
-        seguimiento_id: seguimiento.id,
-        caso_registro_id: seguimiento.caso_registro_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...data,
-        fecha_diagnostico: data.fecha_diagnostico,
-        detalle_topografia: data.detalle_topografia,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      setNewMetastasisList((prev: Metastasis[]) => {
-        return [...prev, newMetastasis];
-      });
-      closeModalMetastasis();
-    }
-    // TODO: this shouldn't close the modal, instead it should show an error
-    closeModalMetastasis();
-  };
 
   const addRecurrencia: SubmitHandler<RecurrenciaValues> = (data) => {
     if (
@@ -370,21 +309,17 @@ export default function DeprecatedModal(props: ButtonProps) {
         {..._.omit(props, [
           "icon",
           "filled",
-          "metastasis",
           "recurrencia",
           "progresion",
           "tratamiento",
           "comite",
-          "setNewMetastasisList",
           "setNewRecurrenciaList",
           "setNewProgresionList",
           "setNewTratamientoList",
           "setNewComiteList",
         ])}
         onClick={() => {
-          if (metastasis) {
-            openModalMetastasis();
-          } else if (recurrencia) {
+          if (recurrencia) {
             openModalRecurrencia();
           } else if (progresion) {
             openModalProgresion();
@@ -426,57 +361,6 @@ export default function DeprecatedModal(props: ButtonProps) {
           props.children
         )}
       </button>
-
-      <CustomDialog
-        open={isOpenMetastasis}
-        onClose={closeModalMetastasis}
-        title="Metástasis"
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            metastasisForm.handleSubmit(addMetastasis)(e);
-            e.stopPropagation();
-          }}
-        >
-          <div className="grid grid-cols-2 items-center gap-6">
-            <Controller
-              name="fecha_diagnostico"
-              control={metastasisForm.control}
-              render={({ field }) => (
-                <DatePicker label="Fecha Diagnóstico" {...field} />
-              )}
-            />
-            <Checkbox
-              label="Fecha Estimada"
-              {...metastasisForm.register("fecha_estimada")}
-            />
-            <div className="col-span-2">
-              <TextInput
-                label="Detalle Topografía"
-                {...metastasisForm.register("detalle_topografia")}
-              />
-            </div>
-          </div>
-          <div className="mt-6 flex justify-between">
-            <Button type="button" onClick={closeModalMetastasis}>
-              Cancelar
-            </Button>
-            <Button
-              filled
-              type="submit"
-              disabled={!detalle_topografia || !fecha_diagnostico}
-              title={
-                !detalle_topografia || !fecha_diagnostico
-                  ? "Por favor complete todos los campos"
-                  : ""
-              }
-            >
-              Agregar Metástasis
-            </Button>
-          </div>
-        </form>
-      </CustomDialog>
 
       <CustomDialog
         open={isOpenRecurrencia}
@@ -800,7 +684,7 @@ export default function DeprecatedModal(props: ButtonProps) {
             </div>
           </div>
           <div className="mt-6 flex justify-between">
-            <Button type="button" onClick={closeModalMetastasis}>
+            <Button type="button" onClick={closeModalComite}>
               Cancelar
             </Button>
             <Button
@@ -810,7 +694,7 @@ export default function DeprecatedModal(props: ButtonProps) {
                 !medico_comite || !intencion_tto_comite || !fecha_comite
               }
               title={
-                !detalle_topografia || !fecha_diagnostico || !fecha_comite
+                !medico_comite || !intencion_tto_comite || !fecha_comite
                   ? "Por favor complete todos los campos"
                   : ""
               }

@@ -21,6 +21,7 @@ import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import SignModal from "./CaseForm/modals/SignModal";
+import MetastasisModal from "./CaseForm/modals/MetastasisModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -456,17 +457,11 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("posee_metastasis")}
                       label="Presenta Metástasis"
                     />
-                    <DeprecatedModal
-                      type="button"
-                      disabled={!tieneMetastasis}
-                      metastasis={true}
-                      icon="plus"
-                      filled
+                    <MetastasisModal
                       seguimiento={seguimientoQuery.data}
+                      disabled={!tieneMetastasis}
                       setNewMetastasisList={setNewMetastasisList}
-                    >
-                      Agregar Metastasis
-                    </DeprecatedModal>
+                    />
                   </div>
 
                   <div className="mt-5">
