@@ -26,6 +26,7 @@ import Checkbox from "./Checkbox";
 import DatePicker from "./DatePicker";
 import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";
+import CustomDialog from "./CustomDialog";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
@@ -454,776 +455,471 @@ export default function Modal(props: ButtonProps) {
           props.children
         )}
       </button>
-      <Transition appear show={isOpenMetastasis} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-30"
-          onClose={closeModalMetastasis}
+
+      <CustomDialog
+        open={isOpenMetastasis}
+        onClose={closeModalMetastasis}
+        title="Metástasis"
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            metastasisForm.handleSubmit(addMetastasis)(e);
+            e.stopPropagation();
+          }}
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      metastasisForm.handleSubmit(addMetastasis)(e);
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div className="flex justify-between">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-6 text-3xl font-bold leading-6 text-font"
-                      >
-                        Metástasis
-                      </Dialog.Title>
-                      <Button
-                        type="button"
-                        icon="cross"
-                        clear
-                        onClick={closeModalMetastasis}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 items-center gap-6">
-                      <Controller
-                        name="fecha_diagnostico"
-                        control={metastasisForm.control}
-                        render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field} />
-                        )}
-                      />
-                      <Checkbox
-                        label="Fecha Estimada"
-                        {...metastasisForm.register("fecha_estimada")}
-                      />
-                      <div className="col-span-2">
-                        <TextInput
-                          label="Detalle Topografía"
-                          {...metastasisForm.register("detalle_topografia")}
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-between">
-                      <Button type="button" onClick={closeModalMetastasis}>
-                        Cancelar
-                      </Button>
-                      <Button
-                        filled
-                        type="submit"
-                        disabled={!detalle_topografia || !fecha_diagnostico}
-                        title={
-                          !detalle_topografia || !fecha_diagnostico
-                            ? "Por favor complete todos los campos"
-                            : ""
-                        }
-                      >
-                        Agregar Metástasis
-                      </Button>
-                    </div>
-                  </form>
-                </Dialog.Panel>
-              </Transition.Child>
+          <div className="grid grid-cols-2 items-center gap-6">
+            <Controller
+              name="fecha_diagnostico"
+              control={metastasisForm.control}
+              render={({ field }) => (
+                <DatePicker label="Fecha Diagnóstico" {...field} />
+              )}
+            />
+            <Checkbox
+              label="Fecha Estimada"
+              {...metastasisForm.register("fecha_estimada")}
+            />
+            <div className="col-span-2">
+              <TextInput
+                label="Detalle Topografía"
+                {...metastasisForm.register("detalle_topografia")}
+              />
             </div>
           </div>
-        </Dialog>
-      </Transition>
+          <div className="mt-6 flex justify-between">
+            <Button type="button" onClick={closeModalMetastasis}>
+              Cancelar
+            </Button>
+            <Button
+              filled
+              type="submit"
+              disabled={!detalle_topografia || !fecha_diagnostico}
+              title={
+                !detalle_topografia || !fecha_diagnostico
+                  ? "Por favor complete todos los campos"
+                  : ""
+              }
+            >
+              Agregar Metástasis
+            </Button>
+          </div>
+        </form>
+      </CustomDialog>
 
-      <Transition appear show={isOpenRecurrencia} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-30"
-          onClose={closeModalRecurrencia}
+      <CustomDialog
+        open={isOpenRecurrencia}
+        onClose={closeModalRecurrencia}
+        title="Recurrencia"
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            recurrenciaForm.handleSubmit(addRecurrencia)(e);
+            e.stopPropagation();
+          }}
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      recurrenciaForm.handleSubmit(addRecurrencia)(e);
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div className="flex justify-between">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-6 text-3xl font-bold leading-6 text-font"
-                      >
-                        Recurrencia
-                      </Dialog.Title>
-                      <Button
-                        icon="cross"
-                        clear
-                        onClick={closeModalRecurrencia}
-                        type="button"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 items-center gap-6">
-                      <Controller
-                        name="fecha_diagnostico"
-                        control={recurrenciaForm.control}
-                        render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field} />
-                        )}
-                      />
-                      <Checkbox
-                        label="Fecha Estimada"
-                        {...recurrenciaForm.register("fecha_estimada")}
-                      />
-                      <Controller
-                        name="tipo"
-                        control={recurrenciaForm.control}
-                        defaultValue={TipoRecurrenciaProgresion.local}
-                        render={({ field }) => (
-                          <div className="col-span-2">
-                            <SelectInput
-                              label={"Tipo"}
-                              options={[
-                                TipoRecurrenciaProgresion.local,
-                                TipoRecurrenciaProgresion.regional,
-                                TipoRecurrenciaProgresion.metastasis,
-                                TipoRecurrenciaProgresion.peritoneal,
-                                TipoRecurrenciaProgresion.sin_informacion,
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                      <div className="col-span-2">
-                        <TextInput
-                          label="Detalle Topografía Recurrencia"
-                          {...recurrenciaForm.register(
-                            "detalle_topografia_recurrencia"
-                          )}
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-between">
-                      <Button type="button" onClick={closeModalRecurrencia}>
-                        Cancelar
-                      </Button>
-                      <Button
-                        filled
-                        type="submit"
-                        disabled={
-                          !tipo ||
-                          !detalle_topografia_recurrencia ||
-                          !fecha_diagnostico_recurrencia
-                        }
-                        title={
-                          !tipo ||
-                          !detalle_topografia_recurrencia ||
-                          !fecha_diagnostico_recurrencia
-                            ? "Por favor complete todos los campos"
-                            : ""
-                        }
-                      >
-                        Agregar Recurrencia
-                      </Button>
-                    </div>
-                  </form>
-                </Dialog.Panel>
-              </Transition.Child>
+          <div className="grid grid-cols-2 items-center gap-6">
+            <Controller
+              name="fecha_diagnostico"
+              control={recurrenciaForm.control}
+              render={({ field }) => (
+                <DatePicker label="Fecha Diagnóstico" {...field} />
+              )}
+            />
+            <Checkbox
+              label="Fecha Estimada"
+              {...recurrenciaForm.register("fecha_estimada")}
+            />
+            <Controller
+              name="tipo"
+              control={recurrenciaForm.control}
+              defaultValue={TipoRecurrenciaProgresion.local}
+              render={({ field }) => (
+                <div className="col-span-2">
+                  <SelectInput
+                    label={"Tipo"}
+                    options={[
+                      TipoRecurrenciaProgresion.local,
+                      TipoRecurrenciaProgresion.regional,
+                      TipoRecurrenciaProgresion.metastasis,
+                      TipoRecurrenciaProgresion.peritoneal,
+                      TipoRecurrenciaProgresion.sin_informacion,
+                    ]}
+                    {...field}
+                  />
+                </div>
+              )}
+            />
+            <div className="col-span-2">
+              <TextInput
+                label="Detalle Topografía Recurrencia"
+                {...recurrenciaForm.register("detalle_topografia_recurrencia")}
+              />
             </div>
           </div>
-        </Dialog>
-      </Transition>
+          <div className="mt-6 flex justify-between">
+            <Button type="button" onClick={closeModalRecurrencia}>
+              Cancelar
+            </Button>
+            <Button
+              filled
+              type="submit"
+              disabled={
+                !tipo ||
+                !detalle_topografia_recurrencia ||
+                !fecha_diagnostico_recurrencia
+              }
+              title={
+                !tipo ||
+                !detalle_topografia_recurrencia ||
+                !fecha_diagnostico_recurrencia
+                  ? "Por favor complete todos los campos"
+                  : ""
+              }
+            >
+              Agregar Recurrencia
+            </Button>
+          </div>
+        </form>
+      </CustomDialog>
 
-      <Transition appear show={isOpenProgresion} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-30"
-          onClose={closeModalProgresion}
+      <CustomDialog
+        open={isOpenProgresion}
+        onClose={closeModalProgresion}
+        title="Progresión"
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            progresionForm.handleSubmit(addProgresion)(e);
+            e.stopPropagation();
+          }}
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      progresionForm.handleSubmit(addProgresion)(e);
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div className="flex justify-between">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-6 text-3xl font-bold leading-6 text-font"
-                      >
-                        Progresión
-                      </Dialog.Title>
-                      <Button
-                        type="button"
-                        icon="cross"
-                        clear
-                        onClick={closeModalProgresion}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 items-center gap-6">
-                      <Controller
-                        name="fecha_diagnostico"
-                        control={progresionForm.control}
-                        render={({ field }) => (
-                          <DatePicker label="Fecha Diagnóstico" {...field} />
-                        )}
-                      />
-                      <Checkbox
-                        label="Fecha Estimada"
-                        {...progresionForm.register("fecha_estimada")}
-                      />
-                      <Controller
-                        name="tipo"
-                        control={progresionForm.control}
-                        defaultValue={TipoRecurrenciaProgresion.local}
-                        render={({ field }) => (
-                          <div className="col-span-2">
-                            <SelectInput
-                              label={"Tipo"}
-                              options={[
-                                TipoRecurrenciaProgresion.local,
-                                TipoRecurrenciaProgresion.regional,
-                                TipoRecurrenciaProgresion.metastasis,
-                                TipoRecurrenciaProgresion.peritoneal,
-                                TipoRecurrenciaProgresion.sin_informacion,
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                      <div className="col-span-2">
-                        <TextInput
-                          label="Detalle Topografía Progresión"
-                          {...progresionForm.register(
-                            "detalle_topografia_progresion"
-                          )}
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-between">
-                      <Button type="button" onClick={closeModalProgresion}>
-                        Cancelar
-                      </Button>
-                      <Button
-                        filled
-                        type="submit"
-                        disabled={
-                          !tipo_progresion ||
-                          !detalle_topografia_progresion ||
-                          !fecha_diagnostico_progresion
-                        }
-                        title={
-                          !tipo_progresion ||
-                          !detalle_topografia_progresion ||
-                          !fecha_diagnostico_progresion
-                            ? "Por favor complete todos los campos"
-                            : ""
-                        }
-                      >
-                        Agregar Progresión
-                      </Button>
-                    </div>
-                  </form>
-                </Dialog.Panel>
-              </Transition.Child>
+          <div className="grid grid-cols-2 items-center gap-6">
+            <Controller
+              name="fecha_diagnostico"
+              control={progresionForm.control}
+              render={({ field }) => (
+                <DatePicker label="Fecha Diagnóstico" {...field} />
+              )}
+            />
+            <Checkbox
+              label="Fecha Estimada"
+              {...progresionForm.register("fecha_estimada")}
+            />
+            <Controller
+              name="tipo"
+              control={progresionForm.control}
+              defaultValue={TipoRecurrenciaProgresion.local}
+              render={({ field }) => (
+                <div className="col-span-2">
+                  <SelectInput
+                    label={"Tipo"}
+                    options={[
+                      TipoRecurrenciaProgresion.local,
+                      TipoRecurrenciaProgresion.regional,
+                      TipoRecurrenciaProgresion.metastasis,
+                      TipoRecurrenciaProgresion.peritoneal,
+                      TipoRecurrenciaProgresion.sin_informacion,
+                    ]}
+                    {...field}
+                  />
+                </div>
+              )}
+            />
+            <div className="col-span-2">
+              <TextInput
+                label="Detalle Topografía Progresión"
+                {...progresionForm.register("detalle_topografia_progresion")}
+              />
             </div>
           </div>
-        </Dialog>
-      </Transition>
+          <div className="mt-6 flex justify-between">
+            <Button type="button" onClick={closeModalProgresion}>
+              Cancelar
+            </Button>
+            <Button
+              filled
+              type="submit"
+              disabled={
+                !tipo_progresion ||
+                !detalle_topografia_progresion ||
+                !fecha_diagnostico_progresion
+              }
+              title={
+                !tipo_progresion ||
+                !detalle_topografia_progresion ||
+                !fecha_diagnostico_progresion
+                  ? "Por favor complete todos los campos"
+                  : ""
+              }
+            >
+              Agregar Progresión
+            </Button>
+          </div>
+        </form>
+      </CustomDialog>
 
-      <Transition appear show={isOpenTratamiento} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-30"
-          onClose={closeModalTratamiento}
+      <CustomDialog
+        open={isOpenTratamiento}
+        onClose={closeModalTratamiento}
+        title="Tratamientos"
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            tratamientoForm.handleSubmit(addTratamiento)(e);
+            e.stopPropagation();
+          }}
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
+          <div className="grid grid-cols-3 items-center gap-6">
+            <div className="col-span-3">
+              <TextInput
+                label="Médico"
+                {...tratamientoForm.register("medico")}
+              />
+            </div>
+            <Controller
+              name="fecha_inicio"
+              control={tratamientoForm.control}
+              render={({ field }) => (
+                <div>
+                  <DatePicker label="Inicio" {...field} />
+                </div>
+              )}
+            />
+            <Controller
+              name="fecha_termino"
+              control={tratamientoForm.control}
+              render={({ field }) => <DatePicker label="Término" {...field} />}
+            />
+            <Checkbox
+              label="Tratamiento"
+              {...tratamientoForm.register("en_tto")}
+            />
+          </div>
+          <div className="pt-6 pb-4">Categorización Tratamiento</div>
+          <div className="grid grid-cols-3 items-center gap-6">
+            <Controller
+              name="categoria_tto"
+              control={tratamientoForm.control}
+              defaultValue={CategoriaTTO.cirugia_o_procedimiento_quirurgico}
+              render={({ field }) => (
+                <SelectInput
+                  label={"Categoría"}
+                  options={[
+                    CategoriaTTO.cirugia_o_procedimiento_quirurgico,
+                    CategoriaTTO.terapia_sistemica,
+                    CategoriaTTO.radioterapia,
+                    CategoriaTTO.otro,
+                  ]}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="subcategoria_tto"
+              control={tratamientoForm.control}
+              render={({ field }) => (
+                <SelectInput
+                  label={"Subcategoría"}
+                  options={subcategoria_TTO_options}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="intencion_tto"
+              control={tratamientoForm.control}
+              defaultValue={IntencionTTO.curativo}
+              render={({ field }) => (
+                <SelectInput
+                  label={"Intención"}
+                  options={[
+                    IntencionTTO.curativo,
+                    IntencionTTO.paliativo,
+                    IntencionTTO.desconocido,
+                  ]}
+                  {...field}
+                />
+              )}
+            />
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      tratamientoForm.handleSubmit(addTratamiento)(e);
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div className="flex justify-between">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-6 text-3xl font-bold leading-6 text-font"
-                      >
-                        Tratamientos
-                      </Dialog.Title>
-                      <Button
-                        type="button"
-                        icon="cross"
-                        clear
-                        onClick={closeModalTratamiento}
-                      />
-                    </div>
-                    <div className="grid grid-cols-3 items-center gap-6">
-                      <div className="col-span-3">
-                        <TextInput
-                          label="Médico"
-                          {...tratamientoForm.register("medico")}
-                        />
-                      </div>
-                      <Controller
-                        name="fecha_inicio"
-                        control={tratamientoForm.control}
-                        render={({ field }) => (
-                          <div>
-                            <DatePicker label="Inicio" {...field} />
-                          </div>
-                        )}
-                      />
-                      <Controller
-                        name="fecha_termino"
-                        control={tratamientoForm.control}
-                        render={({ field }) => (
-                          <DatePicker label="Término" {...field} />
-                        )}
-                      />
-                      <Checkbox
-                        label="Tratamiento"
-                        {...tratamientoForm.register("en_tto")}
-                      />
-                    </div>
-                    <div className="pt-6 pb-4">Categorización Tratamiento</div>
-                    <div className="grid grid-cols-3 items-center gap-6">
-                      <Controller
-                        name="categoria_tto"
-                        control={tratamientoForm.control}
-                        defaultValue={
-                          CategoriaTTO.cirugia_o_procedimiento_quirurgico
-                        }
-                        render={({ field }) => (
-                          <SelectInput
-                            label={"Categoría"}
-                            options={[
-                              CategoriaTTO.cirugia_o_procedimiento_quirurgico,
-                              CategoriaTTO.terapia_sistemica,
-                              CategoriaTTO.radioterapia,
-                              CategoriaTTO.otro,
-                            ]}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <Controller
-                        name="subcategoria_tto"
-                        control={tratamientoForm.control}
-                        render={({ field }) => (
-                          <SelectInput
-                            label={"Subcategoría"}
-                            options={subcategoria_TTO_options}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <Controller
-                        name="intencion_tto"
-                        control={tratamientoForm.control}
-                        defaultValue={IntencionTTO.curativo}
-                        render={({ field }) => (
-                          <SelectInput
-                            label={"Intención"}
-                            options={[
-                              IntencionTTO.curativo,
-                              IntencionTTO.paliativo,
-                              IntencionTTO.desconocido,
-                            ]}
-                            {...field}
-                          />
-                        )}
-                      />
-
-                      <div className="col-span-3">
-                        <TextInput
-                          label="Observaciones"
-                          {...tratamientoForm.register("observaciones")}
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-between">
-                      <Button type="button" onClick={closeModalTratamiento}>
-                        Cancelar
-                      </Button>
-                      <Button
-                        filled
-                        type="submit"
-                        disabled={
-                          !medico ||
-                          !fecha_inicio ||
-                          !fecha_termino ||
-                          !categoria_tto ||
-                          !subcategoria_tto ||
-                          !intencion_tto ||
-                          !observaciones
-                        }
-                        title={
-                          !medico ||
-                          !fecha_inicio ||
-                          !fecha_termino ||
-                          !categoria_tto ||
-                          !subcategoria_tto ||
-                          !intencion_tto ||
-                          !observaciones
-                            ? "Por favor complete todos los campos"
-                            : ""
-                        }
-                      >
-                        Agregar Tratamiento
-                      </Button>
-                    </div>
-                  </form>
-                </Dialog.Panel>
-              </Transition.Child>
+            <div className="col-span-3">
+              <TextInput
+                label="Observaciones"
+                {...tratamientoForm.register("observaciones")}
+              />
             </div>
           </div>
-        </Dialog>
-      </Transition>
+          <div className="mt-6 flex justify-between">
+            <Button type="button" onClick={closeModalTratamiento}>
+              Cancelar
+            </Button>
+            <Button
+              filled
+              type="submit"
+              disabled={
+                !medico ||
+                !fecha_inicio ||
+                !fecha_termino ||
+                !categoria_tto ||
+                !subcategoria_tto ||
+                !intencion_tto ||
+                !observaciones
+              }
+              title={
+                !medico ||
+                !fecha_inicio ||
+                !fecha_termino ||
+                !categoria_tto ||
+                !subcategoria_tto ||
+                !intencion_tto ||
+                !observaciones
+                  ? "Por favor complete todos los campos"
+                  : ""
+              }
+            >
+              Agregar Tratamiento
+            </Button>
+          </div>
+        </form>
+      </CustomDialog>
 
-      <Transition appear show={isOpenMoreInfo} as={Fragment}>
-        <Dialog as="div" className="relative z-30" onClose={closeMoreInfo}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-5xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <div>
-                    <div className="flex justify-between">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-10 text-3xl font-bold leading-6 text-font"
-                      >
-                        Antecedentes Personales
-                      </Dialog.Title>
-                      <Button
-                        type="button"
-                        icon="cross"
-                        clear
-                        onClick={closeMoreInfo}
-                      />
-                    </div>
-                    <div className="grid w-full grid-cols-6 gap-4 rounded-2xl p-2 text-left">
-                      <div className="contents">
-                        <div className="font-bold">Nombre Paciente</div>
-                        <div className="col-span-5">
-                          {caso?.nombre} {caso?.apellido}
-                        </div>
-                      </div>
-                      <Separator />
-                      <div className="contents">
-                        <div className="font-bold">Ficha</div>
-                        <div className="">{caso?.ficha}</div>
-                        <div className="font-bold">RUT/DNI</div>
-                        <div className="">{caso?.rut_dni}</div>
-                        <div className="font-bold">N° Registro</div>
-                        <div className="">{caso?.num_registro}</div>
-                      </div>
-                      <Separator />
-                      <div className="contents">
-                        <div className="font-bold">Categoría</div>
-                        <div className="col-span-5">{caso?.categoria}</div>
-                      </div>
-                      <Separator />
-                      <div className="contents">
-                        <div className="font-bold">Subcategoría</div>
-                        <div className="col-span-5">{caso?.subcategoria}</div>
-                      </div>
-                      <Separator />
-                      <div className="contents">
-                        <div className="font-bold">Fecha Diagnóstico</div>
-                        <div className="">{caso?.fecha_dg.toString()}</div>
-                        <div className="font-bold">Lateralidad</div>
-                        <div className="">{caso?.lateralidad}</div>
-                        <div className="font-bold">Estadío Diagnóstico</div>
-                        <div className="">{caso?.estadio_dg}</div>
-                      </div>
-                      <Separator />
-                      <div className="contents">
-                        <div className="font-bold">Morfología</div>
-                        <div className="col-span-5">{caso?.morfologia}</div>
-                      </div>
-                      <Separator />
-                      <div className="contents">
-                        <div className="font-bold">Topografía</div>
-                        <div className="col-span-5">{caso?.topografia}</div>
-                      </div>
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+      <CustomDialog
+        open={isOpenMoreInfo}
+        onClose={closeMoreInfo}
+        title="Antecedentes Personales"
+        width="lg"
+      >
+        <div className="grid w-full grid-cols-6 gap-4 rounded-2xl p-2 text-left">
+          <div className="contents">
+            <div className="font-bold">Nombre Paciente</div>
+            <div className="col-span-5">
+              {caso?.nombre} {caso?.apellido}
             </div>
           </div>
-        </Dialog>
-      </Transition>
+          <Separator />
+          <div className="contents">
+            <div className="font-bold">Ficha</div>
+            <div className="">{caso?.ficha}</div>
+            <div className="font-bold">RUT/DNI</div>
+            <div className="">{caso?.rut_dni}</div>
+            <div className="font-bold">N° Registro</div>
+            <div className="">{caso?.num_registro}</div>
+          </div>
+          <Separator />
+          <div className="contents">
+            <div className="font-bold">Categoría</div>
+            <div className="col-span-5">{caso?.categoria}</div>
+          </div>
+          <Separator />
+          <div className="contents">
+            <div className="font-bold">Subcategoría</div>
+            <div className="col-span-5">{caso?.subcategoria}</div>
+          </div>
+          <Separator />
+          <div className="contents">
+            <div className="font-bold">Fecha Diagnóstico</div>
+            <div className="">{caso?.fecha_dg.toString()}</div>
+            <div className="font-bold">Lateralidad</div>
+            <div className="">{caso?.lateralidad}</div>
+            <div className="font-bold">Estadío Diagnóstico</div>
+            <div className="">{caso?.estadio_dg}</div>
+          </div>
+          <Separator />
+          <div className="contents">
+            <div className="font-bold">Morfología</div>
+            <div className="col-span-5">{caso?.morfologia}</div>
+          </div>
+          <Separator />
+          <div className="contents">
+            <div className="font-bold">Topografía</div>
+            <div className="col-span-5">{caso?.topografia}</div>
+          </div>
+        </div>
+      </CustomDialog>
 
-      <Transition appear show={isOpenSign} as={Fragment}>
-        <Dialog as="div" className="relative z-30" onClose={closeSign}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
+      <CustomDialog
+        open={isOpenSign}
+        onClose={closeSign}
+        title="¿Estás seguro/a de firmar seguimiento?"
+      >
+        <form onSubmit={closeSign}>
+          <div className="mt-6 flex justify-end gap-4">
+            <Button type="button" onClick={closeSign}>
+              Cancelar
+            </Button>
+            <Button filled type="submit">
+              Firmar Seguimiento
+            </Button>
+          </div>
+        </form>
+      </CustomDialog>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form onSubmit={closeSign}>
-                    <div className="flex justify-start">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-6 text-3xl font-bold leading-6 text-font"
-                      >
-                        ¿Estás seguro/a de firmar seguimiento?
-                      </Dialog.Title>
-                    </div>
-                    <div className="mt-6 flex justify-end gap-4">
-                      <Button type="button" onClick={closeSign}>
-                        Cancelar
-                      </Button>
-                      <Button filled type="submit">
-                        Firmar Seguimiento
-                      </Button>
-                    </div>
-                  </form>
-                </Dialog.Panel>
-              </Transition.Child>
+      <CustomDialog
+        open={isOpenComite}
+        onClose={closeModalComite}
+        title="Comité Oncológico"
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            comiteForm.handleSubmit(addComite)(e);
+            e.stopPropagation();
+          }}
+        >
+          <div className="grid grid-cols-2 items-center gap-6">
+            <Controller
+              name="fecha_comite"
+              control={comiteForm.control}
+              render={({ field }) => (
+                <DatePicker label="Fecha Comité" {...field} />
+              )}
+            />
+
+            <Controller
+              name="intencion_tto"
+              control={comiteForm.control}
+              defaultValue={IntencionTTO.curativo}
+              render={({ field }) => (
+                <SelectInput
+                  label={"Intención Tratamiento"}
+                  options={[
+                    IntencionTTO.curativo,
+                    IntencionTTO.paliativo,
+                    IntencionTTO.desconocido,
+                  ]}
+                  {...field}
+                />
+              )}
+            />
+            <div className="col-span-2">
+              <TextInput label="Médico" {...comiteForm.register("medico")} />
             </div>
           </div>
-        </Dialog>
-      </Transition>
-
-      <Transition appear show={isOpenComite} as={Fragment}>
-        <Dialog as="div" className="relative z-30" onClose={closeModalComite}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-visible rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      comiteForm.handleSubmit(addComite)(e);
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div className="flex justify-between">
-                      <Dialog.Title
-                        as="h3"
-                        className="pb-6 text-3xl font-bold leading-6 text-font"
-                      >
-                        Comité Oncológico
-                      </Dialog.Title>
-                      <Button
-                        type="button"
-                        icon="cross"
-                        clear
-                        onClick={closeModalComite}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 items-center gap-6">
-                      <Controller
-                        name="fecha_comite"
-                        control={comiteForm.control}
-                        render={({ field }) => (
-                          <DatePicker label="Fecha Comité" {...field} />
-                        )}
-                      />
-
-                      <Controller
-                        name="intencion_tto"
-                        control={comiteForm.control}
-                        defaultValue={IntencionTTO.curativo}
-                        render={({ field }) => (
-                          <SelectInput
-                            label={"Intención Tratamiento"}
-                            options={[
-                              IntencionTTO.curativo,
-                              IntencionTTO.paliativo,
-                              IntencionTTO.desconocido,
-                            ]}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <div className="col-span-2">
-                        <TextInput
-                          label="Médico"
-                          {...comiteForm.register("medico")}
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-between">
-                      <Button type="button" onClick={closeModalMetastasis}>
-                        Cancelar
-                      </Button>
-                      <Button
-                        filled
-                        type="submit"
-                        disabled={
-                          !medico_comite ||
-                          !intencion_tto_comite ||
-                          !fecha_comite
-                        }
-                        title={
-                          !detalle_topografia ||
-                          !fecha_diagnostico ||
-                          !fecha_comite
-                            ? "Por favor complete todos los campos"
-                            : ""
-                        }
-                      >
-                        Agregar Comité
-                      </Button>
-                    </div>
-                  </form>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+          <div className="mt-6 flex justify-between">
+            <Button type="button" onClick={closeModalMetastasis}>
+              Cancelar
+            </Button>
+            <Button
+              filled
+              type="submit"
+              disabled={
+                !medico_comite || !intencion_tto_comite || !fecha_comite
+              }
+              title={
+                !detalle_topografia || !fecha_diagnostico || !fecha_comite
+                  ? "Por favor complete todos los campos"
+                  : ""
+              }
+            >
+              Agregar Comité
+            </Button>
           </div>
-        </Dialog>
-      </Transition>
+        </form>
+      </CustomDialog>
     </>
   );
 }
