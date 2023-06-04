@@ -1,10 +1,5 @@
 import { Comite } from "@/types/Comite";
-import {
-  CategoriaTTO,
-  IntencionTTO,
-  TipoRecurrenciaProgresion,
-} from "@/types/Enums";
-import { Progresion } from "@/types/Progresion";
+import { CategoriaTTO, IntencionTTO } from "@/types/Enums";
 import { Seguimiento } from "@/types/Seguimiento";
 import { TratamientoEnFALP } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
@@ -24,11 +19,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
   icon?: string;
   disabled?: boolean;
-  progresion?: boolean;
   tratamiento?: boolean;
   comite?: boolean;
   seguimiento: Seguimiento;
-  setNewProgresionList?: any;
   setNewTratamientoList?: any;
   setNewComiteList?: any;
 }
@@ -38,42 +31,16 @@ export default function DeprecatedModal(props: ButtonProps) {
     disabled,
     filled,
     icon,
-    progresion,
     tratamiento,
     seguimiento,
     comite,
-    setNewProgresionList,
     setNewTratamientoList,
     setNewComiteList,
   } = props;
-  let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
   let [isOpenComite, setIsOpenComite] = useState(false);
 
   const caso = seguimiento.caso_registro_correspondiente;
-
-  interface ProgresionValues {
-    fecha_diagnostico: null | Date;
-    fecha_estimada: boolean;
-    tipo: null | TipoRecurrenciaProgresion;
-    detalle_topografia_progresion: null | string;
-  }
-
-  const progresionForm = useForm<ProgresionValues>({
-    defaultValues: {
-      fecha_diagnostico: null, //
-      fecha_estimada: false, //
-      tipo: null, //
-      detalle_topografia_progresion: null, //
-    },
-  });
-
-  const { watch: watchProgresion } = progresionForm;
-  const tipo_progresion = watchProgresion("tipo");
-  const detalle_topografia_progresion = watchProgresion(
-    "detalle_topografia_progresion"
-  );
-  const fecha_diagnostico_progresion = watchProgresion("fecha_diagnostico");
 
   interface TratamientoValues {
     medico: null | string;
@@ -130,14 +97,6 @@ export default function DeprecatedModal(props: ButtonProps) {
   const intencion_tto_comite = watchComite("intencion_tto");
   const fecha_comite = watchComite("fecha_comite");
 
-  function closeModalProgresion() {
-    setIsOpenProgresion(false);
-  }
-
-  function openModalProgresion() {
-    setIsOpenProgresion(true);
-  }
-
   function closeModalTratamiento() {
     setIsOpenTratamiento(false);
   }
@@ -153,31 +112,6 @@ export default function DeprecatedModal(props: ButtonProps) {
   function closeModalComite() {
     setIsOpenComite(false);
   }
-
-  const addProgresion: SubmitHandler<ProgresionValues> = (data) => {
-    if (
-      data.fecha_diagnostico !== null &&
-      data.tipo !== null &&
-      data.detalle_topografia_progresion !== null
-    ) {
-      const newProgresion: Progresion = {
-        id: caso?.progresiones ? caso.progresiones.length + 1 : 1,
-        seguimiento_id: seguimiento.id,
-        caso_registro_id: seguimiento.caso_registro_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...data,
-        tipo: data.tipo,
-        fecha_diagnostico: data.fecha_diagnostico,
-        detalle_topografia_progresion: data.detalle_topografia_progresion,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      setNewProgresionList((prev: Progresion[]) => {
-        return [...prev, newProgresion];
-      });
-      closeModalProgresion();
-    }
-  };
 
   const addTratamiento: SubmitHandler<TratamientoValues> = (data) => {
     if (
@@ -247,17 +181,13 @@ export default function DeprecatedModal(props: ButtonProps) {
         {..._.omit(props, [
           "icon",
           "filled",
-          "progresion",
           "tratamiento",
           "comite",
-          "setNewProgresionList",
           "setNewTratamientoList",
           "setNewComiteList",
         ])}
         onClick={() => {
-          if (progresion) {
-            openModalProgresion();
-          } else if (tratamiento) {
+          if (tratamiento) {
             openModalTratamiento();
           } else if (comite) {
             openModalComite();
@@ -295,83 +225,6 @@ export default function DeprecatedModal(props: ButtonProps) {
           props.children
         )}
       </button>
-
-      <CustomDialog
-        open={isOpenProgresion}
-        onClose={closeModalProgresion}
-        title="Progresión"
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            progresionForm.handleSubmit(addProgresion)(e);
-            e.stopPropagation();
-          }}
-        >
-          <div className="grid grid-cols-2 items-center gap-6">
-            <Controller
-              name="fecha_diagnostico"
-              control={progresionForm.control}
-              render={({ field }) => (
-                <DatePicker label="Fecha Diagnóstico" {...field} />
-              )}
-            />
-            <Checkbox
-              label="Fecha Estimada"
-              {...progresionForm.register("fecha_estimada")}
-            />
-            <Controller
-              name="tipo"
-              control={progresionForm.control}
-              defaultValue={TipoRecurrenciaProgresion.local}
-              render={({ field }) => (
-                <div className="col-span-2">
-                  <SelectInput
-                    label={"Tipo"}
-                    options={[
-                      TipoRecurrenciaProgresion.local,
-                      TipoRecurrenciaProgresion.regional,
-                      TipoRecurrenciaProgresion.metastasis,
-                      TipoRecurrenciaProgresion.peritoneal,
-                      TipoRecurrenciaProgresion.sin_informacion,
-                    ]}
-                    {...field}
-                  />
-                </div>
-              )}
-            />
-            <div className="col-span-2">
-              <TextInput
-                label="Detalle Topografía Progresión"
-                {...progresionForm.register("detalle_topografia_progresion")}
-              />
-            </div>
-          </div>
-          <div className="mt-6 flex justify-between">
-            <Button type="button" onClick={closeModalProgresion}>
-              Cancelar
-            </Button>
-            <Button
-              filled
-              type="submit"
-              disabled={
-                !tipo_progresion ||
-                !detalle_topografia_progresion ||
-                !fecha_diagnostico_progresion
-              }
-              title={
-                !tipo_progresion ||
-                !detalle_topografia_progresion ||
-                !fecha_diagnostico_progresion
-                  ? "Por favor complete todos los campos"
-                  : ""
-              }
-            >
-              Agregar Progresión
-            </Button>
-          </div>
-        </form>
-      </CustomDialog>
 
       <CustomDialog
         open={isOpenTratamiento}

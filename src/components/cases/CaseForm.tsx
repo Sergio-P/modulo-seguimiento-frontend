@@ -27,6 +27,7 @@ import { Recurrencia } from "@/types/Recurrencia";
 import { Progresion } from "@/types/Progresion";
 import { Comite } from "@/types/Comite";
 import { Metastasis } from "@/types/Metastasis";
+import ProgresionModal from "./CaseForm/modals/ProgresionModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -513,17 +514,11 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("posee_progresion")}
                       label="Presenta Progresión"
                     />
-                    <DeprecatedModal
-                      type="button"
+                    <ProgresionModal
                       disabled={!tieneProgresion}
-                      progresion={true}
-                      icon="plus"
                       seguimiento={seguimientoQuery.data}
-                      filled
                       setNewProgresionList={setNewProgresionList}
-                    >
-                      Agregar Progresión
-                    </DeprecatedModal>
+                    />
                   </div>
                 </SubSection>
                 <div className="mt-5">
