@@ -20,6 +20,7 @@ import TratamientoList from "./CaseForm/TratamientoList";
 import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
+import SignModal from "./CaseForm/modals/SignModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -748,15 +749,10 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <div className="flex justify-around">
-                <DeprecatedModal
-                  type="button"
-                  sign={true}
+                <SignModal
                   seguimiento={seguimientoQuery.data}
-                  filled
                   disabled={estadoVital === "Muerto" && !causaDefuncion}
-                >
-                  Firmar Seguimiento
-                </DeprecatedModal>
+                />
               </div>
             </form>
           </>

@@ -36,7 +36,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   progresion?: boolean;
   tratamiento?: boolean;
   comite?: boolean;
-  sign?: boolean;
   seguimiento: Seguimiento;
   setNewMetastasisList?: any;
   setNewRecurrenciaList?: any;
@@ -61,14 +60,12 @@ export default function DeprecatedModal(props: ButtonProps) {
     setNewProgresionList,
     setNewTratamientoList,
     setNewComiteList,
-    sign,
   } = props;
   let [isOpenMetastasis, setIsOpenMetastasis] = useState(false);
   let [isOpenRecurrencia, setIsOpenRecurrencia] = useState(false);
   let [isOpenProgresion, setIsOpenProgresion] = useState(false);
   let [isOpenTratamiento, setIsOpenTratamiento] = useState(false);
   let [isOpenComite, setIsOpenComite] = useState(false);
-  let [isOpenSign, setIsOpenSign] = useState(false);
   const { control, register } = useFormContext();
 
   const caso = seguimiento.caso_registro_correspondiente;
@@ -224,14 +221,6 @@ export default function DeprecatedModal(props: ButtonProps) {
     setIsOpenTratamiento(true);
   }
 
-  function closeSign() {
-    setIsOpenSign(false);
-  }
-
-  function openSign() {
-    setIsOpenSign(true);
-  }
-
   function openModalComite() {
     setIsOpenComite(true);
   }
@@ -385,7 +374,6 @@ export default function DeprecatedModal(props: ButtonProps) {
           "recurrencia",
           "progresion",
           "tratamiento",
-          "sign",
           "comite",
           "setNewMetastasisList",
           "setNewRecurrenciaList",
@@ -402,8 +390,6 @@ export default function DeprecatedModal(props: ButtonProps) {
             openModalProgresion();
           } else if (tratamiento) {
             openModalTratamiento();
-          } else if (sign) {
-            openSign();
           } else if (comite) {
             openModalComite();
           }
@@ -767,23 +753,6 @@ export default function DeprecatedModal(props: ButtonProps) {
               }
             >
               Agregar Tratamiento
-            </Button>
-          </div>
-        </form>
-      </CustomDialog>
-
-      <CustomDialog
-        open={isOpenSign}
-        onClose={closeSign}
-        title="¿Estás seguro/a de firmar seguimiento?"
-      >
-        <form onSubmit={closeSign}>
-          <div className="mt-6 flex justify-end gap-4">
-            <Button type="button" onClick={closeSign}>
-              Cancelar
-            </Button>
-            <Button filled type="submit">
-              Firmar Seguimiento
             </Button>
           </div>
         </form>

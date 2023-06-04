@@ -2,14 +2,23 @@ import { useState } from "react";
 import Button, { ButtonProps } from "./Button";
 import _ from "lodash";
 import CustomDialog from "./CustomDialog";
+import { isPropertySignature } from "typescript";
 
-interface ModalProps extends ButtonProps {
-  buttonContent: string | React.ReactNode;
+export interface ModalRenderProps {
+  handleClose: () => void;
+  handleOpen: () => void;
+}
+
+export interface ModalProps extends ButtonProps {
   title: string;
+  render: React.ComponentType<ModalRenderProps>;
   width?: "md" | "lg";
 }
 
-export default function Modal(props: ModalProps) {
+export default function Modal({
+  render: RenderComponent,
+  ...props
+}: ModalProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -23,9 +32,9 @@ export default function Modal(props: ModalProps) {
         type="button"
         filled
         onClick={handleOpen}
-        {..._.omit(props, "children", "buttonContent", "title", "width")}
+        {..._.omit(props, "render", "title", "width")}
       >
-        {props.buttonContent}
+        {props.children}
       </Button>
       <CustomDialog
         open={open}
@@ -33,7 +42,7 @@ export default function Modal(props: ModalProps) {
         title={props.title}
         width={props.width}
       >
-        {props.children}
+        <RenderComponent handleClose={handleClose} handleOpen={handleOpen} />
       </CustomDialog>
     </>
   );
