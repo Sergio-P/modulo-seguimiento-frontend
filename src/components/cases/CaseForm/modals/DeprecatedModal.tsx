@@ -45,7 +45,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   setNewComiteList?: any;
 }
 
-export default function Modal(props: ButtonProps) {
+export default function DeprecatedModal(props: ButtonProps) {
   const {
     disabled,
     filled,

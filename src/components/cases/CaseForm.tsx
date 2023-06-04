@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "react-query";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import DatePicker from "../ui/DatePicker";
-import Modal from "./CaseForm/modals/Modal";
+import DeprecatedModal from "./CaseForm/modals/DeprecatedModal";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
@@ -455,7 +455,7 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("posee_metastasis")}
                       label="Presenta Metástasis"
                     />
-                    <Modal
+                    <DeprecatedModal
                       type="button"
                       disabled={!tieneMetastasis}
                       metastasis={true}
@@ -465,7 +465,7 @@ export default function CaseForm(props: CaseFormProps) {
                       setNewMetastasisList={setNewMetastasisList}
                     >
                       Agregar Metastasis
-                    </Modal>
+                    </DeprecatedModal>
                   </div>
 
                   <div className="mt-5">
@@ -486,7 +486,7 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("posee_recurrencia")}
                       label="Presenta Recurrencia"
                     />
-                    <Modal
+                    <DeprecatedModal
                       type="button"
                       disabled={!tieneRecurrencia}
                       recurrencia={true}
@@ -496,7 +496,7 @@ export default function CaseForm(props: CaseFormProps) {
                       setNewRecurrenciaList={setNewRecurrenciaList}
                     >
                       Agregar Recurrencia
-                    </Modal>
+                    </DeprecatedModal>
                   </div>
                 </SubSection>
                 <div className="mt-5">
@@ -516,7 +516,7 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("posee_progresion")}
                       label="Presenta Progresión"
                     />
-                    <Modal
+                    <DeprecatedModal
                       type="button"
                       disabled={!tieneProgresion}
                       progresion={true}
@@ -526,7 +526,7 @@ export default function CaseForm(props: CaseFormProps) {
                       setNewProgresionList={setNewProgresionList}
                     >
                       Agregar Progresión
-                    </Modal>
+                    </DeprecatedModal>
                   </div>
                 </SubSection>
                 <div className="mt-5">
@@ -546,7 +546,7 @@ export default function CaseForm(props: CaseFormProps) {
                       {...register("tiene_comite_oncologico")}
                       label="Presenta Comité Oncológico"
                     />
-                    <Modal
+                    <DeprecatedModal
                       type="button"
                       comite={true}
                       disabled={!tieneComite}
@@ -556,7 +556,7 @@ export default function CaseForm(props: CaseFormProps) {
                       setNewComiteList={setNewComiteList}
                     >
                       Agregar Comité
-                    </Modal>
+                    </DeprecatedModal>
                   </div>
                 </SubSection>
                 <div className="mt-5">
@@ -581,7 +581,7 @@ export default function CaseForm(props: CaseFormProps) {
                         ]}
                       />
                     </div>
-                    <Modal
+                    <DeprecatedModal
                       type="button"
                       className="max-w-[115px]"
                       tratamiento={true}
@@ -591,7 +591,7 @@ export default function CaseForm(props: CaseFormProps) {
                       setNewTratamientoList={setNewTratamientoList}
                     >
                       Agregar
-                    </Modal>
+                    </DeprecatedModal>
                   </div>
                   <div className="mt-5">
                     <TratamientoList
@@ -748,7 +748,7 @@ export default function CaseForm(props: CaseFormProps) {
                 </div>
               </Section>
               <div className="flex justify-around">
-                <Modal
+                <DeprecatedModal
                   type="button"
                   sign={true}
                   seguimiento={seguimientoQuery.data}
@@ -756,7 +756,7 @@ export default function CaseForm(props: CaseFormProps) {
                   disabled={estadoVital === "Muerto" && !causaDefuncion}
                 >
                   Firmar Seguimiento
-                </Modal>
+                </DeprecatedModal>
               </div>
             </form>
           </>
