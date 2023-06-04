@@ -7,7 +7,6 @@ import { useMutation, useQuery } from "react-query";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import DatePicker from "../ui/DatePicker";
-import DeprecatedModal from "./CaseForm/modals/DeprecatedModal";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
