@@ -3,7 +3,8 @@ import Image from "next/image";
 import _ from "lodash";
 import { FaSpinner } from "react-icons/fa";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   filled?: boolean;
   clear?: boolean;
   icon?: string;

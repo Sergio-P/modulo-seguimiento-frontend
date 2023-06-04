@@ -1,17 +1,15 @@
 import { useState } from "react";
-import Button from "./Button";
+import Button, { ButtonProps } from "./Button";
 import _ from "lodash";
 import CustomDialog from "./CustomDialog";
 
-interface ModalProps {
+interface ModalProps extends ButtonProps {
   buttonContent: string | React.ReactNode;
   title: string;
   width?: "md" | "lg";
 }
 
-export default function Modal(
-  props: ModalProps & React.ButtonHTMLAttributes<HTMLButtonElement>
-) {
+export default function Modal(props: ModalProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
