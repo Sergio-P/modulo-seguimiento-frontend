@@ -29,6 +29,7 @@ import { Metastasis } from "@/types/Metastasis";
 import ProgresionModal from "./CaseForm/modals/ProgresionModal";
 import ComiteModal from "./CaseForm/modals/ComiteModal";
 import TratamientoModal from "./CaseForm/modals/TratamientoModal";
+import { CausaDefuncion, ClaseCaso, CondicionCaso, EntryType, EstadoVital } from "@/types/Enums";
 
 interface CaseFormProps {
   caseId: string;
@@ -563,9 +564,9 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label={"Agregar Tratamiento"}
                         options={[
-                          "TratamientoAntesFALP",
-                          "Tratamiento En FALP" ,
-                          "Tratamiento Post/Durante FALP",
+                          EntryType.tratamiento_antes_falp,
+                          EntryType.tratamiento_en_falp,
+                          EntryType.tratamiento_post_durante_falp,
                         ]}
                       />
                     </div>
@@ -601,9 +602,9 @@ export default function CaseForm(props: CaseFormProps) {
                         <SelectInput
                           label={"Clase Caso"}
                           options={[
-                            "Diagnóstico y tratamiento en FALP",
-                            "Tratamiento en FALP",
-                            "Diagnóstico en FALP",
+                            ClaseCaso.diagnostico_y_tratamiento_en_falp,
+                            ClaseCaso.tratamiento_en_falp,
+                            ClaseCaso.diagnostico_en_falp,
                           ]}
                           {...field}
                         />
@@ -653,11 +654,11 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label="Condición del Caso"
                         options={[
-                          "Vivo sin enfermedad",
-                          "Vivo con enfermedad",
-                          "Vivo SOE",
-                          "Desconocido",
-                          "Fallecido",
+                          CondicionCaso.vivo_sin_enfermedad,
+                          CondicionCaso.vivo_con_enfermedad,
+                          CondicionCaso.vivo_soe,
+                          CondicionCaso.desconocido,
+                          CondicionCaso.fallecido,
                         ]}
                         {...field}
                       />
@@ -670,7 +671,7 @@ export default function CaseForm(props: CaseFormProps) {
                     render={({ field }) => (
                       <SelectInput
                         label="Estado Vital"
-                        options={["Vivo", "Muerto"]}
+                        options={[EstadoVital.vivo, EstadoVital.muerto]}
                         {...field}
                       />
                     )}
@@ -688,9 +689,9 @@ export default function CaseForm(props: CaseFormProps) {
                           }
                           label="Causa Defunción"
                           options={[
-                            "Muerte por cáncer o complicación",
-                            "Muerte por otra causa",
-                            "Desconocido",
+                            CausaDefuncion.muerte_por_cancer_o_complicacion,
+                            CausaDefuncion.muerte_por_otra_causa,
+                            CausaDefuncion.desconocido,
                           ]}
                           {...field}
                         />

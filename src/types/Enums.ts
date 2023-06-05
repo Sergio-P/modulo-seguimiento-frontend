@@ -2,9 +2,9 @@ export enum EntryType {
   metastasis = "metastasis",
   progresion = "progresion",
   recurrencia = "recurrencia",
-  tratamiento_antes_falp = "tratamiento_antes_falp",
-  tratamiento_en_falp = "tratamiento_en_falp",
-  tratamiento_post_durante_falp = "tratamiento_post_durante_falp",
+  tratamiento_antes_falp = "TratamientoAntesFALP",
+  tratamiento_en_falp = "Tratamiento En FALP",
+  tratamiento_post_durante_falp = "Tratamiento Post/Durante FALP",
 }
 
 export enum Rol {
