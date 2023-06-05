@@ -23,7 +23,9 @@ export interface TratamientoPostDuranteFALPBase {
 }
 
 export interface TratamientoPostDuranteFALPCreate
-  extends TratamientoPostDuranteFALPBase {}
+  extends TratamientoPostDuranteFALPBase {
+  updated_at: string;
+}
 
 export interface TratamientoPostDuranteFALPUpdate
   extends TratamientoPostDuranteFALPBase {
@@ -36,5 +38,5 @@ export interface TratamientoPostDuranteFALP
   seguimiento_id: number | null;
   caso_registro_id: number;
   created_at: Date;
-  updated_at: Date | null;
+  updated_at: string | null;
 }
