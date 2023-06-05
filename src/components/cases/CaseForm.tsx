@@ -3,7 +3,7 @@ import * as fns from "date-fns";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
 import DatePicker from "../ui/DatePicker";
@@ -29,7 +29,13 @@ import { Metastasis } from "@/types/Metastasis";
 import ProgresionModal from "./CaseForm/modals/ProgresionModal";
 import ComiteModal from "./CaseForm/modals/ComiteModal";
 import TratamientoModal from "./CaseForm/modals/TratamientoModal";
-import { CausaDefuncion, ClaseCaso, CondicionCaso, EntryType, EstadoVital } from "@/types/Enums";
+import {
+  CausaDefuncion,
+  ClaseCaso,
+  CondicionCaso,
+  EntryType,
+  EstadoVital,
+} from "@/types/Enums";
 
 interface CaseFormProps {
   caseId: string;
@@ -55,6 +61,7 @@ export default function CaseForm(props: CaseFormProps) {
         .get(`http://localhost:8000/seguimiento/${seguimientoId}`)
         .then((res) => res.data),
     enabled: !!seguimientoId,
+    refetchOnWindowFocus: false,
   });
   const caso = useMemo(
     () => seguimientoQuery.data?.caso_registro_correspondiente,
@@ -251,7 +258,8 @@ export default function CaseForm(props: CaseFormProps) {
           categoria_tto: tratamiento.categoria_tto,
           subcategoria_tto: tratamiento.subcategoria_tto,
           intencion_tto: tratamiento.intencion_tto,
-          descripcion_de_la_prestacion: tratamiento.descripcion_de_la_prestacion,
+          descripcion_de_la_prestacion:
+            tratamiento.descripcion_de_la_prestacion,
           observaciones: tratamiento.observaciones,
         },
       });
@@ -286,7 +294,6 @@ export default function CaseForm(props: CaseFormProps) {
         setNewProgresionList([]);
         setNewTratamientoList([]);
         setNewComiteList([]);
-        seguimientoQuery.refetch();
       })
       .catch((error) => {
         // Manejar el error de la petición aquí
@@ -329,17 +336,37 @@ export default function CaseForm(props: CaseFormProps) {
     name: "causa_defuncion",
   });
 
-  const saveMutation = useMutation(async () => {
-    await updateSeguimiento(
-      newMetastasisList,
-      newRecurrenciaList,
-      newProgresionList,
-      newTratamientoList,
-      newComiteList,
-      form.getValues()
-    );
-    await sleep(500);
-  });
+  const queryClient = useQueryClient();
+  const saveMutation = useMutation(
+    async () => {
+      await updateSeguimiento(
+        newMetastasisList,
+        newRecurrenciaList,
+        newProgresionList,
+        newTratamientoList,
+        newComiteList,
+        form.getValues()
+      );
+      await sleep(500);
+    },
+    {
+      onSuccess: () => {
+        console.log("ola");
+        queryClient.invalidateQueries(["seguimiento", seguimientoId]);
+        /*
+        queryClient.setQueriesData<Seguimiento>(
+          ["seguimiento", seguimientoId],
+          (prev) => {
+            return {
+              ...prev,
+              ...form.getValues(),
+            };
+          }
+        );
+        */
+      },
+    }
+  );
 
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
