@@ -28,6 +28,7 @@ interface FormValues {
   subcategoria_tto: null | string;
   intencion_tto: null | IntencionTTO;
   observaciones: null | string;
+  descripcion_de_la_prestacion: null | string;
 }
 
 const ModalRender = (props: TratamientoModalProps & ModalRenderProps) => {
@@ -43,6 +44,7 @@ const ModalRender = (props: TratamientoModalProps & ModalRenderProps) => {
       categoria_tto: null, //
       subcategoria_tto: null, //
       intencion_tto: null, //
+      descripcion_de_la_prestacion: null, //
       observaciones: null, //
     },
   });
@@ -86,7 +88,7 @@ const ModalRender = (props: TratamientoModalProps & ModalRenderProps) => {
         subcategoria_tto: data.subcategoria_tto,
         intencion_tto: data.intencion_tto,
         en_tto: data.en_tto,
-        descripcion_de_la_prestacion: "no esta este campo en el formulario",
+        descripcion_de_la_prestacion: data.descripcion_de_la_prestacion,
         numero_seguimiento: seguimiento.numero_seguimiento,
       };
       setNewTratamientoList((prev: TratamientoEnFALP[]) => {
@@ -170,6 +172,13 @@ const ModalRender = (props: TratamientoModalProps & ModalRenderProps) => {
             />
           )}
         />
+
+        <div className="col-span-3">
+          <TextInput
+            label="Descripción de la prestación"
+            {...tratamientoForm.register("descripcion_de_la_prestacion")}
+          />
+        </div>
 
         <div className="col-span-3">
           <TextInput

@@ -250,7 +250,7 @@ export default function CaseForm(props: CaseFormProps) {
           categoria_tto: tratamiento.categoria_tto,
           subcategoria_tto: tratamiento.subcategoria_tto,
           intencion_tto: tratamiento.intencion_tto,
-          //descripcion_de_la_prestacion: "tratamiento.descripcion_de_la_prestacion",
+          descripcion_de_la_prestacion: tratamiento.descripcion_de_la_prestacion,
           observaciones: tratamiento.observaciones,
         },
       });
@@ -563,8 +563,9 @@ export default function CaseForm(props: CaseFormProps) {
                       <SelectInput
                         label={"Agregar Tratamiento"}
                         options={[
-                          { id: 1, name: "Tratamiento En FALP" },
-                          { id: 2, name: "Tratamiento Post/Durante FALP" },
+                          "TratamientoAntesFALP",
+                          "Tratamiento En FALP" ,
+                          "Tratamiento Post/Durante FALP",
                         ]}
                       />
                     </div>
