@@ -1,7 +1,8 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Metastasis } from "@/types/Metastasis";
+import { EntryType } from "@/types/Enums";
+import { Metastasis, MetastasisCreate } from "@/types/Metastasis";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -9,13 +10,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useContext } from "react";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
-interface MetastasisListProps {
-  elements: Metastasis[];
-}
-
-const columnHelper = createColumnHelper<Metastasis>();
+const columnHelper = createColumnHelper<Metastasis | MetastasisCreate>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -73,17 +73,13 @@ const columns = [
   }),
 ];
 
-export default function MetastasisList(props: MetastasisListProps) {
-  const data = useMemo(
-    () =>
-      props.elements.map((element) => ({
-        ...element,
-        updated_at:
-          typeof element.updated_at == "string"
-            ? new Date(element.updated_at + "Z")
-            : element.updated_at,
-      })),
-    [props.elements]
+export default function MetastasisList() {
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const data = useSeguimientoEntries<Metastasis | MetastasisCreate>(
+    seguimiento,
+    updateData,
+    EntryType.metastasis
   );
   console.log("MetastasisList elements:", data);
   const table = useReactTable({

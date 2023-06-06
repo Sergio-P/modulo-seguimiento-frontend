@@ -6,7 +6,7 @@ type NewEntry = {
   entry_content: any;
 };
 
-interface UpdateData {
+export interface UpdateData {
   newEntries: NewEntry[];
   setNewEntries: React.Dispatch<React.SetStateAction<NewEntry[]>>;
 }

@@ -23,7 +23,7 @@ import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
 import ComiteList from "./CaseForm/ComiteList";
-import MetastasisList from "./CaseForm/MetastasisList";
+import MetastasisList from "./CaseForm/lists/MetastasisList";
 import ProgresionList from "./CaseForm/ProgresionList";
 import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
@@ -37,6 +37,7 @@ import SignModal from "./CaseForm/modals/SignModal";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
 import { Foo, Section, Separator, SubSection, Subtitle } from "./CaseForm/ui";
 import _ from "lodash";
+import MetastasisSection from "./CaseForm/sections/MetastasisSection";
 
 interface CaseFormProps {
   caseId: string;
@@ -310,11 +311,6 @@ export default function CaseForm(props: CaseFormProps) {
     defaultValues: seguimientoQuery.data,
   });
   const { register, watch, handleSubmit, formState, control } = form;
-  const tieneMetastasis: boolean = useWatch({
-    control,
-    name: "posee_metastasis",
-    defaultValue: false,
-  });
   const tieneRecurrencia: boolean = useWatch({
     control,
     name: "posee_recurrencia",
@@ -336,7 +332,7 @@ export default function CaseForm(props: CaseFormProps) {
     control,
     name: "estado_vital",
   });
-  console.log("estado vital: ",estadoVital);
+  console.log("estado vital: ", estadoVital);
 
   const causaDefuncion = useWatch({
     control,
@@ -490,31 +486,7 @@ export default function CaseForm(props: CaseFormProps) {
                   className="mt-2 mb-3 flex flex-col gap-7"
                   onSubmit={handleSubmit(onSubmit)}
                 >
-                  <Section id="metastasis" title="Metástasis">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("posee_metastasis")}
-                          label="Presenta Metástasis"
-                        />
-                        <MetastasisModal
-                          seguimiento={seguimientoQuery.data}
-                          disabled={!tieneMetastasis}
-                          setNewMetastasisList={setNewMetastasisList}
-                        />
-                      </div>
-
-                      <div className="mt-5">
-                        <MetastasisList
-                          elements={
-                            caso?.metastasis
-                              ? [...caso.metastasis, ...newMetastasisList]
-                              : newMetastasisList
-                          }
-                        />
-                      </div>
-                    </SubSection>
-                  </Section>
+                  <MetastasisSection />
                   <Section id="recurrencia" title="Recurrencia">
                     <SubSection>
                       <div className="flex justify-between">
