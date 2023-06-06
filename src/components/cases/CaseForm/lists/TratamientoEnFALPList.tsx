@@ -39,7 +39,7 @@ export default function TratamientoEnFALPList() {
         : newTratamientoList,
     [caso, newTratamientoList]
   );
-  console.log("TratamientoList data: ", data);
+  console.log("TratamientoEnFalpList data: ", data);
 
   const columns = useMemo(
     () => [

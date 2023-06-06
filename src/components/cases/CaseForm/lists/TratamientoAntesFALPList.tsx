@@ -14,55 +14,41 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import _ from "lodash";
 import { TratamientoPostDuranteFALP, TratamientoPostDuranteFALPCreate } from "@/types/TratamientoPostDuranteFALP";
+import { TratamientoAntesFALP, TratamientoAntesFALPCreate } from "@/types/TratamientoAntesFALP";
 
 const columnHelper = createColumnHelper<
-  TratamientoPostDuranteFALPCreate| TratamientoPostDuranteFALP
+  TratamientoAntesFALPCreate | TratamientoAntesFALP
 >();
 export default function TratamientoPostList() {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
   const caso = seguimiento?.caso_registro_correspondiente;
-  const newPostTratamientoList = useMemo(
+  const newAntesTratamientoList = useMemo(
     () =>
       updateData?.newEntries
-        .filter((x) => x.entry_type === EntryType.tratamiento_post_durante_falp)
-        .map((x) => x.entry_content) as TratamientoPostDuranteFALPCreate[],
+        .filter((x) => x.entry_type === EntryType.tratamiento_antes_falp)
+        .map((x) => x.entry_content) as TratamientoAntesFALPCreate[],
     [updateData?.newEntries]
   );
   const data = useMemo(
     () =>
-      caso?.tratamientos_post_durante_falp
-        ? [...caso?.tratamientos_post_durante_falp, ...newPostTratamientoList]
-        : newPostTratamientoList,
-    [caso, newPostTratamientoList]
+      caso?.tratamientos_antes_falp
+        ? [...caso?.tratamientos_antes_falp, ...newAntesTratamientoList]
+        : newAntesTratamientoList,
+    [caso, newAntesTratamientoList]
   );
-  console.log("TratamientoPostFalpList data: ", data);
+  console.log("TratamientoAntesFalpList data: ", data);
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor("updated_at", {
-        header: "Fecha Última Modificación",
-        size: 110,
-        cell: LastDateCell,
-      }),
       columnHelper.accessor("fecha_de_inicio", {
         header: "Inicio",
         cell: DateCell,
         size: 110,
       }),
-      columnHelper.accessor("numero_seguimiento", {
-        header: "Origen",
+      columnHelper.accessor("lugar_tto", {
+        header: "Lugar Tratamiento",
         size: 110,
-        cell: ({ row }) => {
-          if (
-            row.original.numero_seguimiento === null ||
-            row.original.numero_seguimiento === undefined
-          ) {
-            return "Registro";
-          } else {
-            return `Seguimiento ${row.original.numero_seguimiento}`;
-          }
-        },
       }),
       columnHelper.accessor("categoria_tto", {
         header: "Categoría",
@@ -75,37 +61,6 @@ export default function TratamientoPostList() {
       columnHelper.accessor("intencion_tto", {
         header: "Intención",
         size: 110,
-      }),
-      columnHelper.display({
-        id: "buttons_metastasis",
-        size: 50,
-        cell: (props) =>
-          _.isNil(props.row.original.numero_seguimiento) ||
-          props.row.original.numero_seguimiento !==
-            seguimiento?.numero_seguimiento ? (
-            <></>
-          ) : (
-            <div className="flex gap-6">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(`aquí deberíamos editar`);
-                }}
-                className="h-6 w-8 text-primary"
-              >
-                Editar
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(`aquí deberíamos borrar`);
-                }}
-                className="h-6 w-8 text-primary"
-              >
-                Borrar
-              </button>
-            </div>
-          ),
       }),
     ],
     [seguimiento]
@@ -133,7 +88,7 @@ export default function TratamientoPostList() {
     <div>
       <Datagrid
         table={table}
-        title="Lista de Tratamientos Post/Durante FALP"
+        title="Lista de Tratamientos Antes FALP"
         total={{
           value: data.length,
           name: "Tratamiento",
