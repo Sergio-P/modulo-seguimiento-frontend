@@ -21,7 +21,7 @@ import _ from "lodash";
 const columnHelper = createColumnHelper<
   TratamientoEnFALPCreate | TratamientoEnFALP
 >();
-export default function TratamientoList() {
+export default function TratamientoEnFALPList() {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
   const caso = seguimiento?.caso_registro_correspondiente;

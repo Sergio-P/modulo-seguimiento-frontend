@@ -9,9 +9,9 @@ import {
 } from "./Enums";
 
 export interface TratamientoPostDuranteFALPBase {
-  fecha_de_inicio: Date;
+  fecha_de_inicio: string;
   fecha_estimada: boolean;
-  categoria_tto: CategoriaTTO;
+  categoria_tto: CategoriaTTO | string;
   subcategoria_tto:
     | SubcategoriaTTOCirugiaOProcedimientoQuirurgico
     | SubcategoriaTTOTerapiaSistemica
@@ -20,6 +20,7 @@ export interface TratamientoPostDuranteFALPBase {
   lugar_tto: LugarTTO;
   intencion_tto: IntencionTTO;
   observaciones: string;
+  numero_seguimiento?: number | null;
 }
 
 export interface TratamientoPostDuranteFALPCreate

@@ -1,6 +1,6 @@
 import SelectInput from "@/components/ui/SelectInput";
 import { EntryType } from "@/types/Enums";
-import TratamientoList from "../lists/TratamientoList";
+import TratamientoEnFALPList from "../lists/TratamientoEnFALPList";
 import TratamientoModal from "../modals/TratamientoModal";
 import { Section, SubSection } from "../ui";
 
@@ -32,7 +32,7 @@ export default function TratamientoSection() {
           <TratamientoModal className="max-w-[115px]" />
         </div>
         <div className="mt-5">
-          <TratamientoList />
+          <TratamientoEnFALPList />
         </div>
       </SubSection>
     </Section>
