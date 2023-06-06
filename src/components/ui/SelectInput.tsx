@@ -10,6 +10,7 @@ interface SelectInputProps {
   value?: any;
   onChange?: any;
   disabled?: any;
+  defaultValue?: any;
 }
 const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
   const displayValue = (
@@ -33,6 +34,7 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
       value={props.value}
       onChange={props.onChange}
       disabled={props.disabled}
+      defaultValue={props.defaultValue}
     >
       <div className={clsx("relative", disabled && "opacity-50")}>
         <Listbox.Button className="flex h-14 w-full items-center rounded-lg bg-background px-5 text-left text-font-input">
