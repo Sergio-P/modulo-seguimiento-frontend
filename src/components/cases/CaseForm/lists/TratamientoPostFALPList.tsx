@@ -64,6 +64,10 @@ export default function TratamientoPostList() {
           }
         },
       }),
+      columnHelper.accessor("lugar_tto", {
+        header: "Lugar",
+        size: 110,
+      }),
       columnHelper.accessor("categoria_tto", {
         header: "Categoría",
         size: 110,

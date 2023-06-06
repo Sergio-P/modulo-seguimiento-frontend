@@ -3,9 +3,11 @@ import { EntryType } from "@/types/Enums";
 import TratamientoEnFALPList from "../lists/TratamientoEnFALPList";
 import TratamienPostFALPList from "../lists/TratamientoPostFALPList";
 import TratamientoAntesFALPList from "../lists/TratamientoAntesFALPList";
-import TratamientoModal from "../modals/TratamientoModal";
+import TratamientoEnFalpModal from "../modals/TratamientoEnFalpModal";
+import TratamientoPostModal from "../modals/TratamientoPostModal";
 import { Section, SubSection } from "../ui";
 import { useWatch, useFormContext, Controller } from "react-hook-form";
+
 
 export default function TratamientoSection() {
   const { control } = useFormContext();
@@ -30,7 +32,7 @@ export default function TratamientoSection() {
               }}
               render={({ field }) => (
                 <SelectInput
-                  label={"Agregar Tratamiento"}
+                  label={"Tipo de Tratamiento"}
                   options={[
                     {
                       id: EntryType.tratamiento_antes_falp,
@@ -50,7 +52,15 @@ export default function TratamientoSection() {
               )}
             />
           </div>
-          <TratamientoModal className="max-w-[115px]" />
+          {
+            selectedTreatment !== undefined && selectedTreatment.id === EntryType.tratamiento_en_falp ?
+            <TratamientoEnFalpModal className="max-w-[115px]" /> :
+            selectedTreatment.id === EntryType.tratamiento_post_durante_falp ?
+            <TratamientoPostModal className="max-w-[115px]" />  :
+            selectedTreatment.id === EntryType.tratamiento_antes_falp ?
+            <TratamientoEnFalpModal disabled className="max-w-[115px]" /> :
+            <></>
+          }
         </div>
         <div className="mt-5">
           {

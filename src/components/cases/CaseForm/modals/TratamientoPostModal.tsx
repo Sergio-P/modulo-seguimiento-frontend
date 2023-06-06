@@ -4,7 +4,15 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
-import { CategoriaTTO, IntencionTTO } from "@/types/Enums";
+import {
+  CategoriaTTO,
+  IntencionTTO,
+  LugarTTO,
+  SubcategoriaTTOCirugiaOProcedimientoQuirurgico,
+  SubcategoriaTTOOtro,
+  SubcategoriaTTORadioterapia,
+  SubcategoriaTTOTerapiaSistemica,
+} from "@/types/Enums";
 import { TratamientoEnFALPCreate } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
@@ -13,17 +21,22 @@ import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
+import { TratamientoPostDuranteFALPCreate } from "@/types/TratamientoPostDuranteFALP";
 
 interface FormValues {
-  medico: null | string;
   fecha_de_inicio: null | Date;
-  fecha_de_termino: null | Date;
-  en_tto: boolean;
-  categoria_tto: null | CategoriaTTO;
-  subcategoria_tto: null | string;
-  intencion_tto: null | IntencionTTO;
-  observaciones: null | string;
-  descripcion_de_la_prestacion: null | string;
+  fecha_estimada: Boolean;
+  categoria_tto: CategoriaTTO | null;
+  subcategoria_tto:
+    | SubcategoriaTTOCirugiaOProcedimientoQuirurgico
+    | SubcategoriaTTOTerapiaSistemica
+    | SubcategoriaTTORadioterapia
+    | SubcategoriaTTOOtro
+    | null;
+  lugar_tto: LugarTTO | null;
+  intencion_tto: IntencionTTO | null;
+  observaciones: string | null;
+  numero_seguimiento?: number | null;
 }
 
 const ModalRender = (props: ModalRenderProps) => {
@@ -33,63 +46,54 @@ const ModalRender = (props: ModalRenderProps) => {
 
   const tratamientoForm = useForm<FormValues>({
     defaultValues: {
-      medico: null, //
       fecha_de_inicio: null, //
-      fecha_de_termino: null, //
-      en_tto: false, //
+      fecha_estimada: false, //
       categoria_tto: null, //
       subcategoria_tto: null, //
       intencion_tto: null, //
-      descripcion_de_la_prestacion: null, //
+      lugar_tto: null, //
       observaciones: null, //
     },
   });
 
   const { watch: watchTratamiento } = tratamientoForm;
-  const medico = watchTratamiento("medico");
   const fecha_inicio = watchTratamiento("fecha_de_inicio");
-  const fecha_termino = watchTratamiento("fecha_de_termino");
   const categoria_tto = watchTratamiento("categoria_tto");
   const subcategoria_tto = watchTratamiento("subcategoria_tto");
+  const lugar_tto = watchTratamiento("lugar_tto");
   const intencion_tto = watchTratamiento("intencion_tto");
   const observaciones = watchTratamiento("observaciones");
-  const en_tto = watchTratamiento("en_tto");
   const subcategoria_TTO_options =
     subcategoriaTTOForCategoriaTTO(categoria_tto);
 
   const addTratamiento: SubmitHandler<FormValues> = (data) => {
     if (
       data.fecha_de_inicio !== null &&
-      data.fecha_de_termino !== null &&
+      data.fecha_estimada !== null &&
       data.categoria_tto !== null &&
       data.subcategoria_tto !== null &&
+      data.lugar_tto !== null &&
       data.intencion_tto !== null &&
-      data.medico !== null &&
       data.observaciones !== null
     ) {
       updateData?.setNewEntries((prev) => {
         return [
           ...prev,
           {
-            entry_type: "tratamiento_en_falp",
+            entry_type: "tratamiento_post_durante_falp",
             entry_content: {
               updated_at: new Date().toISOString(),
-              medico: data.medico,
               fecha_de_inicio: fns.format(
                 data.fecha_de_inicio as Date,
                 "yyyy-MM-dd"
               ),
-              fecha_de_termino: fns.format(
-                data.fecha_de_termino as Date,
-                "yyyy-MM-dd"
-              ),
-              en_tto: data.en_tto,
+              fecha_estimada: data.fecha_estimada,
               categoria_tto: data.categoria_tto,
               subcategoria_tto: data.subcategoria_tto,
+              lugar_tto: data.lugar_tto,
               intencion_tto: data.intencion_tto,
-              descripcion_de_la_prestacion: data.descripcion_de_la_prestacion,
               observaciones: data.observaciones,
-            } as TratamientoEnFALPCreate,
+            } as TratamientoPostDuranteFALPCreate,
           },
         ];
       });
@@ -106,9 +110,6 @@ const ModalRender = (props: ModalRenderProps) => {
       }}
     >
       <div className="grid grid-cols-3 items-center gap-6">
-        <div className="col-span-3">
-          <TextInput label="Médico" {...tratamientoForm.register("medico")} />
-        </div>
         <Controller
           name="fecha_de_inicio"
           control={tratamientoForm.control}
@@ -118,12 +119,10 @@ const ModalRender = (props: ModalRenderProps) => {
             </div>
           )}
         />
-        <Controller
-          name="fecha_de_termino"
-          control={tratamientoForm.control}
-          render={({ field }) => <DatePicker label="Término" {...field} />}
+        <Checkbox
+          label="Fecha estimada"
+          {...tratamientoForm.register("fecha_estimada")}
         />
-        <Checkbox label="Tratamiento" {...tratamientoForm.register("en_tto")} />
       </div>
       <div className="pt-6 pb-4">Categorización Tratamiento</div>
       <div className="grid grid-cols-3 items-center gap-6">
@@ -172,12 +171,22 @@ const ModalRender = (props: ModalRenderProps) => {
           )}
         />
 
-        <div className="col-span-3">
-          <TextInput
-            label="Descripción de la prestación"
-            {...tratamientoForm.register("descripcion_de_la_prestacion")}
-          />
-        </div>
+        <Controller
+          name="lugar_tto"
+          control={tratamientoForm.control}
+          defaultValue={LugarTTO.extra_sistema_sistema_privado}
+          render={({ field }) => (
+            <SelectInput
+              label={"Lugar Tratamiento"}
+              options={[
+                LugarTTO.extra_sistema_sistema_privado,
+                LugarTTO.extra_sistema_sistema_publico,
+                LugarTTO.otros,
+              ]}
+              {...field}
+            />
+          )}
+        />
 
         <div className="col-span-3">
           <TextInput
@@ -194,21 +203,19 @@ const ModalRender = (props: ModalRenderProps) => {
           filled
           type="submit"
           disabled={
-            !medico ||
             !fecha_inicio ||
-            !fecha_termino ||
             !categoria_tto ||
             !subcategoria_tto ||
             !intencion_tto ||
+            !lugar_tto ||
             !observaciones
           }
           title={
-            !medico ||
             !fecha_inicio ||
-            !fecha_termino ||
             !categoria_tto ||
             !subcategoria_tto ||
             !intencion_tto ||
+            !lugar_tto ||
             !observaciones
               ? "Por favor complete todos los campos"
               : ""
@@ -221,7 +228,7 @@ const ModalRender = (props: ModalRenderProps) => {
   );
 };
 
-export default function TratamientoModal(props: Partial<ModalProps>) {
+export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
   return (
     <Modal
       title="Tratamientos"

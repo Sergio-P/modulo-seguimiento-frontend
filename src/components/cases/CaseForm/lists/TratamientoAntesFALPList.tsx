@@ -1,6 +1,5 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
-import LastDateCell from "@/components/ui/table/LastDateCell";
 import { EntryType } from "@/types/Enums";
 import {
   createColumnHelper,
@@ -13,7 +12,6 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import _ from "lodash";
-import { TratamientoPostDuranteFALP, TratamientoPostDuranteFALPCreate } from "@/types/TratamientoPostDuranteFALP";
 import { TratamientoAntesFALP, TratamientoAntesFALPCreate } from "@/types/TratamientoAntesFALP";
 
 const columnHelper = createColumnHelper<
