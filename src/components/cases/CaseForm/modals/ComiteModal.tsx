@@ -27,13 +27,7 @@ const ModalRender = (props: ModalRenderProps) => {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
 
-  const form = useForm<FormValues>({
-    defaultValues: {
-      medico: undefined, //
-      intencion_tto: undefined, //
-      fecha_comite: undefined, //
-    },
-  });
+  const form = useForm<FormValues>();
   if (!seguimiento || !updateData) {
     return <></>;
   }
@@ -71,7 +65,7 @@ const ModalRender = (props: ModalRenderProps) => {
         <Controller
           name="intencion_tto"
           control={form.control}
-          defaultValue={IntencionTTO.curativo}
+          rules={{ required: true }}
           render={({ field }) => (
             <SelectInput
               label={"Intención Tratamiento"}

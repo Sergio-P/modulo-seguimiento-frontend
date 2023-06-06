@@ -1,7 +1,8 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Comite } from "@/types/Comite";
+import { EntryType } from "@/types/Enums";
+import { Progresion, ProgresionCreate } from "@/types/Progresion";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -9,21 +10,20 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useContext } from "react";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
-interface ComiteListProps {
-  elements: Comite[];
-}
-
-const columnHelper = createColumnHelper<Comite>();
+const columnHelper = createColumnHelper<Progresion | ProgresionCreate>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
     size: 110,
     cell: LastDateCell,
   }),
-  columnHelper.accessor("fecha_comite", {
-    header: "Fecha Comité",
+  columnHelper.accessor("fecha_diagnostico", {
+    header: "Fecha",
     cell: DateCell,
     size: 110,
   }),
@@ -41,17 +41,17 @@ const columns = [
       }
     },
   }),
-  columnHelper.accessor("medico", {
-    header: "Médico",
+  columnHelper.accessor("tipo", {
+    header: "Tipo Recurrencia",
     size: 110,
   }),
-  columnHelper.accessor("intencion_tto", {
-    header: "Intención",
+  columnHelper.accessor("detalle_topografia_progresion", {
+    header: "Detalle Topografía Recurrencia",
     size: 110,
   }),
   columnHelper.display({
-    id: "buttons_comite",
-    size: 20,
+    id: "buttons_metastasis",
+    size: 50,
     cell: (props) => (
       <div className="flex gap-6">
         <button
@@ -77,19 +77,15 @@ const columns = [
   }),
 ];
 
-export default function ComiteList(props: ComiteListProps) {
-  const data = useMemo(
-    () =>
-      props.elements.map((element) => ({
-        ...element,
-        updated_at:
-          typeof element.updated_at == "string"
-            ? new Date(element.updated_at + "Z")
-            : element.updated_at,
-      })),
-    [props.elements]
+export default function ProgresionList() {
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const data = useSeguimientoEntries<Progresion | ProgresionCreate>(
+    seguimiento,
+    updateData,
+    EntryType.progresion
   );
-  console.log("ComiteList elements: ", data);
+  console.log("Progresion elements: ", data);
   const table = useReactTable({
     data: data,
     columns,
@@ -112,11 +108,11 @@ export default function ComiteList(props: ComiteListProps) {
     <div>
       <Datagrid
         table={table}
-        title="Lista Comités"
+        title="Lista Progresión"
         total={{
           value: data.length,
-          name: "Comité",
-          pluralName: "Comités",
+          name: "Progresión",
+          pluralName: "Progresiones",
         }}
       />
     </div>

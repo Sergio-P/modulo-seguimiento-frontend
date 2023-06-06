@@ -21,8 +21,8 @@ import DatePicker from "../ui/DatePicker";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
-import ComiteList from "./CaseForm/ComiteList";
-import ProgresionList from "./CaseForm/ProgresionList";
+import ComiteList from "./CaseForm/lists/ComiteList";
+import ProgresionList from "./CaseForm/lists/ProgresionList";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
 import { UpdateDataContext } from "./CaseForm/context/updateData";
 import RecurrenciaList from "./CaseForm/lists/RecurrenciaList";
@@ -87,8 +87,6 @@ export default function CaseForm(props: CaseFormProps) {
     }[]
   >([]);
 
-  const [newProgresionList, setNewProgresionList] = useState<Progresion[]>([]);
-  const [newComiteList, setNewComiteList] = useState<Comite[]>([]);
   const [selectedSection, setSelectedSection] = useState(sections[0]);
 
   async function closeSeguimiento(seguimientoId: number) {
@@ -126,7 +124,6 @@ export default function CaseForm(props: CaseFormProps) {
       )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
-        setNewProgresionList([]);
         setNewEntries([]);
         window.location.href = `/`;
       })
@@ -135,10 +132,7 @@ export default function CaseForm(props: CaseFormProps) {
       });
   }
 
-  async function updateSeguimiento(
-    comiteList: any[],
-    formData: SeguimientoForm
-  ) {
+  async function updateSeguimiento(formData: SeguimientoForm) {
     const seguimientoId = seguimientoQuery.data?.id;
     console.log("data entregado", formData);
     console.log(
@@ -212,17 +206,6 @@ export default function CaseForm(props: CaseFormProps) {
       requestBody.new_entries.push(newEntry);
     }
 
-    for (const comite of comiteList) {
-      requestBody.new_entries.push({
-        entry_type: "comite",
-        entry_content: {
-          medico: comite.medico,
-          fecha_comite: fns.format(comite.fecha_comite, "yyyy-MM-dd"),
-          intencion_tto: comite.intencion_tto,
-        },
-      });
-    }
-
     // Realizar la petición PUT a la API
     axiosClient
       .put(
@@ -236,8 +219,6 @@ export default function CaseForm(props: CaseFormProps) {
       )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
-        setNewProgresionList([]);
-        setNewComiteList([]);
         setNewEntries([]);
       })
       .catch((error) => {
@@ -280,7 +261,7 @@ export default function CaseForm(props: CaseFormProps) {
   const queryClient = useQueryClient();
   const saveMutation = useMutation(
     async () => {
-      await updateSeguimiento(newComiteList, form.getValues());
+      await updateSeguimiento(form.getValues());
       await sleep(500);
     },
     {
@@ -302,7 +283,7 @@ export default function CaseForm(props: CaseFormProps) {
 
   const onSubmit = (data: any) => {
     // subimos a la api,,,
-    updateSeguimiento(newComiteList, data);
+    updateSeguimiento(data);
     //ahora guardar
     //o cerrar (sign)
     if (seguimientoQuery.data?.id) {
@@ -436,13 +417,7 @@ export default function CaseForm(props: CaseFormProps) {
                       </div>
                     </SubSection>
                     <div className="mt-5">
-                      <ProgresionList
-                        elements={
-                          caso?.progresiones
-                            ? [...caso.progresiones, ...newProgresionList]
-                            : newProgresionList
-                        }
-                      />
+                      <ProgresionList />
                     </div>
                   </Section>
                   <Section id="comite" title="Comité Oncológico">
@@ -456,13 +431,7 @@ export default function CaseForm(props: CaseFormProps) {
                       </div>
                     </SubSection>
                     <div className="mt-5">
-                      <ComiteList
-                        elements={
-                          caso?.comites
-                            ? [...caso.comites, ...newComiteList]
-                            : newComiteList
-                        }
-                      />
+                      <ComiteList />
                     </div>
                   </Section>
                   <TratamientoSection />
