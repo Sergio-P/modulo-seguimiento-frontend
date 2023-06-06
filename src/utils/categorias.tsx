@@ -19,7 +19,7 @@ export function defaultSubcategoriaTTOForCategoriaTTO(
       return SubcategoriaTTORadioterapia.radioterapia;
     case CategoriaTTO.otro:
       return SubcategoriaTTOOtro.cuidados_paliativos;
-    case null:
+    default:
       return null;
   }
 }
@@ -37,7 +37,7 @@ export function subcategoriaTTOForCategoriaTTO(
       return Object.values(SubcategoriaTTORadioterapia);
     case CategoriaTTO.otro:
       return Object.values(SubcategoriaTTOOtro);
-    case null:
+    default:
       return [];
   }
 }
