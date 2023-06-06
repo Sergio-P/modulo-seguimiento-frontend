@@ -336,6 +336,7 @@ export default function CaseForm(props: CaseFormProps) {
     control,
     name: "estado_vital",
   });
+  console.log("estado vital: ",estadoVital);
 
   const causaDefuncion = useWatch({
     control,

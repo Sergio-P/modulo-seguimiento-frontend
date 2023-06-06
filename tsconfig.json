@@ -24,6 +24,6 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/profiles/[profileId].jsx"
-  ],
+, "src/components/cases/CaseForm/lists/TratamientoPostFALPListtsx", "src/components/cases/CaseForm/lists/TratamientoPostFALPListtsx"  ],
   "exclude": ["node_modules"]
 }

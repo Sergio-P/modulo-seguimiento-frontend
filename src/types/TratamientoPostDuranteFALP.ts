@@ -38,6 +38,6 @@ export interface TratamientoPostDuranteFALP
   id: number;
   seguimiento_id: number | null;
   caso_registro_id: number;
-  created_at: Date;
-  updated_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
