@@ -24,13 +24,13 @@ export default function TratamientoSection() {
             <Controller
               name="treatmentOption"
               control={control}
+              defaultValue={{
+                id: EntryType.tratamiento_en_falp,
+                name: "Tratamiento En FALP",
+              }}
               render={({ field }) => (
                 <SelectInput
                   label={"Agregar Tratamiento"}
-                  defaultValue={{
-                    id: EntryType.tratamiento_en_falp,
-                    name: "Tratamiento En FALP",
-                  }}
                   options={[
                     {
                       id: EntryType.tratamiento_antes_falp,
