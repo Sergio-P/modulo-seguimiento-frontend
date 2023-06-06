@@ -121,8 +121,8 @@ export default function RecurrenciaModal(props: RecurrenciaModalProps) {
     <Modal
       title="Recurrencia"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} {...props} />}
-      {..._.omit(props, "seguimiento", "setNewRecurrenciaList")}
+      render={(renderProps) => <ModalRender {...renderProps} />}
+      {..._.omit(props)}
     >
       Agregar Recurrencia
     </Modal>

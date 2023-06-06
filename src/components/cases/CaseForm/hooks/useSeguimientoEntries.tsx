@@ -11,6 +11,7 @@ const entryKeyByType: Record<EntryType, string> = {
   [EntryType.metastasis]: "metastasis",
   [EntryType.progresion]: "progresiones",
   [EntryType.recurrencia]: "recurrencias",
+  [EntryType.comite]: "comites",
 };
 
 export default function useSeguimientoEntries<T>(

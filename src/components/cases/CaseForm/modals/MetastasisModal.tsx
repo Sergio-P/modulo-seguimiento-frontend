@@ -37,22 +37,20 @@ const ModalRender = (props: ModalRenderProps) => {
   }
 
   const addMetastasis: SubmitHandler<FormValues> = (data) => {
-    if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
-      const entryContent: MetastasisCreate = {
-        updated_at: new Date().toISOString(),
-        fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
-        fecha_estimada: data.fecha_estimada,
-        detalle_topografia: data.detalle_topografia,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      updateData.setNewEntries((prev) => [
-        ...prev,
-        {
-          entry_type: "metastasis",
-          entry_content: entryContent,
-        },
-      ]);
-    }
+    const entryContent: MetastasisCreate = {
+      updated_at: new Date().toISOString(),
+      fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
+      fecha_estimada: data.fecha_estimada,
+      detalle_topografia: data.detalle_topografia,
+      numero_seguimiento: seguimiento.numero_seguimiento,
+    };
+    updateData.setNewEntries((prev) => [
+      ...prev,
+      {
+        entry_type: "metastasis",
+        entry_content: entryContent,
+      },
+    ]);
     handleClose();
   };
 
@@ -99,7 +97,7 @@ export default function MetastasisModal(props: MetastasisModalProps) {
       title="Metástasis"
       icon="plus"
       render={(renderProps) => <ModalRender {...renderProps} />}
-      {..._.omit(props, "seguimiento", "setNewMetastasisList")}
+      {...props}
     >
       Agregar Metástasis
     </Modal>

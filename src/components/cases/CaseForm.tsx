@@ -5,13 +5,12 @@ import {
   CondicionCaso,
   EstadoVital,
 } from "@/types/Enums";
-import { Metastasis } from "@/types/Metastasis";
 import { Progresion } from "@/types/Progresion";
-import { Recurrencia } from "@/types/Recurrencia";
 import { Seguimiento } from "@/types/Seguimiento";
 import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
 import * as fns from "date-fns";
+import _ from "lodash";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
@@ -23,21 +22,18 @@ import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
 import ComiteList from "./CaseForm/ComiteList";
-import MetastasisList from "./CaseForm/lists/MetastasisList";
 import ProgresionList from "./CaseForm/ProgresionList";
-import RecurrenciaList from "./CaseForm/lists/RecurrenciaList";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
 import { UpdateDataContext } from "./CaseForm/context/updateData";
+import RecurrenciaList from "./CaseForm/lists/RecurrenciaList";
 import ComiteModal from "./CaseForm/modals/ComiteModal";
-import MetastasisModal from "./CaseForm/modals/MetastasisModal";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import ProgresionModal from "./CaseForm/modals/ProgresionModal";
 import RecurrenciaModal from "./CaseForm/modals/RecurrenciaModal";
 import SignModal from "./CaseForm/modals/SignModal";
+import MetastasisSection from "./CaseForm/sections/MetastasisSection";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
 import { Foo, Section, Separator, SubSection, Subtitle } from "./CaseForm/ui";
-import _ from "lodash";
-import MetastasisSection from "./CaseForm/sections/MetastasisSection";
 
 interface CaseFormProps {
   caseId: string;
@@ -131,7 +127,6 @@ export default function CaseForm(props: CaseFormProps) {
       .then((response) => {
         // Manejar la respuesta de la petición aquí
         setNewProgresionList([]);
-        setNewComiteList([]);
         setNewEntries([]);
         window.location.href = `/`;
       })
@@ -141,7 +136,6 @@ export default function CaseForm(props: CaseFormProps) {
   }
 
   async function updateSeguimiento(
-    progresionList: any[],
     comiteList: any[],
     formData: SeguimientoForm
   ) {
@@ -213,23 +207,6 @@ export default function CaseForm(props: CaseFormProps) {
       deleted_entries: [],
     };
     // Construir new_entries
-
-    for (const progresion of progresionList) {
-      requestBody.new_entries.push({
-        entry_type: "progresion",
-        entry_content: {
-          id: progresion.id,
-          fecha_diagnostico: fns.format(
-            progresion.fecha_diagnostico,
-            "yyyy-MM-dd"
-          ),
-          fecha_estimada: progresion.fecha_estimada,
-          tipo: progresion.tipo,
-          detalle_topografia_progresion:
-            progresion.detalle_topografia_progresion,
-        },
-      });
-    }
 
     for (const newEntry of newEntries) {
       requestBody.new_entries.push(newEntry);
@@ -303,11 +280,7 @@ export default function CaseForm(props: CaseFormProps) {
   const queryClient = useQueryClient();
   const saveMutation = useMutation(
     async () => {
-      await updateSeguimiento(
-        newProgresionList,
-        newComiteList,
-        form.getValues()
-      );
+      await updateSeguimiento(newComiteList, form.getValues());
       await sleep(500);
     },
     {
@@ -329,7 +302,7 @@ export default function CaseForm(props: CaseFormProps) {
 
   const onSubmit = (data: any) => {
     // subimos a la api,,,
-    updateSeguimiento(newProgresionList, newComiteList, data);
+    updateSeguimiento(newComiteList, data);
     //ahora guardar
     //o cerrar (sign)
     if (seguimientoQuery.data?.id) {
@@ -459,11 +432,7 @@ export default function CaseForm(props: CaseFormProps) {
                           {...register("posee_progresion")}
                           label="Presenta Progresión"
                         />
-                        <ProgresionModal
-                          disabled={!tieneProgresion}
-                          seguimiento={seguimientoQuery.data}
-                          setNewProgresionList={setNewProgresionList}
-                        />
+                        <ProgresionModal disabled={!tieneProgresion} />
                       </div>
                     </SubSection>
                     <div className="mt-5">
@@ -483,11 +452,7 @@ export default function CaseForm(props: CaseFormProps) {
                           {...register("tiene_comite_oncologico")}
                           label="Presenta Comité Oncológico"
                         />
-                        <ComiteModal
-                          disabled={!tieneComite}
-                          seguimiento={seguimientoQuery.data}
-                          setNewComiteList={setNewComiteList}
-                        />
+                        <ComiteModal disabled={!tieneComite} />
                       </div>
                     </SubSection>
                     <div className="mt-5">
@@ -649,7 +614,6 @@ export default function CaseForm(props: CaseFormProps) {
                   </Section>
                   <div className="flex justify-around">
                     <SignModal
-                      seguimiento={seguimientoQuery.data}
                       disabled={estadoVital === "Muerto" && !causaDefuncion}
                     />
                   </div>
