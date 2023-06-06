@@ -25,7 +25,7 @@ import MainLayout from "../ui/layout/MainLayout";
 import ComiteList from "./CaseForm/ComiteList";
 import MetastasisList from "./CaseForm/lists/MetastasisList";
 import ProgresionList from "./CaseForm/ProgresionList";
-import RecurrenciaList from "./CaseForm/RecurrenciaList";
+import RecurrenciaList from "./CaseForm/lists/RecurrenciaList";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
 import { UpdateDataContext } from "./CaseForm/context/updateData";
 import ComiteModal from "./CaseForm/modals/ComiteModal";
@@ -91,10 +91,6 @@ export default function CaseForm(props: CaseFormProps) {
     }[]
   >([]);
 
-  const [newMetastasisList, setNewMetastasisList] = useState<Metastasis[]>([]);
-  const [newRecurrenciaList, setNewRecurrenciaList] = useState<Recurrencia[]>(
-    []
-  );
   const [newProgresionList, setNewProgresionList] = useState<Progresion[]>([]);
   const [newComiteList, setNewComiteList] = useState<Comite[]>([]);
   const [selectedSection, setSelectedSection] = useState(sections[0]);
@@ -134,8 +130,6 @@ export default function CaseForm(props: CaseFormProps) {
       )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
-        setNewMetastasisList([]);
-        setNewRecurrenciaList([]);
         setNewProgresionList([]);
         setNewComiteList([]);
         setNewEntries([]);
@@ -147,8 +141,6 @@ export default function CaseForm(props: CaseFormProps) {
   }
 
   async function updateSeguimiento(
-    metastasisList: any[],
-    recurrenciaList: any[],
     progresionList: any[],
     comiteList: any[],
     formData: SeguimientoForm
@@ -221,35 +213,6 @@ export default function CaseForm(props: CaseFormProps) {
       deleted_entries: [],
     };
     // Construir new_entries
-    for (const metastasis of metastasisList) {
-      requestBody.new_entries.push({
-        entry_type: "metastasis",
-        entry_content: {
-          fecha_diagnostico: fns.format(
-            metastasis.fecha_diagnostico,
-            "yyyy-MM-dd"
-          ),
-          fecha_estimada: metastasis.fecha_estimada,
-          detalle_topografia: metastasis.detalle_topografia,
-        },
-      });
-    }
-
-    for (const recurrencia of recurrenciaList) {
-      requestBody.new_entries.push({
-        entry_type: "recurrencia",
-        entry_content: {
-          fecha_diagnostico: fns.format(
-            recurrencia.fecha_diagnostico,
-            "yyyy-MM-dd"
-          ),
-          fecha_estimada: recurrencia.fecha_estimada,
-          tipo: recurrencia.tipo,
-          detalle_topografia_recurrencia:
-            recurrencia.detalle_topografia_recurrencia,
-        },
-      });
-    }
 
     for (const progresion of progresionList) {
       requestBody.new_entries.push({
@@ -296,8 +259,6 @@ export default function CaseForm(props: CaseFormProps) {
       )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
-        setNewMetastasisList([]);
-        setNewRecurrenciaList([]);
         setNewProgresionList([]);
         setNewComiteList([]);
         setNewEntries([]);
@@ -343,8 +304,6 @@ export default function CaseForm(props: CaseFormProps) {
   const saveMutation = useMutation(
     async () => {
       await updateSeguimiento(
-        newMetastasisList,
-        newRecurrenciaList,
         newProgresionList,
         newComiteList,
         form.getValues()
@@ -370,14 +329,7 @@ export default function CaseForm(props: CaseFormProps) {
 
   const onSubmit = (data: any) => {
     // subimos a la api,,,
-    // manejamos también newMetastasisList añadiendola a new_entries
-    updateSeguimiento(
-      newMetastasisList,
-      newRecurrenciaList,
-      newProgresionList,
-      newComiteList,
-      data
-    );
+    updateSeguimiento(newProgresionList, newComiteList, data);
     //ahora guardar
     //o cerrar (sign)
     if (seguimientoQuery.data?.id) {
@@ -387,7 +339,6 @@ export default function CaseForm(props: CaseFormProps) {
     console.log(data);
   };
   console.log(watch());
-  console.log("newMetastasisList", newMetastasisList);
   console.log("casoMetastasisList", caso?.metastasis);
   return (
     <SeguimientoContext.Provider value={seguimientoQuery.data}>
@@ -494,21 +445,11 @@ export default function CaseForm(props: CaseFormProps) {
                           {...register("posee_recurrencia")}
                           label="Presenta Recurrencia"
                         />
-                        <RecurrenciaModal
-                          disabled={!tieneRecurrencia}
-                          seguimiento={seguimientoQuery.data}
-                          setNewRecurrenciaList={setNewRecurrenciaList}
-                        />
+                        <RecurrenciaModal disabled={!tieneRecurrencia} />
                       </div>
                     </SubSection>
                     <div className="mt-5">
-                      <RecurrenciaList
-                        elements={
-                          caso?.recurrencias
-                            ? [...caso.recurrencias, ...newRecurrenciaList]
-                            : newRecurrenciaList
-                        }
-                      />
+                      <RecurrenciaList />
                     </div>
                   </Section>
                   <Section id="progresion" title="Progresión">

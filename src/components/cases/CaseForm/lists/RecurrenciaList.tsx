@@ -1,7 +1,8 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Recurrencia } from "@/types/Recurrencia";
+import { EntryType } from "@/types/Enums";
+import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -9,13 +10,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useContext } from "react";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
-interface RecurrenciaListProps {
-  elements: Recurrencia[];
-}
-
-const columnHelper = createColumnHelper<Recurrencia>();
+const columnHelper = createColumnHelper<Recurrencia | RecurrenciaCreate>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -77,19 +77,14 @@ const columns = [
   }),
 ];
 
-export default function RecurrenciaList(props: RecurrenciaListProps) {
-  const data = useMemo(
-    () =>
-      props.elements.map((element) => ({
-        ...element,
-        updated_at:
-          typeof element.updated_at == "string"
-            ? new Date(element.updated_at + "Z")
-            : element.updated_at,
-      })),
-    [props.elements]
+export default function RecurrenciaList() {
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const data = useSeguimientoEntries<Recurrencia | RecurrenciaCreate>(
+    seguimiento,
+    updateData,
+    EntryType.recurrencia
   );
-
   console.log("RecurrenciaList elements: ", data);
   const table = useReactTable({
     data: data,
