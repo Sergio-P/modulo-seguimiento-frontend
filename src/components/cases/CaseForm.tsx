@@ -1,11 +1,3 @@
-import { Comite } from "@/types/Comite";
-import {
-  CausaDefuncion,
-  ClaseCaso,
-  CondicionCaso,
-  EstadoVital,
-} from "@/types/Enums";
-import { Progresion } from "@/types/Progresion";
 import { Seguimiento } from "@/types/Seguimiento";
 import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
@@ -13,27 +5,23 @@ import * as fns from "date-fns";
 import _ from "lodash";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Button from "../ui/Button";
-import Checkbox from "../ui/Checkbox";
-import DatePicker from "../ui/DatePicker";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
-import ComiteList from "./CaseForm/lists/ComiteList";
-import ProgresionList from "./CaseForm/lists/ProgresionList";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
 import { UpdateDataContext } from "./CaseForm/context/updateData";
-import RecurrenciaList from "./CaseForm/lists/RecurrenciaList";
-import ComiteModal from "./CaseForm/modals/ComiteModal";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
-import ProgresionModal from "./CaseForm/modals/ProgresionModal";
-import RecurrenciaModal from "./CaseForm/modals/RecurrenciaModal";
 import SignModal from "./CaseForm/modals/SignModal";
+import ComiteSection from "./CaseForm/sections/ComiteSection";
 import MetastasisSection from "./CaseForm/sections/MetastasisSection";
+import ProgresionSection from "./CaseForm/sections/ProgresionSection";
+import RecurrenciaSection from "./CaseForm/sections/RecurrenciaSection";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
-import { Foo, Section, Separator, SubSection, Subtitle } from "./CaseForm/ui";
+import ValidacionSection from "./CaseForm/sections/ValidacionSection";
+import { Foo, Subtitle } from "./CaseForm/ui";
 
 interface CaseFormProps {
   caseId: string;
@@ -230,32 +218,14 @@ export default function CaseForm(props: CaseFormProps) {
     defaultValues: seguimientoQuery.data,
   });
   const { register, watch, handleSubmit, formState, control } = form;
-  const tieneRecurrencia: boolean = useWatch({
-    control,
-    name: "posee_recurrencia",
-    defaultValue: false,
-  });
-  const tieneProgresion: boolean = useWatch({
-    control,
-    name: "posee_progresion",
-    defaultValue: false,
-  });
-
-  const tieneComite: boolean = useWatch({
-    control,
-    name: "tiene_comite_oncologico",
-    defaultValue: false,
-  });
-
-  const estadoVital = useWatch({
-    control,
-    name: "estado_vital",
-  });
-  console.log("estado vital: ", estadoVital);
 
   const causaDefuncion = useWatch({
     control,
     name: "causa_defuncion",
+  });
+  const estadoVital = useWatch({
+    control,
+    name: "estado_vital",
   });
 
   const queryClient = useQueryClient();
@@ -292,8 +262,8 @@ export default function CaseForm(props: CaseFormProps) {
 
     console.log(data);
   };
-  console.log(watch());
-  console.log("casoMetastasisList", caso?.metastasis);
+
+  console.log("watch: ", watch());
   return (
     <SeguimientoContext.Provider value={seguimientoQuery.data}>
       <UpdateDataContext.Provider
@@ -392,195 +362,11 @@ export default function CaseForm(props: CaseFormProps) {
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <MetastasisSection />
-                  <Section id="recurrencia" title="Recurrencia">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("posee_recurrencia")}
-                          label="Presenta Recurrencia"
-                        />
-                        <RecurrenciaModal disabled={!tieneRecurrencia} />
-                      </div>
-                    </SubSection>
-                    <div className="mt-5">
-                      <RecurrenciaList />
-                    </div>
-                  </Section>
-                  <Section id="progresion" title="Progresión">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("posee_progresion")}
-                          label="Presenta Progresión"
-                        />
-                        <ProgresionModal disabled={!tieneProgresion} />
-                      </div>
-                    </SubSection>
-                    <div className="mt-5">
-                      <ProgresionList />
-                    </div>
-                  </Section>
-                  <Section id="comite" title="Comité Oncológico">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("tiene_comite_oncologico")}
-                          label="Presenta Comité Oncológico"
-                        />
-                        <ComiteModal disabled={!tieneComite} />
-                      </div>
-                    </SubSection>
-                    <div className="mt-5">
-                      <ComiteList />
-                    </div>
-                  </Section>
+                  <RecurrenciaSection />
+                  <ProgresionSection />
+                  <ComiteSection />
                   <TratamientoSection />
-                  <Section id="validacion" title="Validación Antecedentes">
-                    <SubSection title="Validación Clase de Caso"></SubSection>
-                    <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                      <Controller
-                        name="caso_registro_correspondiente.clase_caso"
-                        control={control}
-                        defaultValue={
-                          seguimientoQuery.data.validacion_clase_caso!
-                        }
-                        render={({ field }) => (
-                          <div className="col-span-2">
-                            <SelectInput
-                              label={"Clase Caso"}
-                              options={[
-                                ClaseCaso.diagnostico_y_tratamiento_en_falp,
-                                ClaseCaso.tratamiento_en_falp,
-                                ClaseCaso.diagnostico_en_falp,
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                    </div>
-                    <Separator />
-                    <SubSection title="Último Contacto"></SubSection>
-                    <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                      <div>
-                        <Controller
-                          name="ultimo_contacto"
-                          control={control}
-                          defaultValue={seguimientoQuery.data.ultimo_contacto!}
-                          render={({ field }) => (
-                            <DatePicker
-                              defaultValue={
-                                seguimientoQuery.data?.ultimo_contacto
-                                  ? new Date(
-                                      seguimientoQuery.data?.ultimo_contacto
-                                    )
-                                  : new Date()
-                              }
-                              label="Último Contacto"
-                              {...field}
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className="flex items-center">
-                        {/* TODO: Este campo no existe en el modelo */}
-                        <Checkbox
-                          {...register(
-                            "caso_registro_correspondiente.sigue_atencion_otro_centro"
-                          )}
-                          label="Seguimiento otro centro"
-                        />
-                      </div>
-                    </div>
-                    <Separator />
-                    <SubSection title="Estado Vital"></SubSection>
-                    <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                      <Controller
-                        name="condicion_del_caso"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.condicion_del_caso}
-                        render={({ field }) => (
-                          <SelectInput
-                            label="Condición del Caso"
-                            options={[
-                              CondicionCaso.vivo_sin_enfermedad,
-                              CondicionCaso.vivo_con_enfermedad,
-                              CondicionCaso.vivo_soe,
-                              CondicionCaso.desconocido,
-                              CondicionCaso.fallecido,
-                            ]}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <Controller
-                        name="estado_vital"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.estado_vital}
-                        render={({ field }) => (
-                          <SelectInput
-                            label="Estado Vital"
-                            options={[EstadoVital.vivo, EstadoVital.muerto]}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <Controller
-                        name="causa_defuncion"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.causa_defuncion}
-                        render={({ field }) => (
-                          <div className="col-start-1">
-                            <SelectInput
-                              disabled={
-                                seguimientoQuery.data?.estado_vital ===
-                                  "Vivo" && estadoVital !== "Muerto"
-                              }
-                              label="Causa Defunción"
-                              options={[
-                                CausaDefuncion.muerte_por_cancer_o_complicacion,
-                                CausaDefuncion.muerte_por_otra_causa,
-                                CausaDefuncion.desconocido,
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                      <Controller
-                        name="fecha_defuncion"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.fecha_defuncion!}
-                        render={({ field }) => (
-                          <DatePicker
-                            label="Fecha Defunción"
-                            disabled={
-                              seguimientoQuery.data?.estado_vital === "Vivo" &&
-                              estadoVital !== "Muerto"
-                            }
-                            defaultValue={
-                              seguimientoQuery.data?.fecha_defuncion
-                                ? new Date(
-                                    seguimientoQuery.data.fecha_defuncion
-                                  )
-                                : new Date()
-                            }
-                            {...field}
-                          />
-                        )}
-                      />
-                      <div className="flex items-center">
-                        {/* TODO: Agregar fecha estimada en modelo de datos, actualmente no existe */}
-                        <Checkbox
-                          disabled={
-                            seguimientoQuery.data?.estado_vital === "Vivo" &&
-                            estadoVital !== "Muerto"
-                          }
-                          label="Estimada"
-                        />
-                      </div>
-                    </div>
-                  </Section>
+                  <ValidacionSection />
                   <div className="flex justify-around">
                     <SignModal
                       disabled={estadoVital === "Muerto" && !causaDefuncion}

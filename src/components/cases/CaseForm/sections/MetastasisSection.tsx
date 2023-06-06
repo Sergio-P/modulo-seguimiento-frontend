@@ -1,11 +1,8 @@
 import Checkbox from "@/components/ui/Checkbox";
-import { EntryType } from "@/types/Enums";
 import { useFormContext, useWatch } from "react-hook-form";
 import MetastasisList from "../lists/MetastasisList";
 import MetastasisModal from "../modals/MetastasisModal";
 import { Section, SubSection } from "../ui";
-import { useContext } from "react";
-import { SeguimientoContext } from "../context/seguimiento";
 
 export default function MetastasisSection() {
   const { control, register } = useFormContext();
