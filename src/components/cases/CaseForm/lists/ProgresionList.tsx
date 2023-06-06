@@ -1,7 +1,8 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Progresion } from "@/types/Progresion";
+import { EntryType } from "@/types/Enums";
+import { Progresion, ProgresionCreate } from "@/types/Progresion";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -9,13 +10,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useContext } from "react";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
-interface ProgresionListProps {
-  elements: Progresion[];
-}
-
-const columnHelper = createColumnHelper<Progresion>();
+const columnHelper = createColumnHelper<Progresion | ProgresionCreate>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -77,19 +77,14 @@ const columns = [
   }),
 ];
 
-export default function ProgresionList(props: ProgresionListProps) {
-  const data = useMemo(
-    () =>
-      props.elements.map((element) => ({
-        ...element,
-        updated_at:
-          typeof element.updated_at == "string"
-            ? new Date(element.updated_at + "Z")
-            : element.updated_at,
-      })),
-    [props.elements]
+export default function ProgresionList() {
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const data = useSeguimientoEntries<Progresion | ProgresionCreate>(
+    seguimiento,
+    updateData,
+    EntryType.progresion
   );
-
   console.log("Progresion elements: ", data);
   const table = useReactTable({
     data: data,

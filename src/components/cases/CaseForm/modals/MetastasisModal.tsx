@@ -3,56 +3,54 @@ import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import TextInput from "@/components/ui/TextInput";
-import { Metastasis } from "@/types/Metastasis";
-import { Seguimiento } from "@/types/Seguimiento";
+import { MetastasisCreate } from "@/types/Metastasis";
 import _ from "lodash";
-import { Dispatch, SetStateAction } from "react";
+import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import * as fns from "date-fns";
 
-interface MetastasisModalProps extends Partial<ModalProps> {
-  seguimiento: Seguimiento;
-  setNewMetastasisList: Dispatch<SetStateAction<Metastasis[]>>;
-}
+interface MetastasisModalProps extends Partial<ModalProps> {}
 
 interface FormValues {
-  fecha_diagnostico: Date | null;
+  fecha_diagnostico: Date;
   fecha_estimada: boolean;
-  detalle_topografia: null | string;
+  detalle_topografia: string;
 }
 
-const ModalRender = (props: MetastasisModalProps & ModalRenderProps) => {
-  const { seguimiento, setNewMetastasisList, handleClose } = props;
-  const caso = seguimiento.caso_registro_correspondiente;
+const ModalRender = (props: ModalRenderProps) => {
+  const { handleClose } = props;
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      fecha_diagnostico: null, //
+      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
-      detalle_topografia: null, //
+      detalle_topografia: "", //
     },
   });
-  const detalle_topografia = form.watch("detalle_topografia");
-  const fecha_diagnostico = form.watch("fecha_diagnostico");
-  const addMetastasis: SubmitHandler<FormValues> = (data, event) => {
-    event?.stopPropagation();
-    if (data.fecha_diagnostico !== null && data.detalle_topografia !== null) {
-      const newMetastasis: Metastasis = {
-        id: caso?.metastasis ? caso.metastasis.length + 1 : 1,
-        seguimiento_id: seguimiento.id,
-        caso_registro_id: seguimiento.caso_registro_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...data,
-        fecha_diagnostico: data.fecha_diagnostico,
-        detalle_topografia: data.detalle_topografia,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      setNewMetastasisList((prev: Metastasis[]) => {
-        return [...prev, newMetastasis];
-      });
-      handleClose();
-    }
-    // TODO: this shouldn't close the modal, instead it should show an error
+
+  if (!seguimiento || !updateData) {
+    return <></>;
+  }
+
+  const addMetastasis: SubmitHandler<FormValues> = (data) => {
+    const entryContent: MetastasisCreate = {
+      updated_at: new Date().toISOString(),
+      fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
+      fecha_estimada: data.fecha_estimada,
+      detalle_topografia: data.detalle_topografia,
+      numero_seguimiento: seguimiento.numero_seguimiento,
+    };
+    updateData.setNewEntries((prev) => [
+      ...prev,
+      {
+        entry_type: "metastasis",
+        entry_content: entryContent,
+      },
+    ]);
     handleClose();
   };
 
@@ -67,6 +65,7 @@ const ModalRender = (props: MetastasisModalProps & ModalRenderProps) => {
       <div className="grid grid-cols-2 items-center gap-6">
         <Controller
           name="fecha_diagnostico"
+          rules={{ required: true }}
           control={form.control}
           render={({ field }) => (
             <DatePicker label="Fecha Diagnóstico" {...field} />
@@ -76,7 +75,7 @@ const ModalRender = (props: MetastasisModalProps & ModalRenderProps) => {
         <div className="col-span-2">
           <TextInput
             label="Detalle Topografía"
-            {...form.register("detalle_topografia")}
+            {...form.register("detalle_topografia", { required: true })}
           />
         </div>
       </div>
@@ -84,16 +83,7 @@ const ModalRender = (props: MetastasisModalProps & ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button
-          filled
-          type="submit"
-          disabled={!detalle_topografia || !fecha_diagnostico}
-          title={
-            !detalle_topografia || !fecha_diagnostico
-              ? "Por favor complete todos los campos"
-              : ""
-          }
-        >
+        <Button filled type="submit" disabled={!form.formState.isValid}>
           Agregar Metástasis
         </Button>
       </div>
@@ -106,8 +96,8 @@ export default function MetastasisModal(props: MetastasisModalProps) {
     <Modal
       title="Metástasis"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} {...props} />}
-      {..._.omit(props, "seguimiento", "setNewMetastasisList")}
+      render={(renderProps) => <ModalRender {...renderProps} />}
+      {...props}
     >
       Agregar Metástasis
     </Modal>

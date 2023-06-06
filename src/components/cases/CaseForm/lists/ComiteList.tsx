@@ -1,7 +1,8 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Metastasis } from "@/types/Metastasis";
+import { Comite, ComiteCreate } from "@/types/Comite";
+import { EntryType } from "@/types/Enums";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -9,21 +10,20 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useContext } from "react";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
-interface MetastasisListProps {
-  elements: Metastasis[];
-}
-
-const columnHelper = createColumnHelper<Metastasis>();
+const columnHelper = createColumnHelper<Comite | ComiteCreate>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
     size: 110,
     cell: LastDateCell,
   }),
-  columnHelper.accessor("fecha_diagnostico", {
-    header: "Fecha Diagnóstico",
+  columnHelper.accessor("fecha_comite", {
+    header: "Fecha Comité",
     cell: DateCell,
     size: 110,
   }),
@@ -41,12 +41,16 @@ const columns = [
       }
     },
   }),
-  columnHelper.accessor("detalle_topografia", {
-    header: "Detalle Topografia",
+  columnHelper.accessor("medico", {
+    header: "Médico",
+    size: 110,
+  }),
+  columnHelper.accessor("intencion_tto", {
+    header: "Intención",
     size: 110,
   }),
   columnHelper.display({
-    id: "buttons_metastasis",
+    id: "buttons_comite",
     size: 20,
     cell: (props) => (
       <div className="flex gap-6">
@@ -73,19 +77,15 @@ const columns = [
   }),
 ];
 
-export default function MetastasisList(props: MetastasisListProps) {
-  const data = useMemo(
-    () =>
-      props.elements.map((element) => ({
-        ...element,
-        updated_at:
-          typeof element.updated_at == "string"
-            ? new Date(element.updated_at + "Z")
-            : element.updated_at,
-      })),
-    [props.elements]
+export default function ComiteList() {
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const data = useSeguimientoEntries<Comite | ComiteCreate>(
+    seguimiento,
+    updateData,
+    EntryType.comite
   );
-  console.log("MetastasisList elements:", data);
+  console.log("ComiteList elements: ", data);
   const table = useReactTable({
     data: data,
     columns,
@@ -104,16 +104,15 @@ export default function MetastasisList(props: MetastasisListProps) {
       },
     },
   });
-
   return (
     <div>
       <Datagrid
         table={table}
-        title="Lista Metástasis"
+        title="Lista Comités"
         total={{
           value: data.length,
-          name: "Metástasis",
-          pluralName: "Metástasis",
+          name: "Comité",
+          pluralName: "Comités",
         }}
       />
     </div>

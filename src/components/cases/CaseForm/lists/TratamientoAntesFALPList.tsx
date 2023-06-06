@@ -2,6 +2,10 @@ import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import { EntryType } from "@/types/Enums";
 import {
+  TratamientoAntesFALP,
+  TratamientoAntesFALPCreate,
+} from "@/types/TratamientoAntesFALP";
+import {
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
@@ -11,8 +15,7 @@ import {
 import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
-import _ from "lodash";
-import { TratamientoAntesFALP, TratamientoAntesFALPCreate } from "@/types/TratamientoAntesFALP";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
 const columnHelper = createColumnHelper<
   TratamientoAntesFALPCreate | TratamientoAntesFALP
@@ -20,21 +23,9 @@ const columnHelper = createColumnHelper<
 export default function TratamientoPostList() {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
-  const caso = seguimiento?.caso_registro_correspondiente;
-  const newAntesTratamientoList = useMemo(
-    () =>
-      updateData?.newEntries
-        .filter((x) => x.entry_type === EntryType.tratamiento_antes_falp)
-        .map((x) => x.entry_content) as TratamientoAntesFALPCreate[],
-    [updateData?.newEntries]
-  );
-  const data = useMemo(
-    () =>
-      caso?.tratamientos_antes_falp
-        ? [...caso?.tratamientos_antes_falp, ...newAntesTratamientoList]
-        : newAntesTratamientoList,
-    [caso, newAntesTratamientoList]
-  );
+  const data = useSeguimientoEntries<
+    TratamientoAntesFALPCreate | TratamientoAntesFALP
+  >(seguimiento, updateData, EntryType.tratamiento_antes_falp);
   console.log("TratamientoAntesFalpList data: ", data);
 
   const columns = useMemo(
@@ -61,7 +52,7 @@ export default function TratamientoPostList() {
         size: 110,
       }),
     ],
-    [seguimiento]
+    []
   );
 
   const table = useReactTable({

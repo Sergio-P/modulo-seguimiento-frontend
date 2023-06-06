@@ -12,30 +12,22 @@ import {
 import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
-import _ from "lodash";
-import { TratamientoPostDuranteFALP, TratamientoPostDuranteFALPCreate } from "@/types/TratamientoPostDuranteFALP";
+import _, { update } from "lodash";
+import {
+  TratamientoPostDuranteFALP,
+  TratamientoPostDuranteFALPCreate,
+} from "@/types/TratamientoPostDuranteFALP";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
 const columnHelper = createColumnHelper<
-  TratamientoPostDuranteFALPCreate| TratamientoPostDuranteFALP
+  TratamientoPostDuranteFALPCreate | TratamientoPostDuranteFALP
 >();
 export default function TratamientoPostList() {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
-  const caso = seguimiento?.caso_registro_correspondiente;
-  const newPostTratamientoList = useMemo(
-    () =>
-      updateData?.newEntries
-        .filter((x) => x.entry_type === EntryType.tratamiento_post_durante_falp)
-        .map((x) => x.entry_content) as TratamientoPostDuranteFALPCreate[],
-    [updateData?.newEntries]
-  );
-  const data = useMemo(
-    () =>
-      caso?.tratamientos_post_durante_falp
-        ? [...caso?.tratamientos_post_durante_falp, ...newPostTratamientoList]
-        : newPostTratamientoList,
-    [caso, newPostTratamientoList]
-  );
+  const data = useSeguimientoEntries<
+    TratamientoPostDuranteFALP | TratamientoPostDuranteFALPCreate
+  >(seguimiento, updateData, EntryType.tratamiento_post_durante_falp);
   console.log("TratamientoPostFalpList data: ", data);
 
   const columns = useMemo(

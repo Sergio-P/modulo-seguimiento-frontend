@@ -4,66 +4,56 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
-import { TipoRecurrenciaProgresion } from "@/types/Enums";
-import { Recurrencia } from "@/types/Recurrencia";
+import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
+import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
 import { Seguimiento } from "@/types/Seguimiento";
 import _ from "lodash";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import * as fns from "date-fns";
 
-interface RecurrenciaModalProps extends Partial<ModalProps> {
-  seguimiento: Seguimiento;
-  setNewRecurrenciaList: Dispatch<SetStateAction<Recurrencia[]>>;
-}
+interface RecurrenciaModalProps extends Partial<ModalProps> {}
 
 interface FormValues {
-  fecha_diagnostico: null | Date;
+  fecha_diagnostico: Date;
   fecha_estimada: boolean;
-  tipo: null | TipoRecurrenciaProgresion;
-  detalle_topografia_recurrencia: null | string;
+  tipo: TipoRecurrenciaProgresion;
+  detalle_topografia_recurrencia: string;
 }
 
-const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
-  const { seguimiento, setNewRecurrenciaList, handleClose } = props;
-  const caso = seguimiento.caso_registro_correspondiente;
+const ModalRender = (props: ModalRenderProps) => {
+  const { handleClose } = props;
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
   const form = useForm<FormValues>({
     defaultValues: {
-      fecha_diagnostico: null, //
+      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
-      tipo: null, //
-      detalle_topografia_recurrencia: null, //
+      tipo: undefined, //
+      detalle_topografia_recurrencia: undefined, //
     },
   });
 
-  const tipo = form.watch("tipo");
-  const detalle_topografia_recurrencia = form.watch(
-    "detalle_topografia_recurrencia"
-  );
-  const fecha_diagnostico_recurrencia = form.watch("fecha_diagnostico");
+  if (!seguimiento || !updateData) {
+    return <></>;
+  }
 
   const addRecurrencia: SubmitHandler<FormValues> = (data) => {
-    if (
-      data.fecha_diagnostico !== null &&
-      data.tipo !== null &&
-      data.detalle_topografia_recurrencia !== null
-    ) {
-      const newRecurrencia: Recurrencia = {
-        id: caso?.recurrencias ? caso.recurrencias.length + 1 : 1,
-        seguimiento_id: seguimiento.id,
-        caso_registro_id: seguimiento.caso_registro_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...data,
-        tipo: data.tipo,
-        fecha_diagnostico: data.fecha_diagnostico,
-        detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      setNewRecurrenciaList((prev: Recurrencia[]) => {
-        return [...prev, newRecurrencia];
-      });
-      handleClose();
-    }
+    const newRecurrencia: RecurrenciaCreate = {
+      ...data,
+      updated_at: new Date().toISOString(),
+      tipo: data.tipo,
+      fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
+      detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
+      numero_seguimiento: seguimiento.numero_seguimiento,
+    };
+    updateData.setNewEntries((prev) => [
+      ...prev,
+      { entry_type: EntryType.recurrencia, entry_content: newRecurrencia },
+    ]);
+    handleClose();
   };
 
   return (
@@ -78,6 +68,7 @@ const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
         <Controller
           name="fecha_diagnostico"
           control={form.control}
+          rules={{ required: true }}
           render={({ field }) => (
             <DatePicker label="Fecha Diagnóstico" {...field} />
           )}
@@ -87,6 +78,7 @@ const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
           name="tipo"
           control={form.control}
           defaultValue={TipoRecurrenciaProgresion.local}
+          rules={{ required: true }}
           render={({ field }) => (
             <div className="col-span-2">
               <SelectInput
@@ -106,7 +98,9 @@ const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
         <div className="col-span-2">
           <TextInput
             label="Detalle Topografía Recurrencia"
-            {...form.register("detalle_topografia_recurrencia")}
+            {...form.register("detalle_topografia_recurrencia", {
+              required: true,
+            })}
           />
         </div>
       </div>
@@ -114,22 +108,7 @@ const ModalRender = (props: RecurrenciaModalProps & ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button
-          filled
-          type="submit"
-          disabled={
-            !tipo ||
-            !detalle_topografia_recurrencia ||
-            !fecha_diagnostico_recurrencia
-          }
-          title={
-            !tipo ||
-            !detalle_topografia_recurrencia ||
-            !fecha_diagnostico_recurrencia
-              ? "Por favor complete todos los campos"
-              : ""
-          }
-        >
+        <Button filled type="submit" disabled={!form.formState.isValid}>
           Agregar Recurrencia
         </Button>
       </div>
@@ -142,8 +121,8 @@ export default function RecurrenciaModal(props: RecurrenciaModalProps) {
     <Modal
       title="Recurrencia"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} {...props} />}
-      {..._.omit(props, "seguimiento", "setNewRecurrenciaList")}
+      render={(renderProps) => <ModalRender {...renderProps} />}
+      {..._.omit(props)}
     >
       Agregar Recurrencia
     </Modal>

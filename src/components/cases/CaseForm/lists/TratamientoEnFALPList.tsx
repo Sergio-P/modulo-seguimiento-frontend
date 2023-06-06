@@ -13,32 +13,21 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import _ from "lodash";
 import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
-import _ from "lodash";
+import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
 const columnHelper = createColumnHelper<
   TratamientoEnFALPCreate | TratamientoEnFALP
 >();
 export default function TratamientoEnFALPList() {
-  const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
-  const caso = seguimiento?.caso_registro_correspondiente;
-  const newTratamientoList = useMemo(
-    () =>
-      updateData?.newEntries
-        .filter((x) => x.entry_type === EntryType.tratamiento_en_falp)
-        .map((x) => x.entry_content) as TratamientoEnFALPCreate[],
-    [updateData?.newEntries]
-  );
-  const data = useMemo(
-    () =>
-      caso?.tratamientos_en_falp
-        ? [...caso?.tratamientos_en_falp, ...newTratamientoList]
-        : newTratamientoList,
-    [caso, newTratamientoList]
-  );
+  const updateData = useContext(UpdateDataContext);
+  const data = useSeguimientoEntries<
+    TratamientoEnFALPCreate | TratamientoEnFALP
+  >(seguimiento, updateData, EntryType.tratamiento_en_falp);
   console.log("TratamientoEnFalpList data: ", data);
 
   const columns = useMemo(

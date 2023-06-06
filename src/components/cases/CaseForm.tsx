@@ -1,42 +1,27 @@
-import { Comite } from "@/types/Comite";
-import {
-  CausaDefuncion,
-  ClaseCaso,
-  CondicionCaso,
-  EstadoVital,
-} from "@/types/Enums";
-import { Metastasis } from "@/types/Metastasis";
-import { Progresion } from "@/types/Progresion";
-import { Recurrencia } from "@/types/Recurrencia";
 import { Seguimiento } from "@/types/Seguimiento";
 import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
 import * as fns from "date-fns";
+import _ from "lodash";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Button from "../ui/Button";
-import Checkbox from "../ui/Checkbox";
-import DatePicker from "../ui/DatePicker";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
-import ComiteList from "./CaseForm/ComiteList";
-import MetastasisList from "./CaseForm/MetastasisList";
-import ProgresionList from "./CaseForm/ProgresionList";
-import RecurrenciaList from "./CaseForm/RecurrenciaList";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
 import { UpdateDataContext } from "./CaseForm/context/updateData";
-import ComiteModal from "./CaseForm/modals/ComiteModal";
-import MetastasisModal from "./CaseForm/modals/MetastasisModal";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
-import ProgresionModal from "./CaseForm/modals/ProgresionModal";
-import RecurrenciaModal from "./CaseForm/modals/RecurrenciaModal";
 import SignModal from "./CaseForm/modals/SignModal";
+import ComiteSection from "./CaseForm/sections/ComiteSection";
+import MetastasisSection from "./CaseForm/sections/MetastasisSection";
+import ProgresionSection from "./CaseForm/sections/ProgresionSection";
+import RecurrenciaSection from "./CaseForm/sections/RecurrenciaSection";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
-import { Foo, Section, Separator, SubSection, Subtitle } from "./CaseForm/ui";
-import _ from "lodash";
+import ValidacionSection from "./CaseForm/sections/ValidacionSection";
+import { Foo, Subtitle } from "./CaseForm/ui";
 
 interface CaseFormProps {
   caseId: string;
@@ -90,12 +75,6 @@ export default function CaseForm(props: CaseFormProps) {
     }[]
   >([]);
 
-  const [newMetastasisList, setNewMetastasisList] = useState<Metastasis[]>([]);
-  const [newRecurrenciaList, setNewRecurrenciaList] = useState<Recurrencia[]>(
-    []
-  );
-  const [newProgresionList, setNewProgresionList] = useState<Progresion[]>([]);
-  const [newComiteList, setNewComiteList] = useState<Comite[]>([]);
   const [selectedSection, setSelectedSection] = useState(sections[0]);
 
   async function closeSeguimiento(seguimientoId: number) {
@@ -133,10 +112,6 @@ export default function CaseForm(props: CaseFormProps) {
       )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
-        setNewMetastasisList([]);
-        setNewRecurrenciaList([]);
-        setNewProgresionList([]);
-        setNewComiteList([]);
         setNewEntries([]);
         window.location.href = `/`;
       })
@@ -145,13 +120,7 @@ export default function CaseForm(props: CaseFormProps) {
       });
   }
 
-  async function updateSeguimiento(
-    metastasisList: any[],
-    recurrenciaList: any[],
-    progresionList: any[],
-    comiteList: any[],
-    formData: SeguimientoForm
-  ) {
+  async function updateSeguimiento(formData: SeguimientoForm) {
     const seguimientoId = seguimientoQuery.data?.id;
     console.log("data entregado", formData);
     console.log(
@@ -220,66 +189,9 @@ export default function CaseForm(props: CaseFormProps) {
       deleted_entries: [],
     };
     // Construir new_entries
-    for (const metastasis of metastasisList) {
-      requestBody.new_entries.push({
-        entry_type: "metastasis",
-        entry_content: {
-          fecha_diagnostico: fns.format(
-            metastasis.fecha_diagnostico,
-            "yyyy-MM-dd"
-          ),
-          fecha_estimada: metastasis.fecha_estimada,
-          detalle_topografia: metastasis.detalle_topografia,
-        },
-      });
-    }
-
-    for (const recurrencia of recurrenciaList) {
-      requestBody.new_entries.push({
-        entry_type: "recurrencia",
-        entry_content: {
-          fecha_diagnostico: fns.format(
-            recurrencia.fecha_diagnostico,
-            "yyyy-MM-dd"
-          ),
-          fecha_estimada: recurrencia.fecha_estimada,
-          tipo: recurrencia.tipo,
-          detalle_topografia_recurrencia:
-            recurrencia.detalle_topografia_recurrencia,
-        },
-      });
-    }
-
-    for (const progresion of progresionList) {
-      requestBody.new_entries.push({
-        entry_type: "progresion",
-        entry_content: {
-          id: progresion.id,
-          fecha_diagnostico: fns.format(
-            progresion.fecha_diagnostico,
-            "yyyy-MM-dd"
-          ),
-          fecha_estimada: progresion.fecha_estimada,
-          tipo: progresion.tipo,
-          detalle_topografia_progresion:
-            progresion.detalle_topografia_progresion,
-        },
-      });
-    }
 
     for (const newEntry of newEntries) {
       requestBody.new_entries.push(newEntry);
-    }
-
-    for (const comite of comiteList) {
-      requestBody.new_entries.push({
-        entry_type: "comite",
-        entry_content: {
-          medico: comite.medico,
-          fecha_comite: fns.format(comite.fecha_comite, "yyyy-MM-dd"),
-          intencion_tto: comite.intencion_tto,
-        },
-      });
     }
 
     // Realizar la petición PUT a la API
@@ -295,10 +207,6 @@ export default function CaseForm(props: CaseFormProps) {
       )
       .then((response) => {
         // Manejar la respuesta de la petición aquí
-        setNewMetastasisList([]);
-        setNewRecurrenciaList([]);
-        setNewProgresionList([]);
-        setNewComiteList([]);
         setNewEntries([]);
       })
       .catch((error) => {
@@ -310,49 +218,20 @@ export default function CaseForm(props: CaseFormProps) {
     defaultValues: seguimientoQuery.data,
   });
   const { register, watch, handleSubmit, formState, control } = form;
-  const tieneMetastasis: boolean = useWatch({
-    control,
-    name: "posee_metastasis",
-    defaultValue: false,
-  });
-  const tieneRecurrencia: boolean = useWatch({
-    control,
-    name: "posee_recurrencia",
-    defaultValue: false,
-  });
-  const tieneProgresion: boolean = useWatch({
-    control,
-    name: "posee_progresion",
-    defaultValue: false,
-  });
-
-  const tieneComite: boolean = useWatch({
-    control,
-    name: "tiene_comite_oncologico",
-    defaultValue: false,
-  });
-
-  const estadoVital = useWatch({
-    control,
-    name: "estado_vital",
-  });
-  console.log("estado vital: ",estadoVital);
 
   const causaDefuncion = useWatch({
     control,
     name: "causa_defuncion",
   });
+  const estadoVital = useWatch({
+    control,
+    name: "estado_vital",
+  });
 
   const queryClient = useQueryClient();
   const saveMutation = useMutation(
     async () => {
-      await updateSeguimiento(
-        newMetastasisList,
-        newRecurrenciaList,
-        newProgresionList,
-        newComiteList,
-        form.getValues()
-      );
+      await updateSeguimiento(form.getValues());
       await sleep(500);
     },
     {
@@ -374,14 +253,7 @@ export default function CaseForm(props: CaseFormProps) {
 
   const onSubmit = (data: any) => {
     // subimos a la api,,,
-    // manejamos también newMetastasisList añadiendola a new_entries
-    updateSeguimiento(
-      newMetastasisList,
-      newRecurrenciaList,
-      newProgresionList,
-      newComiteList,
-      data
-    );
+    updateSeguimiento(data);
     //ahora guardar
     //o cerrar (sign)
     if (seguimientoQuery.data?.id) {
@@ -390,9 +262,8 @@ export default function CaseForm(props: CaseFormProps) {
 
     console.log(data);
   };
-  console.log(watch());
-  console.log("newMetastasisList", newMetastasisList);
-  console.log("casoMetastasisList", caso?.metastasis);
+
+  console.log("watch: ", watch());
   return (
     <SeguimientoContext.Provider value={seguimientoQuery.data}>
       <UpdateDataContext.Provider
@@ -490,253 +361,14 @@ export default function CaseForm(props: CaseFormProps) {
                   className="mt-2 mb-3 flex flex-col gap-7"
                   onSubmit={handleSubmit(onSubmit)}
                 >
-                  <Section id="metastasis" title="Metástasis">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("posee_metastasis")}
-                          label="Presenta Metástasis"
-                        />
-                        <MetastasisModal
-                          seguimiento={seguimientoQuery.data}
-                          disabled={!tieneMetastasis}
-                          setNewMetastasisList={setNewMetastasisList}
-                        />
-                      </div>
-
-                      <div className="mt-5">
-                        <MetastasisList
-                          elements={
-                            caso?.metastasis
-                              ? [...caso.metastasis, ...newMetastasisList]
-                              : newMetastasisList
-                          }
-                        />
-                      </div>
-                    </SubSection>
-                  </Section>
-                  <Section id="recurrencia" title="Recurrencia">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("posee_recurrencia")}
-                          label="Presenta Recurrencia"
-                        />
-                        <RecurrenciaModal
-                          disabled={!tieneRecurrencia}
-                          seguimiento={seguimientoQuery.data}
-                          setNewRecurrenciaList={setNewRecurrenciaList}
-                        />
-                      </div>
-                    </SubSection>
-                    <div className="mt-5">
-                      <RecurrenciaList
-                        elements={
-                          caso?.recurrencias
-                            ? [...caso.recurrencias, ...newRecurrenciaList]
-                            : newRecurrenciaList
-                        }
-                      />
-                    </div>
-                  </Section>
-                  <Section id="progresion" title="Progresión">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("posee_progresion")}
-                          label="Presenta Progresión"
-                        />
-                        <ProgresionModal
-                          disabled={!tieneProgresion}
-                          seguimiento={seguimientoQuery.data}
-                          setNewProgresionList={setNewProgresionList}
-                        />
-                      </div>
-                    </SubSection>
-                    <div className="mt-5">
-                      <ProgresionList
-                        elements={
-                          caso?.progresiones
-                            ? [...caso.progresiones, ...newProgresionList]
-                            : newProgresionList
-                        }
-                      />
-                    </div>
-                  </Section>
-                  <Section id="comite" title="Comité Oncológico">
-                    <SubSection>
-                      <div className="flex justify-between">
-                        <Checkbox
-                          {...register("tiene_comite_oncologico")}
-                          label="Presenta Comité Oncológico"
-                        />
-                        <ComiteModal
-                          disabled={!tieneComite}
-                          seguimiento={seguimientoQuery.data}
-                          setNewComiteList={setNewComiteList}
-                        />
-                      </div>
-                    </SubSection>
-                    <div className="mt-5">
-                      <ComiteList
-                        elements={
-                          caso?.comites
-                            ? [...caso.comites, ...newComiteList]
-                            : newComiteList
-                        }
-                      />
-                    </div>
-                  </Section>
+                  <MetastasisSection />
+                  <RecurrenciaSection />
+                  <ProgresionSection />
+                  <ComiteSection />
                   <TratamientoSection />
-                  <Section id="validacion" title="Validación Antecedentes">
-                    <SubSection title="Validación Clase de Caso"></SubSection>
-                    <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                      <Controller
-                        name="caso_registro_correspondiente.clase_caso"
-                        control={control}
-                        defaultValue={
-                          seguimientoQuery.data.validacion_clase_caso!
-                        }
-                        render={({ field }) => (
-                          <div className="col-span-2">
-                            <SelectInput
-                              label={"Clase Caso"}
-                              options={[
-                                ClaseCaso.diagnostico_y_tratamiento_en_falp,
-                                ClaseCaso.tratamiento_en_falp,
-                                ClaseCaso.diagnostico_en_falp,
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                    </div>
-                    <Separator />
-                    <SubSection title="Último Contacto"></SubSection>
-                    <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                      <div>
-                        <Controller
-                          name="ultimo_contacto"
-                          control={control}
-                          defaultValue={seguimientoQuery.data.ultimo_contacto!}
-                          render={({ field }) => (
-                            <DatePicker
-                              defaultValue={
-                                seguimientoQuery.data?.ultimo_contacto
-                                  ? new Date(
-                                      seguimientoQuery.data?.ultimo_contacto
-                                    )
-                                  : new Date()
-                              }
-                              label="Último Contacto"
-                              {...field}
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className="flex items-center">
-                        {/* TODO: Este campo no existe en el modelo */}
-                        <Checkbox
-                          {...register(
-                            "caso_registro_correspondiente.sigue_atencion_otro_centro"
-                          )}
-                          label="Seguimiento otro centro"
-                        />
-                      </div>
-                    </div>
-                    <Separator />
-                    <SubSection title="Estado Vital"></SubSection>
-                    <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-                      <Controller
-                        name="condicion_del_caso"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.condicion_del_caso}
-                        render={({ field }) => (
-                          <SelectInput
-                            label="Condición del Caso"
-                            options={[
-                              CondicionCaso.vivo_sin_enfermedad,
-                              CondicionCaso.vivo_con_enfermedad,
-                              CondicionCaso.vivo_soe,
-                              CondicionCaso.desconocido,
-                              CondicionCaso.fallecido,
-                            ]}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <Controller
-                        name="estado_vital"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.estado_vital}
-                        render={({ field }) => (
-                          <SelectInput
-                            label="Estado Vital"
-                            options={[EstadoVital.vivo, EstadoVital.muerto]}
-                            {...field}
-                          />
-                        )}
-                      />
-                      <Controller
-                        name="causa_defuncion"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.causa_defuncion}
-                        render={({ field }) => (
-                          <div className="col-start-1">
-                            <SelectInput
-                              disabled={
-                                seguimientoQuery.data?.estado_vital ===
-                                  "Vivo" && estadoVital !== "Muerto"
-                              }
-                              label="Causa Defunción"
-                              options={[
-                                CausaDefuncion.muerte_por_cancer_o_complicacion,
-                                CausaDefuncion.muerte_por_otra_causa,
-                                CausaDefuncion.desconocido,
-                              ]}
-                              {...field}
-                            />
-                          </div>
-                        )}
-                      />
-                      <Controller
-                        name="fecha_defuncion"
-                        control={control}
-                        defaultValue={seguimientoQuery.data?.fecha_defuncion!}
-                        render={({ field }) => (
-                          <DatePicker
-                            label="Fecha Defunción"
-                            disabled={
-                              seguimientoQuery.data?.estado_vital === "Vivo" &&
-                              estadoVital !== "Muerto"
-                            }
-                            defaultValue={
-                              seguimientoQuery.data?.fecha_defuncion
-                                ? new Date(
-                                    seguimientoQuery.data.fecha_defuncion
-                                  )
-                                : new Date()
-                            }
-                            {...field}
-                          />
-                        )}
-                      />
-                      <div className="flex items-center">
-                        {/* TODO: Agregar fecha estimada en modelo de datos, actualmente no existe */}
-                        <Checkbox
-                          disabled={
-                            seguimientoQuery.data?.estado_vital === "Vivo" &&
-                            estadoVital !== "Muerto"
-                          }
-                          label="Estimada"
-                        />
-                      </div>
-                    </div>
-                  </Section>
+                  <ValidacionSection />
                   <div className="flex justify-around">
                     <SignModal
-                      seguimiento={seguimientoQuery.data}
                       disabled={estadoVital === "Muerto" && !causaDefuncion}
                     />
                   </div>

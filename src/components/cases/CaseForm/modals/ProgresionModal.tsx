@@ -4,93 +4,79 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
-import { TipoRecurrenciaProgresion } from "@/types/Enums";
-import { Progresion } from "@/types/Progresion";
+import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
+import { Progresion, ProgresionCreate } from "@/types/Progresion";
 import { Seguimiento } from "@/types/Seguimiento";
 import _ from "lodash";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SeguimientoContext } from "../context/seguimiento";
+import { UpdateDataContext } from "../context/updateData";
+import * as fns from "date-fns";
 
-interface ProgresionModalProps extends Partial<ModalProps> {
-  seguimiento: Seguimiento;
-  setNewProgresionList: Dispatch<SetStateAction<Progresion[]>>;
-}
+interface ProgresionModalProps extends Partial<ModalProps> {}
 
 interface FormValues {
-  fecha_diagnostico: null | Date;
+  fecha_diagnostico: Date;
   fecha_estimada: boolean;
-  tipo: null | TipoRecurrenciaProgresion;
-  detalle_topografia_progresion: null | string;
+  tipo: TipoRecurrenciaProgresion;
+  detalle_topografia_progresion: string;
 }
 
 const ModalRender = (props: ProgresionModalProps & ModalRenderProps) => {
-  const { seguimiento, setNewProgresionList, handleClose } = props;
-  const caso = seguimiento.caso_registro_correspondiente;
-  const progresionForm = useForm<FormValues>({
+  const { handleClose } = props;
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const form = useForm<FormValues>({
     defaultValues: {
-      fecha_diagnostico: null, //
+      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
-      tipo: null, //
-      detalle_topografia_progresion: null, //
+      tipo: undefined, //
+      detalle_topografia_progresion: undefined, //
     },
   });
 
-  const { watch: watchProgresion } = progresionForm;
-  const tipo_progresion = watchProgresion("tipo");
-  const detalle_topografia_progresion = watchProgresion(
-    "detalle_topografia_progresion"
-  );
-  const fecha_diagnostico_progresion = watchProgresion("fecha_diagnostico");
+  if (!seguimiento || !updateData) {
+    return <></>;
+  }
 
   const addProgresion: SubmitHandler<FormValues> = (data) => {
-    if (
-      data.fecha_diagnostico !== null &&
-      data.tipo !== null &&
-      data.detalle_topografia_progresion !== null
-    ) {
-      const newProgresion: Progresion = {
-        id: caso?.progresiones ? caso.progresiones.length + 1 : 1,
-        seguimiento_id: seguimiento.id,
-        caso_registro_id: seguimiento.caso_registro_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...data,
-        tipo: data.tipo,
-        fecha_diagnostico: data.fecha_diagnostico,
-        detalle_topografia_progresion: data.detalle_topografia_progresion,
-        numero_seguimiento: seguimiento.numero_seguimiento,
-      };
-      setNewProgresionList((prev: Progresion[]) => {
-        return [...prev, newProgresion];
-      });
-      handleClose();
-    }
+    const newProgresion: ProgresionCreate = {
+      ...data,
+      updated_at: new Date().toISOString(),
+      fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
+      numero_seguimiento: seguimiento.numero_seguimiento,
+    };
+    updateData.setNewEntries((prev) => [
+      ...prev,
+      { entry_type: EntryType.progresion, entry_content: newProgresion },
+    ]);
+    handleClose();
   };
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        progresionForm.handleSubmit(addProgresion)(e);
+        form.handleSubmit(addProgresion)(e);
         e.stopPropagation();
       }}
     >
       <div className="grid grid-cols-2 items-center gap-6">
         <Controller
           name="fecha_diagnostico"
-          control={progresionForm.control}
+          control={form.control}
+          rules={{ required: true }}
           render={({ field }) => (
             <DatePicker label="Fecha Diagnóstico" {...field} />
           )}
         />
-        <Checkbox
-          label="Fecha Estimada"
-          {...progresionForm.register("fecha_estimada")}
-        />
+        <Checkbox label="Fecha Estimada" {...form.register("fecha_estimada")} />
         <Controller
           name="tipo"
-          control={progresionForm.control}
+          control={form.control}
           defaultValue={TipoRecurrenciaProgresion.local}
+          rules={{ required: true }}
           render={({ field }) => (
             <div className="col-span-2">
               <SelectInput
@@ -110,7 +96,9 @@ const ModalRender = (props: ProgresionModalProps & ModalRenderProps) => {
         <div className="col-span-2">
           <TextInput
             label="Detalle Topografía Progresión"
-            {...progresionForm.register("detalle_topografia_progresion")}
+            {...form.register("detalle_topografia_progresion", {
+              required: true,
+            })}
           />
         </div>
       </div>
@@ -118,22 +106,7 @@ const ModalRender = (props: ProgresionModalProps & ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button
-          filled
-          type="submit"
-          disabled={
-            !tipo_progresion ||
-            !detalle_topografia_progresion ||
-            !fecha_diagnostico_progresion
-          }
-          title={
-            !tipo_progresion ||
-            !detalle_topografia_progresion ||
-            !fecha_diagnostico_progresion
-              ? "Por favor complete todos los campos"
-              : ""
-          }
-        >
+        <Button filled type="submit" disabled={!form.formState.isValid}>
           Agregar Progresión
         </Button>
       </div>
@@ -146,8 +119,8 @@ export default function ProgresionModal(props: ProgresionModalProps) {
     <Modal
       title="Progresión"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} {...props} />}
-      {..._.omit(props, "seguimiento", "setNewProgresionList")}
+      render={(renderProps) => <ModalRender {...renderProps} />}
+      {..._.omit(props)}
     >
       Agregar Progresión
     </Modal>
