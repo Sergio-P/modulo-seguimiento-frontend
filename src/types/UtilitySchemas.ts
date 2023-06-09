@@ -1,3 +1,4 @@
+import { ComiteCreate, ComiteUpdate } from "./Comite";
 import { EntryType } from "./Enums";
 import { MetastasisCreate, MetastasisUpdate } from "./Metastasis";
 import { RecurrenciaCreate, RecurrenciaUpdate } from "./Recurrencia";
@@ -18,7 +19,8 @@ export interface EntryCreate {
     | RecurrenciaCreate
     | ProgresionCreate
     | TratamientoEnFALPCreate
-    | TratamientoPostDuranteFALPCreate;
+    | TratamientoPostDuranteFALPCreate
+    | ComiteCreate;
 }
 
 export interface EntryUpdate {
@@ -28,7 +30,8 @@ export interface EntryUpdate {
     | RecurrenciaUpdate
     | ProgresionUpdate
     | TratamientoEnFALPUpdate
-    | TratamientoPostDuranteFALPUpdate;
+    | TratamientoPostDuranteFALPUpdate
+    | ComiteUpdate;
 }
 
 export interface EntryDelete {

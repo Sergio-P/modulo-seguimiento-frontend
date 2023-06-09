@@ -10,6 +10,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import * as fns from "date-fns";
+import { EntryType } from "@/types/Enums";
 
 interface MetastasisModalProps extends Partial<ModalProps> {}
 
@@ -47,7 +48,7 @@ const ModalRender = (props: ModalRenderProps) => {
     updateData.setNewEntries((prev) => [
       ...prev,
       {
-        entry_type: "metastasis",
+        entry_type: EntryType.metastasis,
         entry_content: entryContent,
       },
     ]);

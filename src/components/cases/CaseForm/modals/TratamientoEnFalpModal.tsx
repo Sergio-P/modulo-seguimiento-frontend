@@ -4,7 +4,7 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
-import { CategoriaTTO, IntencionTTO } from "@/types/Enums";
+import { CategoriaTTO, EntryType, IntencionTTO } from "@/types/Enums";
 import { TratamientoEnFALPCreate } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
@@ -50,7 +50,7 @@ const ModalRender = (props: ModalRenderProps) => {
     updateData?.setNewEntries((prev) => [
       ...prev,
       {
-        entry_type: "tratamiento_en_falp",
+        entry_type: EntryType.tratamiento_en_falp,
         entry_content: newTratamiento,
       },
     ]);
