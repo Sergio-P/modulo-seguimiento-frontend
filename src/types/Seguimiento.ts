@@ -24,6 +24,7 @@ export interface SeguimientoBase {
   tiene_examenes: boolean;
   tiene_comite_oncologico: boolean;
   tiene_tratamiento: boolean;
+  sigue_atencion_otro_centro: boolean;
 }
 
 export interface SeguimientoCreate extends SeguimientoBase {}

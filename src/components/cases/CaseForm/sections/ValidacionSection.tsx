@@ -11,22 +11,21 @@ import {
 } from "@/types/Enums";
 import DatePicker from "@/components/ui/DatePicker";
 import Checkbox from "@/components/ui/Checkbox";
+import { SeguimientoForm } from "../../CaseForm";
 
 export default function ValidacionSection() {
-  const { control, register } = useFormContext();
+  const { control, register } = useFormContext<SeguimientoForm>();
   const seguimiento = useContext(SeguimientoContext);
   const estadoVital = useWatch({
     control,
     name: "estado_vital",
   });
-  console.log("estado vital: ", estadoVital);
-
   return (
     <Section id="validacion" title="Validación Antecedentes">
       <SubSection title="Validación Clase de Caso"></SubSection>
       <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
         <Controller
-          name="caso_registro_correspondiente.clase_caso"
+          name="validacion_clase_caso"
           control={control}
           defaultValue={seguimiento?.validacion_clase_caso!}
           render={({ field }) => (
@@ -51,26 +50,14 @@ export default function ValidacionSection() {
           <Controller
             name="ultimo_contacto"
             control={control}
-            defaultValue={seguimiento?.ultimo_contacto!}
             render={({ field }) => (
-              <DatePicker
-                defaultValue={
-                  seguimiento?.ultimo_contacto
-                    ? new Date(seguimiento?.ultimo_contacto)
-                    : new Date()
-                }
-                label="Último Contacto"
-                {...field}
-              />
+              <DatePicker label="Último Contacto" {...field} />
             )}
           />
         </div>
         <div className="flex items-center">
-          {/* TODO: Este campo no existe en el modelo */}
           <Checkbox
-            {...register(
-              "caso_registro_correspondiente.sigue_atencion_otro_centro"
-            )}
+            {...register("sigue_atencion_otro_centro")}
             label="Seguimiento otro centro"
           />
         </div>
@@ -133,17 +120,11 @@ export default function ValidacionSection() {
         <Controller
           name="fecha_defuncion"
           control={control}
-          defaultValue={seguimiento?.fecha_defuncion!}
           render={({ field }) => (
             <DatePicker
               label="Fecha Defunción"
               disabled={
                 seguimiento?.estado_vital === "Vivo" && estadoVital !== "Muerto"
-              }
-              defaultValue={
-                seguimiento?.fecha_defuncion
-                  ? new Date(seguimiento?.fecha_defuncion)
-                  : new Date()
               }
               {...field}
             />

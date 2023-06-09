@@ -47,11 +47,18 @@ export async function getUsuarioToken(
   credentials: LoginCredentials
 ): Promise<LoginResponse> {
   return apiClient
-    .post<LoginResponse>("/usuario/token", credentials, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    .post<LoginResponse>(
+      "/usuario/token",
+      {
+        username: credentials.email,
+        password: credentials.password,
       },
-    })
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
     .then((response) => response.data);
 }
 

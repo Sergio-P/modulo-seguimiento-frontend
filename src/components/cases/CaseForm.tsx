@@ -1,5 +1,5 @@
 import * as api from "@/api/api";
-import { Seguimiento } from "@/types/Seguimiento";
+import { Seguimiento, SeguimientoBase } from "@/types/Seguimiento";
 import { EntryCreate } from "@/types/UtilitySchemas";
 import sleep from "@/utils/sleep";
 import Link from "next/link";
@@ -21,8 +21,12 @@ import ProgresionSection from "./CaseForm/sections/ProgresionSection";
 import RecurrenciaSection from "./CaseForm/sections/RecurrenciaSection";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
 import ValidacionSection from "./CaseForm/sections/ValidacionSection";
-import { serializeSeguimientoUpdate } from "./CaseForm/serialization";
+import {
+  serializeSeguimientoUpdate,
+  unserializeSeguimiento,
+} from "./CaseForm/serialization";
 import { Foo, Subtitle } from "./CaseForm/ui";
+import { ClaseCaso, CondicionCaso, EstadoVital } from "@/types/Enums";
 
 interface CaseFormProps {
   caseId: string;
@@ -37,13 +41,28 @@ const sections = [
   { id: "validacion", name: "Validación Antecedentes" },
 ];
 
-export interface SeguimientoForm extends Seguimiento {}
+export interface SeguimientoForm {
+  validacion_clase_caso: ClaseCaso | null;
+  posee_recurrencia: boolean;
+  posee_progresion: boolean;
+  posee_metastasis: boolean;
+  posee_tto: boolean;
+  condicion_del_caso: CondicionCaso | null;
+  ultimo_contacto: Date | null;
+  estado_vital: EstadoVital | null;
+  fecha_defuncion: Date | null;
+  causa_defuncion: string | null;
+  tiene_consulta_nueva: boolean;
+  tiene_examenes: boolean;
+  tiene_comite_oncologico: boolean;
+  tiene_tratamiento: boolean;
+  sigue_atencion_otro_centro: boolean;
+}
 
 export default function CaseForm(props: CaseFormProps) {
   const { caseId: seguimientoId } = props;
   const router = useRouter();
   const queryClient = useQueryClient();
-  // query del seguimiento
   const seguimientoQuery = useQuery<Seguimiento>({
     queryKey: ["seguimiento", seguimientoId],
     queryFn: () => api.getSeguimiento(seguimientoId),
@@ -56,7 +75,8 @@ export default function CaseForm(props: CaseFormProps) {
     [seguimiento]
   );
   const form = useForm<SeguimientoForm>({
-    defaultValues: seguimiento,
+    defaultValues: async () =>
+      unserializeSeguimiento(await api.getSeguimiento(seguimientoId)),
   });
   const [newEntries, setNewEntries] = useState<EntryCreate[]>([]);
 
