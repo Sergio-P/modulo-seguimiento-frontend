@@ -1,3 +1,6 @@
+import * as api from "@/api/api";
+import { useUser } from "@/hooks/auth";
+import { SeguimientoState } from "@/types/Enums";
 import { Seguimiento } from "@/types/Seguimiento";
 import {
   createColumnHelper,
@@ -10,27 +13,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
+import LogoutButton from "../auth/LogoutButton";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
-import CustomDialog from "../ui/CustomDialog";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
 import BooleanCell from "../ui/table/BooleanCell";
 import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
 import AssignmentModal from "./CaseList/AssignmentModal";
-import { SeguimientoState } from "@/types/Enums";
-import axiosClient from "@/utils/axios";
-import LogoutButton from "../auth/LogoutButton";
-import { useUser } from "@/hooks/auth";
 
 export default function CaseList() {
   const caseQuery = useQuery({
     queryKey: ["seguimientos"],
-    queryFn: () =>
-      axiosClient
-        .get("http://localhost:8000/seguimiento/")
-        .then((res) => res.data),
+    queryFn: api.getSeguimientos,
   });
   return (
     <MainLayout>

@@ -1,14 +1,7 @@
 import Button from "@/components/ui/Button";
 import Modal, { ModalProps } from "@/components/ui/Modal";
-import { Seguimiento } from "@/types/Seguimiento";
 import _ from "lodash";
-import { useContext } from "react";
-import { SeguimientoContext } from "../context/seguimiento";
-import { SubmitHandler, useFormContext, useWatch } from "react-hook-form";
-import { SeguimientoForm } from "../../CaseForm";
-import axiosClient from "@/utils/axios";
-import { UpdateDataContext } from "../context/updateData";
-import { useMutation } from "react-query";
+import { useFormContext, useWatch } from "react-hook-form";
 
 interface SignModalProps extends Partial<ModalProps> {
   loading: boolean;

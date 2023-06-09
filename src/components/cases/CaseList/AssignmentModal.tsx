@@ -1,7 +1,7 @@
+import * as api from "@/api/api";
 import Button from "@/components/ui/Button";
 import CustomDialog from "@/components/ui/CustomDialog";
 import { Usuario } from "@/types/Usuario";
-import axiosClient from "@/utils/axios";
 import clsx from "clsx";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -15,17 +15,14 @@ export default function AssignmentModal(props: {
   const queryClient = useQueryClient();
   const usersQuery = useQuery<Usuario[]>({
     queryKey: ["usuarios"],
-    queryFn: () =>
-      axiosClient.get("http://localhost:8000/usuario/").then((res) => res.data),
+    queryFn: () => api.getUsuarios(),
   });
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const assignMutation = useMutation(
     (data: { userId: number; seguimientoIds: number[] }) => {
       return Promise.all(
         data.seguimientoIds.map((segId) =>
-          axiosClient.patch(
-            `http://localhost:8000/seguimiento/assign/${segId}?usuario_id=${data.userId}`
-          )
+          api.assignSeguimientoUser(segId, data.userId)
         )
       );
     },

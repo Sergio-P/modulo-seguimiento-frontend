@@ -1,14 +1,15 @@
 import axios, { HeadersDefaults } from "axios";
 
-const axiosClient = axios.create({
+const apiClient = axios.create({
   baseURL: "http://localhost:8000",
   timeout: 1000,
   headers: {
     Accept: "application/json",
+    "Content-Type": "application/json",
   },
 });
 
-axiosClient.interceptors.request.use(function (config) {
+apiClient.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
   console.log("token", token);
   if (token) {
@@ -17,4 +18,4 @@ axiosClient.interceptors.request.use(function (config) {
   return config;
 });
 
-export default axiosClient;
+export default apiClient;

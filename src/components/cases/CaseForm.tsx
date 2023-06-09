@@ -1,8 +1,9 @@
-import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
-import axiosClient from "@/utils/axios";
+import * as api from "@/api/api";
+import { Seguimiento } from "@/types/Seguimiento";
+import { EntryCreate } from "@/types/UtilitySchemas";
 import sleep from "@/utils/sleep";
-import _ from "lodash";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -20,11 +21,8 @@ import ProgresionSection from "./CaseForm/sections/ProgresionSection";
 import RecurrenciaSection from "./CaseForm/sections/RecurrenciaSection";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
 import ValidacionSection from "./CaseForm/sections/ValidacionSection";
-import { Foo, Subtitle } from "./CaseForm/ui";
-import { EntryCreate } from "@/types/UtilitySchemas";
-import { useRouter } from "next/router";
-import * as api from "@/api/api";
 import { serializeSeguimientoUpdate } from "./CaseForm/serialization";
+import { Foo, Subtitle } from "./CaseForm/ui";
 
 interface CaseFormProps {
   caseId: string;
@@ -92,7 +90,7 @@ export default function CaseForm(props: CaseFormProps) {
         seguimiento,
         newEntries
       );
-      await api.saveSeguimiento(seguimiento.id, requestBody);
+      await api.updateSeguimiento(seguimiento.id, requestBody);
       await sleep(500);
     },
     {
