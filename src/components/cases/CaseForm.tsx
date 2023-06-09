@@ -5,7 +5,7 @@ import * as fns from "date-fns";
 import _ from "lodash";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
@@ -219,15 +219,6 @@ export default function CaseForm(props: CaseFormProps) {
   });
   const { register, watch, handleSubmit, formState, control } = form;
 
-  const causaDefuncion = useWatch({
-    control,
-    name: "causa_defuncion",
-  });
-  const estadoVital = useWatch({
-    control,
-    name: "estado_vital",
-  });
-
   const queryClient = useQueryClient();
   const saveMutation = useMutation(
     async () => {
@@ -368,9 +359,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <TratamientoSection />
                   <ValidacionSection />
                   <div className="flex justify-around">
-                    <SignModal
-                      disabled={estadoVital === "Muerto" && !causaDefuncion}
-                    />
+                    <SignModal />
                   </div>
                 </form>
               </>
