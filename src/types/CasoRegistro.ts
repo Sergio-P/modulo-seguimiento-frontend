@@ -6,6 +6,7 @@ import { Comite } from "./Comite";
 import { TratamientoAntesFALP } from "./TratamientoAntesFALP";
 import { TratamientoEnFALP } from "./TratamientoEnFALP";
 import { TratamientoPostDuranteFALP } from "./TratamientoPostDuranteFALP";
+import { ClaseCaso } from "./Enums";
 
 export interface CasoRegistroBase {
   nombre: string;
@@ -31,7 +32,7 @@ export interface CasoRegistroBase {
   comportamiento: string;
   extension_dg: string;
   estadio_dg: string;
-  clase_caso: string;
+  clase_caso: ClaseCaso;
   clasificacion_dg_ttos: string;
   ultimo_contacto: Date;
   sigue_atencion_otro_centro: string;

@@ -1,11 +1,10 @@
-import { Seguimiento } from "@/types/Seguimiento";
+import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
 import axiosClient from "@/utils/axios";
 import sleep from "@/utils/sleep";
-import * as fns from "date-fns";
 import _ from "lodash";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
@@ -22,6 +21,10 @@ import RecurrenciaSection from "./CaseForm/sections/RecurrenciaSection";
 import TratamientoSection from "./CaseForm/sections/TratamientoSection";
 import ValidacionSection from "./CaseForm/sections/ValidacionSection";
 import { Foo, Subtitle } from "./CaseForm/ui";
+import { EntryCreate } from "@/types/UtilitySchemas";
+import { useRouter } from "next/router";
+import * as api from "@/api/api";
+import { serializeSeguimientoUpdate } from "./CaseForm/serialization";
 
 interface CaseFormProps {
   caseId: string;
@@ -36,202 +39,73 @@ const sections = [
   { id: "validacion", name: "Validación Antecedentes" },
 ];
 
-interface SeguimientoForm extends Seguimiento {}
+export interface SeguimientoForm extends Seguimiento {}
 
 export default function CaseForm(props: CaseFormProps) {
   const { caseId: seguimientoId } = props;
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  // query del seguimiento
   const seguimientoQuery = useQuery<Seguimiento>({
     queryKey: ["seguimiento", seguimientoId],
-    queryFn: () =>
-      axiosClient
-        .get(`http://localhost:8000/seguimiento/${seguimientoId}`)
-        .then((res) => {
-          const data = res.data as Seguimiento;
-          const fixUpdatedAt = (things: { updated_at: string | null }[]) => {
-            things.forEach((x) => {
-              if (!_.isNil(x.updated_at)) {
-                x.updated_at = x.updated_at + "Z";
-              }
-            });
-          };
-          fixUpdatedAt(data.caso_registro_correspondiente.tratamientos_en_falp);
-          fixUpdatedAt(
-            data.caso_registro_correspondiente.tratamientos_post_durante_falp
-          );
-          return data;
-        }),
+    queryFn: () => api.getSeguimiento(seguimientoId),
     enabled: !!seguimientoId,
     refetchOnWindowFocus: false,
   });
+  const seguimiento = useMemo(() => seguimientoQuery?.data, [seguimientoQuery]);
   const caso = useMemo(
-    () => seguimientoQuery.data?.caso_registro_correspondiente,
-    [seguimientoQuery.data]
+    () => seguimiento?.caso_registro_correspondiente,
+    [seguimiento]
   );
-
-  const [newEntries, setNewEntries] = useState<
-    {
-      entry_type: string;
-      entry_content: any;
-    }[]
-  >([]);
-
-  const [selectedSection, setSelectedSection] = useState(sections[0]);
-
-  async function closeSeguimiento(seguimientoId: number) {
-    const requestBody = {
-      id: seguimientoId,
-      caso_registro_id: caso?.id,
-      state: seguimientoQuery.data?.state,
-      numero_seguimiento: seguimientoQuery.data?.numero_seguimiento,
-      validacion_clase_caso: seguimientoQuery.data?.validacion_clase_caso,
-      posee_recurrencia: seguimientoQuery.data?.posee_recurrencia,
-      posee_progresion: seguimientoQuery.data?.posee_progresion,
-      posee_metastasis: seguimientoQuery.data?.posee_metastasis,
-      posee_tto: seguimientoQuery.data?.posee_tto,
-      condicion_del_caso: seguimientoQuery.data?.condicion_del_caso,
-      ultimo_contacto: seguimientoQuery.data?.ultimo_contacto,
-      estado_vital: seguimientoQuery.data?.estado_vital,
-      cierre_del_caso: seguimientoQuery.data?.cierre_del_caso,
-      tiene_consulta_nueva: seguimientoQuery.data?.tiene_consulta_nueva,
-      tiene_examenes: seguimientoQuery.data?.tiene_examenes,
-      tiene_comite_oncologico: seguimientoQuery.data?.tiene_comite_oncologico,
-      tiene_tratamiento: seguimientoQuery.data?.tiene_tratamiento,
-      new_entries: [] as { entry_type: string; entry_content: any }[],
-      updated_entries: [],
-      deleted_entries: [],
-    };
-    axiosClient
-      .put(
-        `http://localhost:8000/seguimiento/sign/${seguimientoId}`,
-        requestBody,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        // Manejar la respuesta de la petición aquí
-        setNewEntries([]);
-        window.location.href = `/`;
-      })
-      .catch((error) => {
-        // Manejar el error de la petición aquí
-      });
-  }
-
-  async function updateSeguimiento(formData: SeguimientoForm) {
-    const seguimientoId = seguimientoQuery.data?.id;
-    console.log("data entregado", formData);
-    console.log(
-      "data clase caso:",
-      formData.caso_registro_correspondiente.clase_caso
-        ? formData.caso_registro_correspondiente.clase_caso
-        : seguimientoQuery.data?.validacion_clase_caso
-    );
-    console.log(
-      "data ultimo_contacto:",
-      formData.ultimo_contacto
-        ? typeof formData.ultimo_contacto === "string"
-          ? formData.ultimo_contacto
-          : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd")
-        : seguimientoQuery.data?.ultimo_contacto
-    );
-    console.log(
-      "data estado vital:",
-      formData.estado_vital
-        ? formData.estado_vital
-        : seguimientoQuery.data?.estado_vital
-    );
-    const estado_vital = formData.estado_vital
-      ? formData.estado_vital
-      : seguimientoQuery.data?.estado_vital;
-    const requestBody = {
-      id: seguimientoId,
-      caso_registro_id: caso?.id,
-      state: seguimientoQuery.data?.state,
-      numero_seguimiento: seguimientoQuery.data?.numero_seguimiento,
-      validacion_clase_caso: formData.caso_registro_correspondiente.clase_caso
-        ? formData.caso_registro_correspondiente.clase_caso
-        : seguimientoQuery.data?.validacion_clase_caso,
-      posee_recurrencia: seguimientoQuery.data?.posee_recurrencia,
-      posee_progresion: seguimientoQuery.data?.posee_progresion,
-      posee_metastasis: seguimientoQuery.data?.posee_metastasis,
-      posee_tto: seguimientoQuery.data?.posee_tto,
-      condicion_del_caso: formData.condicion_del_caso
-        ? formData.condicion_del_caso
-        : seguimientoQuery.data?.condicion_del_caso,
-      ultimo_contacto: formData.ultimo_contacto
-        ? typeof formData.ultimo_contacto === "string"
-          ? formData.ultimo_contacto
-          : fns.format(formData.ultimo_contacto as Date, "yyyy-MM-dd")
-        : seguimientoQuery.data?.ultimo_contacto,
-      causa_defuncion:
-        formData.causa_defuncion && estado_vital === "Muerto"
-          ? formData.causa_defuncion
-          : null,
-      fecha_defuncion:
-        formData.fecha_defuncion && estado_vital === "Muerto"
-          ? typeof formData.fecha_defuncion === "string"
-            ? formData.fecha_defuncion
-            : fns.format(formData.fecha_defuncion as Date, "yyyy-MM-dd")
-          : null,
-      //sigue_atencion_otro_centro: formData.sigue_atencion_otro_centro,  //OJO NO ESTA EN EL Modelo de datos
-      //fecha_estimada: formData.fecha_estimada,  //OJO NO ESTA EN EL MODELO DE DATOS
-      estado_vital: estado_vital,
-      cierre_del_caso: seguimientoQuery.data?.cierre_del_caso,
-      tiene_consulta_nueva: seguimientoQuery.data?.tiene_consulta_nueva,
-      tiene_examenes: seguimientoQuery.data?.tiene_examenes,
-      tiene_comite_oncologico: seguimientoQuery.data?.tiene_comite_oncologico,
-      tiene_tratamiento: seguimientoQuery.data?.tiene_tratamiento,
-      new_entries: [] as { entry_type: string; entry_content: any }[],
-      updated_entries: [],
-      deleted_entries: [],
-    };
-    // Construir new_entries
-
-    for (const newEntry of newEntries) {
-      requestBody.new_entries.push(newEntry);
-    }
-
-    // Realizar la petición PUT a la API
-    axiosClient
-      .put(
-        `http://localhost:8000/seguimiento/save/${seguimientoId}`,
-        requestBody,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        // Manejar la respuesta de la petición aquí
-        setNewEntries([]);
-      })
-      .catch((error) => {
-        // Manejar el error de la petición aquí
-      });
-  }
-
-  const form = useForm({
-    defaultValues: seguimientoQuery.data,
+  const form = useForm<SeguimientoForm>({
+    defaultValues: seguimiento,
   });
-  const { register, watch, handleSubmit, formState, control } = form;
+  const [newEntries, setNewEntries] = useState<EntryCreate[]>([]);
 
-  const queryClient = useQueryClient();
-  const saveMutation = useMutation(
-    async () => {
-      await updateSeguimiento(form.getValues());
+  // acciones con la api
+
+  const closeSeguimientoMutation = useMutation(
+    async (formData: SeguimientoForm) => {
+      if (!seguimiento) return;
+      const requestBody = serializeSeguimientoUpdate(
+        formData,
+        seguimiento,
+        newEntries
+      );
+      await api.signSeguimiento(seguimiento.id, requestBody);
       await sleep(500);
     },
     {
       onSuccess: () => {
+        setNewEntries([]);
+        queryClient.invalidateQueries(["seguimiento", seguimientoId]);
+        router.push("/");
+      },
+    }
+  );
+
+  const saveMutation = useMutation(
+    async () => {
+      if (!seguimiento) return;
+      const requestBody = serializeSeguimientoUpdate(
+        form.getValues(),
+        seguimiento,
+        newEntries
+      );
+      await api.saveSeguimiento(seguimiento.id, requestBody);
+      await sleep(500);
+    },
+    {
+      onSuccess: () => {
+        setNewEntries([]);
         queryClient.invalidateQueries(["seguimiento", seguimientoId]);
       },
     }
   );
 
+  // header selection
+
+  const [selectedSection, setSelectedSection] = useState(sections[0]);
   const headerHeight = 251;
   const handleSectionSelect = (value: { id: string; name: string }) => {
     const element = document.getElementById(value.id);
@@ -242,19 +116,15 @@ export default function CaseForm(props: CaseFormProps) {
     setSelectedSection(value);
   };
 
-  const onSubmit = (data: any) => {
-    // subimos a la api,,,
-    updateSeguimiento(data);
-    //ahora guardar
-    //o cerrar (sign)
-    if (seguimientoQuery.data?.id) {
-      closeSeguimiento(seguimientoQuery.data?.id);
-    }
+  // form submit
 
-    console.log(data);
+  const onSubmit: SubmitHandler<SeguimientoForm> = async (data) => {
+    if (!seguimiento) return;
+    if (seguimiento.id) {
+      closeSeguimientoMutation.mutate(data);
+    }
   };
 
-  console.log("watch: ", watch());
   return (
     <SeguimientoContext.Provider value={seguimientoQuery.data}>
       <UpdateDataContext.Provider
@@ -324,8 +194,7 @@ export default function CaseForm(props: CaseFormProps) {
                           <Subtitle
                             label={"Seguimiento"}
                             value={
-                              seguimientoQuery?.data?.numero_seguimiento?.toString() ||
-                              ""
+                              seguimiento?.numero_seguimiento?.toString() || ""
                             }
                           />
                         </div>
@@ -350,7 +219,8 @@ export default function CaseForm(props: CaseFormProps) {
 
                 <form
                   className="mt-2 mb-3 flex flex-col gap-7"
-                  onSubmit={handleSubmit(onSubmit)}
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  id="seguimiento-form"
                 >
                   <MetastasisSection />
                   <RecurrenciaSection />
@@ -359,7 +229,7 @@ export default function CaseForm(props: CaseFormProps) {
                   <TratamientoSection />
                   <ValidacionSection />
                   <div className="flex justify-around">
-                    <SignModal />
+                    <SignModal loading={closeSeguimientoMutation.isLoading} />
                   </div>
                 </form>
               </>

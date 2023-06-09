@@ -4,12 +4,19 @@ import { Seguimiento } from "@/types/Seguimiento";
 import _ from "lodash";
 import { useContext } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
-import { useFormContext, useWatch } from "react-hook-form";
+import { SubmitHandler, useFormContext, useWatch } from "react-hook-form";
+import { SeguimientoForm } from "../../CaseForm";
+import axiosClient from "@/utils/axios";
+import { UpdateDataContext } from "../context/updateData";
+import { useMutation } from "react-query";
 
-interface SignModalProps extends Partial<ModalProps> {}
+interface SignModalProps extends Partial<ModalProps> {
+  loading: boolean;
+}
 
 export default function SignModal(props: SignModalProps) {
-  const { control } = useFormContext();
+  const form = useFormContext();
+  const { control } = form;
   const causaDefuncion = useWatch({
     control,
     name: "causa_defuncion",
@@ -18,21 +25,30 @@ export default function SignModal(props: SignModalProps) {
     control,
     name: "estado_vital",
   });
+
   return (
     <Modal
       title="¿Estás seguro/a de firmar seguimiento?"
       disabled={estadoVital === "Muerto" && !causaDefuncion}
-      render={(props) => (
+      render={(renderProps) => (
         <div className="mt-6 flex justify-end gap-4">
-          <Button type="button" onClick={props.handleClose}>
+          <Button type="button" onClick={renderProps.handleClose}>
             Cancelar
           </Button>
-          <Button filled type="submit" onClick={props.handleClose}>
+          <Button
+            filled
+            type="submit"
+            form="seguimiento-form"
+            loading={props.loading}
+            onClick={() => {
+              renderProps.handleClose();
+            }}
+          >
             Firmar Seguimiento
           </Button>
         </div>
       )}
-      {...props}
+      {..._.omit(props, "onClick")}
     >
       Firmar Seguimiento
     </Modal>
