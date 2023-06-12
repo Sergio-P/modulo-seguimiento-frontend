@@ -8,12 +8,13 @@ export default function CustomDialog(
     open: boolean;
     onClose: () => void;
     title?: string;
-    width?: "md" | "lg";
+    width?: "md" | "lg" | "xl";
   } & React.PropsWithChildren
 ) {
   const widthClassName = {
     md: "max-w-2xl",
     lg: "max-w-5xl",
+    xl: "max-w-7xl",
   };
   return (
     <Transition show={props.open} as={Fragment}>

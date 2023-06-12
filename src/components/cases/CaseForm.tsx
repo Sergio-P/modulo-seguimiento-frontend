@@ -27,6 +27,7 @@ import {
 } from "./CaseForm/serialization";
 import { Foo, Subtitle } from "./CaseForm/ui";
 import { ClaseCaso, CondicionCaso, EstadoVital } from "@/types/Enums";
+import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -169,6 +170,7 @@ export default function CaseForm(props: CaseFormProps) {
                           onChange={handleSectionSelect}
                         />
                       </div>
+                      <TimeLineModal seguimiento={seguimientoQuery.data}/>
                       <div className="flex justify-center gap-4">
                         <Button icon="FileIcon" className="">
                           Historial
