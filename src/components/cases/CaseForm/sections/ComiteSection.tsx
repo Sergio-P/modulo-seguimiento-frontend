@@ -8,7 +8,7 @@ export default function ComiteSection() {
   const { control, register } = useFormContext();
   const tieneComite: boolean = useWatch({
     control,
-    name: "posee_comite",
+    name: "tiene_comite_oncologico",
     defaultValue: false,
   });
 
