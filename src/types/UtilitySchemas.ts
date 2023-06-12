@@ -14,27 +14,33 @@ import {
 
 export interface EntryCreate {
   entry_type: EntryType;
-  entry_content:
-    | MetastasisCreate
-    | RecurrenciaCreate
-    | ProgresionCreate
-    | TratamientoEnFALPCreate
-    | TratamientoPostDuranteFALPCreate
-    | ComiteCreate;
+  entry_content: EntryCreateContent;
 }
+
+export type EntryCreateContent =
+  | MetastasisCreate
+  | RecurrenciaCreate
+  | ProgresionCreate
+  | TratamientoEnFALPCreate
+  | TratamientoPostDuranteFALPCreate
+  | ComiteCreate;
 
 export interface EntryUpdate {
   entry_type: EntryType;
-  entry_content:
-    | MetastasisUpdate
-    | RecurrenciaUpdate
-    | ProgresionUpdate
-    | TratamientoEnFALPUpdate
-    | TratamientoPostDuranteFALPUpdate
-    | ComiteUpdate;
+  entry_content: EntryUpdateContent;
 }
+
+export type EntryUpdateContent =
+  | MetastasisUpdate
+  | RecurrenciaUpdate
+  | ProgresionUpdate
+  | TratamientoEnFALPUpdate
+  | TratamientoPostDuranteFALPUpdate
+  | ComiteUpdate;
 
 export interface EntryDelete {
   entry_type: EntryType;
   entry_id: number;
 }
+
+export type EntryContent = EntryCreateContent | EntryUpdateContent;
