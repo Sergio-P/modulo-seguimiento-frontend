@@ -15,7 +15,7 @@ import { UpdateDataContext } from "../context/updateData";
 interface FormValues {
   medico: string;
   fecha_de_inicio: Date;
-  fecha_de_termino: Date;
+  fecha_de_termino: Date | null;
   en_tto: boolean;
   categoria_tto: CategoriaTTO;
   subcategoria_tto: string;
@@ -36,6 +36,7 @@ const ModalRender = (props: ModalRenderProps) => {
 
   const { watch: watchTratamiento } = form;
   const categoria_tto = watchTratamiento("categoria_tto");
+  const en_tto = watchTratamiento("en_tto");
   const subcategoria_TTO_options =
     subcategoriaTTOForCategoriaTTO(categoria_tto);
 
@@ -44,7 +45,7 @@ const ModalRender = (props: ModalRenderProps) => {
       ...data,
       updated_at: new Date().toISOString(),
       fecha_de_inicio: fns.format(data.fecha_de_inicio as Date, "yyyy-MM-dd"),
-      fecha_de_termino: fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
+      fecha_de_termino: data.en_tto ? null : fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
     };
 
     updateData?.setNewEntries((prev) => [
@@ -85,8 +86,8 @@ const ModalRender = (props: ModalRenderProps) => {
         <Controller
           name="fecha_de_termino"
           control={form.control}
-          rules={{ required: true }}
-          render={({ field }) => <DatePicker label="Término" {...field} />}
+          rules={{ required: !en_tto }}
+          render={({ field }) => <DatePicker label="Término" disabled={en_tto} {...field} />}
         />
         <Checkbox label="Tratamiento" {...form.register("en_tto")} />
       </div>

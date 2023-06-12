@@ -10,7 +10,7 @@ import {
 export interface TratamientoEnFALPBase {
   medico: string;
   fecha_de_inicio: string;
-  fecha_de_termino: string;
+  fecha_de_termino: string | null;
   en_tto: boolean;
   categoria_tto: CategoriaTTO | string;
   subcategoria_tto:
