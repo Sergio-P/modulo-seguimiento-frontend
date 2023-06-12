@@ -89,7 +89,7 @@ const ModalRender = (props: ModalRenderProps) => {
           rules={{ required: !en_tto }}
           render={({ field }) => <DatePicker label="Término" disabled={en_tto} {...field} />}
         />
-        <Checkbox label="Tratamiento" {...form.register("en_tto")} />
+        <Checkbox label="En Tratamiento" {...form.register("en_tto")} />
       </div>
       <div className="pt-6 pb-4">Categorización Tratamiento</div>
       <div className="grid grid-cols-3 items-center gap-6">

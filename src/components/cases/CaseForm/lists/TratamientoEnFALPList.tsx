@@ -18,6 +18,7 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import BooleanCell from "@/components/ui/table/BooleanCell";
 
 const columnHelper = createColumnHelper<
   TratamientoEnFALPCreate | TratamientoEnFALP
@@ -46,6 +47,11 @@ export default function TratamientoEnFALPList() {
         header: "Término",
         cell: DateCell,
         size: 110,
+      }),
+      columnHelper.accessor("en_tto", {
+        header: "En tratamiento",
+        size: 32,
+        cell: BooleanCell,
       }),
       columnHelper.accessor("numero_seguimiento", {
         header: "Origen",
