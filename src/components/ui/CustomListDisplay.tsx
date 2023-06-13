@@ -19,16 +19,21 @@ function classNames(...classes: string[]) {
 
 const tabs = [
   { name: "Metástasis", component: MetastasisList },
-  { name: "Recurrencia", component: RecurrenciaList },
-  { name: "Progresión", component: ProgresionList },
+  //{ name: "Recurrencia", component: RecurrenciaList },
+  //{ name: "Progresión", component: ProgresionList },
   { name: "Comité", component: ComiteList },
-  { name: "Tratamiento En Falp", component: TratamientoEnFALPList },
-  { name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
+  //{ name: "Tratamiento En Falp", component: TratamientoEnFALPList },
+  //{ name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
 ];
 
 export default function CustomListDisplay(props: CustomListDisplayProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
+  const filterFunc = (data: any[]) => {
+    return typeof props.origen !== 'undefined'
+      ? data.filter(row => row.numero_seguimiento === props.origen)
+      : data;
+  }
   console.log("origen", props.origen);
   return (
     <div className="m-4 rounded-lg border border-background-dark">
@@ -74,7 +79,7 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
                       const Component = tab.component;
                       return (
                         <Tab.Panel key={index}>
-                          <Component origenFilter={props.origen} />
+                          <Component filterFunc={filterFunc} />
                         </Tab.Panel>
                       );
                     })}

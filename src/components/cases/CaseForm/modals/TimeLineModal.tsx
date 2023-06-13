@@ -14,6 +14,7 @@ import MetastasisList from "../lists/MetastasisList";
 import ProgresionList from "../lists/ProgresionList";
 import RecurrenciaList from "../lists/RecurrenciaList";
 import TratamientoEnFALPList from "../lists/TratamientoEnFALPList";
+import * as fns from "date-fns";
 
 interface TimeLineModalProps extends Partial<ModalProps> {}
 
@@ -71,8 +72,17 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                   >
-                    <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                      <h1 className="text-center text-2xl font-bold">Info</h1>
+                    <Disclosure.Panel className="px-4 pt-4 pb-2">
+                      <div className="grid grid-cols-3 text-left gap-4">
+                        <Separator/>
+                        <Foo label={"N° Registro"} value={caso?.num_registro || ""} />
+                        <Foo label={"Fecha Diagnóstico"} value={caso?.fecha_dg.toString() || ""} />
+                        <Foo label={"Estadío Diagnóstico"} value={caso?.estadio_dg || ""} />
+                        <Separator/>
+                        <Foo label={"Morfología"} value={caso?.morfologia || ""} classData="col-span-3" />
+                        <Separator/>
+                        <Foo label={"Topografía"} value={caso?.topografia || ""} classData="col-span-3" />
+                      </div>
                     </Disclosure.Panel>
                   </Transition>
                 </>
@@ -90,5 +100,5 @@ export default function TimeLineModal(props: TimeLineModalProps) {
 }
 
 function Separator() {
-  return <div className="col-span-6 h-[1px] w-full bg-zinc-400"></div>;
+  return <div className="col-span-3 h-[1px] w-full bg-zinc-400"></div>;
 }

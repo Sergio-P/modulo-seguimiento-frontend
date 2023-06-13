@@ -17,8 +17,9 @@ import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import { MetastasisModalRender } from "../modals/MetastasisModal";
 import { createEditColumn } from "./edition";
 
+type FilterFunc = (data: Metastasis[]) => Metastasis[];
 interface MetastasisListProps {
-  origenFilter: number | null;
+  filterFunc?: FilterFunc;
 }
 
 const columnHelper = createColumnHelper<Metastasis>();
@@ -54,7 +55,7 @@ const columns = [
   createEditColumn(columnHelper, "Metástasis", MetastasisModalRender),
 ];
 
-export default function MetastasisList({ origenFilter }: MetastasisListProps) {
+export default function MetastasisList({ filterFunc }: MetastasisListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
   const allData = useSeguimientoEntries<Metastasis>(
@@ -64,10 +65,8 @@ export default function MetastasisList({ origenFilter }: MetastasisListProps) {
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === "undefined"
-      ? allData
-      : allData.filter((row) => row.numero_seguimiento === origenFilter);
-  }, [allData, origenFilter]);
+    return filterFunc ? filterFunc(allData) : allData;
+  }, [filterFunc, allData]);
 
   console.log("MetastasisList elements:", data);
   const table = useReactTable({

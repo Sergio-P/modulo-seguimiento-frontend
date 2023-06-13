@@ -15,8 +15,9 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
+type FilterFunc = (data: Comite[]) => Comite[];
 interface ComiteListProps {
-  origenFilter: number | null;
+  filterFunc?: FilterFunc;
 }
 
 const columnHelper = createColumnHelper<Comite | ComiteCreate>();
@@ -81,21 +82,19 @@ const columns = [
   }),
 ];
 
-export default function ComiteList({origenFilter}: ComiteListProps) {
+export default function ComiteList({ filterFunc }: ComiteListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<Comite | ComiteCreate>(
+  const allData = useSeguimientoEntries<Comite>(
     seguimiento,
     updateData,
     EntryType.comite
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === 'undefined'
-      ? allData
-      : allData.filter(row => row.numero_seguimiento === origenFilter);
-  }, [allData, origenFilter]);
-
+    return filterFunc ? filterFunc(allData) : allData;
+  }, [filterFunc, allData]);
+  
   console.log("ComiteList elements: ", data);
   const table = useReactTable({
     data: data,
