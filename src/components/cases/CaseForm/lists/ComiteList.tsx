@@ -14,12 +14,14 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { createEditColumn } from "./edition";
+import { ProgresionModalRender } from "../modals/ProgresionModal";
 
 interface ComiteListProps {
   origenFilter: number | null;
 }
 
-const columnHelper = createColumnHelper<Comite | ComiteCreate>();
+const columnHelper = createColumnHelper<Comite>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -53,47 +55,27 @@ const columns = [
     header: "Intención",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_comite",
-    size: 20,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(
+    columnHelper,
+    "Comité",
+    EntryType.comite,
+    ProgresionModalRender
+  ),
 ];
 
-export default function ComiteList({origenFilter}: ComiteListProps) {
+export default function ComiteList({ origenFilter }: ComiteListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<Comite | ComiteCreate>(
+  const allData = useSeguimientoEntries<Comite>(
     seguimiento,
     updateData,
     EntryType.comite
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === 'undefined'
+    return typeof origenFilter === "undefined"
       ? allData
-      : allData.filter(row => row.numero_seguimiento === origenFilter);
+      : allData.filter((row) => row.numero_seguimiento === origenFilter);
   }, [allData, origenFilter]);
 
   console.log("ComiteList elements: ", data);

@@ -14,12 +14,14 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { createEditColumn } from "./edition";
+import { ProgresionModalRender } from "../modals/ProgresionModal";
 
 interface ProgresionListProps {
   origenFilter: number | null;
 }
 
-const columnHelper = createColumnHelper<Progresion | ProgresionCreate>();
+const columnHelper = createColumnHelper<Progresion>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -53,47 +55,27 @@ const columns = [
     header: "Detalle Topografía Recurrencia",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_metastasis",
-    size: 50,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(
+    columnHelper,
+    "Progresión",
+    EntryType.progresion,
+    ProgresionModalRender
+  ),
 ];
 
-export default function ProgresionList({origenFilter}: ProgresionListProps) {
+export default function ProgresionList({ origenFilter }: ProgresionListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<Progresion | ProgresionCreate>(
+  const allData = useSeguimientoEntries<Progresion>(
     seguimiento,
     updateData,
     EntryType.progresion
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === 'undefined'
+    return typeof origenFilter === "undefined"
       ? allData
-      : allData.filter(row => row.numero_seguimiento === origenFilter);
+      : allData.filter((row) => row.numero_seguimiento === origenFilter);
   }, [allData, origenFilter]);
 
   console.log("Progresion elements: ", data);

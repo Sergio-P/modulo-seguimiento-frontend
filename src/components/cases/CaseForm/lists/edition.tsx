@@ -18,7 +18,7 @@ export interface EditModalRenderProps<T = Record<string, any>>
 }
 
 export function createEditColumn<
-  T extends { id: any; numero_seguimiento: any }
+  T extends { id: any; numero_seguimiento?: any }
 >(
   colHelper: ColumnHelper<T>,
   name: string,
@@ -39,7 +39,9 @@ export function createEditColumn<
   });
 }
 
-function EditColumnCell<T extends { id: any; numero_seguimiento: any }>(props: {
+function EditColumnCell<
+  T extends { id: any; numero_seguimiento?: any }
+>(props: {
   cellContext: CellContext<T, unknown>;
   name: string;
   entryType: EntryType;

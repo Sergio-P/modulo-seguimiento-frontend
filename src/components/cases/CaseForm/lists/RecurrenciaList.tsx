@@ -14,12 +14,14 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { createEditColumn } from "./edition";
+import { RecurrenciaModalRender } from "../modals/RecurrenciaModal";
 
 interface RecurrenciaListProps {
   origenFilter: number | null;
 }
 
-const columnHelper = createColumnHelper<Recurrencia | RecurrenciaCreate>();
+const columnHelper = createColumnHelper<Recurrencia>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -53,49 +55,31 @@ const columns = [
     header: "Detalle Topografía Recurrencia",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_metastasis",
-    size: 50,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(
+    columnHelper,
+    "Recurrencia",
+    EntryType.recurrencia,
+    RecurrenciaModalRender
+  ),
 ];
 
-export default function RecurrenciaList({origenFilter}: RecurrenciaListProps) {
+export default function RecurrenciaList({
+  origenFilter,
+}: RecurrenciaListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<Recurrencia | RecurrenciaCreate>(
+  const allData = useSeguimientoEntries<Recurrencia>(
     seguimiento,
     updateData,
     EntryType.recurrencia
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === 'undefined'
+    return typeof origenFilter === "undefined"
       ? allData
-      : allData.filter(row => row.numero_seguimiento === origenFilter);
+      : allData.filter((row) => row.numero_seguimiento === origenFilter);
   }, [allData, origenFilter]);
-  
+
   console.log("RecurrenciaList elements: ", data);
   const table = useReactTable({
     data: data,
