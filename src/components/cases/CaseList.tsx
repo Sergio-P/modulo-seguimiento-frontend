@@ -29,6 +29,7 @@ export default function CaseList() {
     queryKey: ["seguimientos"],
     queryFn: api.getSeguimientos,
   });
+  console.log("caseQuery: ", caseQuery.data);
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
@@ -111,7 +112,7 @@ function CaseListTable({ data }: CaseListTableProps) {
         header: "Resumen",
         size: 32,
         cell: (props) => (
-          <TimeLineModal buttonIcon="timeLine"/>
+          <TimeLineModal seguimientoId={props.row.original.id} buttonIcon="timeLine"/>
         ),
       }),
       columnHelper.accessor("caso_registro_correspondiente.ficha", {
