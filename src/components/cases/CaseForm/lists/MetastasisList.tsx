@@ -51,7 +51,12 @@ const columns = [
     header: "Detalle Topografia",
     size: 110,
   }),
-  createEditColumn(columnHelper, "Metástasis", MetastasisModalRender),
+  createEditColumn(
+    columnHelper,
+    "Metástasis",
+    EntryType.metastasis,
+    MetastasisModalRender
+  ),
 ];
 
 export default function MetastasisList({ origenFilter }: MetastasisListProps) {
