@@ -5,7 +5,7 @@ import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
 import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
-import { RecurrenciaCreate } from "@/types/Recurrencia";
+import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
 import * as fns from "date-fns";
 import _ from "lodash";
 import { useContext } from "react";
@@ -31,16 +31,21 @@ interface FormValues {
   detalle_topografia_recurrencia: string;
 }
 
-export const RecurrenciaModalRender = (props: EditModalRenderProps) => {
+export const RecurrenciaModalRender = (
+  props: EditModalRenderProps<Recurrencia>
+) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
   const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
-      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
       tipo: undefined, //
       detalle_topografia_recurrencia: undefined, //
+      ...props.data,
+      fecha_diagnostico: props.data
+        ? new Date(props.data.fecha_diagnostico)
+        : undefined,
     },
   });
   const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);

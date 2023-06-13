@@ -3,7 +3,7 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
-import { ComiteCreate } from "@/types/Comite";
+import { Comite, ComiteCreate } from "@/types/Comite";
 import { EntryType, IntencionTTO } from "@/types/Enums";
 import * as fns from "date-fns";
 import { useContext } from "react";
@@ -29,11 +29,17 @@ interface FormValues {
   fecha_comite: Date;
 }
 
-export const ComiteModalRender = (props: EditModalRenderProps) => {
+export const ComiteModalRender = (props: EditModalRenderProps<Comite>) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
   const upperForm = useFormContext<SeguimientoForm>();
-  const form = useForm<FormValues>();
+  console.log(props.data);
+  const form = useForm<FormValues>({
+    defaultValues: {
+      ...props.data,
+      fecha_comite: props.data ? new Date(props.data.fecha_comite) : undefined,
+    },
+  });
   const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
 
   if (!seguimiento) {

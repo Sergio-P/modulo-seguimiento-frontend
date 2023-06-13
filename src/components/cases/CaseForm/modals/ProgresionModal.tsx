@@ -6,7 +6,7 @@ import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
-import { ProgresionCreate } from "@/types/Progresion";
+import { Progresion, ProgresionCreate } from "@/types/Progresion";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import * as fns from "date-fns";
 import _ from "lodash";
@@ -31,16 +31,21 @@ interface FormValues {
   detalle_topografia_progresion: string;
 }
 
-export const ProgresionModalRender = (props: EditModalRenderProps) => {
+export const ProgresionModalRender = (
+  props: EditModalRenderProps<Progresion>
+) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
   const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
-      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
       tipo: undefined, //
       detalle_topografia_progresion: undefined, //
+      ...props.data,
+      fecha_diagnostico: props.data
+        ? new Date(props.data.fecha_diagnostico)
+        : undefined,
     },
   });
   const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);

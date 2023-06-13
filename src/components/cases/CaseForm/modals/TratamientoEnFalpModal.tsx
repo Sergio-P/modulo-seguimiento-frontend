@@ -5,7 +5,11 @@ import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
 import { CategoriaTTO, EntryType, IntencionTTO } from "@/types/Enums";
-import { TratamientoEnFALPCreate } from "@/types/TratamientoEnFALP";
+import {
+  SubcategoriaTTO,
+  TratamientoEnFALP,
+  TratamientoEnFALPCreate,
+} from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
 import { useContext } from "react";
@@ -21,6 +25,7 @@ import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { EditModalRenderProps } from "../lists/edition";
+import _ from "lodash";
 
 interface FormValues {
   medico: string;
@@ -28,19 +33,29 @@ interface FormValues {
   fecha_de_termino: Date | null;
   en_tto: boolean;
   categoria_tto: CategoriaTTO;
-  subcategoria_tto: string;
+  subcategoria_tto: SubcategoriaTTO;
   intencion_tto: IntencionTTO;
   observaciones: string;
-  descripcion_de_la_prestacion: string;
+  descripcion_de_la_prestacion: string | null;
 }
 
-export const TratamientoEnFalpModalRender = (props: EditModalRenderProps) => {
+export const TratamientoEnFalpModalRender = (
+  props: EditModalRenderProps<TratamientoEnFALP>
+) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
   const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
-      en_tto: false, //
+      en_tto: false,
+      ...props.data,
+      fecha_de_inicio: props.data
+        ? new Date(props.data.fecha_de_inicio)
+        : undefined,
+      fecha_de_termino:
+        props.data && props.data.fecha_de_termino
+          ? new Date(props.data.fecha_de_termino)
+          : undefined,
     },
   });
   const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
@@ -60,9 +75,9 @@ export const TratamientoEnFalpModalRender = (props: EditModalRenderProps) => {
       ...data,
       updated_at: new Date().toISOString(),
       fecha_de_inicio: fns.format(data.fecha_de_inicio as Date, "yyyy-MM-dd"),
-      fecha_de_termino: data.en_tto
-        ? null
-        : fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
+      fecha_de_termino:
+        data.fecha_de_termino &&
+        fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
     };
     const payload: SeguimientoUpdate = {
       ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
@@ -79,6 +94,9 @@ export const TratamientoEnFalpModalRender = (props: EditModalRenderProps) => {
       },
     });
   };
+
+  console.log(props.data);
+  console.log("watch", watch());
 
   return (
     <form
@@ -108,12 +126,22 @@ export const TratamientoEnFalpModalRender = (props: EditModalRenderProps) => {
         <Controller
           name="fecha_de_termino"
           control={form.control}
-          rules={{ required: !en_tto }}
+          rules={{ required: en_tto }}
           render={({ field }) => (
-            <DatePicker label="Término" disabled={en_tto} {...field} />
+            <DatePicker label="Término" disabled={!en_tto} {...field} />
           )}
         />
-        <Checkbox label="En Tratamiento" {...form.register("en_tto")} />
+        <Controller
+          name="en_tto"
+          control={form.control}
+          render={({ field }) => (
+            <Checkbox
+              label="En Tratamiento"
+              {..._.omit(field, "value")}
+              checked={field.value}
+            />
+          )}
+        />
       </div>
       <div className="pt-6 pb-4">Categorización Tratamiento</div>
       <div className="grid grid-cols-3 items-center gap-6">

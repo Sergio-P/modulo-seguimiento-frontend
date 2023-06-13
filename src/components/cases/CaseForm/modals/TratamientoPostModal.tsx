@@ -16,7 +16,10 @@ import {
   SubcategoriaTTOTerapiaSistemica,
 } from "@/types/Enums";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
-import { TratamientoPostDuranteFALPCreate } from "@/types/TratamientoPostDuranteFALP";
+import {
+  TratamientoPostDuranteFALP,
+  TratamientoPostDuranteFALPCreate,
+} from "@/types/TratamientoPostDuranteFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
 import { useContext } from "react";
@@ -43,16 +46,22 @@ interface FormValues {
   lugar_tto: LugarTTO;
   intencion_tto: IntencionTTO;
   observaciones: string;
-  numero_seguimiento?: number;
+  numero_seguimiento?: number | null;
 }
 
-export const TratamientoPostModalRender = (props: EditModalRenderProps) => {
+export const TratamientoPostModalRender = (
+  props: EditModalRenderProps<TratamientoPostDuranteFALP>
+) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
   const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
       fecha_estimada: false, //
+      ...props.data,
+      fecha_de_inicio: props.data
+        ? new Date(props.data.fecha_de_inicio)
+        : undefined,
     },
   });
   const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);

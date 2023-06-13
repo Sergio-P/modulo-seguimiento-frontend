@@ -40,15 +40,12 @@ export const MetastasisModalRender = ({
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
       detalle_topografia: "", //
-      ...(prevData
-        ? {
-            ...prevData,
-            fecha_diagnostico: new Date(prevData.fecha_diagnostico),
-          }
-        : {}),
+      ...prevData,
+      fecha_diagnostico: prevData
+        ? new Date(prevData.fecha_diagnostico)
+        : undefined,
     },
   });
 

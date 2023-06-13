@@ -1,7 +1,7 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Comite, ComiteCreate } from "@/types/Comite";
+import { Comite } from "@/types/Comite";
 import { EntryType } from "@/types/Enums";
 import {
   createColumnHelper,
@@ -14,8 +14,8 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { ComiteModalRender } from "../modals/ComiteModal";
 import { createEditColumn } from "./edition";
-import { ProgresionModalRender } from "../modals/ProgresionModal";
 
 interface ComiteListProps {
   origenFilter: number | null;
@@ -55,12 +55,7 @@ const columns = [
     header: "Intención",
     size: 110,
   }),
-  createEditColumn(
-    columnHelper,
-    "Comité",
-    EntryType.comite,
-    ProgresionModalRender
-  ),
+  createEditColumn(columnHelper, "Comité", EntryType.comite, ComiteModalRender),
 ];
 
 export default function ComiteList({ origenFilter }: ComiteListProps) {
