@@ -16,6 +16,14 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+const tabs = [
+  { name: "Metástasis", component: MetastasisList },
+  { name: "Recurrencia", component: RecurrenciaList },
+  { name: "Progresión", component: ProgresionList },
+  { name: "Comité", component: ComiteList },
+  { name: "Tratamiento", component: TratamientoEnFALPList },
+];
+
 export default function CustomListDisplay(props: CustomListDisplayProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
@@ -43,40 +51,29 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
               <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
                 <Tab.Group>
                   <Tab.List className={"flex gap-4"}>
-                    <Tab
-                      className={({ selected }) =>
-                        classNames(
-                          "text-sm text-gray-500",
-                          "focus:outline-none focus:ring-2",
-                          selected
-                            ? "underline decoration-accent text-accent bg-white shadow"
-                            : "hover:underline"
-                        )
-                      }
-                    >
-                      Metástasis Pulento
-                    </Tab>
-                    <Tab>Recurrencia</Tab>
-                    <Tab>Progresión</Tab>
-                    <Tab>Comité</Tab>
-                    <Tab>Tratamiento</Tab>
+                    {tabs.map((tab, index) => (
+                      <Tab
+                        key={index}
+                        className={({ selected }) =>
+                          classNames(
+                            "text-sm text-gray-500",
+                            "focus:outline-none focus:ring-2",
+                            selected
+                              ? "bg-white text-accent underline decoration-accent shadow"
+                              : "hover:underline"
+                          )
+                        }
+                      >
+                        {tab.name}
+                      </Tab>
+                    ))}
                   </Tab.List>
                   <Tab.Panels>
-                    <Tab.Panel>
-                      <MetastasisList />
-                    </Tab.Panel>
-                    <Tab.Panel>
-                      <RecurrenciaList />
-                    </Tab.Panel>
-                    <Tab.Panel>
-                      <ProgresionList />
-                    </Tab.Panel>
-                    <Tab.Panel>
-                      <ComiteList />
-                    </Tab.Panel>
-                    <Tab.Panel>
-                      <TratamientoEnFALPList />
-                    </Tab.Panel>
+                    {tabs.map((tab, index) => (
+                      <Tab.Panel key={index}>
+                        <tab.component />
+                      </Tab.Panel>
+                    ))}
                   </Tab.Panels>
                 </Tab.Group>
               </Disclosure.Panel>
