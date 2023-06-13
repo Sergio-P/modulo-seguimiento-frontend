@@ -157,7 +157,7 @@ function InnerCaseForm(props: CaseFormProps) {
                 onChange={handleSectionSelect}
               />
             </div>
-            <TimeLineModal />
+            <TimeLineModal buttonIcon=""/>
             <div className="flex justify-center gap-4">
               <Button icon="FileIcon" className="">
                 Historial

@@ -16,14 +16,16 @@ import RecurrenciaList from "../lists/RecurrenciaList";
 import TratamientoEnFALPList from "../lists/TratamientoEnFALPList";
 import * as fns from "date-fns";
 
-interface TimeLineModalProps extends Partial<ModalProps> {}
+interface TimeLineModalProps extends Partial<ModalProps> {
+  buttonIcon: string;
+}
 
 export default function TimeLineModal(props: TimeLineModalProps) {
   const seguimiento = useContext(SeguimientoContext);
   const caso = seguimiento?.caso_registro_correspondiente;
   return (
     <Modal
-      className="w-48 place-self-center"
+      className="w-10 place-self-center"
       title="Antecedentes Personales"
       width="xl"
       render={(props) => (

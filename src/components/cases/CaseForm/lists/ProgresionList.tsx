@@ -15,8 +15,9 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
+type FilterFunc = (data: Progresion[]) => Progresion[];
 interface ProgresionListProps {
-  origenFilter: number | null;
+  filterFunc?: FilterFunc;
 }
 
 const columnHelper = createColumnHelper<Progresion | ProgresionCreate>();
@@ -81,20 +82,18 @@ const columns = [
   }),
 ];
 
-export default function ProgresionList({origenFilter}: ProgresionListProps) {
+export default function ProgresionList({ filterFunc }: ProgresionListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<Progresion | ProgresionCreate>(
+  const allData = useSeguimientoEntries<Progresion>(
     seguimiento,
     updateData,
     EntryType.progresion
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === 'undefined'
-      ? allData
-      : allData.filter(row => row.numero_seguimiento === origenFilter);
-  }, [allData, origenFilter]);
+    return filterFunc ? filterFunc(allData) : allData;
+  }, [filterFunc, allData]);
 
   console.log("Progresion elements: ", data);
   const table = useReactTable({

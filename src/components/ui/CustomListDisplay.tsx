@@ -19,11 +19,11 @@ function classNames(...classes: string[]) {
 
 const tabs = [
   { name: "Metástasis", component: MetastasisList },
-  //{ name: "Recurrencia", component: RecurrenciaList },
-  //{ name: "Progresión", component: ProgresionList },
+  { name: "Recurrencia", component: RecurrenciaList },
+  { name: "Progresión", component: ProgresionList },
   { name: "Comité", component: ComiteList },
-  //{ name: "Tratamiento En Falp", component: TratamientoEnFALPList },
-  //{ name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
+  { name: "Tratamiento En Falp", component: TratamientoEnFALPList },
+  { name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
 ];
 
 export default function CustomListDisplay(props: CustomListDisplayProps) {
