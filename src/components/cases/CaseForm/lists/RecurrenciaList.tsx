@@ -14,13 +14,15 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { createEditColumn } from "./edition";
+import { RecurrenciaModalRender } from "../modals/RecurrenciaModal";
 
 type FilterFunc = (data: Recurrencia[]) => Recurrencia[];
 interface RecurrenciaListProps {
   filterFunc?: FilterFunc;
 }
 
-const columnHelper = createColumnHelper<Recurrencia | RecurrenciaCreate>();
+const columnHelper = createColumnHelper<Recurrencia>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -54,32 +56,12 @@ const columns = [
     header: "Detalle Topografía Recurrencia",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_metastasis",
-    size: 50,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(
+    columnHelper,
+    "Recurrencia",
+    EntryType.recurrencia,
+    RecurrenciaModalRender
+  ),
 ];
 
 export default function RecurrenciaList({ filterFunc }: RecurrenciaListProps) {
@@ -94,7 +76,7 @@ export default function RecurrenciaList({ filterFunc }: RecurrenciaListProps) {
   const data = useMemo(() => {
     return filterFunc ? filterFunc(allData) : allData;
   }, [filterFunc, allData]);
-  
+
   console.log("RecurrenciaList elements: ", data);
   const table = useReactTable({
     data: data,

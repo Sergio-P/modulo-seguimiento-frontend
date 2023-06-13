@@ -19,26 +19,30 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import BooleanCell from "@/components/ui/table/BooleanCell";
+import { createEditColumn } from "./edition";
+import { TratamientoEnFalpModalRender } from "../modals/TratamientoEnFalpModal";
 
 type FilterFunc = (data: TratamientoEnFALP[]) => TratamientoEnFALP[];
 interface TratamientoEnFALPListProps {
   filterFunc?: FilterFunc;
 }
 
-const columnHelper = createColumnHelper<
-  TratamientoEnFALPCreate | TratamientoEnFALP
->();
-export default function TratamientoEnFALPList({ filterFunc }: TratamientoEnFALPListProps) {
+const columnHelper = createColumnHelper<TratamientoEnFALP>();
+export default function TratamientoEnFALPList({
+  filterFunc,
+}: TratamientoEnFALPListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<
-    TratamientoEnFALP
-  >(seguimiento, updateData, EntryType.tratamiento_en_falp);
+  const allData = useSeguimientoEntries<TratamientoEnFALP>(
+    seguimiento,
+    updateData,
+    EntryType.tratamiento_en_falp
+  );
 
   const data = useMemo(() => {
     return filterFunc ? filterFunc(allData) : allData;
   }, [filterFunc, allData]);
-  
+
   console.log("TratamientoEnFalpList data: ", data);
 
   const columns = useMemo(
@@ -93,39 +97,14 @@ export default function TratamientoEnFALPList({ filterFunc }: TratamientoEnFALPL
         header: "Intención",
         size: 110,
       }),
-      columnHelper.display({
-        id: "buttons_metastasis",
-        size: 50,
-        cell: (props) =>
-          _.isNil(props.row.original.numero_seguimiento) ||
-          props.row.original.numero_seguimiento !==
-            seguimiento?.numero_seguimiento ? (
-            <></>
-          ) : (
-            <div className="flex gap-6">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(`aquí deberíamos editar`);
-                }}
-                className="h-6 w-8 text-primary"
-              >
-                Editar
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(`aquí deberíamos borrar`);
-                }}
-                className="h-6 w-8 text-primary"
-              >
-                Borrar
-              </button>
-            </div>
-          ),
-      }),
+      createEditColumn(
+        columnHelper,
+        "Tratamiento",
+        EntryType.tratamiento_en_falp,
+        TratamientoEnFalpModalRender
+      ),
     ],
-    [seguimiento]
+    []
   );
 
   const table = useReactTable({

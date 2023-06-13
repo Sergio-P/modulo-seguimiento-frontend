@@ -1,12 +1,12 @@
 import * as api from "@/api/api";
-import { Seguimiento, SeguimientoBase } from "@/types/Seguimiento";
-import { EntryCreate } from "@/types/UtilitySchemas";
+import { ClaseCaso, CondicionCaso, EstadoVital } from "@/types/Enums";
+import { Seguimiento } from "@/types/Seguimiento";
 import sleep from "@/utils/sleep";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
@@ -18,6 +18,7 @@ import {
 } from "./CaseForm/context/updateData";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import SignModal from "./CaseForm/modals/SignModal";
+import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 import ComiteSection from "./CaseForm/sections/ComiteSection";
 import MetastasisSection from "./CaseForm/sections/MetastasisSection";
 import ProgresionSection from "./CaseForm/sections/ProgresionSection";
@@ -29,8 +30,6 @@ import {
   unserializeSeguimiento,
 } from "./CaseForm/serialization/serialization";
 import { Foo, Subtitle } from "./CaseForm/ui";
-import { ClaseCaso, CondicionCaso, EstadoVital } from "@/types/Enums";
-import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -157,7 +156,7 @@ function InnerCaseForm(props: CaseFormProps) {
                 onChange={handleSectionSelect}
               />
             </div>
-            <TimeLineModal seguimientoId={caso?.id}/>
+            <TimeLineModal seguimientoId={seguimiento?.id}/>
             <div className="flex justify-center gap-4">
               <Button icon="FileIcon" className="">
                 Historial

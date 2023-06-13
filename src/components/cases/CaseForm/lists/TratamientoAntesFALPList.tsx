@@ -17,15 +17,15 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
-const columnHelper = createColumnHelper<
-  TratamientoAntesFALPCreate | TratamientoAntesFALP
->();
+const columnHelper = createColumnHelper<TratamientoAntesFALP>();
 export default function TratamientoPostList() {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
-  const data = useSeguimientoEntries<
-    TratamientoAntesFALPCreate | TratamientoAntesFALP
-  >(seguimiento, updateData, EntryType.tratamiento_antes_falp);
+  const data = useSeguimientoEntries<TratamientoAntesFALP>(
+    seguimiento,
+    updateData,
+    EntryType.tratamiento_antes_falp
+  );
   console.log("TratamientoAntesFalpList data: ", data);
 
   const columns = useMemo(

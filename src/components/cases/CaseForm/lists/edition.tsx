@@ -1,14 +1,15 @@
 import Button from "@/components/ui/Button";
-import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
+import Modal, { ModalRenderProps } from "@/components/ui/Modal";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import { EntryType } from "@/types/Enums";
+import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { CellContext, ColumnHelper } from "@tanstack/react-table";
 import React, { useContext } from "react";
+import { useFormContext } from "react-hook-form";
+import { SeguimientoForm } from "../../CaseForm";
 import { SeguimientoContext } from "../context/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
-import { useFormContext } from "react-hook-form";
-import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
-import { SeguimientoForm } from "../../CaseForm";
-import { EntryType } from "@/types/Enums";
+import _ from "lodash";
 
 export interface EditModalRenderProps<T = Record<string, any>>
   extends ModalRenderProps {
@@ -16,7 +17,9 @@ export interface EditModalRenderProps<T = Record<string, any>>
   data?: T;
 }
 
-export function createEditColumn<T extends { id: any }>(
+export function createEditColumn<
+  T extends { id: any; numero_seguimiento?: any }
+>(
   colHelper: ColumnHelper<T>,
   name: string,
   entryType: EntryType,
@@ -36,7 +39,9 @@ export function createEditColumn<T extends { id: any }>(
   });
 }
 
-function EditColumnCell<T extends { id: any }>(props: {
+function EditColumnCell<
+  T extends { id: any; numero_seguimiento?: any }
+>(props: {
   cellContext: CellContext<T, unknown>;
   name: string;
   entryType: EntryType;
@@ -46,7 +51,15 @@ function EditColumnCell<T extends { id: any }>(props: {
   const updateMutation = useMutationUpdateSeguimiento(seguimiento?.id);
   const form = useFormContext<SeguimientoForm>();
   const EditModalRender = props.editModalRender;
-  if (!seguimiento) return <></>;
+  const numSeguimiento = props.cellContext.row.original.numero_seguimiento;
+  if (
+    !seguimiento ||
+    _.isNil(numSeguimiento) ||
+    numSeguimiento !== seguimiento?.numero_seguimiento
+  ) {
+    return <></>;
+  }
+
   return (
     <div className="flex gap-6">
       <Modal

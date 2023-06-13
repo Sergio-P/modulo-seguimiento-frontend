@@ -18,27 +18,33 @@ import {
   TratamientoPostDuranteFALPCreate,
 } from "@/types/TratamientoPostDuranteFALP";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { createEditColumn } from "./edition";
+import { TratamientoPostModalRender } from "../modals/TratamientoPostModal";
 
-type FilterFunc = (data: TratamientoPostDuranteFALP[]) => TratamientoPostDuranteFALP[];
+type FilterFunc = (
+  data: TratamientoPostDuranteFALP[]
+) => TratamientoPostDuranteFALP[];
 interface TratamientoPostFALPListProps {
   filterFunc?: FilterFunc;
 }
 
-const columnHelper = createColumnHelper<
-  TratamientoPostDuranteFALPCreate | TratamientoPostDuranteFALP
->();
+const columnHelper = createColumnHelper<TratamientoPostDuranteFALP>();
 
-export default function TratamientoPostList({ filterFunc }: TratamientoPostFALPListProps) {
+export default function TratamientoPostList({
+  filterFunc,
+}: TratamientoPostFALPListProps) {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
-  const allData = useSeguimientoEntries<
-    TratamientoPostDuranteFALP
-  >(seguimiento, updateData, EntryType.tratamiento_post_durante_falp);
+  const allData = useSeguimientoEntries<TratamientoPostDuranteFALP>(
+    seguimiento,
+    updateData,
+    EntryType.tratamiento_post_durante_falp
+  );
 
   const data = useMemo(() => {
     return filterFunc ? filterFunc(allData) : allData;
   }, [filterFunc, allData]);
-  
+
   console.log("TratamientoPostFalpList data: ", data);
 
   const columns = useMemo(
@@ -83,39 +89,14 @@ export default function TratamientoPostList({ filterFunc }: TratamientoPostFALPL
         header: "Intención",
         size: 110,
       }),
-      columnHelper.display({
-        id: "buttons_metastasis",
-        size: 50,
-        cell: (props) =>
-          _.isNil(props.row.original.numero_seguimiento) ||
-          props.row.original.numero_seguimiento !==
-            seguimiento?.numero_seguimiento ? (
-            <></>
-          ) : (
-            <div className="flex gap-6">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(`aquí deberíamos editar`);
-                }}
-                className="h-6 w-8 text-primary"
-              >
-                Editar
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(`aquí deberíamos borrar`);
-                }}
-                className="h-6 w-8 text-primary"
-              >
-                Borrar
-              </button>
-            </div>
-          ),
-      }),
+      createEditColumn(
+        columnHelper,
+        "Tratamiento",
+        EntryType.tratamiento_post_durante_falp,
+        TratamientoPostModalRender
+      ),
     ],
-    [seguimiento]
+    []
   );
 
   const table = useReactTable({

@@ -14,13 +14,15 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { createEditColumn } from "./edition";
+import { ProgresionModalRender } from "../modals/ProgresionModal";
 
 type FilterFunc = (data: Progresion[]) => Progresion[];
 interface ProgresionListProps {
   filterFunc?: FilterFunc;
 }
 
-const columnHelper = createColumnHelper<Progresion | ProgresionCreate>();
+const columnHelper = createColumnHelper<Progresion>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -54,32 +56,12 @@ const columns = [
     header: "Detalle Topografía Recurrencia",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_metastasis",
-    size: 50,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(
+    columnHelper,
+    "Progresión",
+    EntryType.progresion,
+    ProgresionModalRender
+  ),
 ];
 
 export default function ProgresionList({ filterFunc }: ProgresionListProps) {

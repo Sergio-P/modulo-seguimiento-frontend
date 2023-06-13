@@ -13,7 +13,6 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { SeguimientoContext } from "../context/seguimiento";
-import { UpdateDataContext } from "../context/updateData";
 import * as fns from "date-fns";
 import { EntryType } from "@/types/Enums";
 import { EditModalRenderProps } from "../lists/edition";
@@ -34,7 +33,6 @@ export const MetastasisModalRender = ({
 }: EditModalRenderProps<Metastasis>) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
-  const updateData = useContext(UpdateDataContext);
   const { mutate: updateSeguimiento, isLoading } = useMutationUpdateSeguimiento(
     seguimiento?.id
   );
@@ -42,19 +40,16 @@ export const MetastasisModalRender = ({
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      fecha_diagnostico: undefined, //
       fecha_estimada: false, //
       detalle_topografia: "", //
-      ...(prevData
-        ? {
-            ...prevData,
-            fecha_diagnostico: new Date(prevData.fecha_diagnostico),
-          }
-        : {}),
+      ...prevData,
+      fecha_diagnostico: prevData
+        ? new Date(prevData.fecha_diagnostico)
+        : undefined,
     },
   });
 
-  if (!seguimiento || !updateData) {
+  if (!seguimiento) {
     return <></>;
   }
 
@@ -117,7 +112,7 @@ export const MetastasisModalRender = ({
           disabled={!form.formState.isValid}
           loading={isLoading}
         >
-          Agregar Metástasis
+          {edit ? "Editar" : "Agregar"} Metástasis
         </Button>
       </div>
     </form>

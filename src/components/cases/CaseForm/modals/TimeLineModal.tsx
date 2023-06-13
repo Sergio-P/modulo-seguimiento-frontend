@@ -1,22 +1,15 @@
-import { useContext } from "react";
-import Image from "next/image";
 import Modal, { ModalProps } from "@/components/ui/Modal";
 import BoundingBox from "@/components/ui/layout/BoundingBox";
-import { Seguimiento } from "@/types/Seguimiento";
+import { Disclosure, Transition } from "@headlessui/react";
 import _ from "lodash";
-import { Subtitle, Foo } from "../ui";
-import MoreInfoModal from "./MoreInfoModal";
-import { SeguimientoContext } from "../context/seguimiento";
+import Image from "next/image";
+import { useContext } from "react";
 import TimeLine from "../../TimeLine";
-import { Disclosure, Transition, Tab } from "@headlessui/react";
-import ComiteList from "../lists/ComiteList";
-import MetastasisList from "../lists/MetastasisList";
-import ProgresionList from "../lists/ProgresionList";
-import RecurrenciaList from "../lists/RecurrenciaList";
-import TratamientoEnFALPList from "../lists/TratamientoEnFALPList";
-import * as fns from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import * as api from "@/api/api";
+import { SeguimientoContext } from "../context/seguimiento";
+import { Foo, Subtitle } from "../ui";
+import { Seguimiento } from "@/types/Seguimiento";
 
 interface TimeLineModalProps extends Partial<ModalProps> {
   buttonIcon?: string;

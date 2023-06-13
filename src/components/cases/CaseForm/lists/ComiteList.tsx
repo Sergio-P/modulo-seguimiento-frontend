@@ -1,7 +1,7 @@
 import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
-import { Comite, ComiteCreate } from "@/types/Comite";
+import { Comite } from "@/types/Comite";
 import { EntryType } from "@/types/Enums";
 import {
   createColumnHelper,
@@ -14,13 +14,15 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { ComiteModalRender } from "../modals/ComiteModal";
+import { createEditColumn } from "./edition";
 
 type FilterFunc = (data: Comite[]) => Comite[];
 interface ComiteListProps {
   filterFunc?: FilterFunc;
 }
 
-const columnHelper = createColumnHelper<Comite | ComiteCreate>();
+const columnHelper = createColumnHelper<Comite>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -54,32 +56,7 @@ const columns = [
     header: "Intención",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_comite",
-    size: 20,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(columnHelper, "Comité", EntryType.comite, ComiteModalRender),
 ];
 
 export default function ComiteList({ filterFunc }: ComiteListProps) {
@@ -94,7 +71,7 @@ export default function ComiteList({ filterFunc }: ComiteListProps) {
   const data = useMemo(() => {
     return filterFunc ? filterFunc(allData) : allData;
   }, [filterFunc, allData]);
-  
+
   console.log("ComiteList elements: ", data);
   const table = useReactTable({
     data: data,

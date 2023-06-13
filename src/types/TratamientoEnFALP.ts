@@ -12,19 +12,19 @@ export interface TratamientoEnFALPBase {
   fecha_de_inicio: string;
   fecha_de_termino: string | null;
   en_tto: boolean;
-  categoria_tto: CategoriaTTO | string;
-  subcategoria_tto:
-    | SubcategoriaTTOCirugiaOProcedimientoQuirurgico
-    | SubcategoriaTTOTerapiaSistemica
-    | SubcategoriaTTORadioterapia
-    | SubcategoriaTTOOtro
-    | string;
-
-  intencion_tto: IntencionTTO | string;
+  categoria_tto: CategoriaTTO;
+  subcategoria_tto: SubcategoriaTTO;
+  intencion_tto: IntencionTTO;
   descripcion_de_la_prestacion: string | null;
   observaciones: string;
   numero_seguimiento?: number | null;
 }
+
+export type SubcategoriaTTO =
+  | SubcategoriaTTOCirugiaOProcedimientoQuirurgico
+  | SubcategoriaTTOTerapiaSistemica
+  | SubcategoriaTTORadioterapia
+  | SubcategoriaTTOOtro;
 
 export interface TratamientoEnFALPCreate extends TratamientoEnFALPBase {
   updated_at: string;

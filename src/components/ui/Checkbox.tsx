@@ -13,6 +13,7 @@ const Checkbox = React.forwardRef(
     } & React.InputHTMLAttributes<HTMLInputElement>,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
+    console.log(props);
     const [checkedState, setChecked] = useState(props.checked || false);
     const { disabled } = props;
     const checked = useMemo(

@@ -11,7 +11,7 @@ import {
 export interface TratamientoPostDuranteFALPBase {
   fecha_de_inicio: string;
   fecha_estimada: boolean;
-  categoria_tto: CategoriaTTO | string;
+  categoria_tto: CategoriaTTO;
   subcategoria_tto:
     | SubcategoriaTTOCirugiaOProcedimientoQuirurgico
     | SubcategoriaTTOTerapiaSistemica

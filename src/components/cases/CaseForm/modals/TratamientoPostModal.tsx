@@ -1,9 +1,10 @@
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
-import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
+import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
+import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import {
   CategoriaTTO,
   EntryType,
@@ -14,12 +15,24 @@ import {
   SubcategoriaTTORadioterapia,
   SubcategoriaTTOTerapiaSistemica,
 } from "@/types/Enums";
-import { TratamientoPostDuranteFALPCreate } from "@/types/TratamientoPostDuranteFALP";
+import { SeguimientoUpdate } from "@/types/Seguimiento";
+import {
+  TratamientoPostDuranteFALP,
+  TratamientoPostDuranteFALPCreate,
+} from "@/types/TratamientoPostDuranteFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
 import { useContext } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { UpdateDataContext } from "../context/updateData";
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
+import { SeguimientoForm } from "../../CaseForm";
+import { SeguimientoContext } from "../context/seguimiento";
+import { EditModalRenderProps } from "../lists/edition";
+import { serializeSeguimientoUpdate } from "../serialization/serialization";
 
 interface FormValues {
   fecha_de_inicio: Date;
@@ -33,18 +46,29 @@ interface FormValues {
   lugar_tto: LugarTTO;
   intencion_tto: IntencionTTO;
   observaciones: string;
-  numero_seguimiento?: number;
+  numero_seguimiento?: number | null;
 }
 
-const ModalRender = (props: ModalRenderProps) => {
+export const TratamientoPostModalRender = (
+  props: EditModalRenderProps<TratamientoPostDuranteFALP>
+) => {
   const { handleClose } = props;
-  const updateData = useContext(UpdateDataContext);
-
+  const seguimiento = useContext(SeguimientoContext);
+  const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
       fecha_estimada: false, //
+      ...props.data,
+      fecha_de_inicio: props.data
+        ? new Date(props.data.fecha_de_inicio)
+        : undefined,
     },
   });
+  const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
+
+  if (!seguimiento) {
+    return <></>;
+  }
 
   const { watch } = form;
   const categoria_tto = watch("categoria_tto");
@@ -52,19 +76,25 @@ const ModalRender = (props: ModalRenderProps) => {
     subcategoriaTTOForCategoriaTTO(categoria_tto);
 
   const addTratamiento: SubmitHandler<FormValues> = (data) => {
-    const newTratamiento: TratamientoPostDuranteFALPCreate = {
+    const entryContent: TratamientoPostDuranteFALPCreate = {
       ...data,
       updated_at: new Date().toISOString(),
       fecha_de_inicio: fns.format(data.fecha_de_inicio as Date, "yyyy-MM-dd"),
     };
-    updateData?.setNewEntries((prev) => [
-      ...prev,
-      {
-        entry_type: EntryType.tratamiento_post_durante_falp,
-        entry_content: newTratamiento,
+    const payload: SeguimientoUpdate = {
+      ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
+      [props.edit && props.data ? "updated_entries" : "new_entries"]: [
+        {
+          entry_type: EntryType.tratamiento_post_durante_falp,
+          entry_content: { id: props.data?.id || undefined, ...entryContent },
+        },
+      ],
+    };
+    mutate(payload, {
+      onSuccess: () => {
+        handleClose();
       },
-    ]);
-    handleClose();
+    });
   };
 
   return (
@@ -167,8 +197,13 @@ const ModalRender = (props: ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button filled type="submit" disabled={!form.formState.isValid}>
-          Agregar Tratamiento
+        <Button
+          filled
+          type="submit"
+          disabled={!form.formState.isValid}
+          loading={isLoading}
+        >
+          {props.edit ? "Editar" : "Agregar"} Tratamiento
         </Button>
       </div>
     </form>
@@ -180,7 +215,7 @@ export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
     <Modal
       title="Tratamientos"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} />}
+      render={(renderProps) => <TratamientoPostModalRender {...renderProps} />}
       {...props}
     >
       Agregar
