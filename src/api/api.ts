@@ -2,6 +2,8 @@ import { LoginCredentials, LoginResponse } from "@/hooks/auth";
 import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
 import { Usuario } from "@/types/Usuario";
 import apiClient from "@/utils/axios";
+import { AxiosResponse } from "axios";
+import * as fns from "date-fns";
 
 type Id = number | string;
 
@@ -18,7 +20,9 @@ export async function updateSeguimiento(
   seguimientoId: Id,
   payload: SeguimientoUpdate
 ) {
-  await apiClient.put(`/seguimiento/save/${seguimientoId}`, payload);
+  return await apiClient
+    .put<Seguimiento>(`/seguimiento/save/${seguimientoId}`, payload)
+    .then((response) => response.data);
 }
 
 export async function getSeguimiento(seguimientoId: Id): Promise<Seguimiento> {

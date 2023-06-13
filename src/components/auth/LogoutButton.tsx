@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from "../ui/Button";
 import { logout } from "@/hooks/auth";
 

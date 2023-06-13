@@ -4,7 +4,7 @@ import CustomDialog from "@/components/ui/CustomDialog";
 import { Usuario } from "@/types/Usuario";
 import clsx from "clsx";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function AssignmentModal(props: {
   open: boolean;

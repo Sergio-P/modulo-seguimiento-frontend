@@ -2,7 +2,7 @@ import Datagrid from "@/components/ui/table/Datagrid";
 import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
 import { EntryType } from "@/types/Enums";
-import { Metastasis, MetastasisCreate } from "@/types/Metastasis";
+import { Metastasis } from "@/types/Metastasis";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -14,12 +14,14 @@ import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+import { MetastasisModalRender } from "../modals/MetastasisModal";
+import { createEditColumn } from "./edition";
 
 interface MetastasisListProps {
   origenFilter: number | null;
 }
 
-const columnHelper = createColumnHelper<Metastasis | MetastasisCreate>();
+const columnHelper = createColumnHelper<Metastasis>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
@@ -49,47 +51,22 @@ const columns = [
     header: "Detalle Topografia",
     size: 110,
   }),
-  columnHelper.display({
-    id: "buttons_metastasis",
-    size: 20,
-    cell: (props) => (
-      <div className="flex gap-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos editar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Editar
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            alert(`aquí deberíamos borrar`);
-          }}
-          className="h-6 w-8 text-primary"
-        >
-          Borrar
-        </button>
-      </div>
-    ),
-  }),
+  createEditColumn(columnHelper, "Metástasis", MetastasisModalRender),
 ];
 
-export default function MetastasisList({origenFilter}: MetastasisListProps) {
+export default function MetastasisList({ origenFilter }: MetastasisListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const allData = useSeguimientoEntries<Metastasis | MetastasisCreate>(
+  const allData = useSeguimientoEntries<Metastasis>(
     seguimiento,
     updateData,
     EntryType.metastasis
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === 'undefined'
+    return typeof origenFilter === "undefined"
       ? allData
-      : allData.filter(row => row.numero_seguimiento === origenFilter);
+      : allData.filter((row) => row.numero_seguimiento === origenFilter);
   }, [allData, origenFilter]);
 
   console.log("MetastasisList elements:", data);
