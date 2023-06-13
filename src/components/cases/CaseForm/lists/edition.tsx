@@ -1,14 +1,14 @@
 import Button from "@/components/ui/Button";
-import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
+import Modal, { ModalRenderProps } from "@/components/ui/Modal";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import { EntryType } from "@/types/Enums";
+import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { CellContext, ColumnHelper } from "@tanstack/react-table";
 import React, { useContext } from "react";
+import { useFormContext } from "react-hook-form";
+import { SeguimientoForm } from "../../CaseForm";
 import { SeguimientoContext } from "../context/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
-import { useFormContext } from "react-hook-form";
-import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
-import { SeguimientoForm } from "../../CaseForm";
-import { EntryType } from "@/types/Enums";
 
 export interface EditModalRenderProps<T = Record<string, any>>
   extends ModalRenderProps {
