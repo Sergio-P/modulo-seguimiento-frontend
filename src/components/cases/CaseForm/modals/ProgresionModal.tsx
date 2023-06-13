@@ -1,18 +1,26 @@
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
-import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
+import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
+import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
-import { Progresion, ProgresionCreate } from "@/types/Progresion";
-import { Seguimiento } from "@/types/Seguimiento";
-import _ from "lodash";
-import { Dispatch, SetStateAction, useContext } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SeguimientoContext } from "../context/seguimiento";
-import { UpdateDataContext } from "../context/updateData";
+import { ProgresionCreate } from "@/types/Progresion";
+import { SeguimientoUpdate } from "@/types/Seguimiento";
 import * as fns from "date-fns";
+import _ from "lodash";
+import { useContext } from "react";
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
+import { SeguimientoForm } from "../../CaseForm";
+import { SeguimientoContext } from "../context/seguimiento";
+import { EditModalRenderProps } from "../lists/edition";
+import { serializeSeguimientoUpdate } from "../serialization/serialization";
 
 interface ProgresionModalProps extends Partial<ModalProps> {}
 
@@ -23,10 +31,10 @@ interface FormValues {
   detalle_topografia_progresion: string;
 }
 
-const ModalRender = (props: ProgresionModalProps & ModalRenderProps) => {
+export const ProgresionModalRender = (props: EditModalRenderProps) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
-  const updateData = useContext(UpdateDataContext);
+  const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
       fecha_diagnostico: undefined, //
@@ -35,23 +43,33 @@ const ModalRender = (props: ProgresionModalProps & ModalRenderProps) => {
       detalle_topografia_progresion: undefined, //
     },
   });
+  const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
 
-  if (!seguimiento || !updateData) {
+  if (!seguimiento) {
     return <></>;
   }
 
   const addProgresion: SubmitHandler<FormValues> = (data) => {
-    const newProgresion: ProgresionCreate = {
+    const entryContent: ProgresionCreate = {
       ...data,
       updated_at: new Date().toISOString(),
       fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
       numero_seguimiento: seguimiento.numero_seguimiento,
     };
-    updateData.setNewEntries((prev) => [
-      ...prev,
-      { entry_type: EntryType.progresion, entry_content: newProgresion },
-    ]);
-    handleClose();
+    const payload: SeguimientoUpdate = {
+      ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
+      [props.edit && props.data ? "updated_entries" : "new_entries"]: [
+        {
+          entry_type: EntryType.progresion,
+          entry_content: { id: props.data?.id || undefined, ...entryContent },
+        },
+      ],
+    };
+    mutate(payload, {
+      onSuccess: () => {
+        handleClose();
+      },
+    });
   };
 
   return (
@@ -106,8 +124,13 @@ const ModalRender = (props: ProgresionModalProps & ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button filled type="submit" disabled={!form.formState.isValid}>
-          Agregar Progresión
+        <Button
+          filled
+          type="submit"
+          disabled={!form.formState.isValid}
+          loading={isLoading}
+        >
+          {props.edit ? "Editar" : "Agregar"} Progresión
         </Button>
       </div>
     </form>
@@ -119,7 +142,7 @@ export default function ProgresionModal(props: ProgresionModalProps) {
     <Modal
       title="Progresión"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} />}
+      render={(renderProps) => <ProgresionModalRender {...renderProps} />}
       {..._.omit(props)}
     >
       Agregar Progresión

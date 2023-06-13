@@ -5,14 +5,22 @@ import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextInput from "@/components/ui/TextInput";
 import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
-import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
-import { Seguimiento } from "@/types/Seguimiento";
-import _ from "lodash";
-import { Dispatch, SetStateAction, useContext } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SeguimientoContext } from "../context/seguimiento";
-import { UpdateDataContext } from "../context/updateData";
+import { RecurrenciaCreate } from "@/types/Recurrencia";
 import * as fns from "date-fns";
+import _ from "lodash";
+import { useContext } from "react";
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
+import { SeguimientoContext } from "../context/seguimiento";
+import { EditModalRenderProps } from "../lists/edition";
+import { SeguimientoForm } from "../../CaseForm";
+import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import { SeguimientoUpdate } from "@/types/Seguimiento";
+import { serializeSeguimientoUpdate } from "../serialization/serialization";
 
 interface RecurrenciaModalProps extends Partial<ModalProps> {}
 
@@ -23,10 +31,10 @@ interface FormValues {
   detalle_topografia_recurrencia: string;
 }
 
-const ModalRender = (props: ModalRenderProps) => {
+export const RecurrenciaModalRender = (props: EditModalRenderProps) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
-  const updateData = useContext(UpdateDataContext);
+  const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
       fecha_diagnostico: undefined, //
@@ -35,13 +43,14 @@ const ModalRender = (props: ModalRenderProps) => {
       detalle_topografia_recurrencia: undefined, //
     },
   });
+  const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
 
-  if (!seguimiento || !updateData) {
+  if (!seguimiento) {
     return <></>;
   }
 
   const addRecurrencia: SubmitHandler<FormValues> = (data) => {
-    const newRecurrencia: RecurrenciaCreate = {
+    const entryContent: RecurrenciaCreate = {
       ...data,
       updated_at: new Date().toISOString(),
       tipo: data.tipo,
@@ -49,11 +58,20 @@ const ModalRender = (props: ModalRenderProps) => {
       detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
       numero_seguimiento: seguimiento.numero_seguimiento,
     };
-    updateData.setNewEntries((prev) => [
-      ...prev,
-      { entry_type: EntryType.recurrencia, entry_content: newRecurrencia },
-    ]);
-    handleClose();
+    const payload: SeguimientoUpdate = {
+      ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
+      [props.edit && props.data ? "updated_entries" : "new_entries"]: [
+        {
+          entry_type: EntryType.recurrencia,
+          entry_content: { id: props.data?.id || undefined, ...entryContent },
+        },
+      ],
+    };
+    mutate(payload, {
+      onSuccess: () => {
+        handleClose();
+      },
+    });
   };
 
   return (
@@ -108,8 +126,13 @@ const ModalRender = (props: ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button filled type="submit" disabled={!form.formState.isValid}>
-          Agregar Recurrencia
+        <Button
+          filled
+          type="submit"
+          disabled={!form.formState.isValid}
+          loading={isLoading}
+        >
+          {props.edit ? "Editar" : "Agregar"} Recurrencia
         </Button>
       </div>
     </form>
@@ -121,7 +144,7 @@ export default function RecurrenciaModal(props: RecurrenciaModalProps) {
     <Modal
       title="Recurrencia"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} />}
+      render={(renderProps) => <RecurrenciaModalRender {...renderProps} />}
       {..._.omit(props)}
     >
       Agregar Recurrencia

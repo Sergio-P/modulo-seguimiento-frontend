@@ -9,8 +9,18 @@ import { TratamientoEnFALPCreate } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
 import { useContext } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { UpdateDataContext } from "../context/updateData";
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
+import { SeguimientoContext } from "../context/seguimiento";
+import { SeguimientoForm } from "../../CaseForm";
+import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import { SeguimientoUpdate } from "@/types/Seguimiento";
+import { serializeSeguimientoUpdate } from "../serialization/serialization";
+import { EditModalRenderProps } from "../lists/edition";
 
 interface FormValues {
   medico: string;
@@ -24,38 +34,50 @@ interface FormValues {
   descripcion_de_la_prestacion: string;
 }
 
-const ModalRender = (props: ModalRenderProps) => {
+export const TratamientoEnFalpModalRender = (props: EditModalRenderProps) => {
   const { handleClose } = props;
-  const updateData = useContext(UpdateDataContext);
-
+  const seguimiento = useContext(SeguimientoContext);
+  const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
       en_tto: false, //
     },
   });
+  const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
 
-  const { watch: watchTratamiento } = form;
-  const categoria_tto = watchTratamiento("categoria_tto");
-  const en_tto = watchTratamiento("en_tto");
+  const { watch } = form;
+  const categoria_tto = watch("categoria_tto");
+  const en_tto = watch("en_tto");
   const subcategoria_TTO_options =
     subcategoriaTTOForCategoriaTTO(categoria_tto);
 
+  if (!seguimiento) {
+    return <></>;
+  }
+
   const addTratamiento: SubmitHandler<FormValues> = (data) => {
-    const newTratamiento: TratamientoEnFALPCreate = {
+    const entryContent: TratamientoEnFALPCreate = {
       ...data,
       updated_at: new Date().toISOString(),
       fecha_de_inicio: fns.format(data.fecha_de_inicio as Date, "yyyy-MM-dd"),
-      fecha_de_termino: data.en_tto ? null : fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
+      fecha_de_termino: data.en_tto
+        ? null
+        : fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
     };
-
-    updateData?.setNewEntries((prev) => [
-      ...prev,
-      {
-        entry_type: EntryType.tratamiento_en_falp,
-        entry_content: newTratamiento,
+    const payload: SeguimientoUpdate = {
+      ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
+      [props.edit && props.data ? "updated_entries" : "new_entries"]: [
+        {
+          entry_type: EntryType.tratamiento_en_falp,
+          entry_content: { id: props.data?.id || undefined, ...entryContent },
+        },
+      ],
+    };
+    mutate(payload, {
+      onSuccess: () => {
+        handleClose();
       },
-    ]);
-    handleClose();
+    });
   };
 
   return (
@@ -87,7 +109,9 @@ const ModalRender = (props: ModalRenderProps) => {
           name="fecha_de_termino"
           control={form.control}
           rules={{ required: !en_tto }}
-          render={({ field }) => <DatePicker label="Término" disabled={en_tto} {...field} />}
+          render={({ field }) => (
+            <DatePicker label="Término" disabled={en_tto} {...field} />
+          )}
         />
         <Checkbox label="En Tratamiento" {...form.register("en_tto")} />
       </div>
@@ -161,8 +185,13 @@ const ModalRender = (props: ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button filled type="submit" disabled={!form.formState.isValid}>
-          Agregar Tratamiento
+        <Button
+          filled
+          type="submit"
+          disabled={!form.formState.isValid}
+          loading={isLoading}
+        >
+          {props.edit ? "Editar" : "Agregar"} Tratamiento
         </Button>
       </div>
     </form>
@@ -174,7 +203,9 @@ export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
     <Modal
       title="Tratamientos"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} />}
+      render={(renderProps) => (
+        <TratamientoEnFalpModalRender {...renderProps} />
+      )}
       {...props}
     >
       Agregar
