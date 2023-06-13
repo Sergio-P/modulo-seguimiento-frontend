@@ -21,14 +21,17 @@ import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import { createEditColumn } from "./edition";
 import { TratamientoPostModalRender } from "../modals/TratamientoPostModal";
 
+type FilterFunc = (
+  data: TratamientoPostDuranteFALP[]
+) => TratamientoPostDuranteFALP[];
 interface TratamientoPostFALPListProps {
-  origenFilter: number | null;
+  filterFunc?: FilterFunc;
 }
 
 const columnHelper = createColumnHelper<TratamientoPostDuranteFALP>();
 
 export default function TratamientoPostList({
-  origenFilter,
+  filterFunc,
 }: TratamientoPostFALPListProps) {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
@@ -39,10 +42,8 @@ export default function TratamientoPostList({
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === "undefined"
-      ? allData
-      : allData.filter((row) => row.numero_seguimiento === origenFilter);
-  }, [allData, origenFilter]);
+    return filterFunc ? filterFunc(allData) : allData;
+  }, [filterFunc, allData]);
 
   console.log("TratamientoPostFalpList data: ", data);
 

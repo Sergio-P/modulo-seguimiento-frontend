@@ -22,6 +22,7 @@ import BooleanCell from "../ui/table/BooleanCell";
 import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
 import AssignmentModal from "./CaseList/AssignmentModal";
+import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -103,6 +104,14 @@ function CaseListTable({ data }: CaseListTableProps) {
               className="h-6 w-6"
             />
           </Link>
+        ),
+      }),
+      columnHelper.display({
+        id: "boton_linea_de_tiempo",
+        header: "Resumen",
+        size: 32,
+        cell: (props) => (
+          <TimeLineModal buttonIcon="timeLine"/>
         ),
       }),
       columnHelper.accessor("caso_registro_correspondiente.ficha", {

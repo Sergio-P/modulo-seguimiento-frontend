@@ -22,13 +22,14 @@ import BooleanCell from "@/components/ui/table/BooleanCell";
 import { createEditColumn } from "./edition";
 import { TratamientoEnFalpModalRender } from "../modals/TratamientoEnFalpModal";
 
+type FilterFunc = (data: TratamientoEnFALP[]) => TratamientoEnFALP[];
 interface TratamientoEnFALPListProps {
-  origenFilter: number | null;
+  filterFunc?: FilterFunc;
 }
 
 const columnHelper = createColumnHelper<TratamientoEnFALP>();
 export default function TratamientoEnFALPList({
-  origenFilter,
+  filterFunc,
 }: TratamientoEnFALPListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
@@ -39,10 +40,8 @@ export default function TratamientoEnFALPList({
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === "undefined"
-      ? allData
-      : allData.filter((row) => row.numero_seguimiento === origenFilter);
-  }, [allData, origenFilter]);
+    return filterFunc ? filterFunc(allData) : allData;
+  }, [filterFunc, allData]);
 
   console.log("TratamientoEnFalpList data: ", data);
 

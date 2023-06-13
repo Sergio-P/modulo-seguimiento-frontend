@@ -17,8 +17,9 @@ import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import { createEditColumn } from "./edition";
 import { RecurrenciaModalRender } from "../modals/RecurrenciaModal";
 
+type FilterFunc = (data: Recurrencia[]) => Recurrencia[];
 interface RecurrenciaListProps {
-  origenFilter: number | null;
+  filterFunc?: FilterFunc;
 }
 
 const columnHelper = createColumnHelper<Recurrencia>();
@@ -63,9 +64,7 @@ const columns = [
   ),
 ];
 
-export default function RecurrenciaList({
-  origenFilter,
-}: RecurrenciaListProps) {
+export default function RecurrenciaList({ filterFunc }: RecurrenciaListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
   const allData = useSeguimientoEntries<Recurrencia>(
@@ -75,10 +74,8 @@ export default function RecurrenciaList({
   );
 
   const data = useMemo(() => {
-    return typeof origenFilter === "undefined"
-      ? allData
-      : allData.filter((row) => row.numero_seguimiento === origenFilter);
-  }, [allData, origenFilter]);
+    return filterFunc ? filterFunc(allData) : allData;
+  }, [filterFunc, allData]);
 
   console.log("RecurrenciaList elements: ", data);
   const table = useReactTable({
