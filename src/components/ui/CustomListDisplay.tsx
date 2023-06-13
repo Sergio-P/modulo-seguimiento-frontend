@@ -37,9 +37,9 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
           <>
             <Disclosure.Button className="text-md flex w-full justify-between rounded-lg border-background-dark bg-background px-4 py-2 text-left font-medium text-font-subtitle hover:bg-background-dark focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
               {props.origen === null || props.origen === undefined ? (
-                <span>Registro</span>
+                <span className="font-bold">Registro</span>
               ) : (
-                <span>Seguimiento {props.origen}</span>
+                <span className="font-bold">Seguimiento {props.origen}</span>
               )}
             </Disclosure.Button>
             <Transition
@@ -50,7 +50,7 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+              <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-primary">
                 <Tab.Group>
                   <Tab.List className={"flex gap-4"}>
                     {tabs.map((tab, index) => (
@@ -58,8 +58,7 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
                         key={index}
                         className={({ selected }) =>
                           classNames(
-                            "text-sm text-gray-500",
-                            "focus:outline-none focus:ring-2",
+                            "font-bold",
                             selected
                               ? "bg-white text-accent underline decoration-accent shadow"
                               : "hover:underline"
