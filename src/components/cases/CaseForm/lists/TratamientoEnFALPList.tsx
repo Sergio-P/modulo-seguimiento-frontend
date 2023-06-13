@@ -20,15 +20,26 @@ import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import BooleanCell from "@/components/ui/table/BooleanCell";
 
+interface TratamientoEnFALPListProps {
+  origenFilter: number | null;
+}
+
 const columnHelper = createColumnHelper<
   TratamientoEnFALPCreate | TratamientoEnFALP
 >();
-export default function TratamientoEnFALPList() {
+export default function TratamientoEnFALPList({origenFilter}: TratamientoEnFALPListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const data = useSeguimientoEntries<
+  const allData = useSeguimientoEntries<
     TratamientoEnFALPCreate | TratamientoEnFALP
   >(seguimiento, updateData, EntryType.tratamiento_en_falp);
+
+  const data = useMemo(() => {
+    return typeof origenFilter === 'undefined'
+      ? allData
+      : allData.filter(row => row.numero_seguimiento === origenFilter);
+  }, [allData, origenFilter]);
+  
   console.log("TratamientoEnFalpList data: ", data);
 
   const columns = useMemo(

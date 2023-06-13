@@ -7,6 +7,7 @@ import TratamientoEnFALPList from "../cases/CaseForm/lists/TratamientoEnFALPList
 import { useContext } from "react";
 import { SeguimientoContext } from "../cases/CaseForm/context/seguimiento";
 import { UpdateDataContext } from "../cases/CaseForm/context/updateData";
+import TratamientoPostFALPList from "../cases/CaseForm/lists/TratamientoPostFALPList";
 
 interface CustomListDisplayProps {
   origen: number | null;
@@ -21,7 +22,8 @@ const tabs = [
   { name: "Recurrencia", component: RecurrenciaList },
   { name: "Progresión", component: ProgresionList },
   { name: "Comité", component: ComiteList },
-  { name: "Tratamiento", component: TratamientoEnFALPList },
+  { name: "Tratamiento En Falp", component: TratamientoEnFALPList },
+  { name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
 ];
 
 export default function CustomListDisplay(props: CustomListDisplayProps) {
@@ -69,11 +71,14 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
                     ))}
                   </Tab.List>
                   <Tab.Panels>
-                    {tabs.map((tab, index) => (
-                      <Tab.Panel key={index}>
-                        <tab.component />
-                      </Tab.Panel>
-                    ))}
+                    {tabs.map((tab, index) => {
+                      const Component = tab.component;
+                      return (
+                        <Tab.Panel key={index}>
+                          <Component origenFilter={props.origen} />
+                        </Tab.Panel>
+                      );
+                    })}
                   </Tab.Panels>
                 </Tab.Group>
               </Disclosure.Panel>

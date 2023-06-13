@@ -10,10 +10,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+
+interface MetastasisListProps {
+  origenFilter: number | null;
+}
 
 const columnHelper = createColumnHelper<Metastasis | MetastasisCreate>();
 const columns = [
@@ -73,14 +77,21 @@ const columns = [
   }),
 ];
 
-export default function MetastasisList() {
+export default function MetastasisList({origenFilter}: MetastasisListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const data = useSeguimientoEntries<Metastasis | MetastasisCreate>(
+  const allData = useSeguimientoEntries<Metastasis | MetastasisCreate>(
     seguimiento,
     updateData,
     EntryType.metastasis
   );
+
+  const data = useMemo(() => {
+    return typeof origenFilter === 'undefined'
+      ? allData
+      : allData.filter(row => row.numero_seguimiento === origenFilter);
+  }, [allData, origenFilter]);
+
   console.log("MetastasisList elements:", data);
   const table = useReactTable({
     data: data,

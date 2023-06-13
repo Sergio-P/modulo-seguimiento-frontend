@@ -10,10 +10,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
+
+interface ProgresionListProps {
+  origenFilter: number | null;
+}
 
 const columnHelper = createColumnHelper<Progresion | ProgresionCreate>();
 const columns = [
@@ -77,14 +81,21 @@ const columns = [
   }),
 ];
 
-export default function ProgresionList() {
+export default function ProgresionList({origenFilter}: ProgresionListProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
-  const data = useSeguimientoEntries<Progresion | ProgresionCreate>(
+  const allData = useSeguimientoEntries<Progresion | ProgresionCreate>(
     seguimiento,
     updateData,
     EntryType.progresion
   );
+
+  const data = useMemo(() => {
+    return typeof origenFilter === 'undefined'
+      ? allData
+      : allData.filter(row => row.numero_seguimiento === origenFilter);
+  }, [allData, origenFilter]);
+
   console.log("Progresion elements: ", data);
   const table = useReactTable({
     data: data,
