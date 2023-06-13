@@ -30,6 +30,7 @@ import {
 } from "./CaseForm/serialization/serialization";
 import { Foo, Subtitle } from "./CaseForm/ui";
 import { ClaseCaso, CondicionCaso, EstadoVital } from "@/types/Enums";
+import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -156,6 +157,7 @@ function InnerCaseForm(props: CaseFormProps) {
                 onChange={handleSectionSelect}
               />
             </div>
+            <TimeLineModal seguimiento={seguimiento} />
             <div className="flex justify-center gap-4">
               <Button icon="FileIcon" className="">
                 Historial
@@ -175,7 +177,6 @@ function InnerCaseForm(props: CaseFormProps) {
                 title="Guardar"
                 onClick={() => saveMutation.mutate()}
               />
-
               <Link href="../../">
                 <Button icon="GeoLocate" filled>
                   Seguimientos

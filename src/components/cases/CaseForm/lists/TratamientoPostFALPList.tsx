@@ -19,15 +19,27 @@ import {
 } from "@/types/TratamientoPostDuranteFALP";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 
+interface TratamientoPostFALPListProps {
+  origenFilter: number | null;
+}
+
 const columnHelper = createColumnHelper<
   TratamientoPostDuranteFALPCreate | TratamientoPostDuranteFALP
 >();
-export default function TratamientoPostList() {
+
+export default function TratamientoPostList({origenFilter}: TratamientoPostFALPListProps) {
   const updateData = useContext(UpdateDataContext);
   const seguimiento = useContext(SeguimientoContext);
-  const data = useSeguimientoEntries<
+  const allData = useSeguimientoEntries<
     TratamientoPostDuranteFALP | TratamientoPostDuranteFALPCreate
   >(seguimiento, updateData, EntryType.tratamiento_post_durante_falp);
+
+  const data = useMemo(() => {
+    return typeof origenFilter === 'undefined'
+      ? allData
+      : allData.filter(row => row.numero_seguimiento === origenFilter);
+  }, [allData, origenFilter]);
+  
   console.log("TratamientoPostFalpList data: ", data);
 
   const columns = useMemo(

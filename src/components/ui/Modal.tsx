@@ -12,7 +12,7 @@ export interface ModalRenderProps {
 export interface ModalProps extends ButtonProps {
   title: string;
   render: React.ComponentType<ModalRenderProps>;
-  width?: "md" | "lg";
+  width?: "md" | "lg" | "xl";
 }
 
 export default function Modal({
