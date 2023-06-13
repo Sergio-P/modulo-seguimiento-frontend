@@ -126,9 +126,9 @@ export const TratamientoEnFalpModalRender = (
         <Controller
           name="fecha_de_termino"
           control={form.control}
-          rules={{ required: en_tto }}
+          rules={{ required: !en_tto }}
           render={({ field }) => (
-            <DatePicker label="Término" disabled={!en_tto} {...field} />
+            <DatePicker label="Término" disabled={en_tto} {...field} />
           )}
         />
         <Controller
