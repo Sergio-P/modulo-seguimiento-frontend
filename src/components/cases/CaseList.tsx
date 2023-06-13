@@ -12,7 +12,7 @@ import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 import LogoutButton from "../auth/LogoutButton";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
 import BoundingBox from "../ui/layout/BoundingBox";
@@ -27,7 +27,7 @@ import ValidacionSection from "./CaseForm/sections/ValidacionSection";
 import {
   serializeSeguimientoUpdate,
   unserializeSeguimiento,
-} from "./CaseForm/serialization";
+} from "./CaseForm/serialization/serialization";
 import { Foo, Subtitle } from "./CaseForm/ui";
 import { ClaseCaso, CondicionCaso, EstadoVital } from "@/types/Enums";
 
@@ -81,11 +81,8 @@ function InnerCaseForm(props: CaseFormProps) {
   const closeSeguimientoMutation = useMutation(
     async (formData: SeguimientoForm) => {
       if (!seguimiento) return;
-      const requestBody = serializeSeguimientoUpdate(
-        formData,
-        seguimiento,
-        newEntries
-      );
+      const requestBody = serializeSeguimientoUpdate(formData, seguimiento);
+      requestBody.new_entries = newEntries;
       await api.signSeguimiento(seguimiento.id, requestBody);
       await sleep(500);
     },
@@ -103,9 +100,9 @@ function InnerCaseForm(props: CaseFormProps) {
       if (!seguimiento) return;
       const requestBody = serializeSeguimientoUpdate(
         form.getValues(),
-        seguimiento,
-        newEntries
+        seguimiento
       );
+      requestBody.new_entries = newEntries;
       await api.updateSeguimiento(seguimiento.id, requestBody);
       await sleep(500);
     },
@@ -230,7 +227,7 @@ function InnerCaseForm(props: CaseFormProps) {
 }
 
 export default function CaseForm(props: CaseFormProps) {
-  const seguimientoId = props.caseId;
+  const seguimientoId = props.caseId ? parseInt(props.caseId) : props.caseId;
   const seguimientoQuery = useQuery<Seguimiento>({
     queryKey: ["seguimiento", seguimientoId],
     queryFn: () => api.getSeguimiento(seguimientoId),

@@ -1,15 +1,17 @@
 import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
-import { SeguimientoForm } from "../CaseForm";
+import { SeguimientoForm } from "../../CaseForm";
 import { EntryCreate } from "@/types/UtilitySchemas";
 import * as fns from "date-fns";
 import _ from "lodash";
 
 export function serializeSeguimientoUpdate(
   formData: SeguimientoForm,
-  seguimiento: Seguimiento,
-  newEntries: EntryCreate[]
+  seguimiento: Seguimiento
 ): SeguimientoUpdate {
   const seguimientoUpdate: SeguimientoUpdate = {
+    new_entries: [],
+    updated_entries: [],
+    deleted_entries: [],
     ...seguimiento,
     ...formData,
     ultimo_contacto: formData.ultimo_contacto
@@ -20,9 +22,6 @@ export function serializeSeguimientoUpdate(
       : null,
     // todo: sigue_atencion_otro_centro podría estar faltando en el backend
     //fecha_estimada: formData.fecha_estimada,  //OJO NO ESTA EN EL MODELO DE DATOS
-    new_entries: newEntries,
-    updated_entries: [],
-    deleted_entries: [],
   };
   return seguimientoUpdate;
 }

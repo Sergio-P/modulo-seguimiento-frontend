@@ -11,7 +11,8 @@ import _ from "lodash";
 function InnerDatePicker(props: any) {
   const [nullValue, setNullValue] = useState<boolean>(true);
   const { inputProps, dayPickerProps, reset } = useInput({
-    defaultSelected: props.value,
+    defaultSelected:
+      typeof props.value === "string" ? new Date(props.value) : props.value,
     fromYear: 1990,
     toYear: date.getYear(new Date()) + 2,
     format: "PP",

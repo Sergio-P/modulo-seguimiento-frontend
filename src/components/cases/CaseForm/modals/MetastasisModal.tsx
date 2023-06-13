@@ -3,16 +3,23 @@ import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import TextInput from "@/components/ui/TextInput";
-import { MetastasisCreate } from "@/types/Metastasis";
+import { Metastasis, MetastasisCreate } from "@/types/Metastasis";
 import _ from "lodash";
 import { useContext } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
 import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import * as fns from "date-fns";
 import { EntryType } from "@/types/Enums";
-
-interface MetastasisModalProps extends Partial<ModalProps> {}
+import { EditModalRenderProps } from "../lists/edition";
+import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import { serializeSeguimientoUpdate } from "../serialization/serialization";
+import { SeguimientoForm } from "../../CaseForm";
 
 interface FormValues {
   fecha_diagnostico: Date;
@@ -20,16 +27,30 @@ interface FormValues {
   detalle_topografia: string;
 }
 
-const ModalRender = (props: ModalRenderProps) => {
+export const MetastasisModalRender = ({
+  edit = false,
+  data: prevData,
+  ...props
+}: EditModalRenderProps<Metastasis>) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
+  const { mutate: updateSeguimiento, isLoading } = useMutationUpdateSeguimiento(
+    seguimiento?.id
+  );
+  const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
       fecha_diagnostico: undefined, //
       fecha_estimada: false, //
       detalle_topografia: "", //
+      ...(prevData
+        ? {
+            ...prevData,
+            fecha_diagnostico: new Date(prevData.fecha_diagnostico),
+          }
+        : {}),
     },
   });
 
@@ -45,14 +66,20 @@ const ModalRender = (props: ModalRenderProps) => {
       detalle_topografia: data.detalle_topografia,
       numero_seguimiento: seguimiento.numero_seguimiento,
     };
-    updateData.setNewEntries((prev) => [
-      ...prev,
-      {
-        entry_type: EntryType.metastasis,
-        entry_content: entryContent,
+    const payload = {
+      ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
+      [edit && prevData ? "updated_entries" : "new_entries"]: [
+        {
+          entry_type: EntryType.metastasis,
+          entry_content: { id: prevData?.id || undefined, ...entryContent },
+        },
+      ],
+    };
+    updateSeguimiento(payload, {
+      onSuccess: () => {
+        handleClose();
       },
-    ]);
-    handleClose();
+    });
   };
 
   return (
@@ -84,7 +111,12 @@ const ModalRender = (props: ModalRenderProps) => {
         <Button type="button" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button filled type="submit" disabled={!form.formState.isValid}>
+        <Button
+          filled
+          type="submit"
+          disabled={!form.formState.isValid}
+          loading={isLoading}
+        >
           Agregar Metástasis
         </Button>
       </div>
@@ -92,12 +124,13 @@ const ModalRender = (props: ModalRenderProps) => {
   );
 };
 
+interface MetastasisModalProps extends Partial<ModalProps> {}
 export default function MetastasisModal(props: MetastasisModalProps) {
   return (
     <Modal
       title="Metástasis"
       icon="plus"
-      render={(renderProps) => <ModalRender {...renderProps} />}
+      render={(renderProps) => <MetastasisModalRender {...renderProps} />}
       {...props}
     >
       Agregar Metástasis

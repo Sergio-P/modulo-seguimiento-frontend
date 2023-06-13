@@ -1,4 +1,3 @@
-import { Seguimiento } from "@/types/Seguimiento";
 import { EntryCreate } from "@/types/UtilitySchemas";
 import { createContext, useState } from "react";
 

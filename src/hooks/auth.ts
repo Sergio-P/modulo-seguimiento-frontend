@@ -1,5 +1,5 @@
 import { Usuario } from "@/types/Usuario";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from '@tanstack/react-query';
 import * as api from "@/api/api";
 
 export type LoginResponse = {
