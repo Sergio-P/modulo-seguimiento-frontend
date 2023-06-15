@@ -17,7 +17,7 @@ export default function RecurrenciaSection() {
       <SubSection>
         <div className="flex justify-between">
           <Controller
-            name="posee_metastasis"
+            name="posee_recurrencia"
             control={control}
             render={({ field }) => (
               <Checkbox

@@ -17,7 +17,7 @@ export default function ComiteSection() {
       <SubSection>
         <div className="flex justify-between">
           <Controller
-            name="posee_metastasis"
+            name="tiene_comite_oncologico"
             control={control}
             render={({ field }) => (
               <Checkbox

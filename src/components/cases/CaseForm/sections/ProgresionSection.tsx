@@ -17,7 +17,7 @@ export default function ProgresionSection() {
       <SubSection>
         <div className="flex justify-between">
           <Controller
-            name="posee_metastasis"
+            name="posee_progresion"
             control={control}
             render={({ field }) => (
               <Checkbox
