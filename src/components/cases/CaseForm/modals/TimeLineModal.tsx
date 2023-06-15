@@ -12,7 +12,6 @@ import { Foo, Subtitle } from "../ui";
 import { Seguimiento } from "@/types/Seguimiento";
 
 interface TimeLineModalProps extends Partial<ModalProps> {
-  buttonIcon?: string;
   seguimientoId: number | undefined;
 }
 
@@ -32,9 +31,11 @@ export default function TimeLineModal(props: TimeLineModalProps) {
       <Modal
         className="w-10 place-self-center"
         title="Antecedentes Personales"
+        filled={false}
         width="xl"
+        icon="timeLineModal"
         render={(props) => (
-          <div>
+          <div className="h-[60vh] overflow-y-scroll">
             <BoundingBox thin className="m-4 border-background-dark">
               <Disclosure>
                 {({ open }) => (
@@ -52,7 +53,8 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                           }
                         />
                       </div>
-                      <Foo label={"RUT"} value={caso?.rut_dni || ""} />
+                      <Foo label={"RUT"} value={caso?.rut_dni || ""} 
+                      />
                       <Foo
                         label={"Ficha"}
                         value={caso?.ficha.toString() || ""}
@@ -122,7 +124,6 @@ export default function TimeLineModal(props: TimeLineModalProps) {
         )}
         {..._.omit(props, "seguimiento")}
       >
-        +
       </Modal>
     </SeguimientoContext.Provider>
   );

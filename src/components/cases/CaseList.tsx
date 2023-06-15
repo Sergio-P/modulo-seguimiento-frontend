@@ -107,14 +107,6 @@ function CaseListTable({ data }: CaseListTableProps) {
           </Link>
         ),
       }),
-      columnHelper.display({
-        id: "boton_linea_de_tiempo",
-        header: "Resumen",
-        size: 32,
-        cell: (props) => (
-          <TimeLineModal seguimientoId={props.row.original.id} buttonIcon="timeLine"/>
-        ),
-      }),
       columnHelper.accessor("caso_registro_correspondiente.ficha", {
         header: "Ficha",
         size: 100,
@@ -156,7 +148,7 @@ function CaseListTable({ data }: CaseListTableProps) {
         cell: BooleanCell,
       }),
       columnHelper.accessor("tiene_comite_oncologico", {
-        header: "Comité Onc.",
+        header: "Comité Oncológico",
         size: 64,
         cell: BooleanCell,
       }),
@@ -164,6 +156,14 @@ function CaseListTable({ data }: CaseListTableProps) {
         header: "Tratamiento",
         size: 64,
         cell: BooleanCell,
+      }),
+      columnHelper.display({
+        id: "boton_linea_de_tiempo",
+        header: "Resumen",
+        size: 32,
+        cell: (props) => (
+          <TimeLineModal seguimientoId={props.row.original.id}/>
+        ),
       }),
     ],
     [userQuery.data]
