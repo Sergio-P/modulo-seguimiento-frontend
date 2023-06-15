@@ -1,5 +1,5 @@
 import Checkbox from "@/components/ui/Checkbox";
-import { useFormContext, useWatch } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import ComiteList from "../lists/ComiteList";
 import ComiteModal from "../modals/ComiteModal";
 import { Section, SubSection } from "../ui";
@@ -16,9 +16,16 @@ export default function ComiteSection() {
     <Section id="comite" title="Comité Oncológico">
       <SubSection>
         <div className="flex justify-between">
-          <Checkbox
-            {...register("tiene_comite_oncologico")}
-            label="Presenta Comité Oncológico"
+          <Controller
+            name="posee_metastasis"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                {...register("tiene_comite_oncologico")}
+                label="Presenta Comité Oncológico"
+                checked={field.value}
+              />
+            )}
           />
           <ComiteModal disabled={!tieneComite} />
         </div>

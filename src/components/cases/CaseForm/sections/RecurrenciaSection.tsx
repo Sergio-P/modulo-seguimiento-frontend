@@ -1,5 +1,5 @@
 import Checkbox from "@/components/ui/Checkbox";
-import { useFormContext, useWatch } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import RecurrenciaList from "../lists/RecurrenciaList";
 import RecurrenciaModal from "../modals/RecurrenciaModal";
 import { Section, SubSection } from "../ui";
@@ -16,9 +16,16 @@ export default function RecurrenciaSection() {
     <Section id="recurrencia" title="Recurrencia">
       <SubSection>
         <div className="flex justify-between">
-          <Checkbox
-            {...register("posee_recurrencia")}
-            label="Presenta Recurrencia"
+          <Controller
+            name="posee_metastasis"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                {...register("posee_recurrencia")}
+                label="Presenta Recurrencia"
+                checked={field.value}
+              />
+            )}
           />
           <RecurrenciaModal disabled={!tieneRecurrencia} />
         </div>

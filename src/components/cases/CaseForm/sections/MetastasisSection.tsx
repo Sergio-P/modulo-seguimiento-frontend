@@ -1,5 +1,5 @@
 import Checkbox from "@/components/ui/Checkbox";
-import { useFormContext, useWatch } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import MetastasisList from "../lists/MetastasisList";
 import MetastasisModal from "../modals/MetastasisModal";
 import { Section, SubSection } from "../ui";
@@ -16,9 +16,16 @@ export default function MetastasisSection() {
     <Section id="metastasis" title="Metástasis">
       <SubSection>
         <div className="flex justify-between">
-          <Checkbox
-            {...register("posee_metastasis")}
-            label="Presenta Metástasis"
+          <Controller
+            name="posee_metastasis"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                {...register("posee_metastasis")}
+                label="Presenta Metástasis"
+                checked={field.value}
+              />
+            )}
           />
           <MetastasisModal disabled={!tieneMetastasis} />
         </div>

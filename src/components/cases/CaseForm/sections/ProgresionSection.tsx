@@ -1,5 +1,5 @@
 import Checkbox from "@/components/ui/Checkbox";
-import { useFormContext, useWatch } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import ProgresionList from "../lists/ProgresionList";
 import ProgresionModal from "../modals/ProgresionModal";
 import { Section, SubSection } from "../ui";
@@ -16,9 +16,16 @@ export default function ProgresionSection() {
     <Section id="progresion" title="Progresión">
       <SubSection>
         <div className="flex justify-between">
-          <Checkbox
-            {...register("posee_progresion")}
-            label="Presenta Progresión"
+          <Controller
+            name="posee_metastasis"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                {...register("posee_progresion")}
+                label="Presenta Progresión"
+                checked={field.value}
+              />
+            )}
           />
           <ProgresionModal disabled={!tieneProgresion} />
         </div>
