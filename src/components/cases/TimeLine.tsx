@@ -1,12 +1,5 @@
 import { useContext } from "react";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
-import { UpdateDataContext } from "./CaseForm/context/updateData";
-import { Disclosure, Transition, Tab } from "@headlessui/react";
-import MetastasisList from "./CaseForm/lists/MetastasisList";
-import RecurrenciaList from "./CaseForm/lists/RecurrenciaList";
-import ProgresionList from "./CaseForm/lists/ProgresionList";
-import ComiteList from "./CaseForm/lists/ComiteList";
-import TratamientoEnFALPList from "./CaseForm/lists/TratamientoEnFALPList";
 import CustomListDisplay from "../ui/CustomListDisplay";
 
 interface TimeLineProps {}
