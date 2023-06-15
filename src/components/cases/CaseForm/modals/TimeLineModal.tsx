@@ -119,7 +119,9 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                 )}
               </Disclosure>
             </BoundingBox>
-            <TimeLine />
+            <div className="px-5">
+              <TimeLine />
+            </div>
           </div>
         )}
         {..._.omit(props, "seguimiento")}

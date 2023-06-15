@@ -29,7 +29,7 @@ export default function TimeLine(props: TimeLineProps) {
             <h3>{seguimiento?.ultimo_contacto}</h3>
           </div>
         </div>
-        <div className="mx-auto w-full rounded-2xl bg-white p-2">
+        <div className="mx-auto w-full rounded-2xl bg-white py-2">
         {seguimiento && generateCustomListDisplay()}
         </div>
       </div>

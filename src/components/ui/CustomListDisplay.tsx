@@ -36,7 +36,7 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
   }
   console.log("origen", props.origen);
   return (
-    <div className="m-4 rounded-lg border border-background-dark">
+    <div className="my-4 rounded-lg border border-background-dark">
       <Disclosure>
         {({ open }) => (
           <>

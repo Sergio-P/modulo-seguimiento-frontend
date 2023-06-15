@@ -140,6 +140,7 @@ function InnerCaseForm(props: CaseFormProps) {
     return <></>;
   }
 
+
   return (
     <FormProvider {...form}>
       <div className="sticky top-0 z-30 bg-white">
@@ -156,11 +157,12 @@ function InnerCaseForm(props: CaseFormProps) {
                 onChange={handleSectionSelect}
               />
             </div>
-            <TimeLineModal seguimientoId={seguimiento?.id}/>
             <div className="flex justify-center gap-4">
-              <Button icon="FileIcon" className="">
-                Historial
-              </Button>
+              <Link href={`../../historico/${seguimiento.id}`}>
+                <Button filled icon="timeLinePage" className="">
+                  Linea de Tiempo
+                </Button>
+              </Link>
               <Button
                 title="Duplicar Caso"
                 type="button"

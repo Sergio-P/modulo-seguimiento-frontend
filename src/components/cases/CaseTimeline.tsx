@@ -11,6 +11,7 @@ import { useContext, useMemo } from "react";
 import { Foo, Subtitle } from "./CaseForm/ui";
 import Sticky from "../Sticky";
 import TimeLine from "./TimeLine";
+import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 
 interface CaseTimeLineProps {
   caseId: string;
@@ -22,6 +23,11 @@ function InnerTimeline(props: CaseTimeLineProps) {
     () => seguimiento?.caso_registro_correspondiente,
     [seguimiento]
   );
+
+  if (!seguimiento) {
+    return <></>;
+  }
+
   return (
     <div className="sticky top-0 z-30 bg-white">
       <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
@@ -31,9 +37,11 @@ function InnerTimeline(props: CaseTimeLineProps) {
         <div className="flex items-center">
           <div className="mr-14 w-72"></div>
           <div className="flex justify-center gap-4">
-            <Button icon="FileIcon" className="">
-              Historial
-            </Button>
+              <Link href={`../../cases/${seguimiento?.id}`}>
+                <Button icon="FileIcon" className="">
+                  Formulario
+                </Button>
+              </Link>
             <Button
               title="Duplicar Caso"
               type="button"
@@ -65,6 +73,7 @@ function InnerTimeline(props: CaseTimeLineProps) {
             <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
             <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
             <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
+            <MoreInfoModal seguimiento={seguimiento} />
           </div>
         </BoundingBox>
       </div>
@@ -86,7 +95,9 @@ export default function CaseTimeline(props: CaseTimeLineProps) {
         {seguimientoQuery.isSuccess && seguimientoQuery.data && (
           <>
           <InnerTimeline caseId={props.caseId} />
-          <TimeLine />
+          <div className="px-6">
+            <TimeLine />
+          </div>
           </>
         )}
       </MainLayout>
