@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { SeguimientoContext } from "../cases/CaseForm/context/seguimiento";
 import { UpdateDataContext } from "../cases/CaseForm/context/updateData";
 import TratamientoPostFALPList from "../cases/CaseForm/lists/TratamientoPostFALPList";
+import Image from "next/image";
+import TratamientoAntesFALPList from "../cases/CaseForm/lists/TratamientoAntesFALPList";
 
 interface CustomListDisplayProps {
   origen: number | null;
@@ -22,6 +24,7 @@ const tabs = [
   { name: "Recurrencia", component: RecurrenciaList },
   { name: "Progresión", component: ProgresionList },
   { name: "Comité", component: ComiteList },
+  { name: "Tratamiento Pre Falp", component: TratamientoAntesFALPList },
   { name: "Tratamiento En Falp", component: TratamientoEnFALPList },
   { name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
 ];
@@ -40,13 +43,22 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
       <Disclosure>
         {({ open }) => (
           <>
-            <Disclosure.Button className="text-md flex w-full justify-between rounded-lg border-background-dark bg-background px-4 py-2 text-left font-medium text-font-subtitle hover:bg-background-dark focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+            <div className="flex w-full justify-between text-lg rounded-lg px-4 py-2 text-left font-bold text-primary">
               {props.origen === null || props.origen === undefined ? (
                 <span className="font-bold">Registro</span>
               ) : (
                 <span className="font-bold">Seguimiento {props.origen}</span>
               )}
-            </Disclosure.Button>
+              <Disclosure.Button>
+                <Image
+                  src={`/icons/plusButton.svg`}
+                  width={24}
+                  height={24}
+                  alt=""
+                  className="m-auto h-6 w-6 rounded-xl hover:bg-background-dark"
+                />
+              </Disclosure.Button>
+            </div>
             <Transition
               enter="transition duration-100 ease-out"
               enterFrom="transform scale-95 opacity-0"
@@ -57,16 +69,16 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
             >
               <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-primary">
                 <Tab.Group>
-                  <Tab.List className={"flex gap-4"}>
+                  <Tab.List className={"flex border-b-2 border-b-zinc-400"}>
                     {tabs.map((tab, index) => (
                       <Tab
                         key={index}
                         className={({ selected }) =>
                           classNames(
-                            "font-bold",
+                            "font-bold border-b-white border-b-2 px-4 py-2",
                             selected
-                              ? "bg-white text-accent underline decoration-accent shadow"
-                              : "hover:underline"
+                              ? "bg-white border-b-accent text-accent decoration-accent"
+                              : "hover:border-b-primary"
                           )
                         }
                       >

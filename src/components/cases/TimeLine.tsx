@@ -22,11 +22,11 @@ export default function TimeLine(props: TimeLineProps) {
   return (
     <SeguimientoContext.Provider value={seguimiento}>
       <div>
-        <div className="flex justify-between pr-2">
-          <h2 className="text-2xl font-bold">LÍNEA DE TIEMPO</h2>
-          <div className="flex">
-            <h3 className="pr-1 font-bold">Ultimo Contacto:</h3>
-            <h3>{seguimiento?.ultimo_contacto}</h3>
+        <div className="flex justify-between">
+          <h2 className="text-2xl text-font-title font-bold">LÍNEA DE TIEMPO</h2>
+          <div className="flex font-semibold items-center text-primary rounded-2xl border border-primary px-2">
+            <h4 className="pr-1">ÚLTIMO CONTACTO : </h4>
+            <h4>{seguimiento?.ultimo_contacto}</h4>
           </div>
         </div>
         <div className="mx-auto w-full rounded-2xl bg-white py-2">

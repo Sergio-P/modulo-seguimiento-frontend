@@ -66,7 +66,8 @@ export default function CustomDialog(
                   )}
                   <Button
                     type="button"
-                    icon="cross"
+                    icon="closeButton"
+                    bigIcon
                     clear
                     onClick={props.onClose}
                   />

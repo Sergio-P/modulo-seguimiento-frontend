@@ -31,8 +31,8 @@ export default function Datagrid<TData = any>({
   );
 
   return (
-    <div>
-      <div className="mb-5 flex items-center justify-between">
+    <div className="pt-2">
+      <div className="mb-4 flex items-center justify-between">
         <h3 className="text-xl font-bold text-font-title">{title}</h3>
         <div className="flex items-center gap-4">
           {extraHeader}

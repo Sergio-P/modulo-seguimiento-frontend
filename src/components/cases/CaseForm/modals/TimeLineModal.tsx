@@ -67,13 +67,13 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                         label={"Lateralidad"}
                         value={caso?.lateralidad || ""}
                       />
-                      <Disclosure.Button className="border-bg-dark flex h-6 w-6 rounded-lg bg-primary">
+                      <Disclosure.Button>
                         <Image
-                          src={`/icons/plus.svg`}
-                          width={16}
-                          height={16}
+                          src={`/icons/plusButton.svg`}
+                          width={24}
+                          height={24}
                           alt=""
-                          className="m-auto h-4 w-4"
+                          className="m-auto h-8 w-8 rounded-xl hover:bg-background-dark"
                         />
                       </Disclosure.Button>
                     </div>
