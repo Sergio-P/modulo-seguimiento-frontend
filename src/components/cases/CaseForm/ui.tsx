@@ -4,7 +4,7 @@ import clsx from "clsx";
 export function Foo(props: { label: string; value: string; classData?: string }) {
   const { label, value } = props;
   return (
-    <div className={clsx(props.classData, "flex gap-1")}>
+    <div className={clsx(props.classData, "flex gap-1 truncate max-w-sm")}>
       <div className="font-bold">{label}: </div>{" "}
       <div className="font-bold">{value}</div>
     </div>

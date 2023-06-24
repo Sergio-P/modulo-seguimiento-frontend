@@ -190,9 +190,14 @@ function InnerCaseForm(props: CaseFormProps) {
           <BoundingBox thin className="m-4 border-background-dark">
             <div className="flex place-items-center justify-around">
               <div className="flex-col items-center justify-center">
-                <h2 className="text-2xl font-bold">
-                  {caso?.nombre} {caso?.apellido}
-                </h2>
+                <div className="text-2xl font-bold relative group">
+                  <div className="inset-0">
+                    {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
+                  </div>
+                  <div className="absolute hidden group-hover:block text-start inset-x-0 top-0 line-clamp-2 rounded-lg border border-background-dark z-20 bg-white">
+                    {caso?.nombre} {caso?.apellido} 
+                  </div>
+                </div>
                 <Subtitle
                   label={"Seguimiento"}
                   value={seguimiento?.numero_seguimiento?.toString() || ""}
@@ -200,7 +205,12 @@ function InnerCaseForm(props: CaseFormProps) {
               </div>
               <Foo label={"RUT"} value={caso?.rut_dni || ""} />
               <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
-              <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
+              <div className="relative group font-bold">
+                <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
+                <div className="absolute hidden group-hover:block inset-x-0 top-0 rounded-xl border border-background-dark z-20 bg-white">
+                  Subcategoría: {caso?.subcategoria}
+                </div>
+              </div>
               <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
               <MoreInfoModal seguimiento={seguimiento} />
             </div>

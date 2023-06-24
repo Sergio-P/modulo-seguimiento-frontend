@@ -26,6 +26,7 @@ module.exports = {
         accent: "#FB7A08",
         body: "#4E4B66",
       },
+      display: ["group-hover"],
     },
   },
   plugins: [],
