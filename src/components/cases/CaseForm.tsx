@@ -29,7 +29,8 @@ import {
   serializeSeguimientoUpdate,
   unserializeSeguimiento,
 } from "./CaseForm/serialization/serialization";
-import { Foo, Subtitle } from "./CaseForm/ui";
+import { BoldElement, Subtitle } from "./CaseForm/ui";
+import Tooltip from "../ui/Tooltip";
 
 interface CaseFormProps {
   caseId: string;
@@ -190,28 +191,22 @@ function InnerCaseForm(props: CaseFormProps) {
           <BoundingBox thin className="m-4 border-background-dark">
             <div className="flex place-items-center justify-around">
               <div className="flex-col items-center justify-center">
-                <div className="text-2xl font-bold relative group">
-                  <div className="inset-0">
+                <div className="text-2xl font-bold">
+                  <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
                     {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
-                  </div>
-                  <div className="absolute scale-0 group-hover:scale-100 text-start inset-x-0 transition-all top-10 rounded-lg border border-background-dark z-20 bg-white">
-                    {caso?.nombre} {caso?.apellido} 
-                  </div>
+                  </Tooltip>
                 </div>
                 <Subtitle
                   label={"Seguimiento"}
                   value={seguimiento?.numero_seguimiento?.toString() || ""}
                 />
               </div>
-              <Foo label={"RUT"} value={caso?.rut_dni || ""} />
-              <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
-              <div className="relative group font-bold">
-                <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
-                <div className="absolute hidden group-hover:block inset-x-0 top-0 rounded-xl border border-background-dark z-20 bg-white">
-                  Subcategoría: {caso?.subcategoria}
-                </div>
-              </div>
-              <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
+              <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
+              <BoldElement label={"Ficha"} value={caso?.ficha.toString() || ""} />
+              <Tooltip message={caso?.subcategoria || ""}>
+                <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+              </Tooltip>
+              <BoldElement label={"Lateralidad"} value={caso?.lateralidad || ""} />
               <MoreInfoModal seguimiento={seguimiento} />
             </div>
           </BoundingBox>

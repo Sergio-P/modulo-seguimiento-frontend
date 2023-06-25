@@ -8,8 +8,9 @@ import TimeLine from "../../TimeLine";
 import { useQuery } from "@tanstack/react-query";
 import * as api from "@/api/api";
 import { SeguimientoContext } from "../context/seguimiento";
-import { Foo, Subtitle } from "../ui";
+import { BoldElement, Subtitle } from "../ui";
 import { Seguimiento } from "@/types/Seguimiento";
+import Tooltip from "@/components/ui/Tooltip";
 
 interface TimeLineModalProps extends Partial<ModalProps> {
   seguimientoId: number | undefined;
@@ -42,13 +43,10 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                   <>
                     <div className="flex place-items-center justify-around">
                       <div className="flex-col items-center justify-center">
-                        <div className="text-2xl font-bold relative group">
-                          <div className="inset-0">
+                        <div className="text-2xl font-bold">
+                          <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
                             {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
-                          </div>
-                          <div className="absolute hidden group-hover:block text-start inset-x-0 top-0 line-clamp-2 rounded-lg border border-background-dark z-20 bg-white">
-                            {caso?.nombre} {caso?.apellido}
-                          </div>
+                          </Tooltip>
                         </div>
                         <Subtitle
                           label={"Seguimiento"}
@@ -58,19 +56,16 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                           }
                         />
                       </div>
-                      <Foo label={"RUT"} value={caso?.rut_dni || ""} 
+                      <BoldElement label={"RUT"} value={caso?.rut_dni || ""} 
                       />
-                      <Foo
+                      <BoldElement
                         label={"Ficha"}
                         value={caso?.ficha.toString() || ""}
                       />
-                      <div className="relative group font-bold">
-                        <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
-                        <div className="absolute hidden group-hover:block inset-x-0 top-0 rounded-xl border border-background-dark z-20 bg-white">
-                          Subcategoría: {caso?.subcategoria}
-                        </div>
-                      </div>
-                      <Foo
+                      <Tooltip message={caso?.subcategoria || ""}>
+                        <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+                      </Tooltip>
+                      <BoldElement
                         label={"Lateralidad"}
                         value={caso?.lateralidad || ""}
                       />
@@ -95,26 +90,26 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                       <Disclosure.Panel className="px-4 pt-4 pb-2">
                         <div className="grid grid-cols-3 gap-4 text-left">
                           <Separator />
-                          <Foo
+                          <BoldElement
                             label={"N° Registro"}
                             value={caso?.num_registro || ""}
                           />
-                          <Foo
+                          <BoldElement
                             label={"Fecha Diagnóstico"}
                             value={caso?.fecha_dg.toString() || ""}
                           />
-                          <Foo
+                          <BoldElement
                             label={"Estadío Diagnóstico"}
                             value={caso?.estadio_dg || ""}
                           />
                           <Separator />
-                          <Foo
+                          <BoldElement
                             label={"Morfología"}
                             value={caso?.morfologia || ""}
                             classData="col-span-3"
                           />
                           <Separator />
-                          <Foo
+                          <BoldElement
                             label={"Topografía"}
                             value={caso?.topografia || ""}
                             classData="col-span-3"

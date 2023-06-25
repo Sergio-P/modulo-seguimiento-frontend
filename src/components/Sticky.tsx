@@ -4,7 +4,7 @@ import Button from "./ui/Button";
 import { SeguimientoContext } from "./cases/CaseForm/context/seguimiento";
 import MoreInfoModal from "./cases/CaseForm/modals/MoreInfoModal";
 import TimeLineModal from "./cases/CaseForm/modals/TimeLineModal";
-import { Subtitle, Foo } from "./cases/CaseForm/ui";
+import { Subtitle, BoldElement } from "./cases/CaseForm/ui";
 import SelectInput from "./ui/SelectInput";
 import BoundingBox from "./ui/layout/BoundingBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -139,10 +139,10 @@ export default function Sticky(props: StickyProps) {
                   value={seguimiento?.numero_seguimiento?.toString() || ""}
                 />
               </div>
-              <Foo label={"RUT"} value={caso?.rut_dni || ""} />
-              <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
-              <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
-              <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
+              <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
+              <BoldElement label={"Ficha"} value={caso?.ficha.toString() || ""} />
+              <BoldElement label={"Subcategoría"} value={caso?.subcategoria || ""} />
+              <BoldElement label={"Lateralidad"} value={caso?.lateralidad || ""} />
               <MoreInfoModal seguimiento={seguimiento} />
             </div>
           </BoundingBox>

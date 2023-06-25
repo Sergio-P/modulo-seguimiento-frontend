@@ -8,7 +8,7 @@ import SelectInput from "../ui/SelectInput";
 import Button from "../ui/Button";
 import BoundingBox from "../ui/layout/BoundingBox";
 import { useContext, useMemo } from "react";
-import { Foo, Subtitle } from "./CaseForm/ui";
+import { BoldElement, Subtitle } from "./CaseForm/ui";
 import Sticky from "../Sticky";
 import TimeLine from "./TimeLine";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
@@ -69,10 +69,10 @@ function InnerTimeline(props: CaseTimeLineProps) {
                 value={seguimiento?.numero_seguimiento?.toString() || ""}
               />
             </div>
-            <Foo label={"RUT"} value={caso?.rut_dni || ""} />
-            <Foo label={"Ficha"} value={caso?.ficha.toString() || ""} />
-            <Foo label={"Subcategoría"} value={caso?.subcategoria || ""} />
-            <Foo label={"Lateralidad"} value={caso?.lateralidad || ""} />
+            <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
+            <BoldElement label={"Ficha"} value={caso?.ficha.toString() || ""} />
+            <BoldElement label={"Subcategoría"} value={caso?.subcategoria || ""} />
+            <BoldElement label={"Lateralidad"} value={caso?.lateralidad || ""} />
             <MoreInfoModal seguimiento={seguimiento} />
           </div>
         </BoundingBox>

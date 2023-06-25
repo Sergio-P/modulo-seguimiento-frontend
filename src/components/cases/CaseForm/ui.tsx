@@ -1,10 +1,10 @@
 import BoundingBox from "@/components/ui/layout/BoundingBox";
 import clsx from "clsx";
 
-export function Foo(props: { label: string; value: string; classData?: string }) {
+export function BoldElement(props: { label: string; value: string; classData?: string }) {
   const { label, value } = props;
   return (
-    <div className={clsx(props.classData, "flex gap-1 truncate max-w-sm")}>
+    <div className={clsx(props.classData, "flex gap-1 max-w-sm truncate")}>
       <div className="font-bold">{label}: </div>{" "}
       <div className="font-bold">{value}</div>
     </div>

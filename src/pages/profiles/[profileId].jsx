@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function Wea() {
   const router = useRouter();
   const [weaReactivo, setWeaReactivo] = useState(10);
-  const [foo, setFoo] = useState(weaReactivo + 100);
+  const [BoldElement, setFoo] = useState(weaReactivo + 100);
 
   useEffect(() => {
     setFoo(weaReactivo + 100);
