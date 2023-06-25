@@ -194,7 +194,7 @@ function InnerCaseForm(props: CaseFormProps) {
                   <div className="inset-0">
                     {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
                   </div>
-                  <div className="absolute hidden group-hover:block text-start inset-x-0 top-0 line-clamp-2 rounded-lg border border-background-dark z-20 bg-white">
+                  <div className="absolute scale-0 group-hover:scale-100 text-start inset-x-0 transition-all top-10 rounded-lg border border-background-dark z-20 bg-white">
                     {caso?.nombre} {caso?.apellido} 
                   </div>
                 </div>
