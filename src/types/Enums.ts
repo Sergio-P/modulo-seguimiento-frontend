@@ -6,6 +6,7 @@ export enum EntryType {
   tratamiento_en_falp = "tratamiento_en_falp",
   tratamiento_post_durante_falp = "tratamiento_post_durante_falp",
   comite = "comite",
+  comentario = "comentario",
 }
 
 export enum Rol {

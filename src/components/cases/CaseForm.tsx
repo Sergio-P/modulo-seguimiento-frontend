@@ -31,6 +31,7 @@ import {
 } from "./CaseForm/serialization/serialization";
 import { BoldElement, Subtitle } from "./CaseForm/ui";
 import Tooltip from "../ui/Tooltip";
+import ComentarModal from "./CaseForm/modals/ComentarModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -139,7 +140,7 @@ function InnerCaseForm(props: CaseFormProps) {
 
   if (!seguimiento) {
     return <></>;
-  }
+  };
 
 
   return (
@@ -170,7 +171,7 @@ function InnerCaseForm(props: CaseFormProps) {
                 icon="2cuadrados"
                 filled
               />
-              <Button title="Comentar" type="button" icon="chatbubble" filled />
+              <ComentarModal/>
               <Button
                 icon="SaveIcon"
                 filled

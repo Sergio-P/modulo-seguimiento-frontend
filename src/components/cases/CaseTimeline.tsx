@@ -12,6 +12,7 @@ import { BoldElement, Subtitle } from "./CaseForm/ui";
 import Sticky from "../Sticky";
 import TimeLine from "./TimeLine";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
+import Tooltip from "../ui/Tooltip";
 
 interface CaseTimeLineProps {
   caseId: string;
@@ -61,9 +62,11 @@ function InnerTimeline(props: CaseTimeLineProps) {
         <BoundingBox thin className="m-4 border-background-dark">
           <div className="flex place-items-center justify-around">
             <div className="flex-col items-center justify-center">
-              <h2 className="text-2xl font-bold">
-                {caso?.nombre} {caso?.apellido}
-              </h2>
+              <div className="text-2xl font-bold">
+                <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
+                  {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
+                </Tooltip>
+              </div>
               <Subtitle
                 label={"Seguimiento"}
                 value={seguimiento?.numero_seguimiento?.toString() || ""}
@@ -71,7 +74,9 @@ function InnerTimeline(props: CaseTimeLineProps) {
             </div>
             <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
             <BoldElement label={"Ficha"} value={caso?.ficha.toString() || ""} />
-            <BoldElement label={"Subcategoría"} value={caso?.subcategoria || ""} />
+            <Tooltip message={caso?.subcategoria || ""}>
+              <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+            </Tooltip>
             <BoldElement label={"Lateralidad"} value={caso?.lateralidad || ""} />
             <MoreInfoModal seguimiento={seguimiento} />
           </div>
