@@ -41,6 +41,16 @@ export async function assignSeguimientoUser(seguimientoId: Id, userId: Id) {
   );
 }
 
+export async function postComentario(
+  seguimientoId: Id,
+  payload: { comentario: string }
+) {
+  return await apiClient.post(
+    `/comentario/?seguimiento_id=${seguimientoId}`,
+    payload
+  );
+}
+
 // usuarios
 
 export async function getUsuarios(): Promise<Usuario[]> {

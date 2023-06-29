@@ -4,7 +4,7 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import TextInput from "@/components/ui/TextInput";
 import { Comentario, ComentarioCreate } from "@/types/Comentario";
-import _ from "lodash";
+import _, { add } from "lodash";
 import { useContext } from "react";
 import {
   Controller,
@@ -16,7 +16,7 @@ import { SeguimientoContext } from "../context/seguimiento";
 import * as fns from "date-fns";
 import { EntryType } from "@/types/Enums";
 import { EditModalRenderProps } from "../lists/edition";
-import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import { useMutationPostComentario, useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoForm } from "../../CaseForm";
 import apiClient from "@/utils/axios";
@@ -35,7 +35,7 @@ export const ComentarioModalRender = ({
 }: EditModalRenderProps<Comentario>) => {
   const { handleClose } = props;
   const seguimiento = useContext(SeguimientoContext);
-  const { mutate: updateSeguimiento, isLoading } = useMutationUpdateSeguimiento(
+  const { mutate: postComentario, isLoading } = useMutationPostComentario(
     seguimiento?.id
   );
   const upperForm = useFormContext<SeguimientoForm>();
@@ -51,32 +51,18 @@ export const ComentarioModalRender = ({
     return <></>;
   }
 
-  async function addComentario(data: FormValues) {
-    apiClient.post(`http://localhost:8000/comentario/?seguimiento_id=${seguimiento?.id}`, data);
-    handleClose();
-  }
 
-  //Quizas deberia ser mejor usando comentarios como entry 
-  const addComentarioPUT: SubmitHandler<FormValues> = (data) => {
-    const entryContent: ComentarioCreate = {
-      comentario: data.comentario,
-    };
+  const addComentario: SubmitHandler<FormValues> = (data) => {
     const payload = {
-      ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
-      [edit && prevData ? "updated_entries" : "new_entries"]: [
-        {
-          entry_type: EntryType.comentario,
-          entry_content: { id: prevData?.id || undefined, ...entryContent },
-        },
-      ],
+      comentario : data.comentario,
     };
 
-    updateSeguimiento(payload, {
+    postComentario(payload, {
       onSuccess: () => {
-        handleClose();
-      },
+      }
     });
-  };
+    
+  }
 
   return (
     <form
