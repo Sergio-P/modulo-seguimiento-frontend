@@ -88,32 +88,38 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                       leaveTo="transform scale-95 opacity-0"
                     >
                       <Disclosure.Panel className="px-4 pt-4 pb-2">
-                        <div className="grid grid-cols-3 gap-4 text-left">
+                        <div className="grid grid-cols-2 gap-4 text-left">
                           <Separator />
                           <BoldElement
-                            label={"N° Registro"}
-                            value={caso?.num_registro || ""}
+                            label={"ID Registro"}
+                            value={caso?.id.toString() || ""}
                           />
                           <BoldElement
                             label={"Fecha Diagnóstico"}
                             value={caso?.fecha_dg.toString() || ""}
                           />
+                          <Separator />
                           <BoldElement
                             label={"Estadío Diagnóstico"}
                             value={caso?.estadio_dg || ""}
-                          />
-                          <Separator />
-                          <BoldElement
-                            label={"Morfología"}
-                            value={caso?.morfologia || ""}
                             classData="col-span-3"
                           />
                           <Separator />
-                          <BoldElement
-                            label={"Topografía"}
-                            value={caso?.topografia || ""}
-                            classData="col-span-3"
-                          />
+                          <Tooltip message={caso?.morfologia || ""}>
+                            <BoldElement
+                              label={"Morfología"}
+                              value={caso?.morfologia || ""}
+                              classData="text-ellipsis overflow-hidden col-span-3"
+                            />
+                          </Tooltip>
+                          <Separator />
+                          <Tooltip message={caso?.topografia || ""}>
+                            <BoldElement
+                              label={"Topografía"}
+                              value={caso?.topografia || ""}
+                              classData="text-ellipsis overflow-hidden col-span-3"
+                            />
+                          </Tooltip>
                         </div>
                       </Disclosure.Panel>
                     </Transition>

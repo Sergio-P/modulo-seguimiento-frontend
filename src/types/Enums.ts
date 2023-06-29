@@ -30,9 +30,9 @@ export enum SeguimientoState {
 }
 
 export enum ClaseCaso {
-  diagnostico_y_tratamiento_en_falp = "Diagnóstico y tratamiento en FALP",
-  tratamiento_en_falp = "Tratamiento en FALP",
-  diagnostico_en_falp = "Diagnóstico en FALP",
+  diagnostico_y_tratamiento_en_falp = "DIAGNÓSTICO Y TRATAMIENTO EN FALP",
+  tratamiento_en_falp = "TRATAMIENTO EN FALP",
+  diagnostico_en_falp = "DIAGNÓSTICO EN FALP",
 }
 
 export enum CondicionCaso {
@@ -113,7 +113,7 @@ export enum LugarTTO {
 }
 
 export enum IntencionTTO {
-  curativo = "Curativo",
-  paliativo = "Paliativo",
-  desconocido = "Desconocido",
+  curativo = "CURATIVO",
+  paliativo = "PALIATIVO",
+  desconocido = "DESCONOCIDO",
 }

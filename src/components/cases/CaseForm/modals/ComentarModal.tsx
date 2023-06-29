@@ -20,6 +20,9 @@ import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoForm } from "../../CaseForm";
 import apiClient from "@/utils/axios";
+import ComentarioList from "../lists/ComentarioList";
+import ComentarioListFunc from "../lists/ComentarioList";
+import { api } from "@/api";
 
 interface FormValues {
   comentario: string;
@@ -48,13 +51,13 @@ export const ComentarioModalRender = ({
     return <></>;
   }
 
-  async function addComentarioPulento(data: FormValues) {
+  async function addComentario(data: FormValues) {
     apiClient.post(`http://localhost:8000/comentario/?seguimiento_id=${seguimiento?.id}`, data);
     handleClose();
   }
 
   //Quizas deberia ser mejor usando comentarios como entry 
-  const addComentario: SubmitHandler<FormValues> = (data) => {
+  const addComentarioPUT: SubmitHandler<FormValues> = (data) => {
     const entryContent: ComentarioCreate = {
       comentario: data.comentario,
     };
@@ -79,12 +82,13 @@ export const ComentarioModalRender = ({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        form.handleSubmit(addComentarioPulento)(e);
+        form.handleSubmit(addComentario)(e);
         e.stopPropagation();
       }}
     >
       <div className="grid grid-cols-2 items-center gap-6">
         <div className="col-span-2">
+          <ComentarioListFunc/>
           <TextInput
             label="Comentarios..."
             {...form.register("comentario", { required: true })}
@@ -101,7 +105,7 @@ export const ComentarioModalRender = ({
           disabled={!form.formState.isValid}
           loading={isLoading}
         >
-          {edit ? "Editar" : "Agregar"} Comentarios
+          {edit ? "Editar" : "Agregar"} Comentario
         </Button>
       </div>
     </form>
@@ -111,12 +115,12 @@ export const ComentarioModalRender = ({
 interface ComentarioModalProps extends Partial<ModalProps> {}
 export default function ComentarioModal(props: ComentarioModalProps) {
   return (
-    <Modal
-      title="Comentarios"
-      icon="chatbubble"
-      render={(renderProps) => <ComentarioModalRender {...renderProps} />}
-      {...props}
-    >
-    </Modal>
+      <Modal
+        title="Comentarios"
+        icon="chatbubble"
+        render={(renderProps) => <ComentarioModalRender {...renderProps} />}
+        {...props}
+      >
+      </Modal>
   );
 }

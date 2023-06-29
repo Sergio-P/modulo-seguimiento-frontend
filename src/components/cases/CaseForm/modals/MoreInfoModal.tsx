@@ -1,4 +1,5 @@
 import Modal, { ModalProps } from "@/components/ui/Modal";
+import Tooltip from "@/components/ui/Tooltip";
 import { Seguimiento } from "@/types/Seguimiento";
 import _ from "lodash";
 
@@ -27,8 +28,8 @@ export default function MoreInfoModal(props: MoreInfoModalProps) {
             <div className="">{caso?.ficha}</div>
             <div className="font-bold">RUT/DNI</div>
             <div className="">{caso?.rut_dni}</div>
-            <div className="font-bold">N° Registro</div>
-            <div className="">{caso?.num_registro}</div>
+            <div className="font-bold">ID Registro</div>
+            <div className="">{caso?.id}</div>
           </div>
           <Separator />
           <div className="contents">
@@ -43,21 +44,30 @@ export default function MoreInfoModal(props: MoreInfoModalProps) {
           <Separator />
           <div className="contents">
             <div className="font-bold">Fecha Diagnóstico</div>
-            <div className="">{caso?.fecha_dg.toString()}</div>
+            <div className="col-span-2">{caso?.fecha_dg.toString()}</div>
             <div className="font-bold">Lateralidad</div>
-            <div className="">{caso?.lateralidad}</div>
+            <div className="col-span-2">{caso?.lateralidad}</div>
+          </div>
+          <Separator />
+          <div className="contents">
             <div className="font-bold">Estadío Diagnóstico</div>
-            <div className="">{caso?.estadio_dg}</div>
+            <Tooltip className="col-span-5" message={caso?.estadio_dg || ""}>
+              <div className="text-ellipsis overflow-hidden">{caso?.estadio_dg}</div>
+            </Tooltip>
           </div>
           <Separator />
           <div className="contents">
             <div className="font-bold">Morfología</div>
-            <div className="col-span-5">{caso?.morfologia}</div>
+            <Tooltip className="col-span-5" message={caso?.morfologia || ""}>
+              <div className="text-ellipsis overflow-hidden">{caso?.morfologia}</div>
+            </Tooltip>
           </div>
           <Separator />
           <div className="contents">
             <div className="font-bold">Topografía</div>
-            <div className="col-span-5">{caso?.topografia}</div>
+            <Tooltip className="col-span-5" message={caso?.topografia || ""}>
+              <div className="text-ellipsis overflow-hidden">{caso?.topografia}</div>
+            </Tooltip>
           </div>
         </div>
       )}
