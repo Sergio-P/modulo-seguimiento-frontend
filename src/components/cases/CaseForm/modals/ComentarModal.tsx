@@ -16,7 +16,10 @@ import { SeguimientoContext } from "../context/seguimiento";
 import * as fns from "date-fns";
 import { EntryType } from "@/types/Enums";
 import { EditModalRenderProps } from "../lists/edition";
-import { useMutationPostComentario, useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
+import {
+  useMutationPostComentario,
+  useMutationUpdateSeguimiento,
+} from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoForm } from "../../CaseForm";
 import apiClient from "@/utils/axios";
@@ -51,35 +54,33 @@ export const ComentarioModalRender = ({
     return <></>;
   }
 
-
   const addComentario: SubmitHandler<FormValues> = (data) => {
     const payload = {
-      comentario : data.comentario,
+      comentario: data.comentario,
     };
 
     postComentario(payload, {
-      onSuccess: () => {
-      }
+      onSuccess: () => {},
     });
-    
-  }
+  };
 
   return (
     <form
+      className="h-[77vh]"
       onSubmit={(e) => {
         e.preventDefault();
         form.handleSubmit(addComentario)(e);
         e.stopPropagation();
       }}
     >
-      <div className="grid grid-cols-2 items-center gap-6">
-        <div className="col-span-2">
-          <ComentarioListFunc/>
-          <TextInput
-            label="Comentarios..."
-            {...form.register("comentario", { required: true })}
-          />
-        </div>
+      <div className="flex-col items-center">
+        <ComentarioListFunc />
+        
+        <TextInput
+          className="mt-6"
+          label="Comentarios..."
+          {...form.register("comentario", { required: true })}
+        />
       </div>
       <div className="mt-6 flex justify-between">
         <Button type="button" onClick={handleClose}>
@@ -101,12 +102,12 @@ export const ComentarioModalRender = ({
 interface ComentarioModalProps extends Partial<ModalProps> {}
 export default function ComentarioModal(props: ComentarioModalProps) {
   return (
-      <Modal
-        title="Comentarios"
-        icon="chatbubble"
-        render={(renderProps) => <ComentarioModalRender {...renderProps} />}
-        {...props}
-      >
-      </Modal>
+    <Modal
+      title="Comentarios"
+      icon="chatbubble"
+      width="lg"
+      render={(renderProps) => <ComentarioModalRender {...renderProps} />}
+      {...props}
+    ></Modal>
   );
 }
