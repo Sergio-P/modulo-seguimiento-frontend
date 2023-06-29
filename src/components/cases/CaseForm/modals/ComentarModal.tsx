@@ -108,6 +108,8 @@ export default function ComentarioModal(props: ComentarioModalProps) {
       width="lg"
       render={(renderProps) => <ComentarioModalRender {...renderProps} />}
       {...props}
-    ></Modal>
+    >
+      Comentarios
+    </Modal>
   );
 }

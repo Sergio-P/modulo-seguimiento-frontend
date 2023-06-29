@@ -140,8 +140,7 @@ function InnerCaseForm(props: CaseFormProps) {
 
   if (!seguimiento) {
     return <></>;
-  };
-
+  }
 
   return (
     <FormProvider {...form}>
@@ -151,7 +150,7 @@ function InnerCaseForm(props: CaseFormProps) {
             <Link href="/">Seguimiento de Casos</Link>
           </h1>
           <div className="flex items-center">
-            <div className="mr-14 w-72">
+            <div className="mr-10 w-72">
               <SelectInput
                 options={sections}
                 label={"Sección"}
@@ -165,12 +164,6 @@ function InnerCaseForm(props: CaseFormProps) {
                   Linea de Tiempo
                 </Button>
               </Link>
-              <Button
-                title="Duplicar Caso"
-                type="button"
-                icon="2cuadrados"
-                filled
-              />
               <ComentarModal/>
               <Button
                 icon="SaveIcon"
@@ -179,7 +172,9 @@ function InnerCaseForm(props: CaseFormProps) {
                 type="button"
                 title="Guardar"
                 onClick={() => saveMutation.mutate()}
-              />
+              >
+                Guardar
+              </Button>
               <Link href="../../">
                 <Button icon="GeoLocate" filled>
                   Seguimientos
@@ -203,11 +198,21 @@ function InnerCaseForm(props: CaseFormProps) {
                 />
               </div>
               <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
-              <BoldElement label={"Ficha"} value={caso?.ficha.toString() || ""} />
+              <BoldElement
+                label={"Ficha"}
+                value={caso?.ficha.toString() || ""}
+              />
               <Tooltip message={caso?.subcategoria || ""}>
-                <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+                <BoldElement
+                  classData="text-ellipsis overflow-hidden"
+                  label={"Subcategoría"}
+                  value={caso?.subcategoria || ""}
+                />
               </Tooltip>
-              <BoldElement label={"Lateralidad"} value={caso?.lateralidad || ""} />
+              <BoldElement
+                label={"Lateralidad"}
+                value={caso?.lateralidad || ""}
+              />
               <MoreInfoModal seguimiento={seguimiento} />
             </div>
           </BoundingBox>

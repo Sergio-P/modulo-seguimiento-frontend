@@ -13,6 +13,7 @@ import Sticky from "../Sticky";
 import TimeLine from "./TimeLine";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import Tooltip from "../ui/Tooltip";
+import ComentarModal from "./CaseForm/modals/ComentarModal";
 
 interface CaseTimeLineProps {
   caseId: string;
@@ -38,18 +39,12 @@ function InnerTimeline(props: CaseTimeLineProps) {
         <div className="flex items-center">
           <div className="mr-14 w-72"></div>
           <div className="flex justify-center gap-4">
-              <Link href={`../../cases/${seguimiento?.id}`}>
-                <Button icon="FileIcon" className="">
-                  Formulario
-                </Button>
-              </Link>
-            <Button
-              title="Duplicar Caso"
-              type="button"
-              icon="2cuadrados"
-              filled
-            />
-            <Button title="Comentar" type="button" icon="chatbubble" filled />
+            <Link href={`../../cases/${seguimiento?.id}`}>
+              <Button icon="FileIcon" className="">
+                Formulario
+              </Button>
+            </Link>
+            <ComentarModal />
             <Link href="../../">
               <Button icon="GeoLocate" filled>
                 Seguimientos
@@ -75,9 +70,16 @@ function InnerTimeline(props: CaseTimeLineProps) {
             <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
             <BoldElement label={"Ficha"} value={caso?.ficha.toString() || ""} />
             <Tooltip message={caso?.subcategoria || ""}>
-              <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+              <BoldElement
+                classData="text-ellipsis overflow-hidden"
+                label={"Subcategoría"}
+                value={caso?.subcategoria || ""}
+              />
             </Tooltip>
-            <BoldElement label={"Lateralidad"} value={caso?.lateralidad || ""} />
+            <BoldElement
+              label={"Lateralidad"}
+              value={caso?.lateralidad || ""}
+            />
             <MoreInfoModal seguimiento={seguimiento} />
           </div>
         </BoundingBox>
@@ -99,10 +101,10 @@ export default function CaseTimeline(props: CaseTimeLineProps) {
       <MainLayout>
         {seguimientoQuery.isSuccess && seguimientoQuery.data && (
           <>
-          <InnerTimeline caseId={props.caseId} />
-          <div className="px-6">
-            <TimeLine />
-          </div>
+            <InnerTimeline caseId={props.caseId} />
+            <div className="px-6">
+              <TimeLine />
+            </div>
           </>
         )}
       </MainLayout>
