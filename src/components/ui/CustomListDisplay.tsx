@@ -75,10 +75,10 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
                         key={index}
                         className={({ selected }) =>
                           classNames(
-                            "font-bold border-b-white border-b-2 px-4 py-2",
+                            "font-bold  border-b-2 px-4 py-2",
                             selected
-                              ? "bg-white border-b-accent text-accent decoration-accent"
-                              : "hover:border-b-primary"
+                              ? "border-b-accent text-accent "
+                              : "hover:border-b-primary border-b-white"
                           )
                         }
                       >
