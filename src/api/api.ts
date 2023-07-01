@@ -3,6 +3,7 @@ import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
 import { Usuario } from "@/types/Usuario";
 import { Coding } from "@/types/Coding";
 import { CodingMode } from "@/types/Enums";
+import { Report } from "@/types/Report";
 import apiClient from "@/utils/axios";
 import { AxiosResponse } from "axios";
 import * as fns from "date-fns";
@@ -91,6 +92,12 @@ export async function getCodings(
   query: string
 ): Promise<Coding> {
   return await apiClient
-    .get<Coding>(`/rht_api/codings/?mode=${mode}&q=${query}`)
+    .get<Coding>(`/rht_api/codings?mode=${mode}&q=${query}`)
+    .then((response) => response.data);
+}
+
+export async function getReports(caseId: number): Promise<Report> {
+  return await apiClient
+    .get<Report>(`/rht_api/reports?case_id=${caseId}`)
     .then((response) => response.data);
 }
