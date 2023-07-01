@@ -1,6 +1,8 @@
 import { LoginCredentials, LoginResponse } from "@/hooks/auth";
 import { Seguimiento, SeguimientoUpdate } from "@/types/Seguimiento";
 import { Usuario } from "@/types/Usuario";
+import { Coding } from "@/types/Coding";
+import { CodingMode } from "@/types/Enums";
 import apiClient from "@/utils/axios";
 import { AxiosResponse } from "axios";
 import * as fns from "date-fns";
@@ -79,5 +81,16 @@ export async function getUsuarioToken(
 export async function getCurrentUsuario(): Promise<Usuario> {
   return await apiClient
     .get<Usuario>("/usuario/user/me")
+    .then((response) => response.data);
+}
+
+// rht integration
+
+export async function getCodings(
+  mode: CodingMode,
+  query: string
+): Promise<Coding> {
+  return await apiClient
+    .get<Coding>(`/rht_api/codings/?mode=${mode}&q=${query}`)
     .then((response) => response.data);
 }

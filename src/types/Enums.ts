@@ -117,3 +117,8 @@ export enum IntencionTTO {
   paliativo = "PALIATIVO",
   desconocido = "DESCONOCIDO",
 }
+
+export enum CodingMode {
+  topography = "topography",
+  morphology = "morphology",
+}
