@@ -13,6 +13,7 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import { Comentario } from "@/types/Comentario";
+import Tooltip from "@/components/ui/Tooltip";
 
 type FilterFunc = (data: Comentario[]) => Comentario[];
 interface ComentarioListProps {
@@ -49,6 +50,13 @@ const columns = [
   columnHelper.accessor("comentario", {
     header: "Comentario",
     size: 110,
+    cell: ({ row }) => {
+      return (
+        <Tooltip message={row.original.comentario}>
+          <div className="line-clamp-3">{row.original.comentario}</div>
+        </Tooltip>
+      );
+    },
   }),
 
 ];

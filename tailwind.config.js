@@ -27,7 +27,22 @@ module.exports = {
         body: "#4E4B66",
       },
       display: ["group-hover"],
+      maxHeight: {
+        '3-lines': '4.5rem',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.line-clamp-3': {
+          overflow: 'hidden',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '3',
+          '-webkit-box-orient': 'vertical',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 };
