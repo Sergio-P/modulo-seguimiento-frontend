@@ -35,7 +35,9 @@ export async function getSeguimiento(seguimientoId: Id): Promise<Seguimiento> {
 }
 
 export async function getSeguimientos(): Promise<Seguimiento[]> {
-  return await apiClient.get("/seguimiento/").then((res) => res.data);
+  return await apiClient
+    .get("/seguimiento/", { timeout: 5000 }) // TODO: handle timeout in a better way
+    .then((res) => res.data);
 }
 
 export async function assignSeguimientoUser(seguimientoId: Id, userId: Id) {
