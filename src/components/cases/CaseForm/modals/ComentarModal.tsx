@@ -23,8 +23,8 @@ import {
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoForm } from "../../CaseForm";
 import apiClient from "@/utils/axios";
-import ComentarioList from "../lists/ComentarioList";
-import ComentarioListFunc from "../lists/ComentarioList";
+import ComentarioList from "../sections/ComentarioListSection";
+import ComentarioListSection from "../sections/ComentarioListSection";
 import { api } from "@/api";
 
 interface FormValues {
@@ -74,7 +74,7 @@ export const ComentarioModalRender = ({
       }}
     >
       <div className="flex-col items-center">
-        <ComentarioListFunc />
+        <ComentarioListSection />
         
         <TextInput
           className="mt-6"

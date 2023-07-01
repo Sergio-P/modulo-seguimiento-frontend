@@ -7,7 +7,7 @@ interface ComentarioListProps {
   comentarios?: Comentario[];
 }
 
-export default function ComentarioListFunc({}: ComentarioListProps) {
+export default function ComentarioListSection({}: ComentarioListProps) {
   const seguimiento = useContext(SeguimientoContext);
   console.log("Comentarios: ", seguimiento?.caso_registro_correspondiente?.comentarios);
   const comentarios = seguimiento?.caso_registro_correspondiente?.comentarios;
