@@ -24,6 +24,7 @@ export default function ComentarioListFunc({}: ComentarioListProps) {
                 <div className="flex pt-3 justify-end gap-2 font-bold text-font-subtitle">
                   <div>{comentario.nombre_usuario}</div>
                   <div>{fns.format(new Date(comentario.created_at), "dd-MM-yyyy HH:mm")}</div>
+                  <div>{comentario.numero_seguimiento > 0 ? `Seguimiento ${comentario.numero_seguimiento}` : "Registro"}</div>
                 </div>
               </div>
             ))}
