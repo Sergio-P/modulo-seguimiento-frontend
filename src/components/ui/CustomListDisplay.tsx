@@ -10,6 +10,7 @@ import { UpdateDataContext } from "../cases/CaseForm/context/updateData";
 import TratamientoPostFALPList from "../cases/CaseForm/lists/TratamientoPostFALPList";
 import Image from "next/image";
 import TratamientoAntesFALPList from "../cases/CaseForm/lists/TratamientoAntesFALPList";
+import ComentariosList from "../cases/CaseForm/lists/ComentariosList";
 
 interface CustomListDisplayProps {
   origen: number | null;
@@ -27,6 +28,7 @@ const tabs = [
   { name: "Tratamiento Pre Falp", component: TratamientoAntesFALPList },
   { name: "Tratamiento En Falp", component: TratamientoEnFALPList },
   { name: "Tratamiento Post Falp", component: TratamientoPostFALPList },
+  { name: "Comentarios", component: ComentariosList },
 ];
 
 export default function CustomListDisplay(props: CustomListDisplayProps) {
