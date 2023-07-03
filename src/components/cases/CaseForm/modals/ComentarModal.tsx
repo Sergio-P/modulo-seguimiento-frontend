@@ -66,7 +66,7 @@ export const ComentarioModalRender = ({
 
   return (
     <form
-      className="h-[77vh]"
+      className="min-h-[77vh]"
       onSubmit={(e) => {
         e.preventDefault();
         form.handleSubmit(addComentario)(e);
