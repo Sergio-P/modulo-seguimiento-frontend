@@ -2,13 +2,21 @@ import { Popover } from "@headlessui/react";
 import * as date from "date-fns";
 import { es } from "date-fns/locale";
 import React, { useEffect, useState } from "react";
-import { DayPicker, useInput } from "react-day-picker";
+import { DayPicker, UseInputOptions, useInput } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import Image from "next/image";
 import clsx from "clsx";
 import _ from "lodash";
+import { ControllerRenderProps } from "react-hook-form";
 
-function InnerDatePicker(props: any) {
+type DatePickerProps = {
+  label?: string;
+  disabled?: boolean;
+  dayPickerOptions?: UseInputOptions;
+} & ControllerRenderProps;
+
+function InnerDatePicker(props: DatePickerProps) {
+  const { disabled, dayPickerOptions } = props;
   const [nullValue, setNullValue] = useState<boolean>(true);
   const { inputProps, dayPickerProps, reset } = useInput({
     defaultSelected:
@@ -18,14 +26,18 @@ function InnerDatePicker(props: any) {
     format: "PP",
     required: true,
     locale: es,
+    ...(dayPickerOptions || {}),
   });
   useEffect(() => {
     if (nullValue && !_.isNil(props.value)) {
       setNullValue(false);
       reset();
     }
+    if (!nullValue && _.isNil(props.value)) {
+      setNullValue(true);
+      reset();
+    }
   }, [nullValue, props.value, reset]);
-  const { disabled } = props;
   const disabledDays = [{ after: new Date() }];
   return (
     <Popover className={clsx(disabled && "opacity-50")}>
@@ -79,7 +91,7 @@ function InnerDatePicker(props: any) {
 }
 
 const DatePicker = React.forwardRef(
-  (props: any, ref: React.ForwardedRef<HTMLInputElement>) => {
+  (props: DatePickerProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     return <InnerDatePicker {...props} />;
   }
 );

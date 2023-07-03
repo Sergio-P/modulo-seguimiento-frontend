@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { Comite, ComiteCreate } from "@/types/Comite";
 import { EntryType, IntencionTTO } from "@/types/Enums";
 import * as fns from "date-fns";
@@ -102,7 +102,7 @@ export const ComiteModalRender = (props: EditModalRenderProps<Comite>) => {
           )}
         />
         <div className="col-span-2">
-          <TextInput
+          <TextArea
             label="Médico"
             {...form.register("medico", { required: true })}
           />
