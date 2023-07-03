@@ -2,7 +2,9 @@ export interface ComentarioBase {
   comentario: string;
 }
 
-export interface ComentarioCreate extends ComentarioBase {}
+export interface ComentarioCreate extends ComentarioBase {
+  numero_seguimiento: number;
+}
 
 export interface Comentario extends ComentarioBase {
   id: number;
@@ -11,5 +13,5 @@ export interface Comentario extends ComentarioBase {
   caso_registro_id: number;
   nombre_usuario: string;
   created_at: Date;
-  numero_seguimiento: number;
+  numero_seguimiento: number | null;
 }

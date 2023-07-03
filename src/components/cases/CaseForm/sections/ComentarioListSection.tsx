@@ -24,7 +24,7 @@ export default function ComentarioListSection({}: ComentarioListProps) {
                 <div className="flex pt-3 justify-end gap-3 font-semibold text-font-subtitle">
                   <div>{comentario.nombre_usuario}</div>
                   <div>{fns.format(new Date(comentario.created_at), "dd-MM-yyyy HH:mm")}</div>
-                  <div>{comentario.numero_seguimiento > 0 ? `Seguimiento ${comentario.numero_seguimiento}` : "Registro"}</div>
+                  <div>{comentario.numero_seguimiento && comentario.numero_seguimiento > 0 ? `Seguimiento ${comentario.numero_seguimiento}` : "Registro"}</div>
                 </div>
               </div>
             ))}
