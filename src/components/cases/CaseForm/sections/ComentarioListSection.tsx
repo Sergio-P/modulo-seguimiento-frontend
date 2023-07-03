@@ -30,7 +30,7 @@ export default function ComentarioListSection({}: ComentarioListProps) {
             ))}
           </div>
         ) : (
-          <p>No hay comentarios.</p>
+          <p className="font-semibold text-font-subtitle">No hay comentarios.</p>
         )}
       </div>
   );
