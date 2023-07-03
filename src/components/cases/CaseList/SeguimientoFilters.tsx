@@ -145,7 +145,7 @@ export default function SeguimientoFilters(props: SeguimientoFiltersProps) {
             )}
           />
         </div>
-        <div className="flex flex-row-reverse gap-4">
+        <div className="flex mt-6 justify-center gap-4">
           <Button
             type="submit"
             filled
