@@ -49,18 +49,18 @@ export default function TratamientoEnFALPList({
     () => [
       columnHelper.accessor("updated_at", {
         header: "Fecha Última Modificación",
-        size: 110,
+        size: 50,
         cell: LastDateCell,
       }),
       columnHelper.accessor("fecha_de_inicio", {
         header: "Inicio",
         cell: DateCell,
-        size: 110,
+        size: 50,
       }),
       columnHelper.accessor("fecha_de_termino", {
         header: "Término",
         cell: DateCell,
-        size: 110,
+        size: 50,
       }),
       columnHelper.accessor("en_tto", {
         header: "En tratamiento",
@@ -69,7 +69,7 @@ export default function TratamientoEnFALPList({
       }),
       columnHelper.accessor("numero_seguimiento", {
         header: "Origen",
-        size: 110,
+        size: 60,
         cell: ({ row }) => {
           if (
             row.original.numero_seguimiento === null ||
@@ -83,19 +83,19 @@ export default function TratamientoEnFALPList({
       }),
       columnHelper.accessor("medico", {
         header: "Médico",
-        size: 110,
+        size: 120,
       }),
       columnHelper.accessor("categoria_tto", {
         header: "Categoría",
-        size: 110,
+        size: 50,
       }),
       columnHelper.accessor("subcategoria_tto", {
         header: "Subcategoría",
-        size: 110,
+        size: 70,
       }),
       columnHelper.accessor("intencion_tto", {
         header: "Intención",
-        size: 110,
+        size: 60,
       }),
       createEditColumn(
         columnHelper,

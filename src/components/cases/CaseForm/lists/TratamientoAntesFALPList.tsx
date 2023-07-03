@@ -33,23 +33,23 @@ export default function TratamientoPostList() {
       columnHelper.accessor("fecha_de_inicio", {
         header: "Inicio",
         cell: DateCell,
-        size: 110,
+        size: 50,
       }),
       columnHelper.accessor("lugar_tto", {
         header: "Lugar Tratamiento",
-        size: 110,
+        size: 70,
       }),
       columnHelper.accessor("categoria_tto", {
         header: "Categoría",
-        size: 110,
+        size: 60,
       }),
       columnHelper.accessor("subcategoria_tto", {
         header: "Subcategoría",
-        size: 110,
+        size: 70,
       }),
       columnHelper.accessor("intencion_tto", {
         header: "Intención",
-        size: 110,
+        size: 70,
       }),
     ],
     []

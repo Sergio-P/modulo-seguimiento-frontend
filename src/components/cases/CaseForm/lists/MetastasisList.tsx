@@ -26,17 +26,17 @@ const columnHelper = createColumnHelper<Metastasis>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
-    size: 110,
+    size: 50,
     cell: LastDateCell,
   }),
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha Diagnóstico",
     cell: DateCell,
-    size: 110,
+    size: 50,
   }),
   columnHelper.accessor("numero_seguimiento", {
     header: "Origen",
-    size: 110,
+    size: 50,
     cell: ({ row }) => {
       if (
         row.original.numero_seguimiento === null ||
@@ -50,7 +50,7 @@ const columns = [
   }),
   columnHelper.accessor("detalle_topografia", {
     header: "Detalle Topografia",
-    size: 110,
+    size: 200,
   }),
   createEditColumn(
     columnHelper,

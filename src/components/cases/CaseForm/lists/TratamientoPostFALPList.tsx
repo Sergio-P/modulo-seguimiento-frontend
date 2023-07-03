@@ -51,17 +51,17 @@ export default function TratamientoPostList({
     () => [
       columnHelper.accessor("updated_at", {
         header: "Fecha Última Modificación",
-        size: 110,
+        size: 50,
         cell: LastDateCell,
       }),
       columnHelper.accessor("fecha_de_inicio", {
         header: "Inicio",
         cell: DateCell,
-        size: 110,
+        size: 50,
       }),
       columnHelper.accessor("numero_seguimiento", {
         header: "Origen",
-        size: 110,
+        size: 50,
         cell: ({ row }) => {
           if (
             row.original.numero_seguimiento === null ||
@@ -75,19 +75,19 @@ export default function TratamientoPostList({
       }),
       columnHelper.accessor("lugar_tto", {
         header: "Lugar",
-        size: 110,
+        size: 70,
       }),
       columnHelper.accessor("categoria_tto", {
         header: "Categoría",
-        size: 110,
+        size: 50,
       }),
       columnHelper.accessor("subcategoria_tto", {
         header: "Subcategoría",
-        size: 110,
+        size: 60,
       }),
       columnHelper.accessor("intencion_tto", {
         header: "Intención",
-        size: 110,
+        size: 60,
       }),
       createEditColumn(
         columnHelper,

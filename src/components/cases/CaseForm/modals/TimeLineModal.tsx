@@ -43,7 +43,7 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                   <>
                     <div className="flex place-items-center justify-around">
                       <div className="flex-col items-center justify-center">
-                        <div className="text-2xl font-bold">
+                        <div className="text-2xl font-bold relative">
                           <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
                             {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
                           </Tooltip>
@@ -62,9 +62,11 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                         label={"Ficha"}
                         value={caso?.ficha.toString() || ""}
                       />
-                      <Tooltip message={caso?.subcategoria || ""}>
-                        <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
-                      </Tooltip>
+                      <div className="relative">
+                        <Tooltip message={caso?.subcategoria || ""}>
+                          <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+                        </Tooltip>
+                      </div>
                       <BoldElement
                         label={"Lateralidad"}
                         value={caso?.lateralidad || ""}
@@ -102,24 +104,28 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                           <BoldElement
                             label={"Estadío Diagnóstico"}
                             value={caso?.estadio_dg || ""}
-                            classData="col-span-3"
+                            classData="col-span-2"
                           />
                           <Separator />
-                          <Tooltip message={caso?.morfologia || ""}>
-                            <BoldElement
-                              label={"Morfología"}
-                              value={caso?.morfologia || ""}
-                              classData="text-ellipsis overflow-hidden col-span-3"
-                            />
-                          </Tooltip>
+                          <div className="relative">
+                            <Tooltip message={caso?.morfologia || ""}>
+                              <BoldElement
+                                label={"Morfología"}
+                                value={caso?.morfologia || ""}
+                                classData="text-ellipsis overflow-hidden col-span-2"
+                              />
+                            </Tooltip>
+                          </div>
                           <Separator />
+                          <div className="relative">
                           <Tooltip message={caso?.topografia || ""}>
                             <BoldElement
                               label={"Topografía"}
                               value={caso?.topografia || ""}
-                              classData="text-ellipsis overflow-hidden col-span-3"
+                              classData="text-ellipsis overflow-hidden col-span-2"
                             />
                           </Tooltip>
+                          </div>
                         </div>
                       </Disclosure.Panel>
                     </Transition>

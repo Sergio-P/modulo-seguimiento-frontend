@@ -187,7 +187,7 @@ function InnerCaseForm(props: CaseFormProps) {
           <BoundingBox thin className="m-4 border-background-dark">
             <div className="flex place-items-center justify-around">
               <div className="flex-col items-center justify-center">
-                <div className="text-2xl font-bold">
+                <div className="text-2xl font-bold relative">
                   <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
                     {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
                   </Tooltip>
@@ -202,13 +202,15 @@ function InnerCaseForm(props: CaseFormProps) {
                 label={"Ficha"}
                 value={caso?.ficha.toString() || ""}
               />
-              <Tooltip message={caso?.subcategoria || ""}>
-                <BoldElement
-                  classData="text-ellipsis overflow-hidden"
-                  label={"Subcategoría"}
-                  value={caso?.subcategoria || ""}
-                />
-              </Tooltip>
+              <div className="relative">
+                <Tooltip message={caso?.subcategoria || ""}>
+                  <BoldElement
+                    classData="text-ellipsis overflow-hidden"
+                    label={"Subcategoría"}
+                    value={caso?.subcategoria || ""}
+                  />
+                </Tooltip>
+              </div>
               <BoldElement
                 label={"Lateralidad"}
                 value={caso?.lateralidad || ""}

@@ -26,17 +26,17 @@ const columnHelper = createColumnHelper<Comite>();
 const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
-    size: 110,
+    size: 50,
     cell: LastDateCell,
   }),
   columnHelper.accessor("fecha_comite", {
     header: "Fecha Comité",
     cell: DateCell,
-    size: 110,
+    size: 40,
   }),
   columnHelper.accessor("numero_seguimiento", {
     header: "Origen",
-    size: 110,
+    size: 40,
     cell: ({ row }) => {
       if (
         row.original.numero_seguimiento === null ||
@@ -50,11 +50,11 @@ const columns = [
   }),
   columnHelper.accessor("medico", {
     header: "Médico",
-    size: 110,
+    size: 240,
   }),
   columnHelper.accessor("intencion_tto", {
     header: "Intención",
-    size: 110,
+    size: 80,
   }),
   createEditColumn(columnHelper, "Comité", EntryType.comite, ComiteModalRender),
 ];

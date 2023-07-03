@@ -24,12 +24,12 @@ const columnHelper = createColumnHelper<Comentario>();
 const columns = [
   columnHelper.accessor("created_at", {
     header: "Fecha de publicación",
-    size: 110,
+    size: 30,
     cell: LastDateCell,
   }),
   columnHelper.accessor("numero_seguimiento", {
     header: "Origen",
-    size: 110,
+    size: 30,
     cell: ({ row }) => {
       if (
         row.original.numero_seguimiento === null ||
@@ -44,17 +44,15 @@ const columns = [
 
   columnHelper.accessor("nombre_usuario", {
     header: "Usuario",
-    size: 110,
+    size: 30,
   }),
 
   columnHelper.accessor("comentario", {
     header: "Comentario",
-    size: 110,
+    size: 500,
     cell: ({ row }) => {
       return (
-        <Tooltip message={row.original.comentario}>
-          <div className="line-clamp-3">{row.original.comentario}</div>
-        </Tooltip>
+          <div>{row.original.comentario}</div>
       );
     },
   }),
