@@ -107,9 +107,10 @@ export enum SubcategoriaTTOOtro {
 }
 
 export enum LugarTTO {
-  extra_sistema_sistema_privado = "Extra sistema - sistema privado",
-  extra_sistema_sistema_publico = "Extra sistema - sistema público",
-  otros = "Otros",
+  extra_sistema_sistema_privado = "EXTRA SISTEMA O SISTEMA PRIVADO",
+  extra_sistema_sistema_publico = "EXTRA SISTEMA O SISTEMA PÚBLICO",
+  falp = "FALP",
+  otros = "OTRAS",
 }
 
 export enum IntencionTTO {
