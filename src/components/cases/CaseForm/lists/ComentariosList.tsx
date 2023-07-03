@@ -13,7 +13,6 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { UpdateDataContext } from "../context/updateData";
 import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import { Comentario } from "@/types/Comentario";
-import Tooltip from "@/components/ui/Tooltip";
 
 type FilterFunc = (data: Comentario[]) => Comentario[];
 interface ComentarioListProps {

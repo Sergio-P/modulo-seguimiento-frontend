@@ -24,6 +24,7 @@ import dateCell from "../ui/table/DateCell";
 import AssignmentModal from "./CaseList/AssignmentModal";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 import SeguimientoFilters from "./CaseList/SeguimientoFilters";
+import Tooltip from "../ui/Tooltip";
 
 export default function CaseList() {
   const caseQuery = useQuery({
@@ -121,7 +122,17 @@ function CaseListTable({ data }: CaseListTableProps) {
   
             if (state === "Sin asignar" || state === "Finalizado") {
               return (
-                <></>
+                <>
+                  <Tooltip message={state}>
+                    <Image
+                          alt=""
+                          src="/icons/crossView.svg"
+                          width={24}
+                          height={24}
+                          className="h-6 w-6"
+                        />
+                  </Tooltip>
+                </>
               );
             }
   
