@@ -3,7 +3,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
 import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
 import * as fns from "date-fns";
@@ -119,7 +119,7 @@ export const RecurrenciaModalRender = (
           )}
         />
         <div className="col-span-2">
-          <TextInput
+          <TextArea
             label="Detalle Topografía Recurrencia"
             {...form.register("detalle_topografia_recurrencia", {
               required: true,

@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { Metastasis, MetastasisCreate } from "@/types/Metastasis";
 import _ from "lodash";
 import { useContext } from "react";
@@ -96,7 +96,7 @@ export const MetastasisModalRender = ({
         />
         <Checkbox label="Fecha Estimada" {...form.register("fecha_estimada")} />
         <div className="col-span-2">
-          <TextInput
+          <TextArea
             label="Detalle Topografía"
             {...form.register("detalle_topografia", { required: true })}
           />

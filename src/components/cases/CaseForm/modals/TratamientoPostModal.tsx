@@ -3,7 +3,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import {
   CategoriaTTO,
@@ -187,7 +187,7 @@ export const TratamientoPostModalRender = (
         />
 
         <div className="col-span-3">
-          <TextInput
+          <TextArea
             label="Observaciones"
             {...form.register("observaciones", { required: true })}
           />

@@ -4,21 +4,29 @@ import React from "react";
 
 const TextInput = React.forwardRef(
   (
-    props: { label?: string } & React.InputHTMLAttributes<HTMLTextAreaElement>,
-    ref: React.ForwardedRef<HTMLTextAreaElement>
+    props: { label?: string } & React.InputHTMLAttributes<HTMLInputElement>,
+    ref: React.ForwardedRef<HTMLInputElement>
   ) => {
     return (
-      <div className="relative">
-        <textarea
-          placeholder={props.label}
-          ref={ref}
-          {...props}
-          className={clsx(
-            "resize-vertical min-h-32 max-h-48 w-full cursor-pointer rounded-lg bg-background px-5 py-2 text-font-input placeholder-font-subtitle",
-            props.className
+      <>
+        <div className={clsx("relative", props.disabled && "opacity-50")}>
+          {props.label && (
+            <span className="absolute top-0 left-0 truncate whitespace-nowrap pl-5 pr-4 pt-2 text-xs font-medium text-font-subtitle">
+              {props.label}
+            </span>
           )}
-        />
-      </div>
+          <input
+            type="text"
+            ref={ref}
+            {...props}
+            className={clsx(
+              "h-14 w-full rounded-lg bg-background pl-5 pr-4 text-font-input",
+              props.label && "pt-4",
+              props.className
+            )}
+          />
+        </div>
+      </>
     );
   }
 );

@@ -3,7 +3,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { CategoriaTTO, EntryType, IntencionTTO } from "@/types/Enums";
 import {
   SubcategoriaTTO,
@@ -108,7 +108,7 @@ export const TratamientoEnFalpModalRender = (
     >
       <div className="grid grid-cols-3 items-center gap-6">
         <div className="col-span-3">
-          <TextInput
+          <TextArea
             label="Médico"
             {...form.register("medico", { required: true })}
           />
@@ -194,7 +194,7 @@ export const TratamientoEnFalpModalRender = (
         />
 
         <div className="col-span-3">
-          <TextInput
+          <TextArea
             label="Descripción de la prestación"
             {...form.register("descripcion_de_la_prestacion", {
               required: true,
@@ -203,7 +203,7 @@ export const TratamientoEnFalpModalRender = (
         </div>
 
         <div className="col-span-3">
-          <TextInput
+          <TextArea
             label="Observaciones"
             {...form.register("observaciones", { required: true })}
           />

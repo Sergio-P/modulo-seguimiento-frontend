@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { Comentario, ComentarioCreate } from "@/types/Comentario";
 import _, { add } from "lodash";
 import { useContext } from "react";
@@ -75,8 +75,8 @@ export const ComentarioModalRender = ({
     >
       <div className="flex-col items-center">
         <ComentarioListSection />
-        
-        <TextInput
+
+        <TextArea
           className="mt-6"
           label="Comentarios..."
           {...form.register("comentario", { required: true })}

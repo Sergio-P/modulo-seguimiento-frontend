@@ -3,7 +3,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
-import TextInput from "@/components/ui/TextInput";
+import TextArea from "@/components/ui/TextArea";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
 import { Progresion, ProgresionCreate } from "@/types/Progresion";
@@ -117,7 +117,7 @@ export const ProgresionModalRender = (
           )}
         />
         <div className="col-span-2">
-          <TextInput
+          <TextArea
             label="Detalle Topografía Progresión"
             {...form.register("detalle_topografia_progresion", {
               required: true,

@@ -8,11 +8,11 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import _ from "lodash";
+import _, { set } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 import LogoutButton from "../auth/LogoutButton";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
@@ -23,13 +23,31 @@ import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
 import AssignmentModal from "./CaseList/AssignmentModal";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
+import SeguimientoFilters from "./CaseList/SeguimientoFilters";
 
 export default function CaseList() {
   const caseQuery = useQuery({
     queryKey: ["seguimientos"],
     queryFn: api.getSeguimientos,
   });
-  console.log("caseQuery: ", caseQuery.data);
+  console.log("caseQuery:", caseQuery.data);
+  const [filterFn, setFilterFn] = useState(() => (x: Seguimiento[]) => x);
+  const filteredData = useMemo(
+    () => (caseQuery.data ? filterFn(caseQuery.data) : []),
+    [caseQuery.data, filterFn]
+  );
+  const subcategories = useMemo(
+    () =>
+      caseQuery.data
+        ? _.uniq(
+            caseQuery.data.map(
+              (x) => x.caso_registro_correspondiente.subcategoria
+            )
+          )
+        : [],
+    [caseQuery.data]
+  );
+  console.log("filteredData:", filteredData);
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
@@ -43,7 +61,13 @@ export default function CaseList() {
         </div>
       </div>
       <BoundingBox>
-        {caseQuery.data && <CaseListTable data={caseQuery.data} />}
+        <div className="flex flex-col gap-4">
+          <SeguimientoFilters
+            setFilterFn={setFilterFn}
+            subcategories={subcategories}
+          />
+          {caseQuery.data && <CaseListTable data={filteredData} />}
+        </div>
       </BoundingBox>
     </MainLayout>
   );
@@ -162,7 +186,7 @@ function CaseListTable({ data }: CaseListTableProps) {
         header: "Resumen",
         size: 32,
         cell: (props) => (
-          <TimeLineModal seguimientoId={props.row.original.id}/>
+          <TimeLineModal seguimientoId={props.row.original.id} />
         ),
       }),
     ],
