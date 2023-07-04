@@ -43,9 +43,12 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                   <>
                     <div className="flex place-items-center justify-around">
                       <div className="flex-col items-center justify-center">
-                        <div className="text-2xl font-bold relative">
-                          <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
-                            {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
+                        <div className="relative text-2xl font-bold">
+                          <Tooltip
+                            message={`${caso?.nombre} ${caso?.apellido}`}
+                          >
+                            {caso?.nombre.split(" ")[0]}{" "}
+                            {caso?.apellido.split(" ")[0]}
                           </Tooltip>
                         </div>
                         <Subtitle
@@ -56,15 +59,18 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                           }
                         />
                       </div>
-                      <BoldElement label={"RUT"} value={caso?.rut_dni || ""} 
-                      />
+                      <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
                       <BoldElement
                         label={"Ficha"}
                         value={caso?.ficha.toString() || ""}
                       />
                       <div className="relative">
                         <Tooltip message={caso?.subcategoria || ""}>
-                          <BoldElement classData="text-ellipsis overflow-hidden" label={"Subcategoría"} value={caso?.subcategoria || ""} />
+                          <BoldElement
+                            classData="text-ellipsis overflow-hidden"
+                            label={"Subcategoría"}
+                            value={caso?.subcategoria || ""}
+                          />
                         </Tooltip>
                       </div>
                       <BoldElement
@@ -118,13 +124,13 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                           </div>
                           <Separator />
                           <div className="relative">
-                          <Tooltip message={caso?.topografia || ""}>
-                            <BoldElement
-                              label={"Topografía"}
-                              value={caso?.topografia || ""}
-                              classData="text-ellipsis overflow-hidden col-span-2"
-                            />
-                          </Tooltip>
+                            <Tooltip message={caso?.topografia || ""}>
+                              <BoldElement
+                                label={"Topografía"}
+                                value={caso?.topografia || ""}
+                                classData="text-ellipsis overflow-hidden col-span-2"
+                              />
+                            </Tooltip>
                           </div>
                         </div>
                       </Disclosure.Panel>
@@ -139,8 +145,7 @@ export default function TimeLineModal(props: TimeLineModalProps) {
           </div>
         )}
         {..._.omit(props, "seguimiento")}
-      >
-      </Modal>
+      ></Modal>
     </SeguimientoContext.Provider>
   );
 }

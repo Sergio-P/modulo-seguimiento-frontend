@@ -35,17 +35,17 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
   const seguimiento = useContext(SeguimientoContext);
   const updateData = useContext(UpdateDataContext);
   const filterFunc = (data: any[]) => {
-    return typeof props.origen !== 'undefined'
-      ? data.filter(row => row.numero_seguimiento === props.origen)
+    return typeof props.origen !== "undefined"
+      ? data.filter((row) => row.numero_seguimiento === props.origen)
       : data;
-  }
+  };
   console.log("origen", props.origen);
   return (
     <div className="my-4 rounded-lg border border-background-dark">
       <Disclosure>
         {({ open }) => (
           <>
-            <div className="flex w-full justify-between text-lg rounded-lg px-4 py-2 text-left font-bold text-primary">
+            <div className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-lg font-bold text-primary">
               {props.origen === null || props.origen === undefined ? (
                 <span className="font-bold">Registro</span>
               ) : (
@@ -77,10 +77,10 @@ export default function CustomListDisplay(props: CustomListDisplayProps) {
                         key={index}
                         className={({ selected }) =>
                           classNames(
-                            "font-bold  border-b-2 px-4 py-2",
+                            "border-b-2  px-4 py-2 font-bold",
                             selected
                               ? "border-b-accent text-accent "
-                              : "hover:border-b-primary border-b-white"
+                              : "border-b-white hover:border-b-primary"
                           )
                         }
                       >

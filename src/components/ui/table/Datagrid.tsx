@@ -48,7 +48,7 @@ export default function Datagrid<TData = any>({
         </div>
       </div>
 
-      <div className="overflow-auto relative">
+      <div className="relative overflow-auto">
         <table className="w-full table-auto border-collapse">
           <thead
             className={clsx(

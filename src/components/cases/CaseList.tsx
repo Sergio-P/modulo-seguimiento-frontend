@@ -113,45 +113,45 @@ function CaseListTable({ data }: CaseListTableProps) {
             }),
           ]
         : []),
-        columnHelper.display({
-          id: "boton_ver",
-          header: "Ver",
-          size: 32,
-          cell: (props) => {
-            const state = props.row.original.state;
-  
-            if (state === "Sin asignar" || state === "Finalizado") {
-              return (
-                <>
-                  <Tooltip message={state}>
-                    <Image
-                          alt=""
-                          src="/icons/crossView.svg"
-                          width={24}
-                          height={24}
-                          className="h-6 w-6"
-                        />
-                  </Tooltip>
-                </>
-              );
-            }
-  
+      columnHelper.display({
+        id: "boton_ver",
+        header: "Ver",
+        size: 32,
+        cell: (props) => {
+          const state = props.row.original.state;
+
+          if (state === "Sin asignar" || state === "Finalizado") {
             return (
-              <Link
-                href={`/cases/${props.row.original.id}`}
-                className="block h-6 w-6 text-primary"
-              >
-                <Image
-                  alt=""
-                  src="/icons/View.svg"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6"
-                />
-              </Link>
+              <>
+                <Tooltip message={state}>
+                  <Image
+                    alt=""
+                    src="/icons/crossView.svg"
+                    width={24}
+                    height={24}
+                    className="h-6 w-6"
+                  />
+                </Tooltip>
+              </>
             );
-          },
-        }),
+          }
+
+          return (
+            <Link
+              href={`/cases/${props.row.original.id}`}
+              className="block h-6 w-6 text-primary"
+            >
+              <Image
+                alt=""
+                src="/icons/View.svg"
+                width={24}
+                height={24}
+                className="h-6 w-6"
+              />
+            </Link>
+          );
+        },
+      }),
       columnHelper.accessor("caso_registro_correspondiente.ficha", {
         header: "Ficha",
         size: 100,

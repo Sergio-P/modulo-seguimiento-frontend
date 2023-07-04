@@ -17,7 +17,7 @@ export default function Button(props: ButtonProps) {
   const { disabled, filled, clear, icon, loading, bigIcon } = props;
   return (
     <button
-      {..._.omit(props, ["icon", "filled", "clear", "loading", "bigIcon",])}
+      {..._.omit(props, ["icon", "filled", "clear", "loading", "bigIcon"])}
       className={clsx(
         "h-10 rounded-lg border-primary text-sm tracking-wide",
         props.children ? "px-4" : "w-10",
@@ -51,10 +51,7 @@ export default function Button(props: ButtonProps) {
           width={16}
           height={16}
           alt=""
-          className={clsx(
-            "m-auto",
-            bigIcon? "h-8 w-8" : "h-4 w-4",
-          )}
+          className={clsx("m-auto", bigIcon ? "h-8 w-8" : "h-4 w-4")}
         />
       ) : (
         props.children

@@ -52,21 +52,27 @@ export default function MoreInfoModal(props: MoreInfoModalProps) {
           <div className="contents">
             <div className="font-bold">Estadío Diagnóstico</div>
             <Tooltip className="col-span-5" message={caso?.estadio_dg || ""}>
-              <div className="text-ellipsis overflow-hidden">{caso?.estadio_dg}</div>
+              <div className="overflow-hidden text-ellipsis">
+                {caso?.estadio_dg}
+              </div>
             </Tooltip>
           </div>
           <Separator />
           <div className="contents">
             <div className="font-bold">Morfología</div>
             <Tooltip className="col-span-5" message={caso?.morfologia || ""}>
-              <div className="text-ellipsis overflow-hidden">{caso?.morfologia}</div>
+              <div className="overflow-hidden text-ellipsis">
+                {caso?.morfologia}
+              </div>
             </Tooltip>
           </div>
           <Separator />
           <div className="contents">
             <div className="font-bold">Topografía</div>
             <Tooltip className="col-span-5" message={caso?.topografia || ""}>
-              <div className="text-ellipsis overflow-hidden">{caso?.topografia}</div>
+              <div className="overflow-hidden text-ellipsis">
+                {caso?.topografia}
+              </div>
             </Tooltip>
           </div>
         </div>

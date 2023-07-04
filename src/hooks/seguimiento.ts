@@ -28,9 +28,7 @@ export function useMutationUpdateSeguimiento(
   return mutation;
 }
 
-export function useMutationPostComentario(
-  seguimientoId: number | undefined
-) {
+export function useMutationPostComentario(seguimientoId: number | undefined) {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     async (payload: ComentarioBase) => {

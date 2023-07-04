@@ -8,13 +8,15 @@ import TratamientoPostModal from "../modals/TratamientoPostModal";
 import { Section, SubSection } from "../ui";
 import { useWatch, useFormContext, Controller } from "react-hook-form";
 
-
 export default function TratamientoSection() {
   const { control } = useFormContext();
   const selectedTreatment = useWatch({
     control,
     name: "treatmentOption",
-    defaultValue: { id: EntryType.tratamiento_en_falp, name: "Tratamiento En FALP" },
+    defaultValue: {
+      id: EntryType.tratamiento_en_falp,
+      name: "Tratamiento En FALP",
+    },
   });
   console.log("TratamientoSection selectedTreatment: ", selectedTreatment);
 
@@ -52,26 +54,30 @@ export default function TratamientoSection() {
               )}
             />
           </div>
-          {
-            selectedTreatment !== undefined && selectedTreatment.id === EntryType.tratamiento_en_falp ?
-            <TratamientoEnFalpModal className="max-w-[115px]" /> :
-            selectedTreatment.id === EntryType.tratamiento_post_durante_falp ?
-            <TratamientoPostModal className="max-w-[115px]" />  :
-            selectedTreatment.id === EntryType.tratamiento_antes_falp ?
-            <TratamientoEnFalpModal disabled className="max-w-[115px]" /> :
+          {selectedTreatment !== undefined &&
+          selectedTreatment.id === EntryType.tratamiento_en_falp ? (
+            <TratamientoEnFalpModal className="max-w-[115px]" />
+          ) : selectedTreatment.id ===
+            EntryType.tratamiento_post_durante_falp ? (
+            <TratamientoPostModal className="max-w-[115px]" />
+          ) : selectedTreatment.id === EntryType.tratamiento_antes_falp ? (
+            <TratamientoEnFalpModal disabled className="max-w-[115px]" />
+          ) : (
             <></>
-          }
+          )}
         </div>
         <div className="mt-5">
-          {
-            selectedTreatment === undefined || selectedTreatment.id === EntryType.tratamiento_en_falp ? 
-            <TratamientoEnFALPList /> :
-            selectedTreatment.id === EntryType.tratamiento_post_durante_falp ?
-            <TratamienPostFALPList /> :
-            selectedTreatment.id === EntryType.tratamiento_antes_falp ?
-            <TratamientoAntesFALPList /> :
+          {selectedTreatment === undefined ||
+          selectedTreatment.id === EntryType.tratamiento_en_falp ? (
+            <TratamientoEnFALPList />
+          ) : selectedTreatment.id ===
+            EntryType.tratamiento_post_durante_falp ? (
+            <TratamienPostFALPList />
+          ) : selectedTreatment.id === EntryType.tratamiento_antes_falp ? (
+            <TratamientoAntesFALPList />
+          ) : (
             <></>
-          }
+          )}
         </div>
       </SubSection>
     </Section>

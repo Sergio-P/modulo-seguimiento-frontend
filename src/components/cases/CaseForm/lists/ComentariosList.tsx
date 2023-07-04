@@ -50,12 +50,9 @@ const columns = [
     header: "Comentario",
     size: 500,
     cell: ({ row }) => {
-      return (
-          <div>{row.original.comentario}</div>
-      );
+      return <div>{row.original.comentario}</div>;
     },
   }),
-
 ];
 
 export default function ComentarioList({ filterFunc }: ComentarioListProps) {

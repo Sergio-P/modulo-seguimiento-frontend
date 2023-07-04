@@ -28,21 +28,21 @@ module.exports = {
       },
       display: ["group-hover"],
       maxHeight: {
-        '3-lines': '4.5rem',
+        "3-lines": "4.5rem",
       },
     },
   },
   plugins: [
     function ({ addUtilities }) {
       const newUtilities = {
-        '.line-clamp-3': {
-          overflow: 'hidden',
-          display: '-webkit-box',
-          '-webkit-line-clamp': '3',
-          '-webkit-box-orient': 'vertical',
+        ".line-clamp-3": {
+          overflow: "hidden",
+          display: "-webkit-box",
+          "-webkit-line-clamp": "3",
+          "-webkit-box-orient": "vertical",
         },
-      }
-      addUtilities(newUtilities)
-    }
+      };
+      addUtilities(newUtilities);
+    },
   ],
 };

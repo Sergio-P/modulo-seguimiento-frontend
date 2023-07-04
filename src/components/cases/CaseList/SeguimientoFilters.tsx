@@ -1,7 +1,6 @@
 import Button from "@/components/ui/Button";
 import DatePicker from "@/components/ui/DatePicker";
 import SelectInput from "@/components/ui/SelectInput";
-import TextArea from "@/components/ui/TextArea";
 import TextInput from "@/components/ui/TextInput";
 import { Seguimiento } from "@/types/Seguimiento";
 import sleep from "@/utils/sleep";
@@ -145,7 +144,7 @@ export default function SeguimientoFilters(props: SeguimientoFiltersProps) {
             )}
           />
         </div>
-        <div className="flex mt-6 justify-center gap-4">
+        <div className="mt-6 flex justify-center gap-4">
           <Button
             type="submit"
             filled

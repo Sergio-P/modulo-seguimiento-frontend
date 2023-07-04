@@ -57,7 +57,7 @@ function InnerTimeline(props: CaseTimeLineProps) {
         <BoundingBox thin className="m-4 border-background-dark">
           <div className="flex place-items-center justify-around">
             <div className="flex-col items-center justify-center">
-              <div className="text-2xl font-bold relative">
+              <div className="relative text-2xl font-bold">
                 <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>
                   {caso?.nombre.split(" ")[0]} {caso?.apellido.split(" ")[0]}
                 </Tooltip>

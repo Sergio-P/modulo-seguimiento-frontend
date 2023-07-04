@@ -5,7 +5,7 @@ import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 import Image from "next/image";
 import { login, useUser } from "@/hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Inputs = {
   email: string;
