@@ -32,18 +32,8 @@ function LoadingSpinner() {
 }
 
 
-export interface Person {
-  id: number;
-  name: string;
-}
 
-const people: Person[] = [
-  {id: 1, name: 'Durward Reynolds'},
-  {id: 2, name: 'Kenton Towne'},
-  {id: 3, name: 'Therese Wunsch'},
-  {id: 4, name: 'Benedict Kessler'},
-  {id: 5, name: 'Katelyn Rohan'},
-];
+const people: Coding[] = [];
 
 interface TopoMorfoAutocompleteInputProps {
   mode: CodingMode
@@ -51,15 +41,15 @@ interface TopoMorfoAutocompleteInputProps {
 
 
 export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteInputProps) {
-  const [selectedPerson, setSelectedPerson] = useState(people[0])
+  const [selectedCoding, setSelectedCoding] = useState(people[0])
   const [query, setQuery] = useState('')
-  const [filteredPeople, setFilteredPeople] = useState<Coding[]>([]);
+  const [filteredCoding, setFilteredCoding] = useState<Coding[]>([]);
 
   useEffect(() => {
     const fetchPeople = async () => {
       try {
         const codingData = await api.getCodings(CodingMode.topography, query);
-        setFilteredPeople(codingData); // Assuming the data structure matches the expected `Coding` object.
+        setFilteredCoding(codingData); // Assuming the data structure matches the expected `Coding` object.
       } catch (error) {
         console.error('Error fetching people:', error);
       }
@@ -68,17 +58,17 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
     if (query !== '') {
       fetchPeople();
     } else {
-      setFilteredPeople([]); // Reset the filteredPeople state when the query is empty.
+      setFilteredCoding([]); // Reset the filteredPeople state when the query is empty.
     }
   }, [CodingMode.topography, query]);
 
   return (
-    <Combobox value={selectedPerson} onChange={setSelectedPerson}>
+    <Combobox value={selectedCoding} onChange={setSelectedCoding}>
       <div className='relative'>
         <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-background text-font-input text-left shadow-md">
           <Combobox.Input 
             onChange={(event) => setQuery(event.target.value)} 
-            displayValue={(person: Person) => person.name}
+            displayValue={(coding: Coding) => coding ? `(${coding.code}): ${coding.description}` : ''}
             className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -95,10 +85,10 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
             "focus:outline-none sm:text-sm"
           )}
         >
-          {filteredPeople.map((code) => (
+          {filteredCoding.map((code) => (
             <Combobox.Option 
               key={code.code}
-              value={code.description}
+              value={code}
               className={clsx(
                 "relative cursor-default select-none text-font-input",
                 "hover:bg-primary hover:text-white"
@@ -111,7 +101,7 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
                         ? "border-l-8 border-primary px-3 font-medium"
                         : "px-5 font-normal"
                     }`}>
-                    {code.code}
+                    ({code.code}): {code.description}
                   </li>
                 )
               }
