@@ -1,8 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import clsx from "clsx";
 import { Combobox } from '@headlessui/react';
 import { CodingMode } from '@/types/Enums';
 import { HiChevronDown } from 'react-icons/hi2';
+import { api } from "@/api";
+import { Coding } from '@/types/Coding';
+
+function LoadingSpinner() {
+  return (
+    <svg
+      className="h-5 w-5 animate-spin text-gray-500"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  );
+}
+
 
 export interface Person {
   id: number;
@@ -21,16 +49,28 @@ interface TopoMorfoAutocompleteInputProps {
   mode: CodingMode
 }
 
+
 export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteInputProps) {
   const [selectedPerson, setSelectedPerson] = useState(people[0])
   const [query, setQuery] = useState('')
+  const [filteredPeople, setFilteredPeople] = useState<Coding[]>([]);
 
-  const filteredPeople =
-    query === ''
-      ? people
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase())
-        })
+  useEffect(() => {
+    const fetchPeople = async () => {
+      try {
+        const codingData = await api.getCodings(CodingMode.topography, query);
+        setFilteredPeople(codingData); // Assuming the data structure matches the expected `Coding` object.
+      } catch (error) {
+        console.error('Error fetching people:', error);
+      }
+    };
+  
+    if (query !== '') {
+      fetchPeople();
+    } else {
+      setFilteredPeople([]); // Reset the filteredPeople state when the query is empty.
+    }
+  }, [CodingMode.topography, query]);
 
   return (
     <Combobox value={selectedPerson} onChange={setSelectedPerson}>
@@ -55,10 +95,10 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
             "focus:outline-none sm:text-sm"
           )}
         >
-          {filteredPeople.map((person) => (
+          {filteredPeople.map((code) => (
             <Combobox.Option 
-              key={person.id} 
-              value={person}
+              key={code.code}
+              value={code.description}
               className={clsx(
                 "relative cursor-default select-none text-font-input",
                 "hover:bg-primary hover:text-white"
@@ -71,7 +111,7 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
                         ? "border-l-8 border-primary px-3 font-medium"
                         : "px-5 font-normal"
                     }`}>
-                    {person.name}
+                    {code.code}
                   </li>
                 )
               }
