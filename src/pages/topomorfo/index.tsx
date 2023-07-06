@@ -6,10 +6,7 @@ import {CodingMode} from "@/types/Enums";
 export default function TopoMorfoPage() {
   return (
     <AuthProtected>
-      <>
-        <h1 className="text-2xl font-bold">TopoMorfo Autocomplete Input example</h1>
-        <TopoMorfoAutocompleteInput mode={CodingMode.topography} />
-      </>
+      <TopoMorfoAutocompleteInput mode={CodingMode.topography} onChange={(value) => value}/>
     </AuthProtected>
   );
 }

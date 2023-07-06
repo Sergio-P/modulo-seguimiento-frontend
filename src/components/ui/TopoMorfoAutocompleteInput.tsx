@@ -5,6 +5,7 @@ import { CodingMode } from '@/types/Enums';
 import { HiChevronDown } from 'react-icons/hi2';
 import { api } from "@/api";
 import { Coding } from '@/types/Coding';
+import { compareDesc } from 'date-fns';
 
 function LoadingSpinner() {
   return (
@@ -33,15 +34,15 @@ function LoadingSpinner() {
 
 
 
-const people: Coding[] = [];
 
 interface TopoMorfoAutocompleteInputProps {
   mode: CodingMode
+  onChange: (value: string | null) => void
 }
 
 
 export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteInputProps) {
-  const [selectedCoding, setSelectedCoding] = useState(people[0])
+  const [selectedCoding, setSelectedCoding] = useState<Coding | null>(null)
   const [query, setQuery] = useState('')
   const [filteredCoding, setFilteredCoding] = useState<Coding[]>([]);
 
@@ -62,8 +63,13 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
     }
   }, [CodingMode.topography, query]);
 
+  const handleCodingChange = (coding: Coding | null) => {
+    setSelectedCoding(coding);
+    props.onChange(coding ? `(${coding.code}): ${coding.description}` : null);
+  };
+
   return (
-    <Combobox value={selectedCoding} onChange={setSelectedCoding}>
+    <Combobox value={selectedCoding} onChange={handleCodingChange}>
       <div className='relative'>
         <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-background text-font-input text-left shadow-md">
           <Combobox.Input 
