@@ -4,7 +4,7 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextArea from "@/components/ui/TextArea";
-import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
+import { CodingMode, EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
 import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
 import * as fns from "date-fns";
 import _ from "lodash";
@@ -21,6 +21,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
+import TopoMorfoAutocompleteInput from "@/components/ui/TopoMorfoAutocompleteInput";
 
 interface RecurrenciaModalProps extends Partial<ModalProps> {}
 
@@ -119,11 +120,16 @@ export const RecurrenciaModalRender = (
           )}
         />
         <div className="col-span-2">
-          <TextArea
-            label="Detalle Topografía Recurrencia"
-            {...form.register("detalle_topografia_recurrencia", {
-              required: true,
-            })}
+          <Controller
+            name="detalle_topografia_recurrencia"
+            control={form.control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TopoMorfoAutocompleteInput
+                mode={CodingMode.topography}
+                {...field}
+              />
+            )}
           />
         </div>
       </div>
