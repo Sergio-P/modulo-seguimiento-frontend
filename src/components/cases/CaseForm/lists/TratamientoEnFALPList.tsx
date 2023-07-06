@@ -65,8 +65,8 @@ export default function TratamientoEnFALPList({
         size: 50,
       }),
       columnHelper.accessor("en_tto", {
-        header: "En tratamiento",
-        size: 32,
+        header: "En Tto.",
+        size: 55,
         cell: BooleanCell,
       }),
       columnHelper.accessor("numero_seguimiento", {
@@ -100,15 +100,15 @@ export default function TratamientoEnFALPList({
         size: 60,
       }),
       columnHelper.accessor("observaciones", {
-        header: "",
+        header: "Obs.",
         size: 32,
         cell: ({ row }) => {
           return <Image
-                src={`/icons/View.svg`}
-                width={32}
-                height={32}
+                src={`/icons/clipboard.svg`}
+                width={48}
+                height={48}
                 alt=""
-                className="h-4 w-4"
+                className="h-6 w-6"
                 title={row.original.observaciones}
                 />
           

@@ -62,7 +62,7 @@ function EditColumnCell<
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-4 justify-end">
       <Modal
         title={`Editar ${name}`}
         clear

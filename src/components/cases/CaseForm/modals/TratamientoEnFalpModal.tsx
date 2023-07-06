@@ -79,6 +79,11 @@ export const TratamientoEnFalpModalRender = (
         data.fecha_de_termino &&
         fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
     };
+
+    if (en_tto){
+      entryContent.fecha_de_termino = null;
+    }
+    
     const payload: SeguimientoUpdate = {
       ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
       [props.edit && props.data ? "updated_entries" : "new_entries"]: [
