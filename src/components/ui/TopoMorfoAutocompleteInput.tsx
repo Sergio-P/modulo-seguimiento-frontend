@@ -77,7 +77,7 @@ export default function TopoMorfoAutocompleteInput(
           <Combobox.Input
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(coding: Coding) =>
-              coding ? `(${coding.code}): ${coding.description}` : ""
+              coding ? `(${coding.code}) ${coding.description}` : ""
             }
             placeholder="Topografía"
             className="w-full border-none bg-background py-4 pl-3 pr-10 text-sm leading-5 text-gray-900"

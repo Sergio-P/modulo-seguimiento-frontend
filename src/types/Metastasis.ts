@@ -1,7 +1,8 @@
 export interface MetastasisBase {
   fecha_diagnostico: string;
   fecha_estimada: boolean;
-  detalle_topografia: string;
+  codigo_topografia_metastasis: string;
+  descripcion_topografia_metastasis: string;
 }
 
 export interface MetastasisCreate extends MetastasisBase {

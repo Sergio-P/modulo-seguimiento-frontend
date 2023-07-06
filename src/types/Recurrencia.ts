@@ -4,7 +4,8 @@ export interface RecurrenciaBase {
   fecha_diagnostico: string;
   fecha_estimada: boolean;
   tipo: TipoRecurrenciaProgresion;
-  detalle_topografia_recurrencia: string;
+  codigo_topografia_recurrencia: string;
+  descripcion_topografia_recurrencia: string;
 }
 
 export interface RecurrenciaCreate extends RecurrenciaBase {

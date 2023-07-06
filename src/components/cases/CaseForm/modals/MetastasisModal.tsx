@@ -59,7 +59,8 @@ export const MetastasisModalRender = ({
       updated_at: new Date().toISOString(),
       fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
       fecha_estimada: data.fecha_estimada,
-      detalle_topografia: data.detalle_topografia,
+      codigo_topografia_metastasis: data.detalle_topografia.split(" ")[0].replace("(", "").replace(")", ""),
+      descripcion_topografia_metastasis: data.detalle_topografia.split(" ").slice(1).join(" "),
       numero_seguimiento: seguimiento.numero_seguimiento,
     };
     const payload = {

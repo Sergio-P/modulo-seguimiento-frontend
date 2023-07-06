@@ -16,8 +16,8 @@ export enum Rol {
 
 export enum TipoSeguimiento {
   seguimiento_automatico = "Seguimiento automático",
-  seguimiento_por_consulta = "Seguimiento asociado a prestaciones de consultas médicas",
-  seguimiento_por_tratamiento = "Seguimiento asociado a prestaciones de tratamientos",
+  seguimiento_por_consulta = "Seguimiento por consulta",
+  seguimiento_por_tratamiento = "Seguimiento por tratamiento",
 }
 
 export enum SeguimientoState {
@@ -33,6 +33,7 @@ export enum ClaseCaso {
   diagnostico_y_tratamiento_en_falp = "DIAGNÓSTICO Y TRATAMIENTO EN FALP",
   tratamiento_en_falp = "TRATAMIENTO EN FALP",
   diagnostico_en_falp = "DIAGNÓSTICO EN FALP",
+  desconocido = "DESCONOCIDO"
 }
 
 export enum CondicionCaso {
@@ -55,9 +56,9 @@ export enum CausaDefuncion {
 }
 
 export enum SiNoDesconocido {
-  si = "Si",
-  no = "No",
-  desconocido = "Desconocido",
+  si = "SI",
+  no = "NO",
+  desconocido = "DESCONOCIDO",
 }
 
 export enum TipoRecurrenciaProgresion {

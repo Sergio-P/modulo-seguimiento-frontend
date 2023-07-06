@@ -61,7 +61,8 @@ export const RecurrenciaModalRender = (
       updated_at: new Date().toISOString(),
       tipo: data.tipo,
       fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
-      detalle_topografia_recurrencia: data.detalle_topografia_recurrencia,
+      codigo_topografia_recurrencia: data.detalle_topografia_recurrencia.split(" ")[0].replace("(", "").replace(")", ""),
+      descripcion_topografia_recurrencia: data.detalle_topografia_recurrencia.split(" ").slice(1).join(" "),
       numero_seguimiento: seguimiento.numero_seguimiento,
     };
     const payload: SeguimientoUpdate = {
