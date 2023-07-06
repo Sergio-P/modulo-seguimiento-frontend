@@ -67,7 +67,7 @@ export default function TopoMorfoAutocompleteInput(
 
   const handleCodingChange = (coding: Coding | null) => {
     setSelectedCoding(coding);
-    props.onChange(coding ? `(${coding.code}): ${coding.description}` : null);
+    props.onChange(coding ? `(${coding.code}) ${coding.description}` : null);
   };
 
   return (
@@ -113,7 +113,7 @@ export default function TopoMorfoAutocompleteInput(
                         : "px-5 font-normal"
                     }`}
                   >
-                    ({code.code}): {code.description}
+                    ({code.code}) {code.description}
                   </li>
                 )}
               </Combobox.Option>
