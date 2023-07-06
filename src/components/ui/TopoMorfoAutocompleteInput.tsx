@@ -1,11 +1,11 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 import clsx from "clsx";
-import { Combobox } from '@headlessui/react';
-import { CodingMode } from '@/types/Enums';
-import { HiChevronDown } from 'react-icons/hi2';
+import { Combobox } from "@headlessui/react";
+import { CodingMode } from "@/types/Enums";
+import { HiChevronDown } from "react-icons/hi2";
 import { api } from "@/api";
-import { Coding } from '@/types/Coding';
-import { compareDesc } from 'date-fns';
+import { Coding } from "@/types/Coding";
+import { compareDesc } from "date-fns";
 
 function LoadingSpinner() {
   return (
@@ -32,18 +32,16 @@ function LoadingSpinner() {
   );
 }
 
-
-
-
 interface TopoMorfoAutocompleteInputProps {
-  mode: CodingMode
-  onChange: (value: string | null) => void
+  mode: CodingMode;
+  onChange: (value: string | null) => void;
 }
 
-
-export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteInputProps) {
-  const [selectedCoding, setSelectedCoding] = useState<Coding | null>(null)
-  const [query, setQuery] = useState('')
+export default function TopoMorfoAutocompleteInput(
+  props: TopoMorfoAutocompleteInputProps
+) {
+  const [selectedCoding, setSelectedCoding] = useState<Coding | null>(null);
+  const [query, setQuery] = useState("");
   const [filteredCoding, setFilteredCoding] = useState<Coding[]>([]);
 
   useEffect(() => {
@@ -52,15 +50,19 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
         const codingData = await api.getCodings(CodingMode.topography, query);
         setFilteredCoding(codingData); // Assuming the data structure matches the expected `Coding` object.
       } catch (error) {
-        console.error('Error fetching people:', error);
+        console.error("Error fetching people:", error);
       }
     };
-  
-    if (query !== '') {
-      fetchPeople();
-    } else {
-      setFilteredCoding([]); // Reset the filteredPeople state when the query is empty.
-    }
+
+    const timeoutId = setTimeout(() => {
+      if (query !== "") {
+        fetchPeople();
+      } else {
+        setFilteredCoding([]); // Reset the filteredPeople state when the query is empty.
+      }
+    }, 800); // 0.8 second delay
+
+    return () => clearTimeout(timeoutId);
   }, [CodingMode.topography, query]);
 
   const handleCodingChange = (coding: Coding | null) => {
@@ -70,19 +72,21 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
 
   return (
     <Combobox value={selectedCoding} onChange={handleCodingChange}>
-      <div className='relative'>
-        <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-background text-font-input text-left shadow-md">
-          <Combobox.Input 
-            onChange={(event) => setQuery(event.target.value)} 
-            displayValue={(coding: Coding) => coding ? `(${coding.code}): ${coding.description}` : ''}
-            className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+      <div className="relative">
+        <div className="relative w-full cursor-default overflow-hidden rounded-lg text-left text-font-input">
+          <Combobox.Input
+            onChange={(event) => setQuery(event.target.value)}
+            displayValue={(coding: Coding) =>
+              coding ? `(${coding.code}): ${coding.description}` : ""
+            }
+            placeholder="Topografía"
+            className="w-full border-none bg-background py-4 pl-3 pr-10 text-sm leading-5 text-gray-900"
           />
-          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-5">
             <HiChevronDown className="h-5 w-5 text-font-subtitle" />
           </Combobox.Button>
         </div>
-        
-      
+
         <Combobox.Options
           className={clsx(
             "absolute z-10 mt-1 max-h-60 w-fit min-w-full overflow-auto py-1",
@@ -91,28 +95,32 @@ export default function TopoMorfoAutocompleteInput(props: TopoMorfoAutocompleteI
             "focus:outline-none sm:text-sm"
           )}
         >
-          {filteredCoding.map((code) => (
-            <Combobox.Option 
-              key={code.code}
-              value={code}
-              className={clsx(
-                "relative cursor-default select-none text-font-input",
-                "hover:bg-primary hover:text-white"
-              )}
-            >
-              {({ selected }) => (
+          {filteredCoding.length > 0 ? (
+            filteredCoding.map((code) => (
+              <Combobox.Option
+                key={code.code}
+                value={code}
+                className={clsx(
+                  "relative cursor-default select-none text-font-input",
+                  "hover:bg-primary hover:text-white"
+                )}
+              >
+                {({ selected }) => (
                   <li
                     className={`block truncate py-2 ${
                       selected
                         ? "border-l-8 border-primary px-3 font-medium"
                         : "px-5 font-normal"
-                    }`}>
+                    }`}
+                  >
                     ({code.code}): {code.description}
                   </li>
-                )
-              }
-            </Combobox.Option>
-          ))}
+                )}
+              </Combobox.Option>
+            ))
+          ) : (
+            <div className="px-3 py-2 text-gray-500">No hay resultados</div>
+          )}
         </Combobox.Options>
       </div>
     </Combobox>
