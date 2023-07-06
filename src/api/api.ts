@@ -92,9 +92,9 @@ export async function getCurrentUsuario(): Promise<Usuario> {
 export async function getCodings(
   mode: CodingMode,
   query: string
-): Promise<Coding> {
+): Promise<Coding[]> {
   return await apiClient
-    .get<Coding>(`/rht_api/codings?mode=${mode}&q=${query}`)
+    .get<Coding[]>(`/rht_api/codings?mode=${mode}&q=${query}`)
     .then((response) => response.data);
 }
 

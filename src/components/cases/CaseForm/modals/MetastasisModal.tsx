@@ -14,11 +14,12 @@ import {
 } from "react-hook-form";
 import { SeguimientoContext } from "../context/seguimiento";
 import * as fns from "date-fns";
-import { EntryType } from "@/types/Enums";
+import { CodingMode, EntryType } from "@/types/Enums";
 import { EditModalRenderProps } from "../lists/edition";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoForm } from "../../CaseForm";
+import TopoMorfoAutocompleteInput from "@/components/ui/TopoMorfoAutocompleteInput";
 
 interface FormValues {
   fecha_diagnostico: Date;
@@ -96,9 +97,16 @@ export const MetastasisModalRender = ({
         />
         <Checkbox label="Fecha Estimada" {...form.register("fecha_estimada")} />
         <div className="col-span-2">
-          <TextArea
-            label="Detalle Topografía"
-            {...form.register("detalle_topografia", { required: true })}
+          <Controller
+            name="detalle_topografia"
+            control={form.control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TopoMorfoAutocompleteInput
+                mode={CodingMode.topography}
+                {...field}
+              />
+            )}
           />
         </div>
       </div>
