@@ -21,6 +21,8 @@ import useSeguimientoEntries from "../hooks/useSeguimientoEntries";
 import BooleanCell from "@/components/ui/table/BooleanCell";
 import { createEditColumn } from "./edition";
 import { TratamientoEnFalpModalRender } from "../modals/TratamientoEnFalpModal";
+import Tooltip from "@/components/ui/Tooltip";
+import Image from "next/image";
 
 type FilterFunc = (data: TratamientoEnFALP[]) => TratamientoEnFALP[];
 interface TratamientoEnFALPListProps {
@@ -96,6 +98,21 @@ export default function TratamientoEnFALPList({
       columnHelper.accessor("intencion_tto", {
         header: "Intención",
         size: 60,
+      }),
+      columnHelper.accessor("observaciones", {
+        header: "",
+        size: 32,
+        cell: ({ row }) => {
+          return <Image
+                src={`/icons/View.svg`}
+                width={32}
+                height={32}
+                alt=""
+                className="h-4 w-4"
+                title={row.original.observaciones}
+                />
+          
+        },
       }),
       createEditColumn(
         columnHelper,

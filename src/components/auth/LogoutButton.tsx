@@ -14,7 +14,7 @@ export default function LogoutButton() {
   };
   return (
     <>
-      <Button onClick={handleLogout}>Salir</Button>
+      <Button onClick={handleLogout}>Cerrar Sesión</Button>
     </>
   );
 }

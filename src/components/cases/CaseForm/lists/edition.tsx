@@ -10,6 +10,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { SeguimientoContext } from "../context/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import _ from "lodash";
+import Image from "next/image";
 
 export interface EditModalRenderProps<T = Record<string, any>>
   extends ModalRenderProps {
@@ -74,7 +75,13 @@ function EditColumnCell<
           />
         )}
       >
-        Editar
+        <Image
+            src={`/icons/edit.svg`}
+            width={16}
+            height={16}
+            alt=""
+            className="h-4 w-4"
+          />
       </Modal>
       <Button
         clear
@@ -96,7 +103,13 @@ function EditColumnCell<
         }}
         loading={updateMutation.isLoading}
       >
-        Borrar
+        <Image
+          src={`/icons/delete.svg`}
+          width={16}
+          height={16}
+          alt=""
+          className="h-4 w-4"
+        />
       </Button>
     </div>
   );

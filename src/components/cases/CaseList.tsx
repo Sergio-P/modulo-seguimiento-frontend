@@ -27,6 +27,7 @@ import SeguimientoFilters from "./CaseList/SeguimientoFilters";
 import Tooltip from "../ui/Tooltip";
 
 export default function CaseList() {
+  const userQuery = useUser();
   const caseQuery = useQuery({
     queryKey: ["seguimientos"],
     queryFn: api.getSeguimientos,
@@ -56,7 +57,11 @@ export default function CaseList() {
           <h1 className="text-4xl font-bold text-font-title">
             <Link href="/">Seguimiento de Casos</Link>
           </h1>
-          <div>
+          <div className="flex justify-between gap-4 font-bold">
+            <div className="flex flex-col items-center justify-center">
+              <div className="text-font-title">{userQuery.data?.nombre}</div>
+              <div className="text-xs text-font-subtitle">{userQuery.data?.rol.toLocaleUpperCase()}</div>
+            </div>
             <LogoutButton />
           </div>
         </div>
@@ -236,7 +241,7 @@ function CaseListTable({ data }: CaseListTableProps) {
     <>
       <Datagrid
         table={table}
-        title="Lista de Casos"
+        title="Lista de Seguimientos"
         extraHeader={
           <div>
             {userQuery.data?.rol === "admin" && (

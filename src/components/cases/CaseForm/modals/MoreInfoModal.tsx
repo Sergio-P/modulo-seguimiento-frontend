@@ -28,7 +28,7 @@ export default function MoreInfoModal(props: MoreInfoModalProps) {
             <div className="">{caso?.ficha}</div>
             <div className="font-bold">RUT/DNI</div>
             <div className="">{caso?.rut_dni}</div>
-            <div className="font-bold">ID Registro</div>
+            <div className="font-bold">Nº Registro</div>
             <div className="">{caso?.id}</div>
           </div>
           <Separator />

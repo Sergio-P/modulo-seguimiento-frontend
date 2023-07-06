@@ -197,7 +197,7 @@ export const TratamientoEnFalpModalRender = (
           <TextArea
             label="Descripción de la prestación"
             {...form.register("descripcion_de_la_prestacion", {
-              required: true,
+              required: false,
             })}
           />
         </div>

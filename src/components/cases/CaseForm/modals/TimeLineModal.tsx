@@ -99,7 +99,7 @@ export default function TimeLineModal(props: TimeLineModalProps) {
                         <div className="grid grid-cols-2 gap-4 text-left">
                           <Separator />
                           <BoldElement
-                            label={"ID Registro"}
+                            label={"Nº Registro"}
                             value={caso?.id.toString() || ""}
                           />
                           <BoldElement
