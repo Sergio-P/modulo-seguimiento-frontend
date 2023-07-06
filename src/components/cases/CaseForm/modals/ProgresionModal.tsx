@@ -5,7 +5,7 @@ import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextArea from "@/components/ui/TextArea";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
-import { EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
+import { CodingMode, EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
 import { Progresion, ProgresionCreate } from "@/types/Progresion";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import * as fns from "date-fns";
@@ -21,6 +21,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { SeguimientoContext } from "../context/seguimiento";
 import { EditModalRenderProps } from "../lists/edition";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
+import TopoMorfoAutocompleteInput from "@/components/ui/TopoMorfoAutocompleteInput";
 
 interface ProgresionModalProps extends Partial<ModalProps> {}
 
@@ -117,11 +118,16 @@ export const ProgresionModalRender = (
           )}
         />
         <div className="col-span-2">
-          <TextArea
-            label="Detalle Topografía Progresión"
-            {...form.register("detalle_topografia_progresion", {
-              required: true,
-            })}
+          <Controller
+            name="detalle_topografia_progresion"
+            control={form.control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TopoMorfoAutocompleteInput
+                mode={CodingMode.topography}
+                {...field}
+              />
+            )}
           />
         </div>
       </div>
