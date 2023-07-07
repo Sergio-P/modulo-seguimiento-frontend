@@ -4,7 +4,8 @@ export interface ProgresionBase {
   fecha_diagnostico: string;
   fecha_estimada: boolean;
   tipo: TipoRecurrenciaProgresion;
-  detalle_topografia_progresion: string;
+  codigo_topografia_progresion: string;
+  descripcion_topografia_progresion: string;
 }
 
 export interface ProgresionCreate extends ProgresionBase {

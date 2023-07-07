@@ -67,7 +67,7 @@ export default function TopoMorfoAutocompleteInput(
 
   const handleCodingChange = (coding: Coding | null) => {
     setSelectedCoding(coding);
-    props.onChange(coding ? `(${coding.code}): ${coding.description}` : null);
+    props.onChange(coding ? `(${coding.code}) ${coding.description}` : null);
   };
 
   return (
@@ -77,7 +77,7 @@ export default function TopoMorfoAutocompleteInput(
           <Combobox.Input
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(coding: Coding) =>
-              coding ? `(${coding.code}): ${coding.description}` : ""
+              coding ? `(${coding.code}) ${coding.description}` : ""
             }
             placeholder="Topografía"
             className="w-full border-none bg-background py-4 pl-3 pr-10 text-sm leading-5 text-gray-900"
@@ -113,7 +113,7 @@ export default function TopoMorfoAutocompleteInput(
                         : "px-5 font-normal"
                     }`}
                   >
-                    ({code.code}): {code.description}
+                    ({code.code}) {code.description}
                   </li>
                 )}
               </Combobox.Option>

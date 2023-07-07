@@ -48,9 +48,12 @@ const columns = [
       }
     },
   }),
-  columnHelper.accessor("detalle_topografia", {
+  columnHelper.accessor("codigo_topografia_metastasis", {
     header: "Detalle Topografia",
     size: 200,
+    cell: ({ row }) => {
+      return `(${row.original.codigo_topografia_metastasis}) ${row.original.descripcion_topografia_metastasis}`;
+    },
   }),
   createEditColumn(
     columnHelper,

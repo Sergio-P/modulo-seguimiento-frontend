@@ -49,12 +49,15 @@ const columns = [
     },
   }),
   columnHelper.accessor("tipo", {
-    header: "Tipo Recurrencia",
+    header: "Tipo Progresiṕn",
     size: 60,
   }),
-  columnHelper.accessor("detalle_topografia_progresion", {
-    header: "Detalle Topografía Recurrencia",
+  columnHelper.accessor("codigo_topografia_progresion", {
+    header: "Detalle Topografía Progresión",
     size: 200,
+    cell: ({ row }) => {
+      return `(${row.original.codigo_topografia_progresion}) ${row.original.descripcion_topografia_progresion}`;
+    },
   }),
   createEditColumn(
     columnHelper,

@@ -52,9 +52,12 @@ const columns = [
     header: "Tipo Recurrencia",
     size: 60,
   }),
-  columnHelper.accessor("detalle_topografia_recurrencia", {
+  columnHelper.accessor("codigo_topografia_recurrencia", {
     header: "Detalle Topografía Recurrencia",
     size: 200,
+    cell: ({ row }) => {
+      return `(${row.original.codigo_topografia_recurrencia}) ${row.original.descripcion_topografia_recurrencia}`;
+    },
   }),
   createEditColumn(
     columnHelper,
