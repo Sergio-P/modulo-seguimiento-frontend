@@ -61,7 +61,7 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
         <Listbox.Options
           className={clsx(
             "absolute z-10 mt-1 max-h-60 min-w-full overflow-auto py-1",
-            expand ? "max-w-full" : "w-fit",
+            expand ? "w-fit" : "max-w-full",
             "rounded-lg bg-background text-base shadow-lg",
             "ring-1 ring-zinc-800 ring-opacity-5",
             "focus:outline-none sm:text-sm"
