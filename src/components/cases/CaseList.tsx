@@ -2,54 +2,70 @@ import * as api from "@/api/api";
 import { useUser } from "@/hooks/auth";
 import { SeguimientoState } from "@/types/Enums";
 import { Seguimiento } from "@/types/Seguimiento";
+import { useQuery } from "@tanstack/react-query";
 import {
+  OnChangeFn,
+  PaginationState,
   createColumnHelper,
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import _, { set } from "lodash";
+import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
 import LogoutButton from "../auth/LogoutButton";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
+import Tooltip from "../ui/Tooltip";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
 import BooleanCell from "../ui/table/BooleanCell";
 import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
-import AssignmentModal from "./CaseList/AssignmentModal";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
+import AssignmentModal from "./CaseList/AssignmentModal";
 import SeguimientoFilters from "./CaseList/SeguimientoFilters";
-import Tooltip from "../ui/Tooltip";
 
 export default function CaseList() {
   const userQuery = useUser();
-  const caseQuery = useQuery({
-    queryKey: ["seguimientos"],
-    queryFn: api.getSeguimientos,
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
   });
-  console.log("caseQuery:", caseQuery.data);
-  const [filterFn, setFilterFn] = useState(() => (x: Seguimiento[]) => x);
-  const filteredData = useMemo(
-    () => (caseQuery.data ? filterFn(caseQuery.data) : []),
-    [caseQuery.data, filterFn]
+  const offset = useMemo(
+    () => pagination.pageIndex * pagination.pageSize,
+    [pagination]
   );
-  const subcategories = useMemo(
+  const limit = useMemo(() => pagination.pageSize, [pagination]);
+  const [filters, setFilters] = useState<Record<string, string | number>>({});
+  useEffect(() => {
+    setPagination({ pageIndex: 0, pageSize: 5 });
+  }, [filters]);
+  const caseQuery = useQuery({
+    queryKey: ["seguimientos", offset, limit, filters],
+    queryFn: () =>
+      api.getSeguimientos(
+        offset,
+        limit,
+        _.mapValues(filters, (x) => x.toString())
+      ),
+  });
+  const subcategoriesQuery = useQuery({
+    queryKey: ["subcategories"],
+    queryFn: () => api.getSubcategories(),
+  });
+  const data = useMemo(
+    () => caseQuery?.data?.body || [],
+    [caseQuery?.data?.body]
+  );
+  const pageCount = useMemo(
     () =>
-      caseQuery.data
-        ? _.uniq(
-            caseQuery.data.map(
-              (x) => x.caso_registro_correspondiente.subcategoria
-            )
-          )
-        : [],
-    [caseQuery.data]
+      caseQuery?.data?.total
+        ? _.ceil(caseQuery.data.total / pagination.pageSize)
+        : 0,
+    [pagination, caseQuery?.data?.total]
   );
-  console.log("filteredData:", filteredData);
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
@@ -60,7 +76,9 @@ export default function CaseList() {
           <div className="flex justify-between gap-4 font-bold">
             <div className="flex flex-col items-center justify-center">
               <div className="text-font-title">{userQuery.data?.nombre}</div>
-              <div className="text-xs text-font-subtitle">{userQuery.data?.rol.toLocaleUpperCase()}</div>
+              <div className="text-xs text-font-subtitle">
+                {userQuery.data?.rol.toLocaleUpperCase()}
+              </div>
             </div>
             <LogoutButton />
           </div>
@@ -69,10 +87,16 @@ export default function CaseList() {
       <BoundingBox>
         <div className="flex flex-col gap-4">
           <SeguimientoFilters
-            setFilterFn={setFilterFn}
-            subcategories={subcategories}
+            subcategories={subcategoriesQuery.data || []}
+            onFilter={setFilters}
           />
-          {caseQuery.data && <CaseListTable data={filteredData} />}
+          <CaseListTable
+            data={data}
+            pageCount={pageCount}
+            pagination={pagination}
+            onPaginationChange={setPagination}
+            loading={caseQuery.isLoading}
+          />
         </div>
       </BoundingBox>
     </MainLayout>
@@ -83,9 +107,19 @@ const columnHelper = createColumnHelper<Seguimiento>();
 
 interface CaseListTableProps {
   data: Seguimiento[];
+  pagination: PaginationState;
+  onPaginationChange: OnChangeFn<PaginationState>;
+  pageCount: number;
+  loading: boolean;
 }
 
-function CaseListTable({ data }: CaseListTableProps) {
+function CaseListTable({
+  data,
+  pagination,
+  onPaginationChange,
+  pageCount,
+  loading,
+}: CaseListTableProps) {
   const userQuery = useUser();
   const columns = useMemo(
     () => [
@@ -125,7 +159,11 @@ function CaseListTable({ data }: CaseListTableProps) {
         cell: (props) => {
           const state = props.row.original.state;
 
-          if (state === "Sin asignar" || state === "Finalizado") {
+          if (
+            state === "Sin asignar" ||
+            state === "Finalizado" ||
+            state === "Completo fallecido"
+          ) {
             return (
               <>
                 <Tooltip message={state}>
@@ -167,7 +205,7 @@ function CaseListTable({ data }: CaseListTableProps) {
       }),
       columnHelper.accessor("tipo_seguimiento", {
         header: "Tipo",
-        size: 100,
+        size: 150,
       }),
       columnHelper.accessor(
         (row) =>
@@ -222,11 +260,17 @@ function CaseListTable({ data }: CaseListTableProps) {
     ],
     [userQuery.data]
   );
+  const paginationState = useMemo(() => pagination, [pagination]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    state: {
+      pagination: paginationState,
+    },
+    onPaginationChange: onPaginationChange,
+    pageCount: pageCount,
     enableRowSelection: (row) => {
       return [
         SeguimientoState.sin_asignar,
@@ -242,6 +286,7 @@ function CaseListTable({ data }: CaseListTableProps) {
       <Datagrid
         table={table}
         title="Lista de Seguimientos"
+        loading={loading}
         extraHeader={
           <div>
             {userQuery.data?.rol === "admin" && (
