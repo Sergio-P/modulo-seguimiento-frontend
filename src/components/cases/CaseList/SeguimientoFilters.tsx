@@ -150,6 +150,7 @@ export default function SeguimientoFilters(props: SeguimientoFiltersProps) {
                   label="Sub-categoría"
                   disabled={disabled}
                   options={subcategories}
+                  expand={false}
                 />
               )}
             />

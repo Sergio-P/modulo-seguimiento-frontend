@@ -11,8 +11,10 @@ interface SelectInputProps {
   onChange?: any;
   disabled?: any;
   defaultValue?: any;
+  expand?: boolean;
 }
 const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
+  const expand = props.expand === undefined ? true : props.expand;
   const displayValue = (
     value:
       | { id: string | number; name: string }
@@ -58,7 +60,8 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
         </Listbox.Button>
         <Listbox.Options
           className={clsx(
-            "absolute z-10 mt-1 max-h-60 w-fit min-w-full overflow-auto py-1",
+            "absolute z-10 mt-1 max-h-60 min-w-full overflow-auto py-1",
+            expand ? "max-w-full" : "w-fit",
             "rounded-lg bg-background text-base shadow-lg",
             "ring-1 ring-zinc-800 ring-opacity-5",
             "focus:outline-none sm:text-sm"
