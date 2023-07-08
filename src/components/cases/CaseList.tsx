@@ -165,7 +165,7 @@ function CaseListTable({
         cell: (props) => {
           const state = props.row.original.state;
 
-          if (state === "Sin asignar" || state === "Finalizado") {
+          if (state === "Sin asignar" || state === "Finalizado" || state === "Completo fallecido") {
             return (
               <>
                 <Tooltip message={state}>
