@@ -2,31 +2,30 @@ import * as api from "@/api/api";
 import { useUser } from "@/hooks/auth";
 import { SeguimientoState } from "@/types/Enums";
 import { Seguimiento } from "@/types/Seguimiento";
+import { useQuery } from "@tanstack/react-query";
 import {
   OnChangeFn,
   PaginationState,
   createColumnHelper,
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import _, { set } from "lodash";
+import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import LogoutButton from "../auth/LogoutButton";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
+import Tooltip from "../ui/Tooltip";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
 import BooleanCell from "../ui/table/BooleanCell";
 import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
-import AssignmentModal from "./CaseList/AssignmentModal";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
+import AssignmentModal from "./CaseList/AssignmentModal";
 import SeguimientoFilters from "./CaseList/SeguimientoFilters";
-import Tooltip from "../ui/Tooltip";
 
 export default function CaseList() {
   const userQuery = useUser();
