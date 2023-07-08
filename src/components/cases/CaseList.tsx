@@ -31,7 +31,7 @@ export default function CaseList() {
   const userQuery = useUser();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 1,
+    pageSize: 5,
   });
   const offset = useMemo(
     () => pagination.pageIndex * pagination.pageSize,
@@ -166,7 +166,11 @@ function CaseListTable({
         cell: (props) => {
           const state = props.row.original.state;
 
-          if (state === "Sin asignar" || state === "Finalizado" || state === "Completo fallecido") {
+          if (
+            state === "Sin asignar" ||
+            state === "Finalizado" ||
+            state === "Completo fallecido"
+          ) {
             return (
               <>
                 <Tooltip message={state}>
