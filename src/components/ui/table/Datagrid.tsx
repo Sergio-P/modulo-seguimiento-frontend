@@ -110,7 +110,7 @@ export default function Datagrid<TData = any>({
                       className={clsx(
                         "border-t border-zinc-200 px-2 py-2",
                         "text-sm tracking-wide text-font-title",
-                        "h-16 overflow-hidden text-ellipsis bg-background-light"
+                        "h-16 text-ellipsis bg-background-light"
                       )}
                       style={{
                         width: cell.column.getSize(),
