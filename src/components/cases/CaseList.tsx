@@ -25,7 +25,10 @@ import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 import AssignmentModal from "./CaseList/AssignmentModal";
-import SeguimientoFilters from "./CaseList/SeguimientoFilters";
+import SeguimientoFilters, {
+  SeguimientoFiltersFormData,
+} from "./CaseList/SeguimientoFilters";
+import * as fns from "date-fns";
 
 export default function CaseList() {
   const userQuery = useUser();
@@ -48,6 +51,14 @@ export default function CaseList() {
         _.mapValues(filters, (x) => x.toString())
       ),
   });
+  const subcategoriesQuery = useQuery({
+    queryKey: ["subcategories"],
+    queryFn: () => api.getSubcategories(),
+  });
+  const data = useMemo(
+    () => caseQuery?.data?.body || [],
+    [caseQuery?.data?.body]
+  );
   const pageCount = useMemo(
     () =>
       caseQuery?.data?.total
@@ -55,24 +66,6 @@ export default function CaseList() {
         : 0,
     [pagination, caseQuery?.data?.total]
   );
-  console.log("caseQuery:", caseQuery.data);
-  const [filterFn, setFilterFn] = useState(() => (x: Seguimiento[]) => x);
-  const filteredData = useMemo(
-    () => (caseQuery.data ? filterFn(caseQuery.data.body) : []),
-    [caseQuery.data, filterFn]
-  );
-  const subcategories = useMemo(
-    () =>
-      caseQuery.data
-        ? _.uniq(
-            caseQuery.data.body.map(
-              (x) => x.caso_registro_correspondiente.subcategoria
-            )
-          )
-        : [],
-    [caseQuery.data]
-  );
-  console.log("filteredData:", filteredData);
   return (
     <MainLayout>
       <div className="px-5 pb-6 pt-5">
@@ -94,11 +87,11 @@ export default function CaseList() {
       <BoundingBox>
         <div className="flex flex-col gap-4">
           <SeguimientoFilters
-            setFilterFn={setFilterFn}
-            subcategories={subcategories}
+            subcategories={subcategoriesQuery.data || []}
+            onFilter={setFilters}
           />
           <CaseListTable
-            data={filteredData}
+            data={data}
             pageCount={pageCount}
             pagination={pagination}
             onPaginationChange={setPagination}

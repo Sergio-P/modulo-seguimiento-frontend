@@ -73,6 +73,14 @@ export async function postComentario(
   );
 }
 
+// caso registro
+
+export async function getSubcategories(): Promise<string[]> {
+  return await apiClient
+    .get("/caso_registro/subcategorias/")
+    .then((res) => res.data);
+}
+
 // usuarios
 
 export async function getUsuarios(): Promise<Usuario[]> {
