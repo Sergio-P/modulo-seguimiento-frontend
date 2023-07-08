@@ -3,6 +3,8 @@ import { useUser } from "@/hooks/auth";
 import { SeguimientoState } from "@/types/Enums";
 import { Seguimiento } from "@/types/Seguimiento";
 import {
+  OnChangeFn,
+  PaginationState,
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
@@ -28,8 +30,15 @@ import Tooltip from "../ui/Tooltip";
 
 export default function CaseList() {
   const userQuery = useUser();
-  const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(2);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+  const offset = useMemo(
+    () => pagination.pageIndex * pagination.pageSize,
+    [pagination]
+  );
+  const limit = useMemo(() => pagination.pageSize, [pagination]);
   const [filters, setFilters] = useState<Record<string, string | number>>({});
   const caseQuery = useQuery({
     queryKey: ["seguimientos", offset, limit, filters],
@@ -40,6 +49,13 @@ export default function CaseList() {
         _.mapValues(filters, (x) => x.toString())
       ),
   });
+  const pageCount = useMemo(
+    () =>
+      caseQuery?.data?.total
+        ? _.ceil(caseQuery.data.total / pagination.pageSize)
+        : 0,
+    [pagination, caseQuery?.data?.total]
+  );
   console.log("caseQuery:", caseQuery.data);
   const [filterFn, setFilterFn] = useState(() => (x: Seguimiento[]) => x);
   const filteredData = useMemo(
@@ -82,7 +98,14 @@ export default function CaseList() {
             setFilterFn={setFilterFn}
             subcategories={subcategories}
           />
-          {caseQuery.data && <CaseListTable data={filteredData} />}
+          {caseQuery.data && (
+            <CaseListTable
+              data={filteredData}
+              pageCount={pageCount}
+              pagination={pagination}
+              onPaginationChange={setPagination}
+            />
+          )}
         </div>
       </BoundingBox>
     </MainLayout>
@@ -93,9 +116,17 @@ const columnHelper = createColumnHelper<Seguimiento>();
 
 interface CaseListTableProps {
   data: Seguimiento[];
+  pagination: PaginationState;
+  onPaginationChange: OnChangeFn<PaginationState>;
+  pageCount: number;
 }
 
-function CaseListTable({ data }: CaseListTableProps) {
+function CaseListTable({
+  data,
+  pagination,
+  onPaginationChange,
+  pageCount,
+}: CaseListTableProps) {
   const userQuery = useUser();
   const columns = useMemo(
     () => [
@@ -232,11 +263,17 @@ function CaseListTable({ data }: CaseListTableProps) {
     ],
     [userQuery.data]
   );
+  const paginationState = useMemo(() => pagination, [pagination]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    state: {
+      pagination: paginationState,
+    },
+    onPaginationChange: onPaginationChange,
+    pageCount: pageCount,
     enableRowSelection: (row) => {
       return [
         SeguimientoState.sin_asignar,
