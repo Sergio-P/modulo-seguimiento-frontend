@@ -28,21 +28,29 @@ import Tooltip from "../ui/Tooltip";
 
 export default function CaseList() {
   const userQuery = useUser();
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(2);
+  const [filters, setFilters] = useState<Record<string, string | number>>({});
   const caseQuery = useQuery({
-    queryKey: ["seguimientos"],
-    queryFn: api.getSeguimientos,
+    queryKey: ["seguimientos", offset, limit, filters],
+    queryFn: () =>
+      api.getSeguimientos(
+        offset,
+        limit,
+        _.mapValues(filters, (x) => x.toString())
+      ),
   });
   console.log("caseQuery:", caseQuery.data);
   const [filterFn, setFilterFn] = useState(() => (x: Seguimiento[]) => x);
   const filteredData = useMemo(
-    () => (caseQuery.data ? filterFn(caseQuery.data) : []),
+    () => (caseQuery.data ? filterFn(caseQuery.data.body) : []),
     [caseQuery.data, filterFn]
   );
   const subcategories = useMemo(
     () =>
       caseQuery.data
         ? _.uniq(
-            caseQuery.data.map(
+            caseQuery.data.body.map(
               (x) => x.caso_registro_correspondiente.subcategoria
             )
           )
@@ -60,7 +68,9 @@ export default function CaseList() {
           <div className="flex justify-between gap-4 font-bold">
             <div className="flex flex-col items-center justify-center">
               <div className="text-font-title">{userQuery.data?.nombre}</div>
-              <div className="text-xs text-font-subtitle">{userQuery.data?.rol.toLocaleUpperCase()}</div>
+              <div className="text-xs text-font-subtitle">
+                {userQuery.data?.rol.toLocaleUpperCase()}
+              </div>
             </div>
             <LogoutButton />
           </div>

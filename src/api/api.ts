@@ -7,8 +7,14 @@ import { Report } from "@/types/Report";
 import apiClient from "@/utils/axios";
 import { AxiosResponse } from "axios";
 import * as fns from "date-fns";
+import _ from "lodash";
 
 type Id = number | string;
+
+interface PaginatedResponse<T> {
+  body: T;
+  total: number;
+}
 
 // seguimientos
 
@@ -34,9 +40,20 @@ export async function getSeguimiento(seguimientoId: Id): Promise<Seguimiento> {
     .then((res) => res.data);
 }
 
-export async function getSeguimientos(): Promise<Seguimiento[]> {
+export async function getSeguimientos(
+  skip = 0,
+  limit = 100,
+  filters: Record<string, string> = {}
+): Promise<PaginatedResponse<Seguimiento[]>> {
+  const query: Record<string, string> = {
+    ...filters,
+    skip: skip.toString(),
+    limit: limit.toString(),
+  };
   return await apiClient
-    .get("/seguimiento/", { timeout: 5000 }) // TODO: handle timeout in a better way
+    .get(`/seguimiento/?${new URLSearchParams(query).toString()}`, {
+      timeout: 5000,
+    }) // TODO: handle timeout in a better way
     .then((res) => res.data);
 }
 
