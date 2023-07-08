@@ -10,10 +10,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import _, { truncate } from "lodash";
+import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import LogoutButton from "../auth/LogoutButton";
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
@@ -25,10 +25,7 @@ import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 import AssignmentModal from "./CaseList/AssignmentModal";
-import SeguimientoFilters, {
-  SeguimientoFiltersFormData,
-} from "./CaseList/SeguimientoFilters";
-import * as fns from "date-fns";
+import SeguimientoFilters from "./CaseList/SeguimientoFilters";
 
 export default function CaseList() {
   const userQuery = useUser();
@@ -42,6 +39,9 @@ export default function CaseList() {
   );
   const limit = useMemo(() => pagination.pageSize, [pagination]);
   const [filters, setFilters] = useState<Record<string, string | number>>({});
+  useEffect(() => {
+    setPagination({ pageIndex: 0, pageSize: 5 });
+  }, [filters]);
   const caseQuery = useQuery({
     queryKey: ["seguimientos", offset, limit, filters],
     queryFn: () =>
