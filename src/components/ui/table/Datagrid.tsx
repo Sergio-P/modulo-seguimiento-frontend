@@ -3,17 +3,20 @@ import SelectInput from "../SelectInput";
 import clsx from "clsx";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { isPropertySignature } from "typescript";
+import { FaSpinner } from "react-icons/fa";
 
 export default function Datagrid<TData = any>({
   table,
   title,
   total,
   extraHeader,
+  loading,
 }: {
   table: Table<TData>;
   title?: string;
   total?: { value: number; name: string; pluralName?: string };
   extraHeader?: React.ReactNode;
+  loading?: boolean;
 }) {
   const PaginationButton = ({ pageIndex }: { pageIndex: number }) => (
     <button
@@ -83,28 +86,48 @@ export default function Datagrid<TData = any>({
             ))}
           </thead>
 
-          <tbody className="">
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={clsx(
-                      "border-t border-zinc-200 px-2 py-2",
-                      "text-sm tracking-wide text-font-title",
-                      "bg-background-light"
-                    )}
-                    style={{
-                      width: cell.column.getSize(),
-                      minWidth: cell.column.getSize(),
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
+          {loading ? (
+            <tbody className="bg-background-light">
+              <tr>
+                <td
+                  colSpan={table.getAllColumns().length}
+                  className="items-center justify-center"
+                  style={{ height: table.getState().pagination.pageSize * 64 }}
+                >
+                  <div className="flex items-center justify-center">
+                    <FaSpinner className="h-10 w-10 animate-spin text-primary opacity-40" />
+                  </div>
+                </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) : (
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className={clsx(
+                        "border-t border-zinc-200 px-2 py-2",
+                        "text-sm tracking-wide text-font-title",
+                        "h-16 overflow-hidden text-ellipsis bg-background-light"
+                      )}
+                      style={{
+                        width: cell.column.getSize(),
+                        minWidth: cell.column.getSize(),
+                        maxWidth: cell.column.getSize(),
+                      }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
 

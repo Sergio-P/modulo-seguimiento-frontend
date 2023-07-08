@@ -10,7 +10,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import _ from "lodash";
+import _, { truncate } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -31,7 +31,7 @@ export default function CaseList() {
   const userQuery = useUser();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 1,
   });
   const offset = useMemo(
     () => pagination.pageIndex * pagination.pageSize,
@@ -97,14 +97,13 @@ export default function CaseList() {
             setFilterFn={setFilterFn}
             subcategories={subcategories}
           />
-          {caseQuery.data && (
-            <CaseListTable
-              data={filteredData}
-              pageCount={pageCount}
-              pagination={pagination}
-              onPaginationChange={setPagination}
-            />
-          )}
+          <CaseListTable
+            data={filteredData}
+            pageCount={pageCount}
+            pagination={pagination}
+            onPaginationChange={setPagination}
+            loading={caseQuery.isLoading}
+          />
         </div>
       </BoundingBox>
     </MainLayout>
@@ -118,6 +117,7 @@ interface CaseListTableProps {
   pagination: PaginationState;
   onPaginationChange: OnChangeFn<PaginationState>;
   pageCount: number;
+  loading: boolean;
 }
 
 function CaseListTable({
@@ -125,6 +125,7 @@ function CaseListTable({
   pagination,
   onPaginationChange,
   pageCount,
+  loading,
 }: CaseListTableProps) {
   const userQuery = useUser();
   const columns = useMemo(
@@ -207,7 +208,7 @@ function CaseListTable({
       }),
       columnHelper.accessor("tipo_seguimiento", {
         header: "Tipo",
-        size: 100,
+        size: 150,
       }),
       columnHelper.accessor(
         (row) =>
@@ -288,6 +289,7 @@ function CaseListTable({
       <Datagrid
         table={table}
         title="Lista de Seguimientos"
+        loading={loading}
         extraHeader={
           <div>
             {userQuery.data?.rol === "admin" && (
