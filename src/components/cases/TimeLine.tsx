@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
-import CustomListDisplay from "../ui/CustomListDisplay";
+import CustomListDisplay from "./Timeline/CustomListDisplay";
 
 interface TimeLineProps {}
 
