@@ -20,6 +20,8 @@ import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoForm } from "../../CaseForm";
 import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
+import { Reports } from "../reports/Reports";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface FormValues {
   fecha_diagnostico: Date;
@@ -140,7 +142,12 @@ export default function MetastasisModal(props: MetastasisModalProps) {
     <Modal
       title="Metástasis"
       icon="plus"
-      render={(renderProps) => <MetastasisModalRender {...renderProps} />}
+      width="xl"
+      render={(renderProps) => (
+        <ReportsModalWrapper>
+          <MetastasisModalRender {...renderProps} />
+        </ReportsModalWrapper>
+      )}
       {...props}
     >
       Agregar Metástasis

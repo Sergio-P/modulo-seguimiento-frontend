@@ -26,6 +26,7 @@ import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { EditModalRenderProps } from "../lists/edition";
 import _ from "lodash";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface FormValues {
   medico: string;
@@ -80,10 +81,10 @@ export const TratamientoEnFalpModalRender = (
         fns.format(data.fecha_de_termino as Date, "yyyy-MM-dd"),
     };
 
-    if (en_tto){
+    if (en_tto) {
       entryContent.fecha_de_termino = null;
     }
-    
+
     const payload: SeguimientoUpdate = {
       ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
       [props.edit && props.data ? "updated_entries" : "new_entries"]: [
@@ -236,8 +237,11 @@ export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
     <Modal
       title="Tratamientos"
       icon="plus"
+      width="xl"
       render={(renderProps) => (
-        <TratamientoEnFalpModalRender {...renderProps} />
+        <ReportsModalWrapper>
+          <TratamientoEnFalpModalRender {...renderProps} />
+        </ReportsModalWrapper>
       )}
       {...props}
     >

@@ -26,6 +26,7 @@ import apiClient from "@/utils/axios";
 import ComentarioList from "../sections/ComentarioListSection";
 import ComentarioListSection from "../sections/ComentarioListSection";
 import { api } from "@/api";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface FormValues {
   comentario: string;
@@ -106,7 +107,11 @@ export default function ComentarioModal(props: ComentarioModalProps) {
       title="Comentarios"
       icon="chatbubble"
       width="lg"
-      render={(renderProps) => <ComentarioModalRender {...renderProps} />}
+      render={(renderProps) => (
+        <ReportsModalWrapper>
+          <ComentarioModalRender {...renderProps} />
+        </ReportsModalWrapper>
+      )}
       {...props}
     >
       Comentarios

@@ -26,6 +26,7 @@ import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface RecurrenciaModalProps extends Partial<ModalProps> {}
 
@@ -166,7 +167,12 @@ export default function RecurrenciaModal(props: RecurrenciaModalProps) {
     <Modal
       title="Recurrencia"
       icon="plus"
-      render={(renderProps) => <RecurrenciaModalRender {...renderProps} />}
+      width="xl"
+      render={(renderProps) => (
+        <ReportsModalWrapper>
+          <RecurrenciaModalRender {...renderProps} />
+        </ReportsModalWrapper>
+      )}
       {..._.omit(props)}
     >
       Agregar Recurrencia

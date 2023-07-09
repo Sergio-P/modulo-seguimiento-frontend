@@ -123,8 +123,8 @@ export async function getCodings(
     .then((response) => response.data);
 }
 
-export async function getReports(caseId: number): Promise<Report> {
+export async function getReports(caseId: number): Promise<Report[]> {
   return await apiClient
-    .get<Report>(`/rht_api/reports?case_id=${caseId}`)
+    .get<Report[]>(`/rht_api/reports?case_id=${caseId}`)
     .then((response) => response.data);
 }

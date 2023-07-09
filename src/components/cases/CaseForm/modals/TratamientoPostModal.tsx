@@ -33,6 +33,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { SeguimientoContext } from "../context/seguimiento";
 import { EditModalRenderProps } from "../lists/edition";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface FormValues {
   fecha_de_inicio: Date;
@@ -215,7 +216,12 @@ export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
     <Modal
       title="Tratamientos"
       icon="plus"
-      render={(renderProps) => <TratamientoPostModalRender {...renderProps} />}
+      width="xl"
+      render={(renderProps) => (
+        <ReportsModalWrapper>
+          <TratamientoPostModalRender {...renderProps} />
+        </ReportsModalWrapper>
+      )}
       {...props}
     >
       Agregar

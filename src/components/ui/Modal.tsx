@@ -13,6 +13,7 @@ export interface ModalProps extends ButtonProps {
   title: string;
   render: React.ComponentType<ModalRenderProps>;
   width?: "md" | "lg" | "xl";
+  outerNode?: React.ReactNode;
 }
 
 export default function Modal({
@@ -41,6 +42,7 @@ export default function Modal({
         onClose={handleClose}
         title={props.title}
         width={props.width}
+        outerNode={props.outerNode}
       >
         <RenderComponent handleClose={handleClose} handleOpen={handleOpen} />
       </CustomDialog>

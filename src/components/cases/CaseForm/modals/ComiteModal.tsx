@@ -20,6 +20,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface ComiteModalProps extends Partial<ModalProps> {}
 
@@ -130,7 +131,12 @@ export default function ComiteModal(props: ComiteModalProps) {
     <Modal
       title="Comité Oncológico"
       icon="plus"
-      render={(renderProps) => <ComiteModalRender {...renderProps} />}
+      width="xl"
+      render={(renderProps) => (
+        <ReportsModalWrapper>
+          <ComiteModalRender {...renderProps} />
+        </ReportsModalWrapper>
+      )}
       {...props}
     >
       Agregar Comité

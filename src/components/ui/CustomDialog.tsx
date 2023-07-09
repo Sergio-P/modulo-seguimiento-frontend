@@ -9,6 +9,7 @@ export default function CustomDialog(
     onClose: () => void;
     title?: string;
     width?: "md" | "lg" | "xl";
+    outerNode?: React.ReactNode;
   } & React.PropsWithChildren
 ) {
   const widthClassName = {
@@ -45,7 +46,7 @@ export default function CustomDialog(
         >
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4">
-              {/*<Dialog.Panel className="mx-auto max-w-sm rounded bg-white">*/}
+              {props.outerNode}
               <Dialog.Panel
                 className={clsx(
                   widthClassName[props.width || "md"],

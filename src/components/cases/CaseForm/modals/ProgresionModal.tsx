@@ -26,6 +26,7 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { EditModalRenderProps } from "../lists/edition";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
+import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 
 interface ProgresionModalProps extends Partial<ModalProps> {}
 
@@ -166,7 +167,12 @@ export default function ProgresionModal(props: ProgresionModalProps) {
     <Modal
       title="Progresión"
       icon="plus"
-      render={(renderProps) => <ProgresionModalRender {...renderProps} />}
+      width="xl"
+      render={(renderProps) => (
+        <ReportsModalWrapper>
+          <ProgresionModalRender {...renderProps} />
+        </ReportsModalWrapper>
+      )}
       {..._.omit(props)}
     >
       Agregar Progresión
