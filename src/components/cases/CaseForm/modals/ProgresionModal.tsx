@@ -5,7 +5,11 @@ import Modal, { ModalProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextArea from "@/components/ui/TextArea";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
-import { CodingMode, EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
+import {
+  CodingMode,
+  EntryType,
+  TipoRecurrenciaProgresion,
+} from "@/types/Enums";
 import { Progresion, ProgresionCreate } from "@/types/Progresion";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import * as fns from "date-fns";
@@ -21,7 +25,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { SeguimientoContext } from "../context/seguimiento";
 import { EditModalRenderProps } from "../lists/edition";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
-import TopoMorfoAutocompleteInput from "@/components/ui/TopoMorfoAutocompleteInput";
+import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
 
 interface ProgresionModalProps extends Partial<ModalProps> {}
 
@@ -62,8 +66,14 @@ export const ProgresionModalRender = (
       fecha_estimada: data.fecha_estimada,
       tipo: data.tipo,
       numero_seguimiento: seguimiento.numero_seguimiento,
-      codigo_topografia_progresion: data.detalle_topografia_progresion.split(" ")[0].replace("(", "").replace(")", ""),
-      descripcion_topografia_progresion: data.detalle_topografia_progresion.split(" ").slice(1).join(" "),
+      codigo_topografia_progresion: data.detalle_topografia_progresion
+        .split(" ")[0]
+        .replace("(", "")
+        .replace(")", ""),
+      descripcion_topografia_progresion: data.detalle_topografia_progresion
+        .split(" ")
+        .slice(1)
+        .join(" "),
     };
     const payload: SeguimientoUpdate = {
       ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),

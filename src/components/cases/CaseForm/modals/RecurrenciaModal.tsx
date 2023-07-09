@@ -4,7 +4,11 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextArea from "@/components/ui/TextArea";
-import { CodingMode, EntryType, TipoRecurrenciaProgresion } from "@/types/Enums";
+import {
+  CodingMode,
+  EntryType,
+  TipoRecurrenciaProgresion,
+} from "@/types/Enums";
 import { Recurrencia, RecurrenciaCreate } from "@/types/Recurrencia";
 import * as fns from "date-fns";
 import _ from "lodash";
@@ -21,7 +25,7 @@ import { SeguimientoForm } from "../../CaseForm";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
-import TopoMorfoAutocompleteInput from "@/components/ui/TopoMorfoAutocompleteInput";
+import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
 
 interface RecurrenciaModalProps extends Partial<ModalProps> {}
 
@@ -61,8 +65,14 @@ export const RecurrenciaModalRender = (
       updated_at: new Date().toISOString(),
       tipo: data.tipo,
       fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
-      codigo_topografia_recurrencia: data.detalle_topografia_recurrencia.split(" ")[0].replace("(", "").replace(")", ""),
-      descripcion_topografia_recurrencia: data.detalle_topografia_recurrencia.split(" ").slice(1).join(" "),
+      codigo_topografia_recurrencia: data.detalle_topografia_recurrencia
+        .split(" ")[0]
+        .replace("(", "")
+        .replace(")", ""),
+      descripcion_topografia_recurrencia: data.detalle_topografia_recurrencia
+        .split(" ")
+        .slice(1)
+        .join(" "),
       numero_seguimiento: seguimiento.numero_seguimiento,
     };
     const payload: SeguimientoUpdate = {
