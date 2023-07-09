@@ -14,6 +14,7 @@ import TimeLine from "./TimeLine";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import Tooltip from "../ui/Tooltip";
 import ComentarModal from "./CaseForm/modals/ComentarModal";
+import ReportsModal from "./CaseForm/modals/ReportsModal";
 
 interface CaseTimeLineProps {
   caseId: string;
@@ -45,6 +46,7 @@ function InnerTimeline(props: CaseTimeLineProps) {
               </Button>
             </Link>
             <ComentarModal />
+            <ReportsModal />
             <Link href="../../">
               <Button icon="GeoLocate" filled>
                 Seguimientos

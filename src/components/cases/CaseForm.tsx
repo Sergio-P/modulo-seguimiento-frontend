@@ -9,6 +9,7 @@ import { useContext, useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../ui/Button";
 import SelectInput from "../ui/SelectInput";
+import Tooltip from "../ui/Tooltip";
 import BoundingBox from "../ui/layout/BoundingBox";
 import MainLayout from "../ui/layout/MainLayout";
 import { SeguimientoContext } from "./CaseForm/context/seguimiento";
@@ -16,9 +17,10 @@ import {
   UpdateDataContext,
   UpdateDataProvider,
 } from "./CaseForm/context/updateData";
+import ComentarModal from "./CaseForm/modals/ComentarModal";
 import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
+import ReportsModal from "./CaseForm/modals/ReportsModal";
 import SignModal from "./CaseForm/modals/SignModal";
-import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 import ComiteSection from "./CaseForm/sections/ComiteSection";
 import MetastasisSection from "./CaseForm/sections/MetastasisSection";
 import ProgresionSection from "./CaseForm/sections/ProgresionSection";
@@ -30,8 +32,6 @@ import {
   unserializeSeguimiento,
 } from "./CaseForm/serialization/serialization";
 import { BoldElement, Subtitle } from "./CaseForm/ui";
-import Tooltip from "../ui/Tooltip";
-import ComentarModal from "./CaseForm/modals/ComentarModal";
 
 interface CaseFormProps {
   caseId: string;
@@ -165,6 +165,7 @@ function InnerCaseForm(props: CaseFormProps) {
                 </Button>
               </Link>
               <ComentarModal />
+              <ReportsModal />
               <Button
                 icon="SaveIcon"
                 filled
