@@ -46,7 +46,6 @@ interface StickyProps {
   caseId: string;
 }
 
-const form = useFormContext<SeguimientoForm>();
 
 export default function Sticky(props: StickyProps) {
   console.log("holas");

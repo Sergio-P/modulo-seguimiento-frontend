@@ -78,7 +78,7 @@ export default function AssignmentModal(props: {
                     {user.nombre}
                   </div>
                   <div className="-mt-[2px] text-xs font-normal text-font-subtitle">
-                    {user.email}
+                    {user.rol}
                   </div>
                 </div>
               </div>

@@ -106,9 +106,9 @@ export default function ComentarioModal(props: ComentarioModalProps) {
     <Modal
       title="Comentarios"
       icon="chatbubble"
-      width="lg"
+      width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper>
+        <ReportsModalWrapper modcom>
           <ComentarioModalRender {...renderProps} />
         </ReportsModalWrapper>
       )}

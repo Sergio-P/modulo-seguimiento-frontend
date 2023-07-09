@@ -218,7 +218,7 @@ export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper>
+        <ReportsModalWrapper modtratpost>
           <TratamientoPostModalRender {...renderProps} />
         </ReportsModalWrapper>
       )}

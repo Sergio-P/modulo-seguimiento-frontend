@@ -34,7 +34,7 @@ export function Reports() {
     );
   }
   return (
-    <div className="overflow-scroll text-sm">
+    <div className="text-sm">
       <div className="flex flex-col gap-2">
         {reportsQuery.data?.map((report) => (
           <div
@@ -42,23 +42,25 @@ export function Reports() {
             className="rounded-md border border-gray-200 shadow-sm"
           >
             <Disclosure>
-              <Disclosure.Button className="flex w-full flex-row items-center justify-between py-1 px-2">
+              <div className="flex w-full flex-row items-center justify-between py-1 px-2">
                 <div className="flex flex-row items-center gap-2">
                   <div className="text-base text-font-title">{report.tipo}</div>
                   <div className="text-font-subtitle">
                     ({fns.format(new Date(report.fecha), "dd-MM-yyyy")})
                   </div>
                 </div>
-                <button>
-                  <Image
-                    src={`/icons/plusButton.svg`}
-                    width={24}
-                    height={24}
-                    alt=""
-                    className="m-auto h-5 w-5 rounded-xl hover:bg-background-dark"
-                  />
-                </button>
-              </Disclosure.Button>
+                <Disclosure.Button>
+                  <button>
+                    <Image
+                      src={`/icons/plusButton.svg`}
+                      width={24}
+                      height={24}
+                      alt=""
+                      className="m-auto h-5 w-5 rounded-xl hover:bg-background-dark"
+                    />
+                  </button>
+                </Disclosure.Button>
+              </div>
               <Disclosure.Panel className="h-full overflow-hidden rounded-b-md bg-gray-50">
                 <div className="whitespace-pre-wrap px-2 py-1 font-mono text-xs text-gray-700">
                   {report.informe}

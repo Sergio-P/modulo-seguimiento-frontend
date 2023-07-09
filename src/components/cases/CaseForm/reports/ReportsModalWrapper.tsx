@@ -1,9 +1,22 @@
 import { Reports } from "./Reports";
+import clsx from "clsx";
 
-export function ReportsModalWrapper(props: React.PropsWithChildren) {
+interface wrapperProps extends React.PropsWithChildren{
+  modcom?: boolean
+  modtraten?: boolean
+  modtratpost?: boolean
+}
+
+export function ReportsModalWrapper(props: wrapperProps) {
+  const {modcom, modtraten, modtratpost} = props;
   return (
     <div className="grid grid-cols-12 divide-x">
-      <div className="col-span-6 h-[30vh] overflow-scroll pr-4">
+      <div className={clsx(
+        modcom && "h-[70vh]",
+        modtraten && "h-[60vh]",
+        modtratpost && "h-[45vh]",
+        "h-[30vh]",
+        "col-span-6 overflow-y-auto pr-4")}>
         <Reports />
       </div>
       <div className="col-span-6 pl-4">{props.children}</div>

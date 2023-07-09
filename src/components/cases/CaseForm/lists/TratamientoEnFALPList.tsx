@@ -57,21 +57,21 @@ export default function TratamientoEnFALPList({
       columnHelper.accessor("fecha_de_inicio", {
         header: "Inicio",
         cell: DateCell,
-        size: 50,
+        size: 70,
       }),
       columnHelper.accessor("fecha_de_termino", {
         header: "Término",
         cell: DateCell,
-        size: 50,
+        size: 60,
       }),
       columnHelper.accessor("en_tto", {
         header: "En Tto.",
-        size: 55,
+        size: 25,
         cell: BooleanCell,
       }),
       columnHelper.accessor("numero_seguimiento", {
         header: "Origen",
-        size: 60,
+        size: 78,
         cell: ({ row }) => {
           if (
             row.original.numero_seguimiento === null ||
@@ -97,16 +97,16 @@ export default function TratamientoEnFALPList({
       }),
       columnHelper.accessor("intencion_tto", {
         header: "Intención",
-        size: 60,
+        size: 35,
       }),
       columnHelper.accessor("observaciones", {
         header: "Obs.",
-        size: 32,
+        size: 10,
         cell: ({ row }) => {
           return <Image
                 src={`/icons/clipboard.svg`}
-                width={48}
-                height={48}
+                width={30}
+                height={30}
                 alt=""
                 className="h-6 w-6"
                 title={row.original.observaciones}

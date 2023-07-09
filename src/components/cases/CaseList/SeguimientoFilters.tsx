@@ -149,7 +149,7 @@ export default function SeguimientoFilters(props: SeguimientoFiltersProps) {
                   {...field}
                   label="Sub-categoría"
                   disabled={disabled}
-                  options={subcategories}
+                  options={subcategories.sort()}
                   expand={false}
                 />
               )}
@@ -179,7 +179,7 @@ export default function SeguimientoFilters(props: SeguimientoFiltersProps) {
                   options={
                     usersQuery.data?.map((user) => ({
                       id: user.id,
-                      name: user.email,
+                      name: user.nombre,
                     })) || []
                   }
                 />

@@ -38,8 +38,8 @@ export default function Home() {
       <div className="absolute bottom-0 right-0">
         <Image
           src={"abstractform.svg"}
-          width="500"
-          height="500"
+          width="700"
+          height="700"
           alt=""
           className="opacity-30"
         />

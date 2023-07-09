@@ -8,7 +8,7 @@ export default function ComiteSection() {
   const { control, register } = useFormContext();
   const tieneComite: boolean = useWatch({
     control,
-    name: "tiene_comite_oncologico",
+    name: "posee_comite",
     defaultValue: false,
   });
 
@@ -17,11 +17,11 @@ export default function ComiteSection() {
       <SubSection>
         <div className="flex justify-between">
           <Controller
-            name="tiene_comite_oncologico"
+            name="posee_comite"
             control={control}
             render={({ field }) => (
               <Checkbox
-                {...register("tiene_comite_oncologico")}
+                {...register("posee_comite")}
                 label="Presenta Comité Oncológico"
                 checked={field.value}
               />
