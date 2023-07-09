@@ -24,6 +24,10 @@ Install the dependencies
 npm install
 ```
 
+Create Environment Variables on root inside file named `.env.local`:
+- `BACKEND_HOST`: Hostname for backend service
+- `BACKEDN_PORT`: Port for backend service
+
 #### Run the development server:
 
 ```bash
