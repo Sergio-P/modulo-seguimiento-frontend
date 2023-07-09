@@ -26,7 +26,7 @@ export default function ComentarioListSection({}: ComentarioListProps) {
       {comentarios.length > 0 ? (
         <div>
           {comentarios.map((comentario) => (
-            <div className="m-4 flex-col rounded-lg bg-background-dark px-3 py-2">
+            <div key={comentario.id} className="m-4 flex-col rounded-lg bg-background-dark px-3 py-2">
               <div className="text-lg">{comentario.comentario}</div>
               <div className="flex justify-end gap-8 pt-3 font-semibold text-font-subtitle">
                 <div>{comentario.nombre_usuario}</div>

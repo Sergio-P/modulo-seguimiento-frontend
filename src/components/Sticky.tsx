@@ -26,36 +26,32 @@ const sections = [
   { id: "comite", name: "Comité" },
   { id: "validacion", name: "Validación Antecedentes" },
 ];
-console.log("hola");
-
 // header selection
-
-const [selectedSection, setSelectedSection] = useState(sections[0]);
-const headerHeight = 251;
-const handleSectionSelect = (value: { id: string; name: string }) => {
-  const element = document.getElementById(value.id);
-  element?.scrollIntoView({
-    behavior: "auto",
-  });
-  window.scroll(0, window.scrollY - headerHeight);
-  setSelectedSection(value);
-};
 
 interface StickyProps {
   formbool: boolean;
   caseId: string;
 }
 
-
 export default function Sticky(props: StickyProps) {
-  console.log("holas");
   const { caseId: seguimientoId } = props;
   const seguimiento = useContext(SeguimientoContext);
+  const [selectedSection, setSelectedSection] = useState(sections[0]);
   const queryClient = useQueryClient();
   const caso = useMemo(
     () => seguimiento?.caso_registro_correspondiente,
     [seguimiento]
   );
+
+  const headerHeight = 251;
+  const handleSectionSelect = (value: { id: string; name: string }) => {
+    const element = document.getElementById(value.id);
+    element?.scrollIntoView({
+      behavior: "auto",
+    });
+    window.scroll(0, window.scrollY - headerHeight);
+    setSelectedSection(value);
+  };
 
   const form = useForm<SeguimientoForm>({
     defaultValues: async () =>
