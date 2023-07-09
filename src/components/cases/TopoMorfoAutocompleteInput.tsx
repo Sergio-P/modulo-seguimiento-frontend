@@ -101,7 +101,7 @@ export default function TopoMorfoAutocompleteInput(
                 key={code.code}
                 value={code}
                 className={clsx(
-                  "relative cursor-default select-none text-font-input",
+                  "max-w-lg relative cursor-default select-none text-font-input",
                   "hover:bg-primary hover:text-white"
                 )}
               >
