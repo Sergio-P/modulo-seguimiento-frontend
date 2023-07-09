@@ -6,7 +6,7 @@ import * as api from "@/api/api";
 import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
 import * as fns from "date-fns";
-import { FaSpinner } from "react-icons/fa";
+import { FaFile, FaSpinner } from "react-icons/fa";
 
 export function Reports() {
   const seguimiento = useContext(SeguimientoContext);
@@ -20,6 +20,16 @@ export function Reports() {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <FaSpinner className="h-12 w-12 animate-spin text-primary opacity-50" />
+      </div>
+    );
+  }
+  if (reportsQuery.isSuccess && reportsQuery.data?.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-primary opacity-80">
+          <FaFile className="h-12 w-12 text-primary" />
+          <div className="text-lg">No hay reportes asociados al caso</div>
+        </div>
       </div>
     );
   }
