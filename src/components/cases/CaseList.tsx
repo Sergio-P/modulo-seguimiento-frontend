@@ -26,6 +26,7 @@ import dateCell from "../ui/table/DateCell";
 import TimeLineModal from "./CaseForm/modals/TimeLineModal";
 import AssignmentModal from "./CaseList/AssignmentModal";
 import SeguimientoFilters from "./CaseList/SeguimientoFilters";
+import { is } from "date-fns/locale";
 
 export default function CaseList() {
   const userQuery = useUser();
@@ -158,11 +159,14 @@ function CaseListTable({
         size: 32,
         cell: (props) => {
           const state = props.row.original.state;
+          const isAssigned = props.row.original.usuario_id;
+
 
           if (
             state === "Sin asignar" ||
             state === "Finalizado" ||
-            state === "Completo fallecido"
+            state === "Completo fallecido" ||
+            isAssigned !== userQuery.data?.id
           ) {
             return (
               <>
