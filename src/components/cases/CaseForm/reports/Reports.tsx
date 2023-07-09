@@ -5,6 +5,7 @@ import _ from "lodash";
 import * as api from "@/api/api";
 import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
+import * as fns from "date-fns";
 
 export function Reports() {
   const seguimiento = useContext(SeguimientoContext);
@@ -26,7 +27,9 @@ export function Reports() {
               <Disclosure.Button className="flex w-full flex-row items-center justify-between py-1 px-2">
                 <div className="flex flex-row items-center gap-2">
                   <div className="text-base text-font-title">{report.tipo}</div>
-                  <div className="text-font-subtitle">({report.fecha})</div>
+                  <div className="text-font-subtitle">
+                    ({fns.format(new Date(report.fecha), "dd-MM-yyyy")})
+                  </div>
                 </div>
                 <button>
                   <Image
