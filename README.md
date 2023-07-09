@@ -26,7 +26,7 @@ npm install
 
 Create Environment Variables on root inside file named `.env.local`:
 - `BACKEND_HOST`: Hostname for backend service e.g: BACKEND_HOST=http://localhost
-- `BACKEDN_PORT`: Port for backend service e.g: BACKED_PORT=8000
+- `BACKEND_PORT`: Port for backend service e.g: BACKED_PORT=8000
 
 #### Run the development server:
 
