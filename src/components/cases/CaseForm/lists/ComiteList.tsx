@@ -27,7 +27,7 @@ const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
     size: 50,
-    cell: LastDateCell,
+    cell: DateCell,
   }),
   columnHelper.accessor("fecha_comite", {
     header: "Fecha Comité",

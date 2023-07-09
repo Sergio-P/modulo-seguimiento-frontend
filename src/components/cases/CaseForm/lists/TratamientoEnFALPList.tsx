@@ -52,7 +52,7 @@ export default function TratamientoEnFALPList({
       columnHelper.accessor("updated_at", {
         header: "Fecha Última Modificación",
         size: 50,
-        cell: LastDateCell,
+        cell: DateCell,
       }),
       columnHelper.accessor("fecha_de_inicio", {
         header: "Inicio",

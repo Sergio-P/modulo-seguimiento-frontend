@@ -1,4 +1,5 @@
 import Datagrid from "@/components/ui/table/Datagrid";
+import DateCell from "@/components/ui/table/DateCell";
 import LastDateCell from "@/components/ui/table/LastDateCell";
 import { EntryType } from "@/types/Enums";
 import {
@@ -24,7 +25,7 @@ const columns = [
   columnHelper.accessor("created_at", {
     header: "Fecha de publicación",
     size: 30,
-    cell: LastDateCell,
+    cell: DateCell,
   }),
   columnHelper.accessor("numero_seguimiento", {
     header: "Origen",

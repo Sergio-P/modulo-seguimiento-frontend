@@ -27,7 +27,7 @@ const columns = [
   columnHelper.accessor("updated_at", {
     header: "Fecha Última Modificación",
     size: 50,
-    cell: LastDateCell,
+    cell: DateCell,
   }),
   columnHelper.accessor("fecha_diagnostico", {
     header: "Fecha",
@@ -49,7 +49,7 @@ const columns = [
     },
   }),
   columnHelper.accessor("tipo", {
-    header: "Tipo Progresiṕn",
+    header: "Tipo Progresión",
     size: 60,
   }),
   columnHelper.accessor("codigo_topografia_progresion", {
