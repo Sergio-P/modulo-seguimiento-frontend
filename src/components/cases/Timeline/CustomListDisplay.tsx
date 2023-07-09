@@ -1,16 +1,16 @@
 import { Disclosure, Transition, Tab } from "@headlessui/react";
-import ComiteList from "../cases/CaseForm/lists/ComiteList";
-import MetastasisList from "../cases/CaseForm/lists/MetastasisList";
-import ProgresionList from "../cases/CaseForm/lists/ProgresionList";
-import RecurrenciaList from "../cases/CaseForm/lists/RecurrenciaList";
-import TratamientoEnFALPList from "../cases/CaseForm/lists/TratamientoEnFALPList";
+import ComiteList from "../CaseForm/lists/ComiteList";
+import MetastasisList from "../CaseForm/lists/MetastasisList";
+import ProgresionList from "../CaseForm/lists/ProgresionList";
+import RecurrenciaList from "../CaseForm/lists/RecurrenciaList";
+import TratamientoEnFALPList from "../CaseForm/lists/TratamientoEnFALPList";
 import { useContext } from "react";
-import { SeguimientoContext } from "../cases/CaseForm/context/seguimiento";
-import { UpdateDataContext } from "../cases/CaseForm/context/updateData";
-import TratamientoPostFALPList from "../cases/CaseForm/lists/TratamientoPostFALPList";
+import { SeguimientoContext } from "../CaseForm/context/seguimiento";
+import { UpdateDataContext } from "../CaseForm/context/updateData";
+import TratamientoPostFALPList from "../CaseForm/lists/TratamientoPostFALPList";
 import Image from "next/image";
-import TratamientoAntesFALPList from "../cases/CaseForm/lists/TratamientoAntesFALPList";
-import ComentariosList from "../cases/CaseForm/lists/ComentariosList";
+import TratamientoAntesFALPList from "../CaseForm/lists/TratamientoAntesFALPList";
+import ComentariosList from "../CaseForm/lists/ComentariosList";
 
 interface CustomListDisplayProps {
   origen: number | null;
@@ -32,8 +32,6 @@ const tabs = [
 ];
 
 export default function CustomListDisplay(props: CustomListDisplayProps) {
-  const seguimiento = useContext(SeguimientoContext);
-  const updateData = useContext(UpdateDataContext);
   const filterFunc = (data: any[]) => {
     return typeof props.origen !== "undefined"
       ? data.filter((row) => row.numero_seguimiento === props.origen)
