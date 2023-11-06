@@ -3,6 +3,8 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import ProgresionList from "../lists/ProgresionList";
 import ProgresionModal from "../modals/ProgresionModal";
 import { Section, SubSection } from "../ui";
+import { EntryType } from "@/types/Enums";
+import SelectInput from "@/components/ui/SelectInput";
 
 export default function ProgresionSection() {
   const { control, register } = useFormContext();
@@ -20,10 +22,23 @@ export default function ProgresionSection() {
             name="posee_progresion"
             control={control}
             render={({ field }) => (
-              <Checkbox
-                {...register("posee_progresion")}
-                label="Presenta Progresión"
-                checked={field.value}
+              <SelectInput
+                label={"Presenta Progresión"}
+                options={[
+                  {
+                    id: null,
+                    name: " ",
+                  },
+                  {
+                    id: true,
+                    name: "Sí",
+                  },
+                  {
+                    id: false,
+                    name: "No",
+                  },
+                ]}
+                onChange={e => field.onChange(e.id)}
               />
             )}
           />

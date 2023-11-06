@@ -200,21 +200,21 @@ function InnerCaseForm(props: CaseFormProps) {
               </div>
               <BoldElement label={"RUT"} value={caso?.rut_dni || ""} />
               <BoldElement
-                label={"Ficha"}
-                value={caso?.ficha.toString() || ""}
+                label={"N. Registro"}
+                value={caso?.id || ""}
               />
               <div className="relative">
                 <Tooltip message={caso?.subcategoria || ""}>
                   <BoldElement
                     classData="text-ellipsis overflow-hidden"
                     label={"Subcategoría"}
-                    value={caso?.subcategoria || ""}
+                    value={caso ? `${caso?.subcategoria} ${caso?.lateralidad != null && caso?.lateralidad != "NO APLICA" ? caso?.lateralidad : ""}` : ""}
                   />
                 </Tooltip>
               </div>
               <BoldElement
-                label={"Lateralidad"}
-                value={caso?.lateralidad || ""}
+                label={"Último contacto"}
+                value={caso?.ultimo_contacto || ""}
               />
               <MoreInfoModal seguimiento={seguimiento} />
             </div>

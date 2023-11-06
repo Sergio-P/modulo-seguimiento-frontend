@@ -3,6 +3,7 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import RecurrenciaList from "../lists/RecurrenciaList";
 import RecurrenciaModal from "../modals/RecurrenciaModal";
 import { Section, SubSection } from "../ui";
+import SelectInput from "@/components/ui/SelectInput";
 
 export default function RecurrenciaSection() {
   const { control, register } = useFormContext();
@@ -20,10 +21,23 @@ export default function RecurrenciaSection() {
             name="posee_recurrencia"
             control={control}
             render={({ field }) => (
-              <Checkbox
-                {...register("posee_recurrencia")}
-                label="Presenta Recurrencia"
-                checked={field.value}
+              <SelectInput
+                label={"Presenta Recurrencia"}
+                options={[
+                  {
+                    id: null,
+                    name: " ",
+                  },
+                  {
+                    id: true,
+                    name: "Sí",
+                  },
+                  {
+                    id: false,
+                    name: "No",
+                  },
+                ]}
+                onChange={e => field.onChange(e.id)}
               />
             )}
           />
