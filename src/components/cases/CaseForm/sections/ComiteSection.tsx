@@ -3,6 +3,7 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import ComiteList from "../lists/ComiteList";
 import ComiteModal from "../modals/ComiteModal";
 import { Section, SubSection } from "../ui";
+import SelectInput from "@/components/ui/SelectInput";
 
 export default function ComiteSection() {
   const { control, register } = useFormContext();
@@ -20,10 +21,23 @@ export default function ComiteSection() {
             name="posee_comite"
             control={control}
             render={({ field }) => (
-              <Checkbox
-                {...register("posee_comite")}
-                label="Presenta Comité Oncológico"
-                checked={field.value}
+              <SelectInput
+                label={"Tiene Comité Oncológico"}
+                options={[
+                  {
+                    id: null,
+                    name: " ",
+                  },
+                  {
+                    id: true,
+                    name: "Sí",
+                  },
+                  {
+                    id: false,
+                    name: "No",
+                  },
+                ]}
+                onChange={e => field.onChange(e.id)}
               />
             )}
           />

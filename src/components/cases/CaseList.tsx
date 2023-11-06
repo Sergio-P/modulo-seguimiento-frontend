@@ -163,10 +163,11 @@ function CaseListTable({
 
 
           if (
+            userQuery.data?.rol != "admin" && (
             state === "Sin asignar" ||
             state === "Finalizado" ||
             state === "Completo fallecido" ||
-            isAssigned !== userQuery.data?.id
+            isAssigned !== userQuery.data?.id)
           ) {
             return (
               <>

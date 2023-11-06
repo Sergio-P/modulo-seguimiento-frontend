@@ -5,7 +5,7 @@ import React from "react";
 import { HiChevronDown } from "react-icons/hi2";
 
 interface SelectInputProps {
-  options: { id: string | number; name: string }[] | string[] | number[];
+  options: { id: string | number | null | boolean; name: string }[] | string[] | number[];
   label?: string;
   value?: any;
   onChange?: any;
@@ -17,15 +17,16 @@ const SelectInput = React.forwardRef((props: SelectInputProps, ref) => {
   const expand = props.expand === undefined ? true : props.expand;
   const displayValue = (
     value:
-      | { id: string | number; name: string }
+      | { id: string | number | null | boolean; name: string }
       | string
       | number
+      | boolean
       | undefined
       | null
   ) => {
     if (_.isNil(value)) {
       return "";
-    } else if (typeof value === "string" || typeof value === "number") {
+    } else if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
       return value;
     }
     return value.name;

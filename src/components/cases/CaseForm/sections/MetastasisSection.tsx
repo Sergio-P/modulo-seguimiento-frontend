@@ -3,6 +3,7 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import MetastasisList from "../lists/MetastasisList";
 import MetastasisModal from "../modals/MetastasisModal";
 import { Section, SubSection } from "../ui";
+import SelectInput from "@/components/ui/SelectInput";
 
 export default function MetastasisSection() {
   const { control, register } = useFormContext();
@@ -20,10 +21,23 @@ export default function MetastasisSection() {
             name="posee_metastasis"
             control={control}
             render={({ field }) => (
-              <Checkbox
-                {...register("posee_metastasis")}
-                label="Presenta Metástasis"
-                checked={field.value}
+              <SelectInput
+              label={"Presenta Metástasis"}
+              options={[
+                {
+                  id: null,
+                  name: " ",
+                },
+                {
+                  id: true,
+                  name: "Sí",
+                },
+                {
+                  id: false,
+                  name: "No",
+                },
+              ]}
+              onChange={e => field.onChange(e.id)}
               />
             )}
           />

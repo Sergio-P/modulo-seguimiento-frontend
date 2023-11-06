@@ -21,6 +21,8 @@ export default function MoreInfoModal(props: MoreInfoModalProps) {
             <div className="col-span-5">
               {caso?.nombre} {caso?.apellido}
             </div>
+            <div className="font-bold">Último contacto</div>
+            <div className="">{caso?.ultimo_contacto}</div>
           </div>
           <Separator />
           <div className="contents">
