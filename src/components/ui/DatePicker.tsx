@@ -13,6 +13,7 @@ type DatePickerProps = {
   label?: string;
   disabled?: boolean;
   dayPickerOptions?: UseInputOptions;
+  allowFutureDates?: boolean;
 } & ControllerRenderProps;
 
 function InnerDatePicker(props: DatePickerProps) {
@@ -38,7 +39,7 @@ function InnerDatePicker(props: DatePickerProps) {
       reset();
     }
   }, [nullValue, props.value, reset]);
-  const disabledDays = [{ after: new Date() }];
+  const disabledDays = props.allowFutureDates ? [] : [{ after: new Date() }];
   return (
     <Popover className={clsx(disabled && "opacity-50")}>
       <Popover.Button className="w-full">

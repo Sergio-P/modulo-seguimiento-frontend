@@ -5,6 +5,7 @@ import { Usuario } from "@/types/Usuario";
 import clsx from "clsx";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import DatePicker from "@/components/ui/DatePicker";
 
 export default function AssignmentModal(props: {
   open: boolean;
@@ -18,11 +19,12 @@ export default function AssignmentModal(props: {
     queryFn: () => api.getUsuarios(),
   });
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
   const assignMutation = useMutation(
-    (data: { userId: number; seguimientoIds: number[] }) => {
+    (data: { userId: number; seguimientoIds: number[]; date: Date }) => {
       return Promise.all(
         data.seguimientoIds.map((segId) =>
-          api.assignSeguimientoUser(segId, data.userId)
+          api.assignSeguimientoUser(segId, data.userId, data.date)
         )
       );
     },
@@ -46,7 +48,8 @@ export default function AssignmentModal(props: {
     >
       {/* User selection */}
       {usersQuery.isSuccess && (
-        <div className="flex flex-col gap-1">
+        <>
+        <div className="flex flex-col gap-1 max-h-96 overflow-auto border p-2">
           {usersQuery.data?.map((user) => (
             <button
               className={clsx(
@@ -85,6 +88,18 @@ export default function AssignmentModal(props: {
             </button>
           ))}
         </div>
+        <div>
+          <DatePicker
+            label="Fecha asignación"
+            dayPickerOptions={{
+              fromYear: 2017,
+            }}
+            allowFutureDates={true}
+            value={date}
+            onChange={e => setDate(e)}
+          />
+        </div>
+        </>
       )}
 
       {/* Footer buttons */}
@@ -97,6 +112,7 @@ export default function AssignmentModal(props: {
             assignMutation.mutate({
               userId: selectedUserId as number,
               seguimientoIds: props.seguimientoIds,
+              date: date
             });
           }}
         >

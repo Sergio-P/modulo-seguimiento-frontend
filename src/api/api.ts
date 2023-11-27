@@ -57,9 +57,9 @@ export async function getSeguimientos(
     .then((res) => res.data);
 }
 
-export async function assignSeguimientoUser(seguimientoId: Id, userId: Id) {
+export async function assignSeguimientoUser(seguimientoId: Id, userId: Id, assignmentDate: Date) {
   return await apiClient.patch(
-    `/seguimiento/assign/${seguimientoId}?usuario_id=${userId}`
+    `/seguimiento/assign/${seguimientoId}?usuario_id=${userId}&fecha_asignacion=${fns.format(assignmentDate, "yyyy-MM-dd")}`
   );
 }
 

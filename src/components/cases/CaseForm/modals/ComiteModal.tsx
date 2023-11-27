@@ -4,7 +4,7 @@ import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextArea from "@/components/ui/TextArea";
 import { Comite, ComiteCreate } from "@/types/Comite";
-import { EntryType, IntencionTTO } from "@/types/Enums";
+import { CodingMode, EntryType, IntencionTTO } from "@/types/Enums";
 import * as fns from "date-fns";
 import { useContext } from "react";
 import {
@@ -21,6 +21,7 @@ import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { SeguimientoUpdate } from "@/types/Seguimiento";
 import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
+import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
 
 interface ComiteModalProps extends Partial<ModalProps> {}
 
@@ -103,10 +104,21 @@ export const ComiteModalRender = (props: EditModalRenderProps<Comite>) => {
           )}
         />
         <div className="col-span-2">
-          <TextArea
-            label="Médico"
-            {...form.register("medico", { required: true })}
+          <Controller
+            name="medico"
+            control={form.control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TopoMorfoAutocompleteInput
+                mode={CodingMode.practitioner}
+                {...field}
+              />
+            )}
           />
+          {/*<TextArea*/}
+          {/*  label="Médico"*/}
+          {/*  {...form.register("medico", { required: true })}*/}
+          {/*/>*/}
         </div>
       </div>
       <div className="mt-6 flex justify-between">
