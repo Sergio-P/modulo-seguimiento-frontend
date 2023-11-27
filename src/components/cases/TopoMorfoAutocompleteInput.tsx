@@ -71,7 +71,12 @@ export default function TopoMorfoAutocompleteInput(
 
   const handleCodingChange = (coding: Coding | null) => {
     setSelectedCoding(coding);
-    props.onChange(coding ? `(${coding.code}) ${coding.description}` : null);
+    if(props.mode == CodingMode.practitioner){
+      props.onChange(coding ? `${coding.code}` : null);
+    }
+    else {
+      props.onChange(coding ? `(${coding.code}) ${coding.description}` : null);
+    }
   };
 
   return (

@@ -96,7 +96,7 @@ export default function AssignmentModal(props: {
             }}
             allowFutureDates={true}
             value={date}
-            onChange={e => setDate(e.value)}
+            onChange={e => setDate(e)}
           />
         </div>
         </>

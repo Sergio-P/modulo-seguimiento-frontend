@@ -59,7 +59,7 @@ export async function getSeguimientos(
 
 export async function assignSeguimientoUser(seguimientoId: Id, userId: Id, assignmentDate: Date) {
   return await apiClient.patch(
-    `/seguimiento/assign/${seguimientoId}?usuario_id=${userId}&fecha_asignacion=${assignmentDate.toISOString()}`
+    `/seguimiento/assign/${seguimientoId}?usuario_id=${userId}&fecha_asignacion=${fns.format(assignmentDate, "yyyy-MM-dd")}`
   );
 }
 
