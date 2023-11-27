@@ -123,4 +123,5 @@ export enum IntencionTTO {
 export enum CodingMode {
   topography = "topography",
   morphology = "morphology",
+  practitioner = "practitioner",
 }

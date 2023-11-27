@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Combobox } from "@headlessui/react";
 import { CodingMode } from "@/types/Enums";
 import { HiChevronDown } from "react-icons/hi2";
 import { api } from "@/api";
 import { Coding } from "@/types/Coding";
-import { compareDesc } from "date-fns";
 
 function LoadingSpinner() {
   return (
@@ -43,11 +42,16 @@ export default function TopoMorfoAutocompleteInput(
   const [selectedCoding, setSelectedCoding] = useState<Coding | null>(null);
   const [query, setQuery] = useState("");
   const [filteredCoding, setFilteredCoding] = useState<Coding[]>([]);
+  const labels = {
+    [CodingMode.topography]: "Topografía",
+    [CodingMode.morphology]: "Morfología",
+    [CodingMode.practitioner]: "Médico",
+  }
 
   useEffect(() => {
     const fetchPeople = async () => {
       try {
-        const codingData = await api.getCodings(CodingMode.topography, query);
+        const codingData = await api.getCodings(props.mode || CodingMode.topography, query);
         setFilteredCoding(codingData); // Assuming the data structure matches the expected `Coding` object.
       } catch (error) {
         console.error("Error fetching people:", error);
@@ -79,7 +83,7 @@ export default function TopoMorfoAutocompleteInput(
             displayValue={(coding: Coding) =>
               coding ? `(${coding.code}) ${coding.description}` : ""
             }
-            placeholder="Topografía"
+            placeholder={labels[props.mode || CodingMode.topography]}
             className="w-full border-none bg-background py-4 pl-3 pr-10 text-sm leading-5 text-gray-900"
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-5">

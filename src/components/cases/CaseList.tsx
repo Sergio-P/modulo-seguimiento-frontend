@@ -200,8 +200,8 @@ function CaseListTable({
           );
         },
       }),
-      columnHelper.accessor("caso_registro_correspondiente.ficha", {
-        header: "Ficha",
+      columnHelper.accessor("caso_registro_correspondiente.id", {
+        header: "Nro Registro",
         size: 100,
       }),
       columnHelper.accessor("state", {
@@ -233,6 +233,11 @@ function CaseListTable({
       columnHelper.accessor("usuario_asignado.nombre", {
         header: "Usuario asignado",
         size: 128,
+      }),
+      columnHelper.accessor("fecha_asignacion", {
+        header: "Fecha asignación",
+        size: 110,
+        cell: dateCell,
       }),
       columnHelper.accessor("tiene_consulta_nueva", {
         header: "Consulta Nueva",
