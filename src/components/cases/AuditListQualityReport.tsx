@@ -1,7 +1,5 @@
 import * as api from "@/api/api";
 import { useUser } from "@/hooks/auth";
-import { SeguimientoState } from "@/types/Enums";
-import { Seguimiento } from "@/types/Seguimiento";
 import { useQuery } from "@tanstack/react-query";
 import {
   OnChangeFn,
@@ -23,12 +21,10 @@ import MainLayout from "../ui/layout/MainLayout";
 import BooleanCell from "../ui/table/BooleanCell";
 import Datagrid from "../ui/table/Datagrid";
 import dateCell from "../ui/table/DateCell";
-import TimeLineModal from "./CaseForm/modals/TimeLineModal";
-import AssignmentModal from "./CaseList/AssignmentModal";
-import SeguimientoFilters from "./CaseList/SeguimientoFilters";
-import { is } from "date-fns/locale";
+import { Comentario } from "@/types/Comentario";
+import { QualityReportTypes } from "@/types/Enums";
 
-export default function CaseList() {
+export default function AuditListQualityReport() {
   const userQuery = useUser();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -45,21 +41,16 @@ export default function CaseList() {
   }, [filters]);
   const caseQuery = useQuery({
     queryKey: ["seguimientos", offset, limit, filters],
-    queryFn: () =>
-      api.getSeguimientos(
-        offset,
-        limit,
-        _.mapValues(filters, (x) => x.toString())
-      ),
+    queryFn: () => api.getComentariosByType("quality_report"),
   });
-  const subcategoriesQuery = useQuery({
-    queryKey: ["subcategories"],
-    queryFn: () => api.getSubcategories(),
-  });
+
   const data = useMemo(
-    () => caseQuery?.data?.body || [],
-    [caseQuery?.data?.body]
+    () => caseQuery?.data || [],
+    [caseQuery?.data]
   );
+
+  console.log(data);
+
   const pageCount = useMemo(
     () =>
       caseQuery?.data?.total
@@ -72,12 +63,15 @@ export default function CaseList() {
       <div className="px-5 pb-6 pt-5">
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold text-font-title">
-            <Link href="/">Seguimiento de Casos</Link>
+            <Link href="/">Revisión de Casos</Link>
           </h1>
           <div className="flex justify-between gap-4 font-bold">
-            {userQuery.data?.rol == "admin" ? <Link href="/audit-duplicates">
-              <Button>Revisión de Casos</Button>
-            </Link> : null }
+            <Link href="/audit-duplicates">
+              <Button>Duplicados</Button>
+            </Link>
+            <Link href="/audit-qr">
+              <Button>Revisión de Calidad</Button>
+            </Link>
             <div className="flex flex-col items-center justify-center">
               <div className="text-font-title">{userQuery.data?.nombre}</div>
               <div className="text-xs text-font-subtitle">
@@ -90,11 +84,7 @@ export default function CaseList() {
       </div>
       <BoundingBox>
         <div className="flex flex-col gap-4">
-          <SeguimientoFilters
-            subcategories={subcategoriesQuery.data || []}
-            onFilter={setFilters}
-          />
-          <CaseListTable
+          <AuditListTable
             data={data}
             pageCount={pageCount}
             pagination={pagination}
@@ -107,23 +97,23 @@ export default function CaseList() {
   );
 }
 
-const columnHelper = createColumnHelper<Seguimiento>();
+const columnHelper = createColumnHelper<Comentario>();
 
-interface CaseListTableProps {
-  data: Seguimiento[];
+interface AuditListTableProps {
+  data: Comentario[];
   pagination: PaginationState;
   onPaginationChange: OnChangeFn<PaginationState>;
   pageCount: number;
   loading: boolean;
 }
 
-function CaseListTable({
+function AuditListTable({
   data,
   pagination,
   onPaginationChange,
   pageCount,
   loading,
-}: CaseListTableProps) {
+}: AuditListTableProps) {
   const userQuery = useUser();
   const columns = useMemo(
     () => [
@@ -189,7 +179,7 @@ function CaseListTable({
 
           return (
             <Link
-              href={`/cases/${props.row.original.id}`}
+              href={`/cases/${props.row.original.numero_seguimiento}`}
               className="block h-6 w-6 text-primary"
             >
               <Image
@@ -203,72 +193,32 @@ function CaseListTable({
           );
         },
       }),
-      columnHelper.accessor("caso_registro_correspondiente.id", {
+      columnHelper.accessor("caso_registro_id", {
         header: "Nro Registro",
         size: 100,
       }),
-      columnHelper.accessor("state", {
-        header: "Estado",
+      columnHelper.accessor("closed", {
+        header: "Completado",
         size: 100,
+        cell: BooleanCell
       }),
-      columnHelper.accessor("tipo_seguimiento", {
-        header: "Tipo",
-        size: 150,
-      }),
-      columnHelper.accessor(
-        (row) =>
-          `${row.caso_registro_correspondiente.nombre} ${row.caso_registro_correspondiente.apellido}`,
-        {
-          id: "paciente",
-          header: "Paciente",
-          size: 128,
-        }
-      ),
-      columnHelper.accessor("caso_registro_correspondiente.subcategoria", {
-        header: "Subcategoría",
-        size: 168,
-      }),
-      columnHelper.accessor("caso_registro_correspondiente.fecha_dg", {
-        header: "Fecha diagnóstico",
-        size: 110,
-        cell: dateCell,
-      }),
-      columnHelper.accessor("usuario_asignado.nombre", {
-        header: "Usuario asignado",
-        size: 128,
-      }),
-      columnHelper.accessor("fecha_asignacion", {
-        header: "Fecha asignación",
-        size: 110,
-        cell: dateCell,
-      }),
-      columnHelper.accessor("tiene_consulta_nueva", {
-        header: "Consulta Nueva",
-        size: 64,
-        cell: BooleanCell,
-      }),
-      columnHelper.accessor("tiene_examenes", {
-        header: "Examenes",
-        size: 64,
-        cell: BooleanCell,
-      }),
-      columnHelper.accessor("tiene_comite_oncologico", {
-        header: "Comité Oncológico",
-        size: 64,
-        cell: BooleanCell,
-      }),
-      columnHelper.accessor("tiene_tratamiento", {
-        header: "Tratamiento",
-        size: 64,
-        cell: BooleanCell,
-      }),
-      columnHelper.display({
-        id: "boton_linea_de_tiempo",
-        header: "Resumen",
-        size: 32,
-        cell: (props) => (
-          <TimeLineModal seguimientoId={props.row.original.id} />
-        ),
+      // columnHelper.accessor(
+      //   (row) =>
+      //     `${row.caso_registro_correspondiente.nombre} ${row.caso_registro_correspondiente.apellido}`,
+      //   {
+      //     id: "paciente",
+      //     header: "Paciente",
+      //     size: 128,
+      //   }
+      // ),
+      ...(Object.keys(QualityReportTypes).map(e => columnHelper.accessor(`data.${e}`, {
+        header: QualityReportTypes[e].replace("ANTECEDENTES DEL ", "").replace("ANTECEDENTES DE ", ""),
+        size: 100,
+        cell: BooleanCell
+      }))),
+      columnHelper.accessor("data.justificacion", {
+        header: "Justificación",
+        size: 320
       }),
     ],
     [userQuery.data]
@@ -283,52 +233,15 @@ function CaseListTable({
       pagination: paginationState,
     },
     onPaginationChange: onPaginationChange,
-    pageCount: pageCount,
-    enableRowSelection: (row) => {
-      return [
-        SeguimientoState.sin_asignar,
-        SeguimientoState.asignado,
-        SeguimientoState.incompleto,
-      ].includes(row.original.state);
-    },
+    pageCount: pageCount
   });
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
   return (
     <>
       <Datagrid
         table={table}
-        title="Lista de Seguimientos"
+        title="Lista de Revisiones de Calidad"
         loading={loading}
-        extraHeader={
-          <div>
-            {userQuery.data?.rol === "admin" && (
-              <Button
-                filled
-                disabled={!_.some(Object.values(table.getState().rowSelection))}
-                onClick={() => {
-                  let selected = Object.keys(table.getState().rowSelection).map(
-                    (id: string) => {
-                      return table.getRowModel().rowsById[id].original.id;
-                    }
-                  );
-                  setSelectedIds(selected);
-                  setModalOpen(true);
-                }}
-              >
-                Asignar seguimiento
-              </Button>
-            )}
-          </div>
-        }
-      />
-      <AssignmentModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSuccess={() => {
-          table.resetRowSelection();
-        }}
-        seguimientoIds={selectedIds}
       />
     </>
   );
