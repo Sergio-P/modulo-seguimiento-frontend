@@ -15,6 +15,7 @@ import MoreInfoModal from "./CaseForm/modals/MoreInfoModal";
 import Tooltip from "../ui/Tooltip";
 import ComentarModal from "./CaseForm/modals/ComentarModal";
 import ReportsModal from "./CaseForm/modals/ReportsModal";
+import { IconBase } from "react-icons";
 
 interface CaseTimeLineProps {
   caseId: string;

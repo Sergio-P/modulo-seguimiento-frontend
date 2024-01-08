@@ -21,7 +21,7 @@ function classNames(...classes: string[]) {
 }
 
 const tabs = [
-  { name: "Metástasis", component: MetastasisList },
+  { name: "Extensión al Diagnóstico", component: MetastasisList },
   { name: "Recurrencia", component: RecurrenciaList },
   { name: "Progresión", component: ProgresionList },
   { name: "Comité", component: ComiteList },

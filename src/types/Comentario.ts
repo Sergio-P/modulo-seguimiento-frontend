@@ -1,5 +1,8 @@
 export interface ComentarioBase {
   comentario: string;
+  type: string;
+  data: any;
+  open: boolean;
 }
 
 export interface ComentarioCreate extends ComentarioBase {

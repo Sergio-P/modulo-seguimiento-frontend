@@ -55,34 +55,36 @@ export default function ValidacionSection() {
             )}
           />
         </div>
-        <div className="flex items-center">
-          <Checkbox
-            {...register("sigue_atencion_otro_centro")}
-            label="Seguimiento otro centro"
+        <div>
+          <Controller
+            name="condicion_del_caso"
+            control={control}
+            defaultValue={seguimiento?.condicion_del_caso}
+            render={({ field }) => (
+              <SelectInput
+                label="Condición del Caso"
+                options={[
+                  CondicionCaso.vivo_sin_enfermedad,
+                  CondicionCaso.vivo_con_enfermedad,
+                  CondicionCaso.vivo_soe,
+                  CondicionCaso.desconocido,
+                  CondicionCaso.fallecido,
+                ]}
+                {...field}
+              />
+            )}
           />
         </div>
+        {/*<div className="flex items-center">*/}
+        {/*  <Checkbox*/}
+        {/*    {...register("sigue_atencion_otro_centro")}*/}
+        {/*    label="Seguimiento otro centro"*/}
+        {/*  />*/}
+        {/*</div>*/}
       </div>
       <Separator />
       <SubSection title="Estado Vital"></SubSection>
       <div className="grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
-        <Controller
-          name="condicion_del_caso"
-          control={control}
-          defaultValue={seguimiento?.condicion_del_caso}
-          render={({ field }) => (
-            <SelectInput
-              label="Condición del Caso"
-              options={[
-                CondicionCaso.vivo_sin_enfermedad,
-                CondicionCaso.vivo_con_enfermedad,
-                CondicionCaso.vivo_soe,
-                CondicionCaso.desconocido,
-                CondicionCaso.fallecido,
-              ]}
-              {...field}
-            />
-          )}
-        />
         <Controller
           name="estado_vital"
           control={control}

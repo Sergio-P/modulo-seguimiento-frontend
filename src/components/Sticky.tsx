@@ -19,7 +19,7 @@ import { SeguimientoForm } from "./cases/CaseForm";
 import { UpdateDataContext } from "./cases/CaseForm/context/updateData";
 
 const sections = [
-  { id: "metastasis", name: "Metástasis" },
+  { id: "metastasis", name: "Extensión al Diagnóstico" },
   { id: "recurrencia", name: "Recurrencia" },
   { id: "progresion", name: "Progresión" },
   { id: "tratamiento", name: "Tratamiento" },

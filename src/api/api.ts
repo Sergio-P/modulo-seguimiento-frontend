@@ -8,6 +8,7 @@ import apiClient from "@/utils/axios";
 import { AxiosResponse } from "axios";
 import * as fns from "date-fns";
 import _ from "lodash";
+import { Comentario } from "@/types/Comentario";
 
 type Id = number | string;
 
@@ -63,9 +64,23 @@ export async function assignSeguimientoUser(seguimientoId: Id, userId: Id, assig
   );
 }
 
+export async function getComentariosByType(
+  type: string,
+): Promise<Comentario[]> {
+  return await apiClient
+    .get(`/comentario/type/${type}`)
+    .then((res) => {
+      let d = res.data;
+      d.forEach(e => {
+        e.data = e.data ? JSON.parse(e.data) : null;
+      })
+      return d;
+    });
+}
+
 export async function postComentario(
   seguimientoId: Id,
-  payload: { comentario: string }
+  payload: { comentario: string; type: string; data: string }
 ) {
   return await apiClient.post(
     `/comentario/?seguimiento_id=${seguimientoId}`,
