@@ -122,9 +122,10 @@ export const RecurrenciaModalRender = (
                 options={[
                   TipoRecurrenciaProgresion.local,
                   TipoRecurrenciaProgresion.regional,
-                  TipoRecurrenciaProgresion.metastasis,
-                  TipoRecurrenciaProgresion.peritoneal,
-                  TipoRecurrenciaProgresion.sin_informacion,
+                  TipoRecurrenciaProgresion.avanzado,
+                  // TipoRecurrenciaProgresion.metastasis,
+                  // TipoRecurrenciaProgresion.peritoneal,
+                  // TipoRecurrenciaProgresion.sin_informacion,
                 ]}
                 {...field}
               />

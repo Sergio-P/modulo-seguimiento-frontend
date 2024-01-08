@@ -36,6 +36,10 @@ export default function RecurrenciaSection() {
                     id: false,
                     name: "No",
                   },
+                  {
+                    id: 0,
+                    name: "Desconocido",
+                  },
                 ]}
                 onChange={e => field.onChange(e.id)}
               />

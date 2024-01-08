@@ -100,7 +100,7 @@ export default function MetastasisList({ filterFunc }: MetastasisListProps) {
     <div>
       <Datagrid
         table={table}
-        title="Lista Metástasis"
+        title="Lista de Extensión al Diagnóstico"
         total={{
           value: data.length,
           name: "Metástasis",

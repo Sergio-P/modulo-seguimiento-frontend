@@ -58,6 +58,7 @@ export const ComentarioModalRender = ({
   const addComentario: SubmitHandler<FormValues> = (data) => {
     const payload = {
       comentario: data.comentario,
+      type: "user"
     };
 
     postComentario(payload, {
@@ -106,11 +107,9 @@ export default function ComentarioModal(props: ComentarioModalProps) {
     <Modal
       title="Comentarios"
       icon="chatbubble"
-      width="xl"
+      width="md"
       render={(renderProps) => (
-        <ReportsModalWrapper modcom>
           <ComentarioModalRender {...renderProps} />
-        </ReportsModalWrapper>
       )}
       {...props}
     >

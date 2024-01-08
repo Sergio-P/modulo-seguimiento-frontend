@@ -140,7 +140,7 @@ interface MetastasisModalProps extends Partial<ModalProps> {}
 export default function MetastasisModal(props: MetastasisModalProps) {
   return (
     <Modal
-      title="Metástasis"
+      title="Extensión al Diagnóstico"
       icon="plus"
       width="xl"
       render={(renderProps) => (
@@ -150,7 +150,7 @@ export default function MetastasisModal(props: MetastasisModalProps) {
       )}
       {...props}
     >
-      Agregar Metástasis
+      Agregar Extensión al Diagnóstico
     </Modal>
   );
 }

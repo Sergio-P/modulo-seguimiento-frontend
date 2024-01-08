@@ -37,6 +37,10 @@ export default function ProgresionSection() {
                     id: false,
                     name: "No",
                   },
+                  {
+                    id: 0,
+                    name: "Desconocido",
+                  },
                 ]}
                 onChange={e => field.onChange(e.id)}
               />

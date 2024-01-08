@@ -14,7 +14,7 @@ export default function MetastasisSection() {
   });
 
   return (
-    <Section id="metastasis" title="Metástasis">
+    <Section id="metastasis" title="Extensión al Diagnóstico">
       <SubSection>
         <div className="flex justify-between">
           <Controller
@@ -22,7 +22,7 @@ export default function MetastasisSection() {
             control={control}
             render={({ field }) => (
               <SelectInput
-              label={"Presenta Metástasis"}
+              label={"Presenta Extensión al Diagnóstico"}
               options={[
                 {
                   id: null,
@@ -35,6 +35,10 @@ export default function MetastasisSection() {
                 {
                   id: false,
                   name: "No",
+                },
+                {
+                  id: 0,
+                  name: "Desconocido",
                 },
               ]}
               onChange={e => field.onChange(e.id)}

@@ -32,13 +32,16 @@ import {
   unserializeSeguimiento,
 } from "./CaseForm/serialization/serialization";
 import { BoldElement, Subtitle } from "./CaseForm/ui";
+import DuplicarModal from "@/components/cases/CaseForm/modals/DuplicarModal";
+import QualityReportModal from "@/components/cases/CaseForm/modals/QualityReportModal";
+import HistoricalModal from "@/components/cases/CaseForm/modals/HistoricalModal";
 
 interface CaseFormProps {
   caseId: string;
 }
 
 const sections = [
-  { id: "metastasis", name: "Metástasis" },
+  { id: "metastasis", name: "Extensión al Diagnóstico" },
   { id: "recurrencia", name: "Recurrencia" },
   { id: "progresion", name: "Progresión" },
   { id: "tratamiento", name: "Tratamiento" },
@@ -146,26 +149,29 @@ function InnerCaseForm(props: CaseFormProps) {
     <FormProvider {...form}>
       <div className="sticky top-0 z-30 bg-white">
         <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
-          <h1 className="text-4xl font-bold text-font-title">
+          <h1 className="text-3xl font-bold text-font-title">
             <Link href="/">Seguimiento de Casos</Link>
           </h1>
           <div className="flex items-center">
-            <div className="mr-10 w-72">
-              <SelectInput
-                options={sections}
-                label={"Sección"}
-                value={selectedSection}
-                onChange={handleSectionSelect}
-              />
-            </div>
-            <div className="flex justify-center gap-4">
+            {/*<div className="mr-10 w-72">*/}
+            {/*  <SelectInput*/}
+            {/*    options={sections}*/}
+            {/*    label={"Sección"}*/}
+            {/*    value={selectedSection}*/}
+            {/*    onChange={handleSectionSelect}*/}
+            {/*  />*/}
+            {/*</div>*/}
+            <div className="flex justify-center gap-x-2 gap-y-0.5 flex-wrap">
               <Link href={`../../historico/${seguimiento.id}`}>
                 <Button filled icon="timeLinePage" className="">
                   Linea de Tiempo
                 </Button>
               </Link>
               <ComentarModal />
-              <ReportsModal />
+              <DuplicarModal />
+              <QualityReportModal />
+              <HistoricalModal />
+              {/*<ReportsModal />*/}
               <Button
                 icon="SaveIcon"
                 filled
@@ -176,17 +182,17 @@ function InnerCaseForm(props: CaseFormProps) {
               >
                 Guardar
               </Button>
-              <Link href="../../">
-                <Button icon="GeoLocate" filled>
-                  Seguimientos
-                </Button>
-              </Link>
+              {/*<Link href="../../">*/}
+              {/*  <Button icon="GeoLocate" filled>*/}
+              {/*    Seguimientos*/}
+              {/*  </Button>*/}
+              {/*</Link>*/}
             </div>
           </div>
         </div>
         <div className="mt-4">
           <BoundingBox thin className="m-4 border-background-dark">
-            <div className="flex place-items-center justify-around">
+            <div className="flex place-items-center justify-around flex-wrap">
               <div className="flex-col items-center justify-center">
                 <div className="relative text-2xl font-bold">
                   <Tooltip message={`${caso?.nombre} ${caso?.apellido}`}>

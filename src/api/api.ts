@@ -65,7 +65,7 @@ export async function assignSeguimientoUser(seguimientoId: Id, userId: Id, assig
 
 export async function postComentario(
   seguimientoId: Id,
-  payload: { comentario: string }
+  payload: { comentario: string; type: string; data: string }
 ) {
   return await apiClient.post(
     `/comentario/?seguimiento_id=${seguimientoId}`,

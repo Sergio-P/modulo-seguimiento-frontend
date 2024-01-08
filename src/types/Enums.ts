@@ -64,9 +64,10 @@ export enum SiNoDesconocido {
 export enum TipoRecurrenciaProgresion {
   local = "Local",
   regional = "Regional",
-  metastasis = "Metástasis",
-  peritoneal = "Peritoneal",
-  sin_informacion = "Sin información",
+  avanzado = "Avanzado",
+  // metastasis = "Metástasis",
+  // peritoneal = "Peritoneal",
+  // sin_informacion = "Sin información",
 }
 
 export enum CategoriaTTO {
@@ -79,19 +80,21 @@ export enum CategoriaTTO {
 export enum SubcategoriaTTOCirugiaOProcedimientoQuirurgico {
   cirugia = "Cirugía",
   reseccion_endoscopica = "Resección endoscópica",
-  biopsia_excisional_o_ampliacion_de_margenes = "Biopsia excisional o ampliación de márgenes",
+  biopsia_excisional = "Biopsia excisional",
+  ampliacion_de_margenes = "Ampliación de márgenes",
   desconocido = "Desconocido",
 }
 
 export enum SubcategoriaTTOTerapiaSistemica {
   quimioterapia = "Quimioterapia",
   inmunoterapia = "Inmunoterapia",
-  terapias_moleculares = "Terapias moleculares",
+  terapias_moleculares = "Terapias moleculares (CDKI)",
   hormonoterapia = "Hormonoterapia",
   radiofarmaco = "Radiofármaco",
   quimioterapia_mas_inmunoterapia = "Quimioterapia + Inmunoterapia",
-  quimioterapia_mas_terapias_moleculares = "Quimioterapia + Terapias moleculares",
-  quimioterapia_mas_inmunoterapia_mas_terapias_moleculares = "Quimioterapia + Inmunoterapia + Terapias moleculares",
+  quimioterapia_mas_terapias_moleculares = "Quimioterapia + Terapias moleculares (CDKI)",
+  quimioterapia_mas_inmunoterapia_mas_terapias_moleculares = "Quimioterapia + Inmunoterapia + Terapias moleculares (CDKI)",
+  inmunoterapia_mas_terapias_moleculares = "Inmunoterapia + Terapias moleculares (CDKI)",
   desconocido = "Desconocido",
 }
 
@@ -102,7 +105,7 @@ export enum SubcategoriaTTORadioterapia {
 export enum SubcategoriaTTOOtro {
   cuidados_paliativos = "Cuidados paliativos",
   vigilancia = "Vigilancia",
-  fotodinamia = "Fotodinamia",
+  // fotodinamia = "Fotodinamia",
   no_definido = "No definido",
   desconocido = "Desconocido",
 }
@@ -125,3 +128,107 @@ export enum CodingMode {
   morphology = "morphology",
   practitioner = "practitioner",
 }
+
+export const categorySubcategories = {
+  'Mama': ['Mama'],
+  'Órganos Digestivos': [
+    'Ano y Conducto Anal',
+    'Colon',
+    'Esófago',
+    'Estómago',
+    'Hígado y Conductor Biliares intrahepáticos',
+    'Intestino Delgado',
+    'Páncreas',
+    'Recto',
+    'Unión Rectosigmoidea',
+    'Vesícula Biliar',
+    'Otras partes de las vías biliares y las no específicadas',
+    'Otros sitios de los órganos digestivos y los mal definidos'
+  ],
+  'Piel': [
+    'Melanoma',
+    'No Melanoma'
+  ],
+  'Órganos Genitales Masculinos': [
+    'Glándula Prostática',
+    'Pene',
+    'Testículos',
+    'Otros órganos genitales masculinos y los no específicados'
+  ],
+  'Órganos Genitales Femeninos': [
+    'Cuello Uterino',
+    'Cuerpo Uterino',
+    'Ovario',
+    'Útero, SAI',
+    'Vagina',
+    'Vulva',
+    'Placenta',
+    'Otros órganos genitales femeninos y los no específicados'
+  ],
+  'Tiroides y otras Glándulas Endocrinas': [
+    'Glándula Suprrarrenal (Adrenal)',
+    'Glándula Tiroides',
+    'Otras glándulas endocrinas y estructuras afines'
+  ],
+  'Sistema Respiratorio y Órganos Intratorácicos': [
+    'Cavidad Nasal y Oído Medio',
+    'Senos Paranasales',
+    'Laringe',
+    'Tráquea',
+    'Bronquios y Pulmón',
+    'Corazón, Mediastino y Pleura',
+    'Timo',
+    'Otros sitios y los mal definidos del sistema respiratorio y los órganos intratorácicos'
+  ],
+  'Tracto Urinario': [
+    'Pelvis Renal',
+    'Riñón',
+    'Uréter',
+    'Vejiga Urinaria',
+    'Otros órganos urinarios y los no específicados'
+  ],
+  'Labio, Cavidad Bucal y Faringe': [
+    'Amígdala',
+    'Base de la Lengua',
+    'Glándula Parótida',
+    'Hipofaringe',
+    'Labio',
+    'Nasofaringe',
+    'Orofaringe',
+    'Paladar',
+    'Seno Piriforme',
+    'Encía',
+    'Piso de la Boca',
+    'Otras Glándulas Salivales Mayores y las no específicadas',
+    'Otras partes de la Boca y las no específicadas',
+    'Otras partes de la Lengua y las no específicadas',
+    'Otros sitios del Labio, Cavidad Bucal y Faringe; y los mal definidos',
+  ],
+  'Sitio primario desconocido': ['Sitio primario desconocido'],
+  'Encéfalo, Ojo y otras partes del Sistema Nervioso Central': [
+    'Encéfalo',
+    'Médula Espinal, Nervios Craneales y de otras partes del SNC',
+    'Meninges',
+    'Ojos y anexos'
+  ],
+  'Tejido conjuntivo, subcutáneo y de otros tejidos blandos': [
+    'Tejido conjuntivo, subcutáneo y de otros tejidos blandos'
+  ],
+  'Huesos, Articulaciones y Cartílago Articular': [
+    'Miembros',
+    'Otros sitios y de los no específicados'
+  ],
+  'Peritoneo y Retroperitoneo': ['Peritoneo y Retroperitoneo'],
+  'Nervios Periféricos y Sistema Nervioso Autónomo': ['Nervios Periféricos y Sistema Nervioso Autónomo'],
+  'Sitios mal definidos y otros': ['Sitios mal definidos y otros']
+}
+
+export enum QualityReportTypes {
+  patient_data = "DATOS DEL PACIENTE",
+  tumor_data = "ANTECEDENTES DEL TUMOR",
+  comite_data = "ANTECEDENTES DE RESOLUCIÓN DEL COMTE",
+  treatment_data = "ANTECEDENTES DEL TRATAMIENTO",
+  progression_data = "ANTECEDENTS DE RECURRENCIA/PROGRESIÓN",
+  vital_data = "ANTECEDENTES ESTADO VITAL",
+}
+
