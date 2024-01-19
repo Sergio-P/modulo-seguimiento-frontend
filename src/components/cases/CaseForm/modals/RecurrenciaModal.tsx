@@ -163,6 +163,9 @@ export const RecurrenciaModalRender = (
   );
 };
 
+const recurrenciaKeywords = ["recurrencia", "recurencia", "recidiva", "recaida", "recaída", "recidivad",
+  "recurrente", "residiva"];
+
 export default function RecurrenciaModal(props: RecurrenciaModalProps) {
   return (
     <Modal
@@ -170,7 +173,7 @@ export default function RecurrenciaModal(props: RecurrenciaModalProps) {
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper>
+        <ReportsModalWrapper keywords={recurrenciaKeywords}>
           <RecurrenciaModalRender {...renderProps} />
         </ReportsModalWrapper>
       )}

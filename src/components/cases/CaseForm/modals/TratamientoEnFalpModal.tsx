@@ -4,7 +4,7 @@ import DatePicker from "@/components/ui/DatePicker";
 import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import SelectInput from "@/components/ui/SelectInput";
 import TextArea from "@/components/ui/TextArea";
-import { CategoriaTTO, EntryType, IntencionTTO } from "@/types/Enums";
+import { CategoriaTTO, CodingMode, EntryType, IntencionTTO } from "@/types/Enums";
 import {
   SubcategoriaTTO,
   TratamientoEnFALP,
@@ -27,6 +27,7 @@ import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import { EditModalRenderProps } from "../lists/edition";
 import _ from "lodash";
 import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
+import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
 
 interface FormValues {
   medico: string;
@@ -114,9 +115,16 @@ export const TratamientoEnFalpModalRender = (
     >
       <div className="grid grid-cols-3 items-center gap-6">
         <div className="col-span-3">
-          <TextArea
-            label="Médico"
-            {...form.register("medico", { required: true })}
+          <Controller
+            name="medico"
+            control={form.control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TopoMorfoAutocompleteInput
+                mode={CodingMode.practitioner}
+                {...field}
+              />
+            )}
           />
         </div>
         <Controller

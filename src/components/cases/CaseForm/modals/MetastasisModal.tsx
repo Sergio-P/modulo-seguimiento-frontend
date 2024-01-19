@@ -136,6 +136,9 @@ export const MetastasisModalRender = ({
   );
 };
 
+const metastasisKeywords = ["metastasis", "metástasis", "extension", "extensión", "mtt",
+  "diseminacion", "diseminación"];
+
 interface MetastasisModalProps extends Partial<ModalProps> {}
 export default function MetastasisModal(props: MetastasisModalProps) {
   return (
@@ -144,7 +147,7 @@ export default function MetastasisModal(props: MetastasisModalProps) {
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper>
+        <ReportsModalWrapper keywords={metastasisKeywords}>
           <MetastasisModalRender {...renderProps} />
         </ReportsModalWrapper>
       )}

@@ -162,6 +162,8 @@ export const ProgresionModalRender = (
   );
 };
 
+const progresionKeywords = ["progresion", "progresión", "compromiso", "progrsion"];
+
 export default function ProgresionModal(props: ProgresionModalProps) {
   return (
     <Modal
@@ -169,7 +171,7 @@ export default function ProgresionModal(props: ProgresionModalProps) {
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper>
+        <ReportsModalWrapper keywords={progresionKeywords}>
           <ProgresionModalRender {...renderProps} />
         </ReportsModalWrapper>
       )}

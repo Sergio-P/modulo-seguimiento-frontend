@@ -8,7 +8,11 @@ import Image from "next/image";
 import * as fns from "date-fns";
 import { FaFile, FaSpinner } from "react-icons/fa";
 
-export function Reports() {
+interface ReportsProps {
+  keywords?: string[];
+}
+
+export function Reports(props: ReportsProps) {
   const seguimiento = useContext(SeguimientoContext);
   const caseId = seguimiento?.caso_registro_id;
   const reportsQuery = useQuery({
@@ -33,13 +37,18 @@ export function Reports() {
       </div>
     );
   }
+
+  const hasKeyword = (report) => {
+    return props.keywords && props.keywords.some(k => report.informe.normalize("NFKD").toLowerCase().indexOf(k) >= 0);
+  }
+
   return (
     <div className="text-sm">
       <div className="flex flex-col gap-2">
         {reportsQuery.data?.map((report) => (
           <div
             key={report.id}
-            className="rounded-md border border-gray-200 shadow-sm"
+            className={`rounded-md border border-gray-200 shadow-sm ${hasKeyword(report) ? 'bg-amber-400' : ''}`}
           >
             <Disclosure>
               <div className="flex w-full flex-row items-center justify-between py-1 px-2">
