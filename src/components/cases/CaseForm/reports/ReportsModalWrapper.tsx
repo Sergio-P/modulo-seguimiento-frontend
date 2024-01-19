@@ -5,6 +5,7 @@ interface wrapperProps extends React.PropsWithChildren{
   modcom?: boolean
   modtraten?: boolean
   modtratpost?: boolean
+  keywords?: string[];
 }
 
 export function ReportsModalWrapper(props: wrapperProps) {
@@ -17,7 +18,7 @@ export function ReportsModalWrapper(props: wrapperProps) {
         modtratpost && "h-[45vh]",
         "h-[30vh]",
         "col-span-6 overflow-y-auto pr-4")}>
-        <Reports />
+        <Reports keywords={props.keywords || []}/>
       </div>
       <div className="col-span-6 pl-4">{props.children}</div>
     </div>
