@@ -3,7 +3,7 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import ProgresionList from "../lists/ProgresionList";
 import ProgresionModal from "../modals/ProgresionModal";
 import { Section, SubSection } from "../ui";
-import { EntryType } from "@/types/Enums";
+import { EntryType, poseeCategories } from "@/types/Enums";
 import SelectInput from "@/components/ui/SelectInput";
 
 export default function ProgresionSection() {
@@ -24,24 +24,7 @@ export default function ProgresionSection() {
             render={({ field }) => (
               <SelectInput
                 label={"Presenta Progresión"}
-                options={[
-                  {
-                    id: null,
-                    name: " ",
-                  },
-                  {
-                    id: true,
-                    name: "Sí",
-                  },
-                  {
-                    id: false,
-                    name: "No",
-                  },
-                  {
-                    id: 0,
-                    name: "Desconocido",
-                  },
-                ]}
+                options={poseeCategories}
                 onChange={e => field.onChange(e.id)}
               />
             )}

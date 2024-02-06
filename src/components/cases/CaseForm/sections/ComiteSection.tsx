@@ -4,6 +4,7 @@ import ComiteList from "../lists/ComiteList";
 import ComiteModal from "../modals/ComiteModal";
 import { Section, SubSection } from "../ui";
 import SelectInput from "@/components/ui/SelectInput";
+import { poseeCategories } from "@/types/Enums";
 
 export default function ComiteSection() {
   const { control, register } = useFormContext();
@@ -23,24 +24,7 @@ export default function ComiteSection() {
             render={({ field }) => (
               <SelectInput
                 label={"Tiene Comité Oncológico"}
-                options={[
-                  {
-                    id: null,
-                    name: " ",
-                  },
-                  {
-                    id: true,
-                    name: "Sí",
-                  },
-                  {
-                    id: false,
-                    name: "No",
-                  },
-                  {
-                    id: 0,
-                    name: "Desconocido",
-                  },
-                ]}
+                options={poseeCategories}
                 onChange={e => field.onChange(e.id)}
               />
             )}

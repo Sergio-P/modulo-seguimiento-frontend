@@ -4,6 +4,7 @@ import RecurrenciaList from "../lists/RecurrenciaList";
 import RecurrenciaModal from "../modals/RecurrenciaModal";
 import { Section, SubSection } from "../ui";
 import SelectInput from "@/components/ui/SelectInput";
+import { poseeCategories } from "@/types/Enums";
 
 export default function RecurrenciaSection() {
   const { control, register } = useFormContext();
@@ -23,24 +24,7 @@ export default function RecurrenciaSection() {
             render={({ field }) => (
               <SelectInput
                 label={"Presenta Recurrencia"}
-                options={[
-                  {
-                    id: null,
-                    name: " ",
-                  },
-                  {
-                    id: true,
-                    name: "Sí",
-                  },
-                  {
-                    id: false,
-                    name: "No",
-                  },
-                  {
-                    id: 0,
-                    name: "Desconocido",
-                  },
-                ]}
+                options={poseeCategories}
                 onChange={e => field.onChange(e.id)}
               />
             )}

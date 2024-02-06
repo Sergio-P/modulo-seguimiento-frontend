@@ -1,5 +1,5 @@
 import SelectInput from "@/components/ui/SelectInput";
-import { EntryType } from "@/types/Enums";
+import { EntryType, poseeCategories } from "@/types/Enums";
 import TratamientoEnFALPList from "../lists/TratamientoEnFALPList";
 import TratamienPostFALPList from "../lists/TratamientoPostFALPList";
 import TratamientoAntesFALPList from "../lists/TratamientoAntesFALPList";
@@ -17,6 +17,12 @@ export default function TratamientoSection() {
       id: EntryType.tratamiento_en_falp,
       name: "Tratamiento En FALP",
     },
+  });
+
+  const tieneTto: boolean = useWatch({
+    control,
+    name: "posee_tto",
+    defaultValue: false,
   });
   console.log("TratamientoSection selectedTreatment: ", selectedTreatment);
 
@@ -54,12 +60,25 @@ export default function TratamientoSection() {
               )}
             />
           </div>
+          <div>
+            <Controller
+              name="posee_tto"
+              control={control}
+              render={({ field }) => (
+                <SelectInput
+                  label={"Tiene nuevos tratamientos"}
+                  options={poseeCategories}
+                  onChange={e => field.onChange(e.id)}
+                />
+              )}
+            />
+          </div>
           {selectedTreatment !== undefined &&
           selectedTreatment.id === EntryType.tratamiento_en_falp ? (
-            <TratamientoEnFalpModal className="max-w-[115px]" />
+            <TratamientoEnFalpModal className="max-w-[115px]" disabled={!tieneTto} />
           ) : selectedTreatment.id ===
             EntryType.tratamiento_post_durante_falp ? (
-            <TratamientoPostModal className="max-w-[115px]" />
+            <TratamientoPostModal className="max-w-[115px]" disabled={!tieneTto} />
           ) : selectedTreatment.id === EntryType.tratamiento_antes_falp ? (
             <TratamientoEnFalpModal disabled className="max-w-[115px]" />
           ) : (
