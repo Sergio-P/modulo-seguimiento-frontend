@@ -14,7 +14,14 @@ import {
 } from "react-hook-form";
 import { SeguimientoContext } from "../context/seguimiento";
 import * as fns from "date-fns";
-import { CodingMode, EntryType } from "@/types/Enums";
+import {
+  CodingMode,
+  EntryType,
+  estadioCategories, extensionCategories,
+  poseeCategories, tnmMCategories,
+  tnmNCategories,
+  tnmTCategories
+} from "@/types/Enums";
 import { EditModalRenderProps } from "../lists/edition";
 import { useMutationUpdateSeguimiento } from "@/hooks/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
@@ -22,11 +29,20 @@ import { SeguimientoForm } from "../../CaseForm";
 import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocompleteInput";
 import { Reports } from "../reports/Reports";
 import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
+import SelectInput from "@/components/ui/SelectInput";
 
 interface FormValues {
   fecha_diagnostico: Date;
   fecha_estimada: boolean;
   detalle_topografia: string;
+  ct: string;
+  cn: string;
+  cm: string;
+  pt: string;
+  pn: string;
+  pm: string;
+  estadio: string;
+  extension: string;
 }
 
 export const MetastasisModalRender = ({
@@ -70,6 +86,14 @@ export const MetastasisModalRender = ({
         .slice(1)
         .join(" "),
       numero_seguimiento: seguimiento.numero_seguimiento,
+      ct: data.ct,
+      cn: data.cn,
+      cm: data.cm,
+      pt: data.pt,
+      pn: data.pn,
+      pm: data.pm,
+      estadio: data.estadio,
+      extension: data.extension,
     };
     const payload = {
       ...serializeSeguimientoUpdate(upperForm.getValues(), seguimiento),
@@ -118,6 +142,106 @@ export const MetastasisModalRender = ({
             )}
           />
         </div>
+        <div className="col-span-2 grid grid-cols-3 items-center gap-6">
+          <Controller
+            name="ct"
+            control={form.control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <SelectInput
+                label={"cT"}
+                options={tnmTCategories}
+                onChange={e => field.onChange(e.id)}
+              />
+            )}
+          />
+          <Controller
+            name="cn"
+            control={form.control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <SelectInput
+                label={"cN"}
+                options={tnmNCategories}
+                onChange={e => field.onChange(e.id)}
+              />
+            )}
+          />
+          <Controller
+            name="cm"
+            control={form.control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <SelectInput
+                label={"cM"}
+                options={tnmMCategories}
+                onChange={e => field.onChange(e.id)}
+              />
+            )}
+          />
+        </div>
+        <div className="col-span-2 grid grid-cols-3 items-center gap-6">
+          <Controller
+            name="pt"
+            control={form.control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <SelectInput
+                label={"pT"}
+                options={tnmTCategories}
+                onChange={e => field.onChange(e.id)}
+              />
+            )}
+          />
+          <Controller
+            name="pn"
+            control={form.control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <SelectInput
+                label={"pN"}
+                options={tnmNCategories}
+                onChange={e => field.onChange(e.id)}
+              />
+            )}
+          />
+          <Controller
+            name="pm"
+            control={form.control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <SelectInput
+                label={"pM"}
+                options={tnmMCategories}
+                onChange={e => field.onChange(e.id)}
+              />
+            )}
+          />
+        </div>
+        <Controller
+          name="estadio"
+          control={form.control}
+          rules={{ required: false }}
+          render={({ field }) => (
+            <SelectInput
+              label={"Estadio"}
+              options={estadioCategories}
+              onChange={e => field.onChange(e.id)}
+            />
+          )}
+        />
+        <Controller
+          name="extension"
+          control={form.control}
+          rules={{ required: false }}
+          render={({ field }) => (
+            <SelectInput
+              label={"Extensión"}
+              options={extensionCategories}
+              onChange={e => field.onChange(e.id)}
+            />
+          )}
+        />
       </div>
       <div className="mt-6 flex justify-between">
         <Button type="button" onClick={handleClose}>
@@ -129,7 +253,7 @@ export const MetastasisModalRender = ({
           disabled={!form.formState.isValid}
           loading={isLoading}
         >
-          {edit ? "Editar" : "Agregar"} Metástasis
+          {edit ? "Editar" : "Agregar"} Extensión Diagnóstica
         </Button>
       </div>
     </form>
@@ -147,7 +271,7 @@ export default function MetastasisModal(props: MetastasisModalProps) {
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper keywords={metastasisKeywords}>
+        <ReportsModalWrapper keywords={metastasisKeywords} modtratpost>
           <MetastasisModalRender {...renderProps} />
         </ReportsModalWrapper>
       )}

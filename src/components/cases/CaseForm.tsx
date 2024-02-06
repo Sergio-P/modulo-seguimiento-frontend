@@ -35,6 +35,7 @@ import { BoldElement, Subtitle } from "./CaseForm/ui";
 import DuplicarModal from "@/components/cases/CaseForm/modals/DuplicarModal";
 import QualityReportModal from "@/components/cases/CaseForm/modals/QualityReportModal";
 import HistoricalModal from "@/components/cases/CaseForm/modals/HistoricalModal";
+import Image from "next/image";
 
 interface CaseFormProps {
   caseId: string;
@@ -150,7 +151,16 @@ function InnerCaseForm(props: CaseFormProps) {
       <div className="sticky top-0 z-30 bg-white">
         <div className="flex items-center justify-between gap-7 border-b px-5 pt-6 pb-5">
           <h1 className="text-3xl font-bold text-font-title">
-            <Link href="/">Seguimiento de Casos</Link>
+            <Link href="/">
+              <img
+                src="/icons/selectArrow.svg"
+                width={16}
+                height={16}
+                alt=""
+                className="h-4 w-4 rotate-90 inline mr-3"
+              />
+              Seguimiento de Casos
+            </Link>
           </h1>
           <div className="flex items-center">
             {/*<div className="mr-10 w-72">*/}

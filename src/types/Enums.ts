@@ -130,98 +130,98 @@ export enum CodingMode {
 }
 
 export const categorySubcategories = {
-  'Mama': ['Mama'],
-  'Órganos Digestivos': [
-    'Ano y Conducto Anal',
-    'Colon',
-    'Esófago',
-    'Estómago',
-    'Hígado y Conductor Biliares intrahepáticos',
-    'Intestino Delgado',
-    'Páncreas',
-    'Recto',
-    'Unión Rectosigmoidea',
-    'Vesícula Biliar',
-    'Otras partes de las vías biliares y las no específicadas',
-    'Otros sitios de los órganos digestivos y los mal definidos'
+  "Mama": ["Mama"],
+  "Órganos Digestivos": [
+    "Ano y Conducto Anal",
+    "Colon",
+    "Esófago",
+    "Estómago",
+    "Hígado y Conductor Biliares intrahepáticos",
+    "Intestino Delgado",
+    "Páncreas",
+    "Recto",
+    "Unión Rectosigmoidea",
+    "Vesícula Biliar",
+    "Otras partes de las vías biliares y las no específicadas",
+    "Otros sitios de los órganos digestivos y los mal definidos"
   ],
-  'Piel': [
-    'Melanoma',
-    'No Melanoma'
+  "Piel": [
+    "Melanoma",
+    "No Melanoma"
   ],
-  'Órganos Genitales Masculinos': [
-    'Glándula Prostática',
-    'Pene',
-    'Testículos',
-    'Otros órganos genitales masculinos y los no específicados'
+  "Órganos Genitales Masculinos": [
+    "Glándula Prostática",
+    "Pene",
+    "Testículos",
+    "Otros órganos genitales masculinos y los no específicados"
   ],
-  'Órganos Genitales Femeninos': [
-    'Cuello Uterino',
-    'Cuerpo Uterino',
-    'Ovario',
-    'Útero, SAI',
-    'Vagina',
-    'Vulva',
-    'Placenta',
-    'Otros órganos genitales femeninos y los no específicados'
+  "Órganos Genitales Femeninos": [
+    "Cuello Uterino",
+    "Cuerpo Uterino",
+    "Ovario",
+    "Útero, SAI",
+    "Vagina",
+    "Vulva",
+    "Placenta",
+    "Otros órganos genitales femeninos y los no específicados"
   ],
-  'Tiroides y otras Glándulas Endocrinas': [
-    'Glándula Suprrarrenal (Adrenal)',
-    'Glándula Tiroides',
-    'Otras glándulas endocrinas y estructuras afines'
+  "Tiroides y otras Glándulas Endocrinas": [
+    "Glándula Suprrarrenal (Adrenal)",
+    "Glándula Tiroides",
+    "Otras glándulas endocrinas y estructuras afines"
   ],
-  'Sistema Respiratorio y Órganos Intratorácicos': [
-    'Cavidad Nasal y Oído Medio',
-    'Senos Paranasales',
-    'Laringe',
-    'Tráquea',
-    'Bronquios y Pulmón',
-    'Corazón, Mediastino y Pleura',
-    'Timo',
-    'Otros sitios y los mal definidos del sistema respiratorio y los órganos intratorácicos'
+  "Sistema Respiratorio y Órganos Intratorácicos": [
+    "Cavidad Nasal y Oído Medio",
+    "Senos Paranasales",
+    "Laringe",
+    "Tráquea",
+    "Bronquios y Pulmón",
+    "Corazón, Mediastino y Pleura",
+    "Timo",
+    "Otros sitios y los mal definidos del sistema respiratorio y los órganos intratorácicos"
   ],
-  'Tracto Urinario': [
-    'Pelvis Renal',
-    'Riñón',
-    'Uréter',
-    'Vejiga Urinaria',
-    'Otros órganos urinarios y los no específicados'
+  "Tracto Urinario": [
+    "Pelvis Renal",
+    "Riñón",
+    "Uréter",
+    "Vejiga Urinaria",
+    "Otros órganos urinarios y los no específicados"
   ],
-  'Labio, Cavidad Bucal y Faringe': [
-    'Amígdala',
-    'Base de la Lengua',
-    'Glándula Parótida',
-    'Hipofaringe',
-    'Labio',
-    'Nasofaringe',
-    'Orofaringe',
-    'Paladar',
-    'Seno Piriforme',
-    'Encía',
-    'Piso de la Boca',
-    'Otras Glándulas Salivales Mayores y las no específicadas',
-    'Otras partes de la Boca y las no específicadas',
-    'Otras partes de la Lengua y las no específicadas',
-    'Otros sitios del Labio, Cavidad Bucal y Faringe; y los mal definidos',
+  "Labio, Cavidad Bucal y Faringe": [
+    "Amígdala",
+    "Base de la Lengua",
+    "Glándula Parótida",
+    "Hipofaringe",
+    "Labio",
+    "Nasofaringe",
+    "Orofaringe",
+    "Paladar",
+    "Seno Piriforme",
+    "Encía",
+    "Piso de la Boca",
+    "Otras Glándulas Salivales Mayores y las no específicadas",
+    "Otras partes de la Boca y las no específicadas",
+    "Otras partes de la Lengua y las no específicadas",
+    "Otros sitios del Labio, Cavidad Bucal y Faringe; y los mal definidos"
   ],
-  'Sitio primario desconocido': ['Sitio primario desconocido'],
-  'Encéfalo, Ojo y otras partes del Sistema Nervioso Central': [
-    'Encéfalo',
-    'Médula Espinal, Nervios Craneales y de otras partes del SNC',
-    'Meninges',
-    'Ojos y anexos'
+  "Sitio primario desconocido": ["Sitio primario desconocido"],
+  "Encéfalo, Ojo y otras partes del Sistema Nervioso Central": [
+    "Encéfalo",
+    "Médula Espinal, Nervios Craneales y de otras partes del SNC",
+    "Meninges",
+    "Ojos y anexos"
   ],
-  'Tejido conjuntivo, subcutáneo y de otros tejidos blandos': [
-    'Tejido conjuntivo, subcutáneo y de otros tejidos blandos'
+  "Tejido conjuntivo, subcutáneo y de otros tejidos blandos": [
+    "Tejido conjuntivo, subcutáneo y de otros tejidos blandos"
   ],
-  'Huesos, Articulaciones y Cartílago Articular': [
-    'Miembros',
-    'Otros sitios y de los no específicados'
+  "Huesos, Articulaciones y Cartílago Articular": [
+    "Miembros",
+    "Otros sitios y de los no específicados"
   ],
-  'Peritoneo y Retroperitoneo': ['Peritoneo y Retroperitoneo'],
-  'Nervios Periféricos y Sistema Nervioso Autónomo': ['Nervios Periféricos y Sistema Nervioso Autónomo'],
-  'Sitios mal definidos y otros': ['Sitios mal definidos y otros']
-}
+  "Peritoneo y Retroperitoneo": ["Peritoneo y Retroperitoneo"],
+  "Nervios Periféricos y Sistema Nervioso Autónomo": ["Nervios Periféricos y Sistema Nervioso Autónomo"],
+  "Sitios mal definidos y otros": ["Sitios mal definidos y otros"]
+};
 
 export enum QualityReportTypes {
   patient_data = "DATOS DEL PACIENTE",
@@ -232,3 +232,65 @@ export enum QualityReportTypes {
   vital_data = "ANTECEDENTES ESTADO VITAL",
 }
 
+export const poseeCategories = [
+  {
+    id: null,
+    name: " "
+  },
+  {
+    id: true,
+    name: "Sí"
+  },
+  {
+    id: false,
+    name: "No"
+  },
+  {
+    id: 0,
+    name: "Desconocido"
+  }
+];
+
+export const tnmTCategories = [
+  { id: "T0", name: "T0" },
+  { id: "T1", name: "T1" },
+  { id: "T1a", name: "T1a" },
+  { id: "T1b", name: "T1b" },
+  { id: "T1c", name: "T1c" },
+  { id: "T2", name: "T2" },
+  { id: "T2a", name: "T2a" },
+  { id: "T2b", name: "T2b" },
+  { id: "T2c", name: "T2c" },
+  { id: "T3", name: "T3" },
+  { id: "T3a", name: "T3a" },
+  { id: "T3b", name: "T3b" },
+  { id: "T4", name: "T4" },
+  { id: "TX", name: "TX" }
+];
+
+export const tnmNCategories = [
+  { id: "N0", name: "N0" },
+  { id: "N1", name: "N1" },
+  { id: "N2", name: "N2" },
+  { id: "NX", name: "NX" }
+];
+
+export const tnmMCategories = [
+  { id: "M0", name: "M0" },
+  { id: "M1", name: "M1" },
+  { id: "MX", name: "MX" }
+];
+
+export const estadioCategories = [
+  { id: "0", name: "0" },
+  { id: "I", name: "I" },
+  { id: "II", name: "II" },
+  { id: "III", name: "III" },
+  { id: "IV", name: "IV" },
+];
+
+export const extensionCategories = [
+  { id: "Local", name: "Local" },
+  { id: "Regional", name: "Regional" },
+  { id: "Avanzado", name: "Avanzado" },
+];

@@ -34,6 +34,10 @@ export default function SignModal(props: SignModalProps) {
     control,
     name: "posee_comite",
   });
+  const tto = useWatch({
+    control,
+    name: "posee_tto",
+  });
   const condicion = useWatch({
     control,
     name: "condicion_del_caso",
@@ -41,7 +45,7 @@ export default function SignModal(props: SignModalProps) {
 
   const validateForm = () => {
     return metastasis != null && recurrencia != null  && progresion != null
-      && comite != null  && condicion != null
+      && comite != null  && condicion != null && tto != null
       && (estadoVital === "Vivo" || (estadoVital === "Muerto" && !!causaDefuncion));
   }
 

@@ -3,6 +3,14 @@ export interface MetastasisBase {
   fecha_estimada: boolean;
   codigo_topografia_metastasis: string;
   descripcion_topografia_metastasis: string;
+  ct: string;
+  cn: string;
+  cm: string;
+  pt: string;
+  pn: string;
+  pm: string;
+  estadio: string;
+  extension: string;
 }
 
 export interface MetastasisCreate extends MetastasisBase {
