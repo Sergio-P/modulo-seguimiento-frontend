@@ -106,7 +106,7 @@ export const ProgresionModalRender = (
           control={form.control}
           rules={{ required: true }}
           render={({ field }) => (
-            <DatePicker label="Fecha Diagnóstico" {...field} />
+            <DatePicker label="Fecha Progresión" {...field} />
           )}
         />
         <Checkbox label="Fecha Estimada" {...form.register("fecha_estimada")} />

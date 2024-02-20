@@ -27,7 +27,7 @@ export default function TimeLine(props: TimeLineProps) {
             LÍNEA DE TIEMPO
           </h2>
           <div className="flex items-center rounded-2xl border border-primary px-2 font-semibold text-primary">
-            <h4 className="pr-1">ÚLTIMO CONTACTO : </h4>
+            <h4 className="pr-1">FECHA ÚLTIMO CONTACTO : </h4>
             <h4>{seguimiento?.ultimo_contacto}</h4>
           </div>
         </div>

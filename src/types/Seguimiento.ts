@@ -13,7 +13,7 @@ export interface SeguimientoBase {
   validacion_clase_caso: ClaseCaso | null;
   posee_recurrencia: boolean;
   posee_progresion: boolean;
-  posee_metastasis: boolean;
+  posee_metastasis: boolean | null;
   posee_tto: boolean;
   condicion_del_caso: CondicionCaso | null;
   ultimo_contacto: string | null;

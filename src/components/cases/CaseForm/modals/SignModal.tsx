@@ -44,6 +44,8 @@ export default function SignModal(props: SignModalProps) {
   });
 
   const validateForm = () => {
+    console.log("FIRMAR", metastasis, recurrencia, progresion, comite, condicion, tto, estadoVital, causaDefuncion);
+
     return metastasis != null && recurrencia != null  && progresion != null
       && comite != null  && condicion != null && tto != null
       && (estadoVital === "Vivo" || (estadoVital === "Muerto" && !!causaDefuncion));

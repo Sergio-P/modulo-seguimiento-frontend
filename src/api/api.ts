@@ -141,5 +141,12 @@ export async function getCodings(
 export async function getReports(caseId: number): Promise<Report[]> {
   return await apiClient
     .get<Report[]>(`/rht_api/reports?case_id=${caseId}`)
-    .then((response) => response.data);
+    .then((response) => {
+      let reports = response.data as Report[];
+      reports = reports.sort((b, a) => a.fecha.localeCompare(b.fecha));
+      reports.forEach(r => {
+        r.fecha = r.fecha.replace("T00:00:00Z", "T04:00:00Z");
+      })
+      return reports;
+    });
 }

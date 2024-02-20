@@ -8,10 +8,10 @@ import { poseeCategories } from "@/types/Enums";
 
 export default function MetastasisSection() {
   const { control, register } = useFormContext();
-  const tieneMetastasis: boolean = useWatch({
+  const tieneMetastasis: boolean | null = useWatch({
     control,
     name: "posee_metastasis",
-    defaultValue: false,
+    defaultValue: null
   });
 
   return (
@@ -21,6 +21,7 @@ export default function MetastasisSection() {
           <Controller
             name="posee_metastasis"
             control={control}
+            defaultValue={null}
             render={({ field }) => (
               <SelectInput
               label={"Presenta Extensión al Diagnóstico"}
