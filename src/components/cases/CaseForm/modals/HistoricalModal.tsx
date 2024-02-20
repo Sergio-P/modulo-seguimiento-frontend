@@ -53,6 +53,9 @@ export const HistoricalModalRender = (
   let regMap = {};
   data = data.filter(d => {
     let n = d.caso_registro_correspondiente.id;
+    if(n == seguimiento?.caso_registro_correspondiente?.id){
+      return false;
+    }
     if(!regMap[n]){
       regMap[n] = true;
       return true;

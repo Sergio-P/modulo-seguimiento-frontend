@@ -46,12 +46,12 @@ export enum CondicionCaso {
 
 export enum EstadoVital {
   vivo = "Vivo",
-  muerto = "Muerto",
+  muerto = "Fallecido",
 }
 
 export enum CausaDefuncion {
-  muerte_por_cancer_o_complicacion = "Muerte por cáncer o complicación",
-  muerte_por_otra_causa = "Muerte por otra causa",
+  muerte_por_cancer_o_complicacion = "Fallecido por cáncer o complicación",
+  muerte_por_otra_causa = "Fallecido por otra causa",
   desconocido = "Desconocido",
 }
 

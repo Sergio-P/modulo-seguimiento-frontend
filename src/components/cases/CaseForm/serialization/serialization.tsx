@@ -31,7 +31,7 @@ export function unserializeSeguimiento(
 ): SeguimientoForm {
   return {
     ...seguimiento,
-    ultimo_contacto: unserializeIsoDate(seguimiento.ultimo_contacto),
+    ultimo_contacto: null,
     fecha_defuncion: unserializeIsoDate(seguimiento.fecha_defuncion),
   };
 }

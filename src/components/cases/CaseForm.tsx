@@ -54,7 +54,7 @@ export interface SeguimientoForm {
   validacion_clase_caso: ClaseCaso | null;
   posee_recurrencia: boolean;
   posee_progresion: boolean;
-  posee_metastasis: boolean;
+  posee_metastasis: boolean | null;
   posee_tto: boolean;
   condicion_del_caso: CondicionCaso | null;
   ultimo_contacto: Date | null;
@@ -181,7 +181,7 @@ function InnerCaseForm(props: CaseFormProps) {
               <DuplicarModal />
               <QualityReportModal />
               <HistoricalModal />
-              {/*<ReportsModal />*/}
+              <ReportsModal />
               <Button
                 icon="SaveIcon"
                 filled
@@ -229,7 +229,7 @@ function InnerCaseForm(props: CaseFormProps) {
                 </Tooltip>
               </div>
               <BoldElement
-                label={"Último contacto"}
+                label={"Fecha último contacto"}
                 value={caso?.ultimo_contacto || ""}
               />
               <MoreInfoModal seguimiento={seguimiento} />

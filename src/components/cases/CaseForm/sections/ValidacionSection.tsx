@@ -51,7 +51,7 @@ export default function ValidacionSection() {
             name="ultimo_contacto"
             control={control}
             render={({ field }) => (
-              <DatePicker label="Último Contacto" {...field} />
+              <DatePicker label="Fecha último contacto" {...field} />
             )}
           />
         </div>

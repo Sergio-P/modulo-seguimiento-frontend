@@ -30,7 +30,7 @@ const columns = [
     cell: DateCell,
   }),
   columnHelper.accessor("fecha_diagnostico", {
-    header: "Fecha Diagnóstico",
+    header: "Fecha",
     cell: DateCell,
     size: 50,
   }),

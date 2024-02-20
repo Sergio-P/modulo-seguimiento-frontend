@@ -28,7 +28,7 @@ export function createEditColumn<
 ) {
   return colHelper.display({
     id: "_edit_buttons",
-    size: 20,
+    size: 60,
     cell: (props) => (
       <EditColumnCell
         cellContext={props}
@@ -62,7 +62,7 @@ function EditColumnCell<
   }
 
   return (
-    <div className="flex gap-4 justify-end">
+    <div className="flex justify-end">
       <Modal
         title={`Editar ${name}`}
         clear

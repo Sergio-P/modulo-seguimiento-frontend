@@ -40,6 +40,7 @@ function InnerDatePicker(props: DatePickerProps) {
     }
   }, [nullValue, props.value, reset]);
   const disabledDays = props.allowFutureDates ? [] : [{ after: new Date() }];
+  inputProps.placeholder = "Ingrese una fecha";
   return (
     <Popover className={clsx(disabled && "opacity-50")}>
       <Popover.Button className="w-full">
