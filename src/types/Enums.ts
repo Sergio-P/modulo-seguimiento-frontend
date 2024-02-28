@@ -226,10 +226,12 @@ export const categorySubcategories = {
 export enum QualityReportTypes {
   patient_data = "DATOS DEL PACIENTE",
   tumor_data = "ANTECEDENTES DEL TUMOR",
-  comite_data = "ANTECEDENTES DE RESOLUCIÓN DEL COMITE",
+  comite_data = "ANTECEDENTES DE RESOLUCIÓN DEL COMITÉ",
   treatment_data = "ANTECEDENTES DEL TRATAMIENTO",
   progression_data = "ANTECEDENTS DE RECURRENCIA/PROGRESIÓN",
   vital_data = "ANTECEDENTES ESTADO VITAL",
+  diagnosis_extension = "EXTENSIÓN AL DIAGNÓSTICO",
+  reverse_case = "REVERSAR CASO",
 }
 
 export const poseeCategories = [

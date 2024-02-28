@@ -6,4 +6,5 @@ export interface Report {
   especialidad: string | null;
   id: string;
   tipo_episodio: string | null;
+  extra: string | null;
 }

@@ -45,12 +45,12 @@ export const ProgresionModalRender = (
   const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
-      fecha_estimada: false, //
-      tipo: undefined, //
-      detalle_topografia_progresion: undefined, //
+      fecha_estimada: props.data ? props.data.fecha_estimada : false, //
+      tipo: props.data?.tipo || undefined, //
+      detalle_topografia_progresion: props.data?.codigo_topografia_progresion || undefined, //
       ...props.data,
       fecha_diagnostico: props.data
-        ? new Date(props.data.fecha_diagnostico)
+        ? new Date(props.data.fecha_diagnostico + " 12:00:00")
         : undefined,
     },
   });
@@ -138,6 +138,7 @@ export const ProgresionModalRender = (
             rules={{ required: true }}
             render={({ field }) => (
               <TopoMorfoAutocompleteInput
+                initialValue={field.value}
                 mode={CodingMode.topography}
                 {...field}
               />

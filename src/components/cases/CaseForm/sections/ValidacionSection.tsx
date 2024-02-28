@@ -106,7 +106,7 @@ export default function ValidacionSection() {
               <SelectInput
                 disabled={
                   seguimiento?.estado_vital === "Vivo" &&
-                  estadoVital !== "Muerto"
+                  estadoVital !== "Fallecido"
                 }
                 label="Causa Defunción"
                 options={[
@@ -126,7 +126,7 @@ export default function ValidacionSection() {
             <DatePicker
               label="Fecha Defunción"
               disabled={
-                seguimiento?.estado_vital === "Vivo" && estadoVital !== "Muerto"
+                seguimiento?.estado_vital === "Vivo" && estadoVital !== "Fallecido"
               }
               {...field}
             />
@@ -136,7 +136,7 @@ export default function ValidacionSection() {
           {/* TODO: Agregar fecha estimada en modelo de datos, actualmente no existe */}
           <Checkbox
             disabled={
-              seguimiento?.estado_vital === "Vivo" && estadoVital !== "Muerto"
+              seguimiento?.estado_vital === "Vivo" && estadoVital !== "Fallecido"
             }
             label="Estimada"
           />

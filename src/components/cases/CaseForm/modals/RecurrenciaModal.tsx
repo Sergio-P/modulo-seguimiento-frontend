@@ -45,12 +45,12 @@ export const RecurrenciaModalRender = (
   const upperForm = useFormContext<SeguimientoForm>();
   const form = useForm<FormValues>({
     defaultValues: {
-      fecha_estimada: false, //
-      tipo: undefined, //
-      detalle_topografia_recurrencia: undefined, //
+      fecha_estimada: props.data ? props.data.fecha_estimada : false, //
+      tipo: props.data ? props.data.tipo : undefined, //
+      detalle_topografia_recurrencia: props.data ? props.data.codigo_topografia_recurrencia : undefined, //
       ...props.data,
       fecha_diagnostico: props.data
-        ? new Date(props.data.fecha_diagnostico)
+        ? new Date(props.data.fecha_diagnostico + " 12:00:00")
         : undefined,
     },
   });
@@ -139,6 +139,7 @@ export const RecurrenciaModalRender = (
             rules={{ required: true }}
             render={({ field }) => (
               <TopoMorfoAutocompleteInput
+                initialValue={field.value}
                 mode={CodingMode.topography}
                 {...field}
               />

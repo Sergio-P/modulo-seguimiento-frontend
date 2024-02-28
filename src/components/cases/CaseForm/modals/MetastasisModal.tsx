@@ -5,7 +5,7 @@ import Modal, { ModalProps, ModalRenderProps } from "@/components/ui/Modal";
 import TextArea from "@/components/ui/TextArea";
 import { Metastasis, MetastasisCreate } from "@/types/Metastasis";
 import _ from "lodash";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Controller,
   SubmitHandler,
@@ -30,6 +30,9 @@ import TopoMorfoAutocompleteInput from "@/components/cases/TopoMorfoAutocomplete
 import { Reports } from "../reports/Reports";
 import { ReportsModalWrapper } from "../reports/ReportsModalWrapper";
 import SelectInput from "@/components/ui/SelectInput";
+import useSeguimientoEntries from "@/components/cases/CaseForm/hooks/useSeguimientoEntries";
+import { UpdateDataContext } from "@/components/cases/CaseForm/context/updateData";
+import { all } from "axios";
 
 interface FormValues {
   fecha_diagnostico: Date;
@@ -56,11 +59,21 @@ export const MetastasisModalRender = ({
     seguimiento?.id
   );
   const upperForm = useFormContext<SeguimientoForm>();
+  const updateData = useContext(UpdateDataContext);
+  const allData = useSeguimientoEntries<Metastasis>(
+    seguimiento,
+    updateData,
+    EntryType.metastasis
+  );
+  let compact = allData.length > 0;
+
+  let [openExtension, setOpenExtension] = useState(false);
+
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      fecha_estimada: false, //
-      detalle_topografia: "", //
+      fecha_estimada: prevData ? prevData.fecha_estimada : false, //
+      detalle_topografia: prevData ? prevData.codigo_topografia_metastasis : "", //
       ...prevData,
       fecha_diagnostico: prevData
         ? new Date(prevData.fecha_diagnostico)
@@ -75,7 +88,7 @@ export const MetastasisModalRender = ({
   const addMetastasis: SubmitHandler<FormValues> = (data) => {
     const entryContent: MetastasisCreate = {
       updated_at: new Date().toISOString(),
-      fecha_diagnostico: fns.format(data.fecha_diagnostico, "yyyy-MM-dd"),
+      fecha_diagnostico: data.fecha_diagnostico ? fns.format(data.fecha_diagnostico, "yyyy-MM-dd") : fns.format(Date.now(), "yyyy-MM-dd"),
       fecha_estimada: data.fecha_estimada,
       codigo_topografia_metastasis: data.detalle_topografia
         .split(" ")[0]
@@ -119,29 +132,8 @@ export const MetastasisModalRender = ({
         e.stopPropagation();
       }}
     >
-      <div className="grid grid-cols-2 items-center gap-6">
-        <Controller
-          name="fecha_diagnostico"
-          rules={{ required: true }}
-          control={form.control}
-          render={({ field }) => (
-            <DatePicker label="Fecha Diagnóstico" {...field} />
-          )}
-        />
-        <Checkbox label="Fecha Estimada" {...form.register("fecha_estimada")} />
-        <div className="col-span-2">
-          <Controller
-            name="detalle_topografia"
-            control={form.control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TopoMorfoAutocompleteInput
-                mode={CodingMode.topography}
-                {...field}
-              />
-            )}
-          />
-        </div>
+      {!compact ? <div className="grid grid-cols-2 items-center gap-6">
+        <h2 className="col-span-2">Validación de Extensión al Diagnóstico</h2>
         <div className="col-span-2 grid grid-cols-3 items-center gap-6">
           <Controller
             name="ct"
@@ -242,7 +234,35 @@ export const MetastasisModalRender = ({
             />
           )}
         />
-      </div>
+        <div className="col-span-2">
+          <Checkbox label="Agregar extensión al diagnóstico" onChange={e => setOpenExtension(e.target.checked)} />
+        </div>
+      </div> : null}
+      {compact || openExtension ? <div className="grid grid-cols-2 items-center gap-6 mt-4">
+        <Controller
+          name="fecha_diagnostico"
+          rules={{ required: true }}
+          control={form.control}
+          render={({ field }) => (
+            <DatePicker label="Fecha Diagnóstico" {...field} />
+          )}
+        />
+        <Checkbox label="Fecha Estimada" {...form.register("fecha_estimada")} />
+        <div className="col-span-2">
+          <Controller
+            name="detalle_topografia"
+            control={form.control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TopoMorfoAutocompleteInput
+                initialValue={field.value}
+                mode={CodingMode.topography}
+                {...field}
+              />
+            )}
+          />
+        </div>
+      </div> : null}
       <div className="mt-6 flex justify-between">
         <Button type="button" onClick={handleClose}>
           Cancelar
@@ -265,6 +285,14 @@ const metastasisKeywords = ["metastasis", "metástasis", "extension", "extensió
 
 interface MetastasisModalProps extends Partial<ModalProps> {}
 export default function MetastasisModal(props: MetastasisModalProps) {
+  const seguimiento = useContext(SeguimientoContext);
+  const updateData = useContext(UpdateDataContext);
+  const allData = useSeguimientoEntries<Metastasis>(
+    seguimiento,
+    updateData,
+    EntryType.metastasis
+  );
+  let compact = allData.length > 0;
   return (
     <Modal
       title="Extensión al Diagnóstico"
@@ -277,7 +305,7 @@ export default function MetastasisModal(props: MetastasisModalProps) {
       )}
       {...props}
     >
-      Agregar Extensión al Diagnóstico
+      {compact ? "Agregar" : "Validar"} Extensión al Diagnóstico
     </Modal>
   );
 }

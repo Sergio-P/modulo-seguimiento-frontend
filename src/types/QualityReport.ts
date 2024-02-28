@@ -17,5 +17,7 @@ export interface QualityReport extends QualityReportBase {
   treatment_data: boolean;
   progression_data: boolean;
   vital_data: boolean;
+  diagnosis_extension: boolean;
+  reverse_case: boolean;
   justificacion: string;
 }

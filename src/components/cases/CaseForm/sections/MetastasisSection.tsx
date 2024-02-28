@@ -17,20 +17,20 @@ export default function MetastasisSection() {
   return (
     <Section id="metastasis" title="Extensión al Diagnóstico">
       <SubSection>
-        <div className="flex justify-between">
-          <Controller
-            name="posee_metastasis"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <SelectInput
-              label={"Presenta Extensión al Diagnóstico"}
-              options={poseeCategories}
-              onChange={e => field.onChange(e.id)}
-              />
-            )}
-          />
-          <MetastasisModal disabled={!tieneMetastasis} />
+        <div className="flex justify-end">
+          {/*<Controller*/}
+          {/*  name="posee_metastasis"*/}
+          {/*  control={control}*/}
+          {/*  defaultValue={null}*/}
+          {/*  render={({ field }) => (*/}
+          {/*    <SelectInput*/}
+          {/*    label={"Presenta Extensión al Diagnóstico"}*/}
+          {/*    options={poseeCategories}*/}
+          {/*    onChange={e => field.onChange(e.id)}*/}
+          {/*    />*/}
+          {/*  )}*/}
+          {/*/>*/}
+          <MetastasisModal />
         </div>
 
         <div className="mt-5">
