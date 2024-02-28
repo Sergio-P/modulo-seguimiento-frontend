@@ -33,14 +33,16 @@ function LoadingSpinner() {
 
 interface TopoMorfoAutocompleteInputProps {
   mode: CodingMode;
+  initialValue: string | null;
   onChange: (value: string | null) => void;
 }
 
 export default function TopoMorfoAutocompleteInput(
   props: TopoMorfoAutocompleteInputProps
 ) {
+  console.log(props);
   const [selectedCoding, setSelectedCoding] = useState<Coding | null>(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(props.initialValue || "");
   const [filteredCoding, setFilteredCoding] = useState<Coding[]>([]);
   const labels = {
     [CodingMode.topography]: "Topografía",
@@ -86,7 +88,7 @@ export default function TopoMorfoAutocompleteInput(
           <Combobox.Input
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(coding: Coding) =>
-              coding ? props.mode == CodingMode.practitioner ? coding.code : `(${coding.code}) ${coding.description}` : ""
+              coding ? props.mode == CodingMode.practitioner ? coding.code : `(${coding.code}) ${coding.description}` : props.initialValue || ""
             }
             placeholder={labels[props.mode || CodingMode.topography]}
             className="w-full border-none bg-background py-4 pl-3 pr-10 text-sm leading-5 text-gray-900"

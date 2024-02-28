@@ -55,6 +55,13 @@ const columns = [
       return `(${row.original.codigo_topografia_metastasis}) ${row.original.descripcion_topografia_metastasis}`;
     },
   }),
+  columnHelper.accessor("ct", {
+    header: "TNM",
+    size: 120,
+    cell: ({ row }) => {
+      return `c${row.original.ct}${row.original.cn}${row.original.cm}, p${row.original.pt}${row.original.pn}${row.original.pm}`;
+    },
+  }),
   createEditColumn(
     columnHelper,
     "Metástasis",

@@ -7,9 +7,11 @@ import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
 import * as fns from "date-fns";
 import { FaFile, FaSpinner } from "react-icons/fa";
+import Button from "@/components/ui/Button";
 
 interface ReportsProps {
   keywords?: string[];
+  onCopy?: Function | null;
 }
 
 export function Reports(props: ReportsProps) {
@@ -57,6 +59,9 @@ export function Reports(props: ReportsProps) {
                   <div className="text-font-subtitle">
                     ({fns.format(new Date(report.fecha), "dd-MM-yyyy")})
                   </div>
+                  { report.extra && props.onCopy ? <div>
+                    <Button className="h-6" onClick={() => props.onCopy && props.onCopy(report)}>Copiar</Button>
+                  </div> : null }
                 </div>
                 <Disclosure.Button>
                   <button>

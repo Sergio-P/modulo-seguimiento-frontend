@@ -12,7 +12,7 @@ import {
 } from "@/types/TratamientoEnFALP";
 import { subcategoriaTTOForCategoriaTTO } from "@/utils/categorias";
 import * as fns from "date-fns";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Controller,
   SubmitHandler,
@@ -52,11 +52,11 @@ export const TratamientoEnFalpModalRender = (
       en_tto: false,
       ...props.data,
       fecha_de_inicio: props.data
-        ? new Date(props.data.fecha_de_inicio)
+        ? new Date(props.data.fecha_de_inicio + " 12:00:00")
         : undefined,
       fecha_de_termino:
         props.data && props.data.fecha_de_termino
-          ? new Date(props.data.fecha_de_termino)
+          ? new Date(props.data.fecha_de_termino + " 12:00:00")
           : undefined,
     },
   });
@@ -67,6 +67,26 @@ export const TratamientoEnFalpModalRender = (
   const en_tto = watch("en_tto");
   const subcategoria_TTO_options =
     subcategoriaTTOForCategoriaTTO(categoria_tto);
+
+  useEffect(() => {
+    let data = JSON.parse(props.report?.extra || "{}");
+    data = data[0];
+    if(!data){
+      return;
+    }
+    console.log(data, props.report);
+    let fi = data["FECHA_INICIO"] || data["inicio"] || props.report?.fecha;
+    form.setValue("fecha_de_inicio", fi ? new Date(fi) : null);
+    let ft = data["FECHA_FIN"] || data["fin"];
+    form.setValue("fecha_de_termino", ft ? new Date(ft) : null);
+    form.setValue("medico", data["PRIMER_CIRUJANO"] || data["medico"]);
+    form.setValue("descripcion_de_la_prestacion", data["DESC CGIA PRINCIPAL"] || props.report?.informe);
+    let ttos = {
+      "QUIMIOTERAPIA": CategoriaTTO.terapia_sistemica,
+      "PROTOCOLO OPERATORIO": CategoriaTTO.cirugia_o_procedimiento_quirurgico,
+    };
+    form.setValue("categoria_tto", ttos[props.report?.tipo]);
+  }, [form, props.report])
 
   if (!seguimiento) {
     return <></>;
@@ -121,6 +141,7 @@ export const TratamientoEnFalpModalRender = (
             rules={{ required: true }}
             render={({ field }) => (
               <TopoMorfoAutocompleteInput
+                initialValue={field.value}
                 mode={CodingMode.practitioner}
                 {...field}
               />
@@ -241,14 +262,22 @@ export const TratamientoEnFalpModalRender = (
 };
 
 export default function TratamientoEnFalpModal(props: Partial<ModalProps>) {
+  let [fReport, setFReport] = useState(null);
+  let copyTreatment = (report) => {
+    setFReport(report);
+  }
+  let clearReport = () => {
+    setFReport(null);
+    return true;
+  }
   return (
     <Modal
       title="Tratamientos"
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper modtraten>
-          <TratamientoEnFalpModalRender {...renderProps} />
+        <ReportsModalWrapper modtraten onCopy={copyTreatment}>
+          <TratamientoEnFalpModalRender {...renderProps} report={fReport} />
         </ReportsModalWrapper>
       )}
       {...props}

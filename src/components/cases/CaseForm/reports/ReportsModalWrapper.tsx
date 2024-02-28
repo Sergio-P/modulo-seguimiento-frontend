@@ -6,6 +6,7 @@ interface wrapperProps extends React.PropsWithChildren{
   modtraten?: boolean
   modtratpost?: boolean
   keywords?: string[];
+  onCopy?: Function;
 }
 
 export function ReportsModalWrapper(props: wrapperProps) {
@@ -18,7 +19,7 @@ export function ReportsModalWrapper(props: wrapperProps) {
         modtratpost && "h-[45vh]",
         "h-[30vh]",
         "col-span-6 overflow-y-auto pr-4")}>
-        <Reports keywords={props.keywords || []}/>
+        <Reports keywords={props.keywords || []} onCopy={props.onCopy || null}/>
       </div>
       <div className="col-span-6 pl-4">{props.children}</div>
     </div>

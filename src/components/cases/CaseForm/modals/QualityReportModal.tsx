@@ -38,6 +38,8 @@ interface FormValues {
   treatment_data: boolean;
   progression_data: boolean;
   vital_data: boolean;
+  diagnosis_extension: boolean;
+  reverse_case: boolean;
   justificacion: string;
 }
 
@@ -55,6 +57,8 @@ export const QualityReportModalRender = (
       treatment_data: false,
       progression_data: false,
       vital_data: false,
+      diagnosis_extension: false,
+      reverse_case: false,
       justificacion: undefined,
     },
   });

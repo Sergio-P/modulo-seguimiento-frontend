@@ -11,10 +11,12 @@ import { SeguimientoContext } from "../context/seguimiento";
 import { serializeSeguimientoUpdate } from "../serialization/serialization";
 import _ from "lodash";
 import Image from "next/image";
+import { Report } from "@/types/Report";
 
 export interface EditModalRenderProps<T = Record<string, any>>
   extends ModalRenderProps {
   edit?: boolean;
+  report?: Report | null;
   data?: T;
 }
 
@@ -67,6 +69,7 @@ function EditColumnCell<
         title={`Editar ${name}`}
         clear
         filled={false}
+        className="px-0 pr-3"
         render={(renderProps) => (
           <EditModalRender
             edit={true}
@@ -84,22 +87,25 @@ function EditColumnCell<
           />
       </Modal>
       <Button
+        className="px-0 pr-3"
         clear
         type="button"
         filled={false}
         onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          const payload: SeguimientoUpdate = {
-            ...serializeSeguimientoUpdate(form.getValues(), seguimiento),
-            deleted_entries: [
-              {
-                entry_type: props.entryType,
-                entry_id: props.cellContext.row.original.id,
-              },
-            ],
-          };
-          updateMutation.mutate(payload);
+          if(window.confirm("Esta seguro/a de eliminar el registro de " + props.entryType)) {
+            event.preventDefault();
+            event.stopPropagation();
+            const payload: SeguimientoUpdate = {
+              ...serializeSeguimientoUpdate(form.getValues(), seguimiento),
+              deleted_entries: [
+                {
+                  entry_type: props.entryType,
+                  entry_id: props.cellContext.row.original.id,
+                },
+              ],
+            };
+            updateMutation.mutate(payload);
+          }
         }}
         loading={updateMutation.isLoading}
       >

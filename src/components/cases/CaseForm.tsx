@@ -52,10 +52,10 @@ const sections = [
 
 export interface SeguimientoForm {
   validacion_clase_caso: ClaseCaso | null;
-  posee_recurrencia: boolean;
-  posee_progresion: boolean;
+  posee_recurrencia: boolean | null;
+  posee_progresion: boolean | null;
   posee_metastasis: boolean | null;
-  posee_tto: boolean;
+  posee_tto: boolean | null;
   condicion_del_caso: CondicionCaso | null;
   ultimo_contacto: Date | null;
   estado_vital: EstadoVital | null;

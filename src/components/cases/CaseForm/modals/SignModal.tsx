@@ -48,7 +48,11 @@ export default function SignModal(props: SignModalProps) {
 
     return metastasis != null && recurrencia != null  && progresion != null
       && comite != null  && condicion != null && tto != null
-      && (estadoVital === "Vivo" || (estadoVital === "Muerto" && !!causaDefuncion));
+      && (estadoVital === "Vivo" || (estadoVital === "Fallecido" && !!causaDefuncion));
+  }
+
+  const checkRules = () => {
+
   }
 
   return (

@@ -6,7 +6,7 @@ import TextArea from "@/components/ui/TextArea";
 import { Comite, ComiteCreate } from "@/types/Comite";
 import { CodingMode, EntryType, IntencionTTO } from "@/types/Enums";
 import * as fns from "date-fns";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Controller,
   SubmitHandler,
@@ -39,10 +39,28 @@ export const ComiteModalRender = (props: EditModalRenderProps<Comite>) => {
   const form = useForm<FormValues>({
     defaultValues: {
       ...props.data,
-      fecha_comite: props.data ? new Date(props.data.fecha_comite) : undefined,
+      fecha_comite: props.data ? new Date(props.data.fecha_comite + " 12:00:00") : undefined,
     },
   });
   const { mutate, isLoading } = useMutationUpdateSeguimiento(seguimiento?.id);
+
+  useEffect(() => {
+    let data = JSON.parse(props.report?.extra || "{}");
+    data = data[0];
+    if(!data){
+      return;
+    }
+    console.log(data);
+    const intentionMap = {
+      "Prolongación de Supervivencia": IntencionTTO.desconocido,
+      "Tratamiento de soporte": IntencionTTO.desconocido,
+      "Curativo": IntencionTTO.curativo,
+      "Paliativo": IntencionTTO.paliativo,
+    }
+    form.setValue("intencion_tto", intentionMap[data["INTENCION_TRAT"]])
+    form.setValue("medico", data["NOMBRE_PROFESIONAL"])
+    form.setValue("fecha_comite", new Date(props.report?.fecha))
+  }, [form, props.report])
 
   if (!seguimiento) {
     return <></>;
@@ -110,6 +128,7 @@ export const ComiteModalRender = (props: EditModalRenderProps<Comite>) => {
             rules={{ required: true }}
             render={({ field }) => (
               <TopoMorfoAutocompleteInput
+                initialValue={field.value}
                 mode={CodingMode.practitioner}
                 {...field}
               />
@@ -139,14 +158,22 @@ export const ComiteModalRender = (props: EditModalRenderProps<Comite>) => {
 };
 
 export default function ComiteModal(props: ComiteModalProps) {
+  let [fReport, setFReport] = useState(null);
+  let copyComite = (report) => {
+    setFReport(report);
+  }
+  let clearReport = () => {
+    setFReport(null);
+    return true;
+  }
   return (
     <Modal
       title="Comité Oncológico"
       icon="plus"
       width="xl"
       render={(renderProps) => (
-        <ReportsModalWrapper>
-          <ComiteModalRender {...renderProps} />
+        <ReportsModalWrapper onCopy={copyComite}>
+          <ComiteModalRender handleOpen={renderProps.handleOpen} handleClose={() => clearReport() && renderProps.handleClose()} report={fReport} />
         </ReportsModalWrapper>
       )}
       {...props}
